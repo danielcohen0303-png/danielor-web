@@ -95,12 +95,13 @@ input:disabled,textarea:disabled{opacity:.6}
 .card b{display:block;font-weight:700}
 .card span{display:block;color:var(--muted);font-size:.88rem}
 .card[aria-pressed=true]{border-color:var(--pink);background:var(--pink-soft)}
-.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.icard{position:relative;border:2px solid transparent;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;background:var(--panel-2);aspect-ratio:9/13}
-.icard img{width:100%;height:100%;object-fit:cover;display:block}
+.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.icard{position:relative;border:2px solid transparent;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;background:var(--panel-2);aspect-ratio:3/4}
+.icard img,.icard video{width:100%;height:100%;object-fit:cover;display:block}
 .icard span{position:absolute;inset:auto 0 0 0;padding:28px 10px 9px;font-size:.85rem;font-weight:500;line-height:1.25;background:linear-gradient(transparent,rgba(9,7,15,.92))}
-.icard.noimg{aspect-ratio:auto;min-height:70px;display:grid;place-items:center}
-.icard.noimg span{position:static;background:none;padding:10px}
+.icard.noimg{aspect-ratio:auto;min-height:70px;display:grid;place-content:center;gap:6px;border-color:var(--line);background:linear-gradient(160deg,var(--panel-2),var(--wall))}
+.icard.noimg i{font-style:normal;font-size:1.8rem;line-height:1}
+.icard.noimg span{position:static;background:none;padding:0 10px}
 .icard[aria-pressed=true]{border-color:var(--pink);box-shadow:0 0 18px var(--pink-glow)}
 .icard[aria-pressed=true]::after{content:"✓";position:absolute;top:8px;left:8px;width:26px;height:26px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
 
@@ -188,6 +189,26 @@ input:disabled,textarea:disabled{opacity:.6}
   var MAX = 50 * 1024 * 1024;
   var OK_TYPE = /^(image\/[\w.+-]+|video\/[\w.+-]+|audio\/[\w.+-]+|application\/(pdf|zip|x-zip-compressed|postscript))$/;
   var TREND_IMG = {};
+  var MEDIA = "https://cdn.jsdelivr.net/gh/danielcohen0303-png/danielor-web@4f18ea9d31f20669df37d3b97147487c6378562c/media/trends/";
+  var TREND_SLUG = {
+    "ריקוד עם בומבוקס ברחוב": "boombox", "טרנד STORM של Yung Lean": "storm", "צניחה חופשית מעל דובאי": "skydive",
+    "אופנוע בגשם בלילה": "moto", "הופך לאביר עם אריה": "knight", "סצנת אקשן מסרט": "action", "דרמה על צוק מול הים": "cliff"
+  };
+  var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var vio = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) { if (!v.src) v.src = v.getAttribute("data-src"); v.play().catch(function () {}); }
+      else v.pause();
+    });
+  }, { rootMargin: "120px" }) : null;
+  function wireVideos(root) {
+    if (REDUCED) return;
+    root.querySelectorAll("video[data-src]").forEach(function (v) {
+      v.muted = true; v.defaultMuted = true;
+      if (vio) vio.observe(v); else { v.src = v.getAttribute("data-src"); v.play().catch(function () {}); }
+    });
+  }
   var TREND_EMOJI = {
     "ריקוד עם בומבוקס ברחוב": "📻", "טרנד STORM של Yung Lean": "⛈️", "צניחה חופשית מעל דובאי": "🪂",
     "אופנוע בגשם בלילה": "🏍️", "הופך לאביר עם אריה": "🦁", "סצנת אקשן מסרט": "💥", "דרמה על צוק מול הים": "🌊",
@@ -283,11 +304,13 @@ input:disabled,textarea:disabled{opacity:.6}
   function sectionState(s) {
     var req = s.fields.filter(function (f) { return f.required && f.id && visible(f); });
     var ok = req.every(function (f) { return filled(f) || (f.or || []).some(anyValue); });
-    return { required: req.length > 0, done: ok };
+    var any = s.fields.some(function (f) { return f.id && visible(f) && anyValue(f.id); });
+    return { required: req.length > 0, done: req.length > 0 ? ok : any };
   }
   function progress() {
     var secs = S.tpl.sections.filter(visible).map(function (s) { var st = sectionState(s); st.s = s; return st; });
     var need = secs.filter(function (x) { return x.required; });
+    secs.forEach(function (x) { x.mark = x.done; });
     return { secs: secs, done: need.filter(function (x) { return x.done; }).length, total: need.length,
       missing: need.filter(function (x) { return !x.done; }).map(function (x) { return x.s; }) };
   }
@@ -406,16 +429,20 @@ input:disabled,textarea:disabled{opacity:.6}
       box.appendChild(el("textarea", { id: lid, placeholder: f.placeholder || null, disabled: S.locked || null, oninput: function () { S.answers[f.id] = this.value; changed(); } }, [v || ""]));
     } else if (f.type === "choice" || f.type === "multi") {
       var opts = f.options.map(norm);
-      var withImg = opts.some(function (o) { return o.img || TREND_IMG[o.v]; });
+      var withImg = opts.some(function (o) { return o.img || TREND_IMG[o.v] || TREND_SLUG[o.v]; });
       var withEmoji = !withImg && opts.some(function (o) { return o.e || TREND_EMOJI[o.v]; });
       var withDesc = opts.some(function (o) { return o.d; });
       var multi = f.type === "multi";
       var list = el("div", { class: withImg ? "imgs" : withEmoji ? "emos" : withDesc ? "cards" : "chips", role: multi ? "group" : "radiogroup", "aria-label": f.label });
       opts.forEach(function (o) {
         var on = multi ? Array.isArray(v) && v.indexOf(o.v) >= 0 : v === o.v;
-        var img = o.img || TREND_IMG[o.v];
+        var slug = TREND_SLUG[o.v];
+        var img = o.img || TREND_IMG[o.v] || (slug ? MEDIA + slug + ".jpg" : null);
         var emo = o.e || TREND_EMOJI[o.v];
-        var kids = withImg ? (img ? [el("img", { src: img, alt: "", loading: "lazy" }), el("span", { text: o.v })] : [el("span", { text: o.v })])
+        var media = slug
+          ? el("video", { muted: true, loop: true, playsinline: true, preload: "none", poster: img, "data-src": MEDIA + slug + ".mp4", "aria-hidden": "true" })
+          : img ? el("img", { src: img, alt: "", loading: "lazy" }) : null;
+        var kids = withImg ? (media ? [media, el("span", { text: o.v })] : [emo ? el("i", { "aria-hidden": "true", text: emo }) : null, el("span", { text: o.v })])
           : withEmoji ? [el("i", { "aria-hidden": "true", text: emo || "✨" }), el("span", { text: o.v })]
           : withDesc ? [el("b", { text: o.v }), o.d ? el("span", { text: o.d }) : null] : [o.v];
         list.appendChild(el("button", {
@@ -521,9 +548,9 @@ input:disabled,textarea:disabled{opacity:.6}
     var n = 0;
     p.secs.forEach(function (st) {
       n++;
-      ol.appendChild(el("li", { class: st.done && st.required ? "done" : "" }, [
+      ol.appendChild(el("li", { class: st.done ? "done" : "" }, [
         el("a", { href: "#sec-" + st.s.id, onclick: function (e) { e.preventDefault(); go(st.s.id); } }, [
-          el("span", { class: "dot", text: st.done && st.required ? "✓" : String(n) }),
+          el("span", { class: "dot", text: st.done ? "✓" : String(n) }),
           el("span", { text: st.s.title }), st.required ? null : el("span", { class: "opt", text: "(לא חובה)" })
         ])
       ]));
@@ -535,9 +562,9 @@ input:disabled,textarea:disabled{opacity:.6}
       if (!visible(s)) return;
       n++;
       var st = sectionState(s);
-      var sec = el("section", { class: "sec" + (st.done && st.required ? " ok" : ""), id: "sec-" + s.id }, [
+      var sec = el("section", { class: "sec" + (st.done ? " ok" : ""), id: "sec-" + s.id }, [
         el("div", { class: "sec-h" }, [
-          el("span", { class: "num", text: st.done && st.required ? "✓" : String(n) }),
+          el("span", { class: "num", text: st.done ? "✓" : String(n) }),
           el("div", null, [el("h3", { text: s.title }), s.sub ? el("p", { class: "sub", text: s.sub }) : null])
         ])
       ]);
@@ -547,6 +574,7 @@ input:disabled,textarea:disabled{opacity:.6}
     app.appendChild(el("p", { class: "foot", text: "הקבצים נשמרים באחסון סגור ומגיעים רק לצוות של Danielor." }));
     document.getElementById("bar").hidden = S.locked;
     paintProgress();
+    wireVideos(app);
     if (keepScroll) window.scrollTo(0, y);
   }
   function go(id) {
@@ -567,13 +595,13 @@ input:disabled,textarea:disabled{opacity:.6}
     p.secs.forEach(function (st) {
       var sec = document.getElementById("sec-" + st.s.id);
       if (!sec) return;
-      var ok = st.done && st.required;
+      var ok = st.done;
       sec.classList.toggle("ok", ok);
     });
     var lis = document.querySelectorAll(".check li");
     p.secs.forEach(function (st, i) {
       var li = lis[i]; if (!li) return;
-      var ok = st.done && st.required;
+      var ok = st.done;
       li.classList.toggle("done", ok);
       li.querySelector(".dot").textContent = ok ? "✓" : String(i + 1);
       var num = document.querySelector("#sec-" + st.s.id + " .num");

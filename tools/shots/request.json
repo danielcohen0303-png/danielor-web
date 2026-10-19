@@ -1,4 +1,4 @@
-{"targets":[
- {"name":"adel","url":"https://adel-beauty-clinic.vercel.app/"},
+{"run":2,"targets":[
+ {"name":"adel","url":"https://adel-beauty-clinic.vercel.app/","gap":[700,1400]},
  {"name":"medicar","url":"https://medicar-briut.vercel.app/"}
 ]}

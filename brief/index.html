@@ -169,6 +169,8 @@ input:disabled,textarea:disabled{opacity:.6}
 .donebox p{color:var(--muted);max-width:44ch;margin:0 auto 18px}
 .ghost{border:1px solid var(--line);background:transparent;border-radius:12px;padding:11px 18px;cursor:pointer}
 .foot{color:var(--dim);font-size:.8rem;text-align:center;margin:28px 0 0}
+.foot a,.help{color:var(--cyan)}
+.help{display:inline-block;margin-top:8px;font-size:.88rem;text-decoration:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -194,6 +196,8 @@ input:disabled,textarea:disabled{opacity:.6}
     "ריקוד עם בומבוקס ברחוב": "boombox", "טרנד STORM של Yung Lean": "storm", "צניחה חופשית מעל דובאי": "skydive",
     "אופנוע בגשם בלילה": "moto", "הופך לאביר עם אריה": "knight", "סצנת אקשן מסרט": "action", "דרמה על צוק מול הים": "cliff"
   };
+  var WA = "972557279012";
+  function waLink(text) { return "https://wa.me/" + WA + "?text=" + encodeURIComponent(text); }
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var vio = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
     es.forEach(function (e) {
@@ -355,7 +359,7 @@ input:disabled,textarea:disabled{opacity:.6}
   function upload(file, field, person, slot) {
     var type = fixType(file);
     if (!OK_TYPE.test(type)) { toast("את סוג הקובץ הזה אי אפשר להעלות. אפשר תמונות, סרטונים, אודיו, PDF או ZIP."); return; }
-    if (file.size > MAX) { toast("הקובץ \"" + file.name + "\" גדול מ-50MB. אפשר לשתף אותו בלינק לדרייב.", 6000); return; }
+    if (file.size > MAX) { toast("הקובץ \"" + file.name + "\" גדול מ-50MB. אפשר לשתף אותו בלינק מגוגל דרייב, בשדה למטה.", 6000); return; }
     var uid = Math.random().toString(36).slice(2);
     var preview = /^image\/(?!hei)/.test(type) ? URL.createObjectURL(file) : null;
     var u = { uid: uid, name: file.name, size: file.size, type: type, field: field.id, person: person, slot: slot, pct: 0, preview: preview };
@@ -410,6 +414,7 @@ input:disabled,textarea:disabled{opacity:.6}
   }
 
   function renderField(f) {
+    if (f.id === "drive") f = Object.assign({}, f, { label: "סרטון גדול מ-50MB? הדביקו כאן לינק לגוגל דרייב", hint: "קבצים עד 50MB עולים כאן ישירות. לסרטון גדול יותר משתפים לינק מגוגל דרייב." });
     var box = el("div", { class: "field", "data-field": f.id || "" });
     if (f.type === "note") { box.appendChild(el("div", { class: "note" }, [el("span", { text: "💡" }), el("span", { text: f.text })])); return box; }
     if (!visible(f)) { box.hidden = true; return box; }
@@ -425,6 +430,7 @@ input:disabled,textarea:disabled{opacity:.6}
         inputmode: f.type === "link" ? "url" : null, dir: f.type === "link" ? "ltr" : null, disabled: S.locked || null,
         oninput: function () { S.answers[f.id] = this.value; changed(); }
       }));
+      if (f.id === "drive") box.appendChild(el("a", { class: "help", href: waLink("היי, יש לי שאלה לגבי שליחת קבצים בטופס הבריף (" + S.tpl.title + ")"), target: "_blank", rel: "noopener", text: "לא בטוחים איך? כתבו לנו בוואטסאפ ונעזור 💬" }));
     } else if (f.type === "textarea") {
       box.appendChild(el("textarea", { id: lid, placeholder: f.placeholder || null, disabled: S.locked || null, oninput: function () { S.answers[f.id] = this.value; changed(); } }, [v || ""]));
     } else if (f.type === "choice" || f.type === "multi") {
@@ -571,7 +577,8 @@ input:disabled,textarea:disabled{opacity:.6}
       s.fields.forEach(function (f) { sec.appendChild(renderField(f)); });
       app.appendChild(sec);
     });
-    app.appendChild(el("p", { class: "foot", text: "הקבצים נשמרים באחסון סגור ומגיעים רק לצוות של Danielor." }));
+    app.appendChild(el("p", { class: "foot" }, ["הקבצים נשמרים באחסון סגור ומגיעים רק לצוות של Danielor. ",
+      el("a", { href: waLink("היי, יש לי שאלה לגבי טופס הבריף (" + S.tpl.title + ")"), target: "_blank", rel: "noopener", text: "שאלה? כתבו לנו בוואטסאפ" })]));
     document.getElementById("bar").hidden = S.locked;
     paintProgress();
     wireVideos(app);

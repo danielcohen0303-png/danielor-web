@@ -39,7 +39,7 @@
   --violet:#7a35e6;
   --grad:linear-gradient(90deg,#ff2fc8,#8b3dff);
   --pink-glow:rgba(255,47,200,.32);
-  --cyan:#0a7f91;
+  --cyan:#09788a;
   --cyan-glow:rgba(20,179,209,.28);
   --volt:#ecff52;
   --shade:rgba(255,255,255,.82);
@@ -99,6 +99,7 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .btn-ghost{border-color:var(--cyan);color:var(--cyan);background:rgba(255,255,255,.75)}
 .btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed;transform:none}
 .btn small{font-weight:500;opacity:.8}
+.btn-ghost small{opacity:1}
 
 /* video frames */
 .frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);isolation:isolate;box-shadow:var(--lift)}
@@ -366,7 +367,7 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:.9rem;padding:1.05rem 1.2rem;font-weight:700;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;outline:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:var(--radius)}
-.faq .q-n{flex:none;font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1;min-width:1.6em;color:var(--tc);opacity:.55;transition:opacity .3s}
+.faq .q-n{flex:none;font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1;min-width:1.6em;color:var(--tc);opacity:.85;transition:opacity .3s}
 .faq .q-t{flex:1;min-width:0;line-height:1.35}
 .faq .q-i{flex:none;position:relative;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:#fff;box-shadow:0 4px 12px rgba(70,30,120,.08);
   transition:background .35s,border-color .35s,transform .45s cubic-bezier(.3,.9,.3,1),box-shadow .35s}
@@ -402,6 +403,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
 /* footer + floating button */
 .site-foot{border-top:1px solid var(--line);padding-block:2rem 6rem;color:var(--muted);font-size:var(--step--1);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.site-foot .legal{display:flex;gap:1rem;flex-wrap:wrap}
+.site-foot .legal a{color:var(--muted)}
 .float{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom, 0px));left:calc(16px + env(safe-area-inset-left, 0px));z-index:20;padding:.65rem 1.1rem}
 .float{gap:.45rem}
 .float .ico{flex:none}
@@ -465,6 +468,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <a href="#order">הזמנה</a>
     </nav>
   </header>
+  <main id="main">
 
   <section class="hero" id="top">
     <div>
@@ -621,15 +625,15 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
           <p class="desc">סרטון אחד עד 30 שניות בסגנון נקי. פעם אחת לכל עסק.</p>
         </div>
         <div class="row">
-          <span class="name">נקי <span class="meter" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
+          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
           <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
         </div>
         <div class="row">
-          <span class="name">משולב <span class="meter" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
+          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
           <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
         </div>
         <div class="row">
-          <span class="name">מטורף <span class="meter" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
+          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
           <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
         </div>
         <div class="row">
@@ -808,13 +812,15 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     </div>
   </section>
 
-  <div class="site-foot">
+  </main>
+
+  <footer class="site-foot">
     <span>Danielor · דניאלור ייעוץ ויזמות בע״מ</span>
     <span dir="ltr">danielor.ai</span>
-  </div>
+  </footer>
 </div>
 
-<a class="btn btn-pink float js-wa" href="#order" aria-label="שלחו לנו בוואטסאפ"><svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg><span class="lbl">וואטסאפ</span></a>
+<aside aria-label="יצירת קשר"><a class="btn btn-pink float js-wa" href="#order" aria-label="שלחו לנו בוואטסאפ"><svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg><span class="lbl">וואטסאפ</span></a></aside>
 
 <dialog class="player" id="player" aria-labelledby="player-title">
   <div class="player-top">
@@ -1321,6 +1327,53 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       run(d, opening);
     });
   });
+})();
+</script>
+<script>
+/* anonymous stats for danielor.ai: no cookies and no personal details. Counts visits, WhatsApp clicks,
+   form sends and video opens. Only runs on the real domain, not in previews. */
+(function(){
+  if (!/(^|\.)danielor\.ai$/.test(location.hostname) || /^brief\./.test(location.hostname)) return;
+  var URL_ = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/rest/v1/site_events';
+  var KEY = 'sb_publishable_Vfs-4S0AuiricAVOIoJX8Q_g4wTQE6w';
+  var visit;
+  try { visit = sessionStorage.getItem('dv'); if (!visit) { visit = Math.random().toString(36).slice(2, 12); sessionStorage.setItem('dv', visit); } }
+  catch (e) { visit = Math.random().toString(36).slice(2, 12); }
+  var device = window.matchMedia('(max-width: 820px)').matches ? 'mobile' : 'desktop';
+  var ref = '';
+  try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+  if (ref === location.hostname) ref = '';
+  var q = new URLSearchParams(location.search);
+  var utm = [q.get('utm_source'), q.get('utm_campaign')].filter(Boolean).join('/');
+  function send(event, label){
+    try {
+      fetch(URL_, { method: 'POST', keepalive: true,
+        headers: { 'apikey': KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ event: event, label: label ? String(label).slice(0, 120) : null, path: location.pathname.slice(0, 200),
+          ref: ref.slice(0, 120) || null, utm: utm.slice(0, 120) || null, device: device, visit: visit }) }).catch(function(){});
+    } catch (e) {}
+  }
+  send('view');
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a,[data-full],[data-gallery]');
+    if (!a) return;
+    if (a.matches('[data-full],[data-gallery]')) { send('video_open', a.getAttribute('data-title') || a.getAttribute('data-full') || a.getAttribute('data-gallery')); return; }
+    var href = a.getAttribute('href') || '';
+    if (a.classList.contains('js-wa-send')) {
+      var f = document.getElementById('f-product');
+      if (document.getElementById('f-name') && document.getElementById('f-name').value.trim()) send('form_send', f ? f.value : '');
+      return;
+    }
+    if (/wa\.me|whatsapp/.test(a.href || href)) {
+      send('wa_click', a.classList.contains('float') ? 'כפתור צף' : a.closest('.faq-cta') ? 'שאלות' : (a.textContent || '').trim());
+    }
+  }, true);
+  var seen = false;
+  window.addEventListener('scroll', function(){
+    if (seen) return;
+    var h = document.documentElement;
+    if ((h.scrollTop + innerHeight) / h.scrollHeight > 0.75) { seen = true; send('scroll_75'); }
+  }, { passive: true });
 })();
 </script>
 </body>

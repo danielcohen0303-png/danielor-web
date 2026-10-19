@@ -25,6 +25,10 @@ head='''<!doctype html>
 '''
 html=html.replace('<title>Danielor</title>','<title>Danielor · סרטוני AI בעברית</title>',1)
 html=html.replace('<meta name="claude:viewport-fit-sides" content="cover">\n','')
+LEGAL=['privacy.html','terms.html','accessibility.html']
+WITH_LEGAL='--no-legal' not in sys.argv     # legal pages stay out until Daniel approves them
+if not WITH_LEGAL:
+    html=re.sub(r'\n\s*<nav class="legal".*?</nav>', '', html, flags=re.S)
 page=head+html.rstrip()+'\n</body>\n</html>\n'
 # every local file the page references
 names=set(re.findall(r'''["'(]([\w.\-]+\.(?:mp4|jpg|jpeg|png|webp|svg))["')]''', html))
@@ -33,11 +37,13 @@ names|={n.replace('.mp4','-poster.jpg') for n in re.findall(r'data-video="([\w.\
 os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief'}|names
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief'}|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
 shutil.copy2(OG, f'{OUT}/og.jpg')
+if WITH_LEGAL:
+    for n in LEGAL: shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
 open(f'{OUT}/index.html','w',encoding='utf-8').write(page)
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\n')
 # brief.danielor.ai is served by the same Vercel project: its host is routed into /brief (routes run before static files)

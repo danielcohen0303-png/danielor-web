@@ -1,0 +1,24 @@
+name: site-shots
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['tools/shots/request.json']
+permissions:
+  contents: write
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm i --no-save playwright@1.47.2
+      - run: node tools/shots/shoot.mjs
+      - name: Commit screenshots
+        run: |
+          git config user.name "site-shots bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add media/sites
+          git commit -m "Site screenshots" || echo "nothing to commit"
+          git push

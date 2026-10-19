@@ -33,13 +33,23 @@ names|={n.replace('.mp4','-poster.jpg') for n in re.findall(r'data-video="([\w.\
 os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
-keep={'index.html','og.jpg','robots.txt','vercel.json'}|names
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief'}|names
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
 shutil.copy2(OG, f'{OUT}/og.jpg')
 open(f'{OUT}/index.html','w',encoding='utf-8').write(page)
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\n')
-open(f'{OUT}/vercel.json','w').write('{\n  "cleanUrls": true\n}\n')
+# brief.danielor.ai is served by the same Vercel project: its host is routed into /brief (routes run before static files)
+os.makedirs(f'{OUT}/brief',exist_ok=True)
+shutil.copy2('/home/claude/danielor-web/brief/index.html', f'{OUT}/brief/index.html')
+import json
+B={"type":"host","value":"brief.danielor.ai"}
+cfg={"routes":[
+  {"src":"/(.*)","has":[B],"continue":True,"headers":{"X-Robots-Tag":"noindex, nofollow","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff","Cache-Control":"no-cache"}},
+  {"src":"/","has":[B],"dest":"/brief/index.html"},
+  {"src":"/([A-Za-z0-9]{8,32})/?","has":[B],"dest":"/brief/index.html"}
+]}
+open(f'{OUT}/vercel.json','w').write(json.dumps(cfg,ensure_ascii=False,indent=2)+'\n')
 tot=sum(os.path.getsize(f'{OUT}/{f}') for f in os.listdir(OUT))
 print(len(os.listdir(OUT)),'files', round(tot/1e6,1),'MB')

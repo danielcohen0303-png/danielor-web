@@ -1,0 +1,1327 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f1fb">
+<link rel="canonical" href="https://danielor.ai/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Danielor">
+<meta property="og:locale" content="he_IL">
+<meta property="og:url" content="https://danielor.ai/">
+<meta property="og:title" content="Danielor · שולחים תמונה. מקבלים סרטון.">
+<meta property="og:description" content="סרטוני AI בעברית לעסקים ולאנשים פרטיים: טרנדים, קליפים אישיים וסרטונים לעסק.">
+<meta property="og:image" content="https://danielor.ai/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Danielor: שולחים תמונה. מקבלים סרטון.">
+<meta name="twitter:card" content="summary_large_image">
+<title>Danielor · סרטוני AI בעברית</title>
+<link rel="icon" href="logo-icon.png">
+<link rel="apple-touch-icon" href="logo-icon.png">
+<meta name="description" content="סרטוני AI בעברית לעסקים ולאנשים פרטיים: טרנדים, קליפים אישיים וסרטונים לעסק.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: neon glow on a lilac wall. Sign + phone playing the showreel, before/after frames, three paths, a rate board, the maker, proof, an order slip. Single light look (lilac glow) by design. */
+:root{
+  color-scheme: light;
+  --wall:#f6f1fb;
+  --panel:#ffffff;
+  --panel-2:#f1eafa;
+  --line:#e2d7f2;
+  --line-2:#cbbbe8;
+  --fg:#1d1033;
+  --muted:#5f5480;
+  --pink:#d9109a;
+  --pink-hot:#ff2fc8;
+  --violet:#7a35e6;
+  --grad:linear-gradient(90deg,#ff2fc8,#8b3dff);
+  --pink-glow:rgba(255,47,200,.32);
+  --cyan:#0a7f91;
+  --cyan-glow:rgba(20,179,209,.28);
+  --volt:#ecff52;
+  --shade:rgba(255,255,255,.82);
+  --lift:0 12px 34px rgba(70,30,120,.08);
+  --display:'Karantina','Rubik','Heebo',system-ui,sans-serif;
+  --body:'Rubik','Heebo','Arial Hebrew',system-ui,sans-serif;
+  --step--1:clamp(.82rem,.78rem + .2vw,.9rem);
+  --step-0:clamp(1rem,.95rem + .25vw,1.1rem);
+  --step-1:clamp(1.25rem,1.1rem + .6vw,1.55rem);
+  --step-2:clamp(1.8rem,1.4rem + 1.6vw,2.6rem);
+  --step-3:clamp(3rem,2rem + 5vw,6.4rem);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--wall);
+  color:var(--fg);
+  font-family:var(--body);
+  font-size:var(--step-0);
+  line-height:1.6;
+  direction:rtl;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  background-image:
+    none;
+}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(48rem 30rem at 92% -6%, rgba(255,47,200,.34), transparent 62%),
+    radial-gradient(44rem 32rem at -4% 30%, rgba(67,240,255,.30), transparent 62%),
+    radial-gradient(50rem 32rem at 60% 100%, rgba(139,61,255,.18), transparent 65%)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin-inline:auto}
+section{padding-block:clamp(3rem,2rem + 4vw,6rem)}
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-height:.9;letter-spacing:.01em}
+.kicker{font-size:var(--step--1);color:var(--cyan);letter-spacing:.08em;font-weight:500;margin:0 0 .6rem}
+.lead{color:var(--muted);max-width:60ch;margin:.8rem 0 0;font-size:var(--step-1);line-height:1.5}
+.neon-pink{color:var(--pink);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 6px 18px rgba(255,47,200,.30))}
+.neon-cyan{color:var(--cyan)}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.1rem;flex-wrap:wrap}
+.logo{font-family:var(--display);font-weight:700;font-size:2.2rem;line-height:1;letter-spacing:.04em;text-decoration:none;direction:ltr}
+.logo span{color:var(--pink-hot)}
+.logo img{display:block;height:44px;width:auto}
+.nav{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:var(--step--1)}
+.nav a{text-decoration:none;color:var(--muted)}
+.nav a:hover{color:var(--fg)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font:inherit;font-weight:700;border-radius:999px;padding:.8rem 1.4rem;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .15s ease, box-shadow .15s ease;text-align:center}
+.btn:hover{transform:translateY(-2px)}
+.btn-pink{background:var(--grad);color:#fff;box-shadow:0 10px 28px rgba(200,40,200,.30)}
+.btn-ghost{border-color:var(--cyan);color:var(--cyan);background:rgba(255,255,255,.75)}
+.btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed;transform:none}
+.btn small{font-weight:500;opacity:.8}
+
+/* video frames */
+.frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);isolation:isolate;box-shadow:var(--lift)}
+.frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.frame .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;color:var(--muted);font-size:var(--step--1);z-index:1}
+.frame.has-video .ph{display:none}
+.frame .sound-btn{position:absolute;bottom:.8rem;inset-inline:0;margin-inline:auto;width:max-content;z-index:3;font:inherit;font-size:.85rem;color:#fff;background:var(--cyan);border:0;border-radius:999px;padding:.45rem 1rem;cursor:pointer;box-shadow:0 6px 18px var(--cyan-glow)}
+.frame:not(.has-video) .sound-btn{display:none}
+.frame .sound-btn:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
+.frame[data-full],.frame[data-gallery]{cursor:pointer}
+.frame .play{position:absolute;bottom:.7rem;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - 1rem);z-index:3;font-size:.78rem;font-weight:700;color:#fff;background:var(--fg);border-radius:999px;padding:.35rem .85rem;box-shadow:0 4px 18px rgba(29,16,51,.35);pointer-events:none;white-space:nowrap}
+.frame:not(.has-video) .play{display:none}
+.frame[data-full]:hover .play,.frame[data-gallery]:hover .play{background:var(--pink-hot)}
+.frame .tag{position:absolute;top:.7rem;inset-inline-start:.7rem;z-index:2;font-size:.72rem;letter-spacing:.06em;background:var(--shade);border:1px solid var(--line);border-radius:6px;padding:.1rem .5rem}
+.glow-a{background:radial-gradient(80% 50% at 70% 25%, rgba(255,66,217,.55), transparent 70%),radial-gradient(70% 40% at 20% 70%, rgba(67,240,255,.35), transparent 70%),var(--panel)}
+.glow-b{background:radial-gradient(80% 50% at 30% 30%, rgba(236,255,82,.28), transparent 70%),radial-gradient(70% 45% at 70% 75%, rgba(255,66,217,.40), transparent 70%),var(--panel)}
+.glow-c{background:radial-gradient(90% 50% at 50% 20%, rgba(67,240,255,.40), transparent 70%),var(--panel)}
+.dim{background:linear-gradient(160deg,#efe9f7,#e2d9f0)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(1.5rem,1rem + 3vw,3.5rem);align-items:center;padding-block:clamp(2rem,1rem + 3vw,4rem)}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(3.6rem,2.2rem + 6.5vw,8.6rem);line-height:.82}
+.hero h1 .l1{display:block}
+.hero h1 .l2{display:block;animation:flicker 2.6s ease-out 1.3s 1 both}
+@keyframes flicker{0%{opacity:.15;text-shadow:none}8%{opacity:1}10%{opacity:.3}14%{opacity:1}18%{opacity:.5}22%,100%{opacity:1}}
+.offers{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.8rem}
+.offers .btn{flex-direction:column;gap:0;line-height:1.25;padding:.75rem 1.4rem}
+.more{margin-top:.8rem;font-size:var(--step-0)}
+.btn-soft{background:#fff;color:var(--violet);border-color:var(--line-2);box-shadow:var(--lift)}
+.btn-soft:hover{border-color:var(--violet);box-shadow:0 10px 28px rgba(122,53,230,.18)}
+.btn-soft .arr{font-size:1.1em;line-height:1}
+@media (max-width: 480px){.hero .more{width:100%}}
+.tape{display:flex;gap:.6rem;flex-wrap:wrap;margin:1.6rem 0 0;padding:0;list-style:none}
+.tape li{border:1px solid var(--line-2);background:rgba(255,255,255,.8);border-radius:999px;padding:.35rem .9rem;font-size:var(--step--1);color:var(--muted)}
+.phone{width:100%;max-width:330px;justify-self:center;border-radius:30px;border:2px solid var(--pink-hot);background:#1e1036;box-shadow:0 22px 54px rgba(139,61,255,.26),0 0 30px rgba(255,47,200,.32)}
+
+/* before / after */
+.ba-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;margin-top:2rem}
+.ba{background:var(--panel);border:1px solid var(--line);box-shadow:var(--lift);border-radius:var(--radius);padding:1.2rem;display:grid;gap:1rem;min-width:0}
+.ba-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.8rem;align-items:center}
+.ba-pair .arrow{font-size:1.8rem;color:var(--pink-hot)}
+.ba .frame .tag.before{color:var(--muted)}
+.ba .frame .tag.after{color:#fff;background:var(--pink);border-color:var(--pink)}
+.frame.wide{aspect-ratio:16/9}
+.ba-grid{grid-template-columns:minmax(0,1fr)}
+.ba{grid-template-columns:minmax(0,480px) minmax(0,1fr);align-items:center;gap:1.4rem}
+.ba-text{display:grid;gap:.6rem;min-width:0}
+.ba.wide{grid-template-columns:minmax(0,1fr)}
+@media (max-width: 900px){.ba{grid-template-columns:minmax(0,1fr)}}
+@media (max-width: 700px){
+  .ba.wide .ba-pair{grid-template-columns:minmax(0,1fr);gap:.5rem}
+  .ba.wide .ba-pair .arrow{justify-self:center;transform:rotate(-90deg);line-height:1}
+}
+.ba h3{font-size:var(--step-1);line-height:1.2}
+.ba p{margin:0;color:var(--muted);font-size:var(--step--1)}
+
+/* more reels */
+.reels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:2rem}
+.reel{display:grid;gap:.6rem;min-width:0}
+.reel h3{font-size:var(--step-1);line-height:1.2}
+.reel p{margin:0;color:var(--muted);font-size:var(--step--1)}
+@media (max-width: 700px){.reels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* launch bundle */
+.site-browser{display:block;width:100%;max-width:560px;border-radius:12px;overflow:hidden;border:1px solid var(--line-2);box-shadow:0 18px 44px rgba(70,30,120,.14);background:#fff;text-decoration:none}
+.site-browser .bar{display:flex;align-items:center;gap:6px;padding:.5rem .75rem;background:#f1eafa;border-bottom:1px solid var(--line)}
+.site-browser .bar i{width:9px;height:9px;border-radius:50%;background:#d3c6ec}
+.site-browser .bar span{margin-inline-start:auto;font-size:.72rem;color:var(--muted);direction:ltr}
+.site-browser .view{display:block;aspect-ratio:16/10;overflow:hidden}
+.site-browser img{display:block;width:100%;height:auto;animation:site-steps 27s ease-in-out 1.5s infinite alternate}
+.site-browser:hover img,.site-browser:focus-visible img{animation-play-state:paused}
+@keyframes site-steps{0%,12%{transform:translateY(0)}17%,29%{transform:translateY(-16.667%)}33%,45%{transform:translateY(-33.333%)}50%,62%{transform:translateY(-50%)}67%,79%{transform:translateY(-66.667%)}84%,100%{transform:translateY(-83.333%)}}
+@media (prefers-reduced-motion: reduce){.site-browser img{animation:none}}
+.launch{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.5rem,1rem + 3vw,3.5rem);align-items:center;margin-top:2rem}
+.incl{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.incl li{position:relative;padding-inline-start:1.9rem;color:var(--muted);max-width:56ch}
+.incl li::before{content:"✓";position:absolute;inset-inline-start:0;top:.3em;width:1.15rem;height:1.15rem;border-radius:5px;border:2px solid var(--cyan);background:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:900;line-height:1;color:var(--cyan)}
+.incl b{color:var(--fg);font-weight:700}
+.deal{margin-top:1.6rem;background:var(--panel);border:1px solid var(--pink-hot);border-radius:var(--radius);padding:1.3rem 1.4rem;display:grid;gap:.75rem;box-shadow:0 14px 40px rgba(255,47,200,.16);max-width:560px}
+.deal-price{display:flex;align-items:baseline;gap:.5rem}
+.deal-price b{font-family:var(--display);font-size:clamp(3rem,2.4rem + 2vw,4.2rem);line-height:.9;font-variant-numeric:tabular-nums;color:var(--pink);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.deal-price span{color:var(--muted);font-size:var(--step--1)}
+.deal p{margin:0;font-size:var(--step--1);color:var(--muted)}
+.deal-first span{color:var(--fg);background:var(--volt);border-radius:4px;padding:0 .3rem;font-weight:700}
+.deal .btn{justify-self:start}
+.site-demo{margin:0;display:grid;gap:.8rem;justify-items:center}
+.site-phone{display:block;width:100%;max-width:300px;aspect-ratio:390/844;overflow:hidden;border-radius:30px;border:2px solid var(--cyan);box-shadow:0 18px 44px rgba(20,179,209,.22);background:#f4f1ee;position:relative}
+.site-phone img{display:block;width:100%;height:auto;animation:site-scroll 30s ease-in-out 1.5s infinite alternate}
+.site-phone:hover img,.site-phone:focus-visible img{animation-play-state:paused}
+@keyframes site-scroll{0%,6%{transform:translateY(0)}94%,100%{transform:translateY(-79.8%)}}
+@media (prefers-reduced-motion: reduce){.site-phone img{animation:none}}
+.sites{display:flex;gap:clamp(.8rem,.5rem + 1.5vw,1.4rem);justify-content:center;width:100%}
+.site-item{flex:1 1 0;min-width:0;max-width:250px;display:grid;gap:.6rem;justify-items:center;align-content:start}
+.site-phone video{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.site-name{margin:0;font-size:var(--step--1);line-height:1.35;color:var(--muted);text-align:center}
+.site-name b{color:var(--fg)}
+.site-demo figcaption{font-size:var(--step--1);color:var(--muted);text-align:center;max-width:32ch}
+.site-demo figcaption b{color:var(--fg)}
+.site-demo figcaption a{color:var(--cyan)}
+@media (max-width: 800px){.launch{grid-template-columns:minmax(0,1fr)}}
+
+/* paths */
+.doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem}
+.door{position:relative;background:var(--panel);border:1px solid var(--line);box-shadow:var(--lift);border-radius:var(--radius);padding:1.5rem;display:flex;flex-direction:column;gap:.7rem;min-width:0}
+.door h3{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:1}
+.door p{margin:0;color:var(--muted)}
+.door .go{margin-top:auto;padding-top:.9rem;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.door .go b{font-size:var(--step-1);font-variant-numeric:tabular-nums}
+.door .go a{font-size:var(--step--1);font-weight:700;text-decoration:none}
+.door.d1{background:linear-gradient(165deg,#fff 50%,#e2f4f8);border-color:rgba(20,179,209,.38)}
+.door.d2{background:linear-gradient(165deg,#fff 50%,#fbe5f5);border-color:rgba(217,16,154,.32)}
+.door.d3{background:linear-gradient(165deg,#fff 50%,#eee5fc);border-color:rgba(122,53,230,.32)}
+.doors.deck{position:relative}
+.doors.deck .door{will-change:transform;transform-origin:50% 100%;box-shadow:0 14px 34px rgba(70,30,120,.12)}
+.door.d1 h3,.door.d1 .go a{color:var(--cyan)}
+.door.d2 h3,.door.d2 .go a{color:var(--pink)}
+.door.d3 h3,.door.d3 .go a{color:var(--violet)}
+
+/* steps */
+.steps{list-style:none;padding:0;margin:2rem 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;counter-reset:s}
+.steps li{counter-increment:s;position:relative;min-width:0;background:linear-gradient(165deg,#fff 50%,var(--tone,#f1eafa));border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem 1.3rem 1.3rem;box-shadow:var(--lift)}
+.steps li:nth-child(1){--tone:#e2f4f8;border-color:rgba(20,179,209,.38)}
+.steps li:nth-child(2){--tone:#fbe5f5;border-color:rgba(217,16,154,.32)}
+.steps li:nth-child(3){--tone:#eee5fc;border-color:rgba(122,53,230,.32)}
+.steps li:nth-child(4){--tone:#f3f8d6;border-color:rgba(160,180,0,.4)}
+.steps.deck{position:relative}
+.steps.deck li{will-change:transform;transform-origin:50% 100%;box-shadow:0 14px 34px rgba(70,30,120,.12)}
+/* deck motion: the browser animates each card (GPU), the script only says when */
+.deck .deck-card{transform:translate(var(--dx,0px),var(--dy,0px)) scale(var(--sc,1));transition:transform 1s cubic-bezier(.3,.9,.3,1)}
+.deck .deck-card.dealt{transform:none}
+.deck.deck-measure .deck-card{transform:none!important;transition:none!important}
+.deck.deck-still .deck-card{transition:none!important}
+.steps li::before{content:counter(s);display:block;font-family:var(--display);font-weight:700;font-size:3rem;line-height:1;color:var(--pink);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;width:max-content}
+.steps h3{font-size:var(--step-1);margin-top:.4rem}
+.steps p{margin:.3rem 0 0;color:var(--muted);font-size:var(--step--1)}
+.res{display:inline-block;direction:ltr;font-variant-numeric:tabular-nums;color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:0 .35rem;font-size:.8em}
+
+/* rate board */
+.boards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;margin-top:2rem}
+.price-tabs{display:none}
+@media (max-width: 900px){
+  .price-tabs{display:flex;gap:4px;margin-top:1.4rem;padding:4px;width:100%;max-width:440px;background:#fff;border:1px solid var(--line-2);border-radius:999px;box-shadow:var(--lift)}
+  .price-tabs button{flex:1;min-height:46px;border:0;border-radius:999px;background:transparent;font:inherit;font-weight:700;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+  .price-tabs button[aria-selected="true"]{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(200,40,200,.28)}
+  #prices .boards{margin-top:1rem}
+  #prices .board header h3{display:none}
+  #prices .board header{margin-bottom:.2rem}
+  .boards[data-show="biz"] .b-priv,.boards[data-show="priv"] .b-biz{display:none}
+}
+.board{background:var(--panel);border:1px solid var(--line);box-shadow:var(--lift);border-radius:var(--radius);padding:1.5rem;min-width:0}
+.board header{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:.6rem}
+.board h3{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:1}
+.vat{font-size:var(--step--1);color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr auto;gap:.2rem 1rem;padding-block:.9rem;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row .name{font-weight:700}
+.row .price{font-variant-numeric:tabular-nums;font-weight:700;font-size:var(--step-1);white-space:nowrap}
+.row .desc{grid-column:1 / -1;color:var(--muted);font-size:var(--step--1);margin:0}
+.row.entry .name::after{content:"להתחלה";margin-inline-start:.5rem;font-size:.7rem;font-weight:700;color:var(--fg);background:var(--volt);border-radius:999px;padding:.05rem .5rem;vertical-align:middle}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-inline-start:.5rem}
+.meter i{width:14px;height:6px;border-radius:2px;background:var(--line)}
+.meter i.on{background:var(--pink-hot);box-shadow:0 0 8px var(--pink-glow)}
+.row.addon .name{font-weight:500;color:var(--muted)}
+.row.addon .price{font-size:var(--step-0);color:var(--muted)}
+.note{margin:1rem 0 0;color:var(--muted);font-size:var(--step--1)}
+
+/* maker */
+.maker{display:grid;grid-template-columns:minmax(0,.55fr) minmax(0,1fr);gap:clamp(1.5rem,1rem + 3vw,3rem);align-items:center}
+.maker .frame{max-width:300px;width:100%;justify-self:center;border-color:var(--cyan);box-shadow:0 18px 44px var(--cyan-glow)}
+.maker p{color:var(--muted);max-width:58ch;margin:.9rem 0 0}
+.maker p strong{color:var(--fg)}
+.tools{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.2rem 0 0;padding:0;list-style:none}
+.tools li{font-size:var(--step--1);background:#fff;border:1px solid var(--line-2);border-radius:6px;padding:.15rem .55rem;direction:ltr}
+
+/* reactions: real WhatsApp replies, retyped word for word, no names or photos */
+.chats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem;align-items:start}
+.chat{background:#efeae2;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0;box-shadow:var(--lift);
+  background-image:radial-gradient(rgba(0,0,0,.05) 1px,transparent 1px);background-size:14px 14px}
+.chat-h{display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:#f0f2f5;font-size:var(--step--1);color:var(--muted)}
+.chat-h b{color:var(--fg);font-weight:500}
+.chat-h::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:#25d366;box-shadow:0 0 8px #25d366;flex:none}
+.msgs{display:flex;flex-direction:column;gap:.3rem;padding:.9rem .7rem 1rem}
+.b{max-width:88%;padding:.32rem .6rem .22rem;border-radius:9px;font-size:.95rem;line-height:1.4;color:#111b21;position:relative;overflow-wrap:anywhere;box-shadow:0 1px .5px rgba(11,20,26,.13)}
+.b.in{background:#ffffff;align-self:flex-start;border-start-start-radius:3px}
+.b.sent{background:#d9fdd3;align-self:flex-end;border-start-end-radius:3px}
+.b time{display:inline-block;font-size:.66rem;color:rgba(17,27,33,.55);margin-right:.55rem;direction:ltr;vertical-align:-.15em;white-space:nowrap}
+.b.sent time::after{content:" ✓✓";color:#53bdeb;letter-spacing:-.15em}
+.b .who{display:block;font-size:.78rem;font-weight:500;color:var(--pink);filter:blur(4px);user-select:none;line-height:1.3}
+.b.vid{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:rgba(17,27,33,.8)}
+.b.vid::before{content:"▶";display:grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:50%;background:rgba(17,27,33,.08);font-size:.7rem;flex:none}
+.b.vid time{margin-right:auto}
+.rx{align-self:inherit;margin-top:-.45rem;margin-inline:.6rem;background:#fff;border:2px solid #efeae2;border-radius:99px;padding:0 .4rem;font-size:.78rem;line-height:1.5}
+.b.in + .rx{align-self:flex-start}
+.chats-hint{display:none;font-size:var(--step--1);color:var(--muted);margin:.6rem 0 0}
+.honest{font-size:var(--step--1);color:var(--muted);margin:1rem 0 0;max-width:62ch}
+@media (max-width:900px){.chats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){
+  .chats{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.6rem;overscroll-behavior-x:contain}
+  .chat{scroll-snap-align:start}
+  .chats-hint{display:block}
+}
+/* 3D ring: the script turns .chats into a rotating carousel (front card + its neighbours on the sides) */
+.ring-wrap{position:relative;overflow:hidden;margin-top:.8rem;padding:1.6rem 0 3.6rem}
+.ring-wrap::before{content:"";position:absolute;left:50%;bottom:2rem;width:min(620px,92%);height:64px;transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(139,61,255,.26),rgba(255,47,200,.12) 55%,transparent);filter:blur(4px)}
+.chats.ring{display:block;position:relative;margin:0;padding:0;overflow:visible;perspective-origin:50% -16%;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none}
+.ring-spin{position:absolute;inset:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform}
+.ring-item{position:absolute;top:0;left:50%;width:var(--ring-w,300px);height:100%;margin-left:calc(var(--ring-w,300px) / -2);
+  transform-style:preserve-3d;-webkit-transform-style:preserve-3d;animation:hover-float 5.4s ease-in-out infinite}
+.ring-item:nth-child(2){animation-delay:-1.1s;animation-duration:5.9s}
+.ring-item:nth-child(3){animation-delay:-2.3s;animation-duration:5.1s}
+.ring-item:nth-child(4){animation-delay:-3.2s;animation-duration:6.2s}
+.ring-item:nth-child(5){animation-delay:-4.1s;animation-duration:5.6s}
+.ring-item:nth-child(6){animation-delay:-.6s;animation-duration:6s}
+@keyframes hover-float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@media (prefers-reduced-motion: reduce){.ring-item{animation:none}}
+.ring-item .chat{position:absolute;inset:0;display:flex;flex-direction:column;backface-visibility:hidden;-webkit-backface-visibility:hidden;cursor:grab;
+  box-shadow:0 36px 44px -24px rgba(70,30,120,.32),0 2px 8px rgba(70,30,120,.06)}
+.ring-item .msgs{flex:1}
+.chats.ring.measuring .ring-item{height:auto}
+.chats.ring.measuring .ring-item .chat{position:relative;inset:auto}
+.ring-back{position:absolute;inset:0;transform:rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;pointer-events:none;
+  border-radius:var(--radius);border:1px solid rgba(139,61,255,.16);display:grid;place-items:center;
+  background:radial-gradient(rgba(122,53,230,.10) 1px,transparent 1.2px) 0 0/14px 14px,radial-gradient(110% 70% at 25% 12%,rgba(255,47,200,.28),transparent 62%),radial-gradient(110% 70% at 80% 92%,rgba(67,240,255,.26),transparent 62%),linear-gradient(160deg,#fbeefa,#efe8fc 55%,#e6f6fa);
+  box-shadow:inset 0 0 0 6px rgba(255,255,255,.4),0 30px 40px -26px rgba(70,30,120,.25)}
+.chats.ring.dragging .chat{cursor:grabbing}
+.chats.ring:focus-visible .chat[aria-hidden="false"]{outline:2px solid var(--cyan);outline-offset:3px}
+.ring-nav{display:flex;align-items:center;justify-content:center;gap:.9rem;margin-top:-1.8rem;position:relative}
+.ring-btn{width:46px;height:46px;flex:none;border-radius:50%;border:1px solid var(--line-2);background:#fff;color:var(--fg);font:inherit;font-size:1.2rem;line-height:1;cursor:pointer;box-shadow:var(--lift);display:grid;place-items:center;transition:transform .15s,box-shadow .2s}
+.ring-btn:hover{box-shadow:0 10px 26px rgba(200,40,200,.22)}
+.ring-btn:active{transform:scale(.93)}
+.ring-dots{display:flex}
+.ring-dot{height:32px;min-width:18px;padding:0 3px;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.ring-dot::before{content:"";display:block;width:8px;height:8px;border-radius:99px;background:rgba(29,16,51,.2);transition:width .3s,background .3s}
+.ring-dot[aria-current="true"]::before{width:26px;background:var(--grad)}
+.chats-hint.off{display:none!important}
+
+/* order */
+.order{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:2rem;align-items:start}
+.slip{background:var(--panel);box-shadow:var(--lift);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;display:grid;gap:1rem}
+.field{display:grid;gap:.35rem}
+.field label{font-size:var(--step--1);color:var(--muted)}
+.field input,.field select,.field textarea{font:inherit;color:var(--fg);background:#fbf8fe;border:1px solid var(--line-2);border-radius:10px;padding:.7rem .8rem;width:100%}
+.field textarea{min-height:6.5rem;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(20,179,209,.15)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.err{color:var(--pink);font-size:var(--step--1);margin:0}
+.slip .send{width:100%;padding-block:.95rem;font-size:var(--step-0)}
+.send-note{margin:-.3rem 0 0;color:var(--muted);text-align:center}
+.linkish{font:inherit;color:var(--violet);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+#copy-status:empty{display:none}
+#copy-status{margin:0;text-align:center;color:var(--cyan)}
+.out{border:1px dashed var(--cyan);border-radius:10px;padding:1rem;display:grid;gap:.8rem}
+.out[hidden]{display:none}
+.out pre{margin:0;white-space:pre-wrap;font-family:var(--body);font-size:var(--step--1);color:var(--fg)}
+.out .acts{display:flex;gap:.6rem;flex-wrap:wrap}
+.small{font-size:var(--step--1);color:var(--muted);margin:0}
+
+/* faq: tinted cards like the rest of the site, a round toggle that turns + into ×, smooth open and close */
+.faq{margin-top:2rem;display:grid;gap:.7rem;max-width:820px;counter-reset:q}
+.faq details{--tone:#e2f4f8;--tc:var(--cyan);--tb:rgba(20,179,209,.42);position:relative;background:var(--panel);box-shadow:var(--lift);border:1px solid var(--line);border-radius:var(--radius);
+  transition:background .35s,border-color .35s,box-shadow .35s,transform .18s}
+.faq details:nth-child(3n+2){--tone:#fbe5f5;--tc:var(--pink);--tb:rgba(217,16,154,.36)}
+.faq details:nth-child(3n+3){--tone:#eee5fc;--tc:var(--violet);--tb:rgba(122,53,230,.36)}
+.faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:.9rem;padding:1.05rem 1.2rem;font-weight:700;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;outline:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:var(--radius)}
+.faq .q-n{flex:none;font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1;min-width:1.6em;color:var(--tc);opacity:.55;transition:opacity .3s}
+.faq .q-t{flex:1;min-width:0;line-height:1.35}
+.faq .q-i{flex:none;position:relative;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);background:#fff;box-shadow:0 4px 12px rgba(70,30,120,.08);
+  transition:background .35s,border-color .35s,transform .45s cubic-bezier(.3,.9,.3,1),box-shadow .35s}
+.faq .q-i::before,.faq .q-i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:var(--tc);transition:background .35s}
+.faq .q-i::after{transform:rotate(90deg)}
+.faq details:active{transform:scale(.988)}
+.faq details.is-open{background:linear-gradient(165deg,#fff 42%,var(--tone));border-color:var(--tb);box-shadow:0 18px 40px rgba(70,30,120,.13)}
+.faq details.is-open .q-n{opacity:1}
+.faq details.is-open .q-i{background:var(--grad);border-color:transparent;transform:rotate(135deg);box-shadow:0 8px 20px rgba(200,40,200,.3)}
+.faq details.is-open .q-i::before,.faq details.is-open .q-i::after{background:#fff}
+@media (hover:hover){.faq details:not(.is-open):hover{border-color:var(--tb);transform:translateY(-2px)}.faq details:hover .q-n{opacity:1}}
+.faq .ans{overflow:hidden}
+.faq .ans p{margin:0;padding:0 1.2rem 1.15rem;padding-inline-start:calc(2.1rem + 2.72rem);color:var(--muted);line-height:1.6}
+.faq-cta{margin-top:1.2rem;max-width:820px;display:flex;align-items:center;justify-content:space-between;gap:1rem 1.4rem;flex-wrap:wrap;padding:1.2rem 1.3rem;border-radius:var(--radius);
+  background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:1.5px solid transparent;box-shadow:0 16px 40px rgba(255,47,200,.14)}
+.faq-cta b{display:block;font-size:var(--step-1);line-height:1.25}
+.faq-cta span{color:var(--muted)}
+@media (max-width:480px){.faq-cta .btn{width:100%}}
+
+/* full-video player */
+dialog.player{padding:0;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--fg);width:min(92vw,420px);max-height:94vh;overflow:auto}
+dialog.player.landscape{width:min(94vw,900px)}
+dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
+.player-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.6rem .6rem .6rem 1rem}
+.player-top h3{font-size:var(--step-0);line-height:1.3}
+.player-close{font:inherit;font-size:1.6rem;line-height:1;background:none;border:0;color:var(--fg);cursor:pointer;padding:.1rem .6rem;border-radius:8px}
+.player video{display:block;width:100%;max-height:76vh;background:#000}
+.player.has-thumbs video{max-height:58vh}
+.player .thumbs{display:flex;gap:.6rem;padding:.8rem 1rem 1rem;overflow-x:auto}
+.player .thumbs button{flex:0 0 auto;width:104px;font:inherit;font-size:.72rem;line-height:1.3;color:var(--muted);background:none;border:1px solid var(--line);border-radius:10px;padding:.3rem;cursor:pointer;text-align:center}
+.player .thumbs button[aria-current="true"]{border-color:var(--pink);color:var(--fg);box-shadow:0 0 12px var(--pink-glow)}
+.player .thumbs img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;margin-bottom:.3rem}
+
+/* footer + floating button */
+.site-foot{border-top:1px solid var(--line);padding-block:2rem 6rem;color:var(--muted);font-size:var(--step--1);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.float{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom, 0px));left:calc(16px + env(safe-area-inset-left, 0px));z-index:20;padding:.65rem 1.1rem}
+.float{gap:.45rem}
+.float .ico{flex:none}
+@media (max-width:620px){
+  .float{width:56px;height:56px;padding:0;border-radius:50%;justify-content:center;box-shadow:0 10px 26px rgba(200,40,200,.38)}
+  .float .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .float .ico{width:27px;height:27px}
+}
+
+
+/* the neon sign: unlit tubes underneath, each letter lights up on its own, then a rare "tick-tick" */
+.top .logo{display:none}
+.sign{position:relative;width:min(100%,430px);margin:0 0 1.6rem;direction:ltr;isolation:isolate}
+.sign img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.sign .on{position:absolute;inset:0;clip-path:inset(0 var(--r) 0 var(--l));opacity:0;animation:ignite .9s linear var(--d) 1 forwards}
+.sign .on.tick{opacity:1;animation:tick .42s linear 1}
+.sign::before{content:"";position:absolute;inset:-18% -10%;z-index:-1;pointer-events:none;opacity:0;
+  background:radial-gradient(42% 46% at 62% 52%,rgba(255,47,200,.30),transparent 70%),radial-gradient(40% 50% at 30% 50%,rgba(139,61,255,.20),transparent 70%);
+  animation:halo-on 1.2s ease-out 1.1s forwards,halo-breathe 4.5s ease-in-out 2.3s infinite}
+.sign .spark{position:absolute;left:45.2%;top:18.4%;width:13%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,#fff 0 7%,rgba(255,170,235,.9) 12%,rgba(255,47,200,.35) 30%,transparent 62%);
+  animation:spark 6s ease-in-out 1.9s infinite}
+@keyframes ignite{0%{opacity:0}12%{opacity:.85}20%{opacity:.15}42%{opacity:.9}50%{opacity:.35}70%,100%{opacity:1}}
+@keyframes tick{0%,100%{opacity:1}18%{opacity:.3}34%{opacity:1}52%{opacity:.5}70%{opacity:1}}
+@keyframes halo-on{to{opacity:1}}
+@keyframes halo-breathe{0%,100%{opacity:1}50%{opacity:.72}}
+@keyframes spark{0%{opacity:0;scale:.4;rotate:0deg}8%{opacity:1;scale:1.25;rotate:45deg}18%{opacity:.85;scale:.9;rotate:90deg}30%,100%{opacity:0;scale:.4;rotate:90deg}}
+@media (max-width:900px){
+  .sign{margin-inline:auto;width:min(86%,400px)}
+  .hero>div:first-child{text-align:center}
+  .hero .offers,.hero .tape{justify-content:center}
+  .hero .lead{margin-inline:auto}
+}
+@media (max-width:480px){.top{display:none}.hero{padding-top:4.2rem}}
+@media (prefers-reduced-motion: reduce){.sign .on{animation:none;opacity:1}.sign::before{animation:none;opacity:1}.sign .spark{display:none}}
+@media (max-width: 900px){
+  .hero,.maker,.order{grid-template-columns:1fr}
+  .phone{max-width:260px}
+  .ba-grid,.doors,.boards{grid-template-columns:1fr}
+  .proof{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 480px){
+  .steps,.two{grid-template-columns:1fr}
+  .nav{display:none}
+  .offers .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .hero h1 .l2{animation:none}
+  .btn{transition:none}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <nav class="nav" aria-label="ניווט">
+      <a href="#before-after">לפני ואחרי</a>
+      <a href="#launch">חבילת השקה</a>
+      <a href="#prices">מחירים</a>
+      <a href="#order">הזמנה</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="top">
+    <div>
+      <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
+      <p class="kicker">סרטוני AI בעברית</p>
+      <h1><span class="l1">שולחים תמונה.</span><span class="l2 neon-pink">מקבלים סרטון.</span></h1>
+      <p class="lead">טרנדים, קליפים אישיים וסרטונים לעסק. אתם שולחים מה שיש לכם, אנחנו מכינים טיוטה, ואתם מאשרים לפני שהסרטון יוצא.</p>
+      <div class="offers">
+        <a class="btn btn-pink js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">סרטון היכרות לעסק<small>₪199 · פעם אחת לכל עסק</small></a>
+        <a class="btn btn-ghost js-pick" href="#order" data-product="טרנד · ₪149">טרנד מוכן<small>₪149 · תוך 24 שעות</small></a>
+      </div>
+      <a class="btn btn-soft more" href="#prices">לכל התפריט והמחירים <span class="arr" aria-hidden="true">←</span></a>
+      <ul class="tape" aria-label="מה מקבלים">
+        <li>כתוביות בעברית</li>
+        <li>גם בקול שלכם</li>
+        <li>אישור שלכם לפני כל מסירה</li>
+        <li>סבב תיקון כלול</li>
+      </ul>
+    </div>
+    <div class="frame phone glow-a" data-video="showreel.mp4" data-full="showreel-full.mp4" data-title="השואוריל המלא">
+      <span class="tag">שואוריל</span>
+      <span class="ph">כאן יתנגן השואוריל, בלי קול</span>
+    </div>
+  </section>
+
+  <section id="before-after">
+    <p class="kicker">לפני ואחרי</p>
+    <h2>מה ששולחים, ומה שמקבלים</h2>
+    <div class="ba-grid">
+      <article class="ba">
+        <div class="ba-pair">
+          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">לפני</span><span class="ph">תמונה מהטלפון</span></div>
+          <span class="arrow" aria-hidden="true">←</span>
+          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">אחרי</span><span class="ph">הטרנד המוכן</span></div>
+        </div>
+        <div class="ba-text">
+          <h3>שלוש תמונות, טרנד של 10 עד 30 שניות</h3>
+          <p>בלי ללמוד אף כלי ובלי לשרוף קרדיטים. ₪149, עד 24 שעות ולרוב תוך כמה שעות. לחצו על הסרטון לדוגמאות, או שלחו לנו טרנד שאהבתם.</p>
+        </div>
+      </article>
+      <article class="ba wide">
+        <div class="ba-pair">
+          <div class="frame wide dim" data-video="business-before.mp4"><span class="tag before">לפני</span><span class="ph">צילום גולמי</span></div>
+          <span class="arrow" aria-hidden="true">←</span>
+          <div class="frame wide glow-c" data-video="business-after.mp4" data-full="business-after-full.mp4" data-title="אחרי העריכה"><span class="tag after">אחרי</span><span class="ph">רילס מוכן לפרסום</span></div>
+        </div>
+        <div class="ba-text">
+          <h3>חומר גולמי, קליפ ערוך בסגנון קטאנה</h3>
+          <p>אותם קטעים אחרי עריכה: מילים ענקיות בתלת־ממד, חיתוכים חדים, האטות וסאונד. כך אפשר לערוך גם את הסרטון של העסק שלכם.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="reels">
+    <p class="kicker">עוד דוגמאות</p>
+    <h2>ככה זה נראה</h2>
+    <div class="reels">
+      <article class="reel">
+        <div class="frame glow-b" data-video="music-clip.mp4" data-full="music-clip-full.mp4" data-title="קליפ אישי: FOLLOW לאדל"><span class="tag">00:20</span><span class="ph">קליפ מוזיקה אישי</span></div>
+        <h3>קליפ מוזיקה אישי</h3><p>אתם הגיבורים, על שיר מקורי או על שיר שבחרתם.</p>
+      </article>
+      <article class="reel">
+        <div class="frame glow-c" data-video="car.mp4" data-full="car-full.mp4" data-title="פרסומת קונספט לרכב חשמלי"><span class="tag">00:16</span><span class="ph">פרסומת למוצר</span></div>
+        <h3>פרסומת למוצר</h3><p>קונספט לרכב חשמלי, ברמה של פרסומת טלוויזיה. המוצר שלכם, או אתם, בתפקיד הראשי.</p>
+      </article>
+      <article class="reel">
+        <div class="frame glow-a" data-video="fashion.mp4" data-full="fashion-full.mp4" data-title="פרסומת למותג אופנה"><span class="tag">00:18</span><span class="ph">פרסומת לאופנה</span></div>
+        <h3>פרסומת לאופנה</h3><p>קמפיין למותג בגדים אמיתי: הקולקציה שלכם על דוגמן, באווירה של הפקת אופנה.</p>
+      </article>
+      <article class="reel">
+        <div class="frame glow-a" data-video="explainer.mp4" data-gallery="explainers"><span class="tag">3 דוגמאות</span><span class="ph">סרטון הסבר</span></div>
+        <h3>סרטון הסבר</h3><p>רעיון מסובך, מוסבר בקליפ אחד ברור.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="launch">
+    <h2>חבילת השקה לעסקים: <span class="neon-pink">סרטון + דף נחיתה</span></h2>
+    <p class="lead">פותחים עסק, מוצר, שירות או מבצע חדש? מקבלים סרטון השקה ודף נחיתה שמביא פניות ישר לוואטסאפ.</p>
+    <div class="launch">
+      <div>
+        <ul class="incl">
+          <li><b>סרטון השקה עד 30 שניות</b> בסגנון משולב, עם קריינות בעברית וכתוביות. גרסה לאורך לרילס ולסטורי, וגרסה לרוחב לאתר.</li>
+          <li><b>דף נחיתה בצבעים של המותג</b>, מותאם לנייד, עם כפתור וואטסאפ וטופס לפניות.</li>
+          <li><b>שני סבבי תיקונים</b> ומסירה תוך 5 ימי עבודה.</li>
+          <li><b>שנה ראשונה של אחסון ודומיין כלולה.</b> אחר כך ₪49 לחודש, כולל תיקונים קטנים. הדומיין רשום על שמכם.</li>
+        </ul>
+        <div class="deal">
+          <div class="deal-price"><b>₪2,490</b><span>+ מע״מ</span></div>
+          <p class="deal-first"><span>ל־5 העסקים הראשונים: ₪1,990</span>, בתמורה לביקורת קצרה ואישור להציג את העבודה.</p>
+          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה · ₪2,490 + מע״מ">להזמנת חבילת השקה</a>
+          <p>רוצים פתיח שעוצר את הגלילה? שדרוג לסרטון בסגנון מטורף: <bdi dir="ltr">+₪800</bdi>.</p>
+        </div>
+      </div>
+      <figure class="site-demo">
+        <div class="sites">
+          <div class="site-item">
+            <div class="site-phone"><video src="site-adele-v2.mp4" poster="site-adele-v2-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף נחיתה של קליניקת יופי"></video></div>
+            <p class="site-name"><b>קליניקת יופי</b><br>קורס הרמת ריסים וגבות</p>
+          </div>
+          <div class="site-item">
+            <div class="site-phone"><video src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף הנחיתה של מדיקר"></video></div>
+            <p class="site-name"><b>מדיקר</b><br>כתב שירות רפואי</p>
+          </div>
+        </div>
+        <figcaption>דפי נחיתה שבנינו, ככה הם נראים בטלפון.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="paths">
+    <p class="kicker">למי זה</p>
+    <h2>לעסק, לרגע, לטרנד</h2>
+    <div class="doors">
+      <div class="door d1">
+        <h3>עסקים</h3>
+        <p>סרטונים לרשתות ולמודעות, בלי צלם ובלי עורך, וחבילת השקה עם דף נחיתה. משלמים לפי עבודה, בלי מנוי.</p>
+        <div class="go"><b>מ־₪199</b><a class="js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">להזמנת סרטון היכרות</a></div>
+      </div>
+      <div class="door d2">
+        <h3>רגעים אישיים</h3>
+        <p>קליפ מוזיקה שבו אתם הגיבורים: לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק.</p>
+        <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ</a></div>
+      </div>
+      <div class="door d3">
+        <h3>טרנדים</h3>
+        <p>במקום ללמוד כלים ולשרוף קרדיטים: שולחים תמונות, בוחרים טרנד (או שולחים אחד שאהבתם) ומקבלים אותו מוכן.</p>
+        <div class="go"><b>₪149</b><a class="js-pick" href="#order" data-product="טרנד · ₪149">להזמנת טרנד</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <p class="kicker">איך זה עובד</p>
+    <h2>ארבעה צעדים</h2>
+    <ol class="steps">
+      <li><h3>שולחים</h3><p>בוואטסאפ או בטופס: מה רוצים, ותמונות או סרטונים שיש לכם.</p></li>
+      <li><h3>משלמים</h3><p>לפי סרטון, לפני שמתחילים. בלי מנוי ובלי התחייבות.</p></li>
+      <li><h3>מאשרים טיוטה</h3><p>מקבלים טיוטה ב־<span class="res">480p</span> ואומרים מה לשנות.</p></li>
+      <li><h3>מקבלים סרטון</h3><p>גרסה סופית ב־<span class="res">1080p</span>. סבב תיקון אחד כלול במחיר.</p></li>
+    </ol>
+  </section>
+
+  <section id="prices">
+    <p class="kicker">תפריט</p>
+    <h2>מחירים</h2>
+    <div class="price-tabs" role="tablist" aria-label="סוג המחירון"><button type="button" role="tab" aria-selected="true" data-show="biz">לעסקים</button><button type="button" role="tab" aria-selected="false" data-show="priv">לפרטיים</button></div>
+    <div class="boards" data-show="biz">
+      <div class="board b-biz">
+        <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים לפני מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
+          <p class="desc">סרטון אחד עד 30 שניות בסגנון נקי. פעם אחת לכל עסק.</p>
+        </div>
+        <div class="row">
+          <span class="name">נקי <span class="meter" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
+          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
+        </div>
+        <div class="row">
+          <span class="name">משולב <span class="meter" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
+          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
+        </div>
+        <div class="row">
+          <span class="name">מטורף <span class="meter" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
+          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
+        </div>
+        <div class="row">
+          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
+          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון. ל־5 העסקים הראשונים ₪1,990. <a href="#launch">מה כלול</a></p>
+        </div>
+        <div class="row addon"><span class="name">הקמת קול משובט, חד־פעמי</span><span class="price">₪490</span></div>
+        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
+      </div>
+      <div class="board b-priv">
+        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">טרנד</span><span class="price">₪149</span>
+          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהדוגמאות או שולחים אחד שאהבתם, ומקבלים תוך 24 שעות.</p>
+        </div>
+        <div class="row">
+          <span class="name">שלושה טרנדים</span><span class="price">₪349</span>
+          <p class="desc">אותה תמונה או שלוש תמונות שונות.</p>
+        </div>
+        <div class="row">
+          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
+          <p class="desc">עד 90 שניות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
+        </div>
+        <div class="row">
+          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
+          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול.</p>
+        </div>
+      </div>
+    </div>
+    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
+  </section>
+
+  <section id="maker">
+    <div class="maker">
+      <div class="frame glow-c" data-video="daniel-double.mp4" data-ready data-sound>
+        <span class="tag">הכפיל הדיגיטלי שלי</span>
+        <span class="ph">כאן יופיע סרטון קצר של הכפיל הדיגיטלי</span>
+      </div>
+      <div>
+        <p class="kicker">מי מאחורי זה</p>
+        <h2>אני דניאל, ויש לי צוות</h2>
+        <p>מאחורי Danielor עומדת מערכת עבודה שבניתי: צוות של סוכני AI שמפיק את הסרטונים עם הכלים המובילים בעולם. <strong>הדמות שמופיעה בסרטונים היא הכפיל הדיגיטלי שלי</strong>, עם הקול שלי, וזה בדיוק מה שאפשר לבנות גם לכם.</p>
+        <p>אני הקו האחרון: עובר על כל סרטון, מתקן ומאשר לפני שהוא יוצא אליכם. אם משהו לא נראה כמוכם או לא נשמע כמוכם, הוא לא נשלח.</p>
+        <ul class="tools" aria-label="כלים">
+          <li>Seedance</li><li>ElevenLabs</li><li>Suno</li><li>Remotion</li><li>Claude</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof">
+    <p class="kicker">תגובות אמיתיות</p>
+    <h2>ככה הגיבו כשקיבלו את הסרטון</h2>
+    <p class="lead">מילה במילה מוואטסאפ, רק בלי שמות ובלי תמונות.</p>
+    <div class="chats">
+      <article class="chat" aria-label="תגובות על קליפ אישי">
+        <div class="chat-h">על <b>קליפ אישי</b></div>
+        <div class="msgs">
+          <div class="b in vid">סרטון · 0:46<time>23:47</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇</span>אמאלה תראו מה דניאל עשה 🥹<time>23:47</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇ ▇▇▇▇</span>אמאלה איזה נסיך אהבתי ❤️<time>23:53</time></div>
+          <span class="rx">❤️😍 2</span>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇</span>מהממם 🥹<time>0:08</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇</span>נסיךךךך אין עליך ❤️<time>0:31</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇</span>מושלםםםםםםם<time>2:27</time></div>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על קליפ ראפרים מתמונה אחת">
+        <div class="chat-h">על <b>קליפ ראפרים מתמונה אחת</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:24<time>8:06</time></div>
+          <div class="b in">תשמע<time>8:22</time></div>
+          <div class="b in">זה נדיר<time>8:22</time></div>
+          <div class="b in">אנשים עפים על זה<time>8:22</time></div>
+          <div class="b in">הם לא מבינים איך את זה עושה את זה<time>8:29</time></div>
+          <span class="rx">😎</span>
+          <div class="b in">זאת יכולת<time>8:29</time></div>
+          <span class="rx">❤️</span>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על קליפ קצר לרשתות">
+        <div class="chat-h">על <b>קליפ קצר לרשתות</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:15<time>22:20</time></div>
+          <div class="b sent">תראי את זה<time>22:20</time></div>
+          <div class="b in">מושלם<time>22:21</time></div>
+          <div class="b in">יאללה שיר ומשפט באנגלית<time>22:21</time></div>
+          <div class="b in">מחר אעלה<time>22:21</time></div>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על סרטון שערכתי">
+        <div class="chat-h">על <b>סרטון שערכתי</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:30<time>8:06</time></div>
+          <div class="b in">אוקיי אוקיי<time>8:07</time></div>
+          <div class="b in">חחחחחח יאווווו<time>8:15</time></div>
+          <div class="b in">זה ענקקקקק<time>8:15</time></div>
+          <div class="b in">יא בן אלף<time>8:15</time></div>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על שני סרטונים אישיים">
+        <div class="chat-h">על <b>שני סרטונים אישיים</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:31<time>18:54</time></div>
+          <div class="b sent">תראי תראי<time>18:54</time></div>
+          <div class="b in">או מיי גאד סו ביוטיפול 👏👏😍<time>18:56</time></div>
+          <div class="b in">Loveeee it 😘😍<time>18:56</time></div>
+          <div class="b sent vid">סרטון · 1:07<time>19:11</time></div>
+          <div class="b sent">איך זה?<time>19:11</time></div>
+          <div class="b in">מושלםםםםםםםםםםםםם<time>19:15</time></div>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על סרטון לעסק">
+        <div class="chat-h">על <b>סרטון לעסק</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:40<time>18:06</time></div>
+          <div class="b sent">איך?<time>18:06</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>מעולהההה<time>18:14</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇</span>פצצה<time>19:38</time></div>
+        </div>
+      </article>
+    </div>
+    <p class="chats-hint">← החליקו לעוד תגובות</p>
+    <p class="honest">ובכנות: את הסרטונים האלה קיבלו קודם המשפחה והחברים שלי. ביקורות מלקוחות יעלו לכאן ברגע שיגיעו.</p>
+  </section>
+
+  <section id="order">
+    <div class="order">
+      <div>
+        <p class="kicker">הזמנה</p>
+        <h2>מה נכין לכם?</h2>
+        <p class="lead">ממלאים כמה שורות, לוחצים על הכפתור, וההודעה נפתחת אצלכם בוואטסאפ מוכנה לשליחה. אנחנו חוזרים עם הצעה ומועד.</p>
+        <p class="small" id="wa-status"></p>
+      </div>
+      <form class="slip" id="slip" novalidate>
+        <div class="field"><label for="f-name">שם</label><input id="f-name" name="name" autocomplete="name" enterkeyhint="next" required></div>
+        <div class="field">
+          <label for="f-product">מה מעניין אתכם</label>
+          <select id="f-product" name="product">
+            <option>סרטון היכרות לעסק · ₪199 + מע״מ</option>
+            <option>טרנד · ₪149</option>
+            <option>שלושה טרנדים · ₪349</option>
+            <option>קליפ מוזיקה אישי · ₪890</option>
+            <option>קליפ פרימיום · ₪1,690</option>
+            <option>סרטון נקי לעסק · ₪390 + מע״מ</option>
+            <option>סרטון משולב לעסק · ₪890 + מע״מ</option>
+            <option>סרטון מטורף לעסק · ₪1,690 + מע״מ</option>
+            <option>חבילת השקה · ₪2,490 + מע״מ</option>
+            <option>עוד לא יודע/ת</option>
+          </select>
+        </div>
+        <div class="field"><label for="f-idea">ספרו בקצרה מה הרעיון</label><textarea id="f-idea" name="idea" placeholder="לדוגמה: קליפ ליום ההולדת ה־40 של אמא, על שיר שהיא אוהבת"></textarea></div>
+        <div class="field"><label for="f-link">לינק לחומרים (דרייב, לא חובה)</label><input id="f-link" name="link" type="url" dir="ltr" placeholder="https://drive.google.com/..."></div>
+        <p class="err" id="f-err" hidden>חסר שם, כדי שנדע איך לפנות אליכם.</p>
+        <a class="btn btn-pink send js-wa-send" href="#order" target="_blank" rel="noopener">שליחה בוואטסאפ</a>
+        <p class="small send-note">ההודעה נפתחת בוואטסאפ, ואתם רק לוחצים שליחה. <button class="linkish" type="button" id="copy">או העתקת ההודעה</button></p>
+        <p class="small" id="copy-status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="faq">
+    <p class="kicker">שאלות</p>
+    <h2>לפני שמתחילים</h2>
+    <div class="faq">
+      <details><summary><span class="q-n" aria-hidden="true">01</span><span class="q-t">איך שולחים חומרים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לדרייב, או ישירות בוואטסאפ. לטרנד הכי טוב 3 תמונות: פנים מקדימה, פרופיל וכל הגוף. סרטונים עדיף לשלוח כקובץ, כי וואטסאפ דוחס ומוריד איכות.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">02</span><span class="q-t">כמה זמן זה לוקח?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>טרנד מגיע תוך 24 שעות. בשאר הסרטונים נותנים מועד מדויק לפני שמתחילים, ואפשר להוסיף אקספרס.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">03</span><span class="q-t">ואם הטיוטה לא מתאימה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>אומרים מה לשנות, גם בהודעה קולית. סבב תיקון אחד כלול במחיר, וכל סבב נוסף מתומחר לפי היקף.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">04</span><span class="q-t">אפשר להכניס לסרטון עוד אנשים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן, גם כשזו הפתעה. רק ודאו שמי שמופיע בסדר עם זה. הצוות עובר על כל החומרים, ואם משהו לא תקין נחזור אליכם. סרטונים של מפורסמים ואנשי ציבור אנחנו לא עושים, וקול משובט רק באישור של בעל הקול.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">05</span><span class="q-t">מה קורה עם דף הנחיתה אחרי השנה הראשונה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>ממשיכים ב־₪49 לחודש, כולל אחסון ותיקונים קטנים, או לוקחים את הדף לאחסון אחר. הדומיין רשום על שמכם, ומקבלים את כל הקבצים.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">06</span><span class="q-t">המחירים כוללים מע״מ?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לפרטיים המחירים כוללים מע״מ. לעסקים המחירים לפני מע״מ, ומקבלים חשבונית.</p></div></details>
+    </div>
+    <div class="faq-cta">
+      <div><b>יש שאלה שלא מופיעה כאן?</b><span>כתבו לנו בוואטסאפ ונחזור אליכם.</span></div>
+      <a class="btn btn-pink js-wa" href="#order">לשאול בוואטסאפ</a>
+    </div>
+  </section>
+
+  <div class="site-foot">
+    <span>Danielor · דניאלור ייעוץ ויזמות בע״מ</span>
+    <span dir="ltr">danielor.ai</span>
+  </div>
+</div>
+
+<a class="btn btn-pink float js-wa" href="#order" aria-label="שלחו לנו בוואטסאפ"><svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg><span class="lbl">וואטסאפ</span></a>
+
+<dialog class="player" id="player" aria-labelledby="player-title">
+  <div class="player-top">
+    <h3 id="player-title"></h3>
+    <button class="player-close" type="button" aria-label="סגירה">×</button>
+  </div>
+  <video id="player-video" controls playsinline preload="none"></video>
+  <div class="thumbs" id="player-thumbs" hidden></div>
+</dialog>
+
+<script>
+(function(){
+  // WhatsApp number in international format without "+", e.g. "9725XXXXXXXX". Empty until the business number exists.
+  var WA = '972557279012';
+  // Set to true once the demo videos sit next to this page (file names come from each frame's data-video).
+  var VIDEOS_READY = true;
+
+  // Frames marked data-ready already have their file next to the page; the rest wait for VIDEOS_READY.
+  document.querySelectorAll('[data-video]').forEach(function(el){
+      if (!VIDEOS_READY && !el.hasAttribute('data-ready')) return;
+      var v = document.createElement('video');
+      v.src = el.getAttribute('data-video');
+      // an opening image, so the frame is never empty (e.g. iPhone low power mode doesn't autoplay)
+      v.poster = el.getAttribute('data-poster') || v.getAttribute('src').replace(/\.mp4$/, '-poster.jpg');
+      el.classList.add('has-video');
+      v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+      v.setAttribute('playsinline',''); v.setAttribute('aria-hidden','true');
+      v.addEventListener('loadeddata', function(){ el.classList.add('has-video'); });
+      el.prepend(v);
+      if (el.hasAttribute('data-sound')){
+        // Talking clips need their voice: a tap toggles sound and restarts from the top.
+        v.removeAttribute('aria-hidden');
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'sound-btn';
+        b.textContent = '🔊 להפעלה עם קול';
+        b.addEventListener('click', function(){
+          v.muted = !v.muted;
+          if (!v.muted){ v.currentTime = 0; v.play(); }
+          b.textContent = v.muted ? '🔊 להפעלה עם קול' : '🔇 השתקה';
+        });
+        el.appendChild(b);
+      }
+  });
+
+  // Click a frame to watch the full video with sound. data-full = one video, data-gallery = a set from GALLERIES.
+  var GALLERIES = {
+    explainers: [
+      {src: 'explainer-full.mp4', poster: 'p-explainer.jpg', title: 'קליפ ראפרים מתמונה אחת'},
+      {src: 'explainer-hit-full.mp4', poster: 'p-hit.jpg', title: 'הלהיט החדש: הורדה באיכות מלאה'},
+      {src: 'explainer-whatsapp-full.mp4', poster: 'p-whatsapp.jpg', title: 'שמירת סרטון מוואטסאפ באיכות מלאה'}
+    ],
+    trends: [
+      {src: 'trend-full.mp4', poster: 'p-trend.jpg', title: 'ריקוד עם בומבוקס ברחוב'},
+      {src: 'trend-bow-full.mp4', poster: 'p-trend-bow.jpg', title: 'טרנד STORM של Yung Lean'},
+      {src: 'trend-skydive-full.mp4', poster: 'p-trend-skydive.jpg', title: 'צניחה חופשית מעל דובאי'},
+      {src: 'trend-moto-full.mp4', poster: 'p-trend-moto.jpg', title: 'אופנוע בגשם בלילה'},
+      {src: 'trend-knight-full.mp4', poster: 'p-trend-knight.jpg', title: 'הופך לאביר עם אריה'},
+      {src: 'trend-action-full.mp4', poster: 'p-trend-action.jpg', title: 'סצנת אקשן מסרט'},
+      {src: 'trend-cliff-full.mp4', poster: 'p-trend-cliff.jpg', title: 'דרמה על צוק מול הים'}
+    ]
+  };
+  var dlg = document.getElementById('player');
+  var pv = document.getElementById('player-video');
+  var ptitle = document.getElementById('player-title');
+  var thumbs = document.getElementById('player-thumbs');
+  var baseWide = false;
+  pv.addEventListener('loadedmetadata', function(){ dlg.classList.toggle('landscape', baseWide || pv.videoWidth > pv.videoHeight); });
+  function playItem(it){
+    pv.src = it.src;
+    pv.poster = it.poster || '';
+    ptitle.textContent = it.title;
+    Array.prototype.forEach.call(thumbs.children, function(b){ b.setAttribute('aria-current', b.getAttribute('data-src') === it.src ? 'true' : 'false'); });
+    var p = pv.play(); if (p && p.catch) p.catch(function(){});
+  }
+  function openPlayer(items, wide){
+    baseWide = !!wide;
+    dlg.classList.toggle('landscape', baseWide);
+    dlg.classList.toggle('has-thumbs', items.length > 1);
+    thumbs.innerHTML = '';
+    thumbs.hidden = items.length < 2;
+    if (items.length > 1) items.forEach(function(it){
+      var b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('data-src', it.src);
+      var im = document.createElement('img'); im.src = it.poster; im.alt = '';
+      b.appendChild(im); b.appendChild(document.createTextNode(it.title));
+      b.addEventListener('click', function(){ playItem(it); });
+      thumbs.appendChild(b);
+    });
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    playItem(items[0]);
+  }
+  function stopPlayer(){ pv.pause(); pv.removeAttribute('src'); pv.load(); }
+  dlg.querySelector('.player-close').addEventListener('click', function(){ dlg.close ? dlg.close() : dlg.removeAttribute('open'); stopPlayer(); });
+  dlg.addEventListener('close', stopPlayer);
+  dlg.addEventListener('click', function(e){ if (e.target === dlg){ dlg.close(); } });
+  document.querySelectorAll('[data-full],[data-gallery]').forEach(function(el){
+    var g = el.getAttribute('data-gallery');
+    var items = g ? GALLERIES[g] : [{src: el.getAttribute('data-full'), title: el.getAttribute('data-title') || '', poster: ''}];
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', g ? 'צפייה ב־' + items.length + ' סרטונים' : 'צפייה מלאה עם קול: ' + items[0].title);
+    var badge = document.createElement('span');
+    badge.className = 'play';
+    badge.textContent = g ? '▶ לצפייה ב־' + items.length + ' סרטונים' : '▶ צפייה מלאה עם קול';
+    el.appendChild(badge);
+    function go(){ openPlayer(items, el.classList.contains('wide')); }
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+  });
+
+  var form = document.getElementById('slip');
+  var out = document.getElementById('out');
+  var outText = document.getElementById('out-text');
+  var err = document.getElementById('f-err');
+  var sendBtn = document.querySelector('.js-wa-send');
+  var status = document.getElementById('wa-status');
+  var select = document.getElementById('f-product');
+
+  function waLink(text){ return 'https://wa.me/' + WA + (text ? '?text=' + encodeURIComponent(text) : ''); }
+
+  if (WA){
+    document.querySelectorAll('.js-wa').forEach(function(a){ a.href = waLink(''); a.target = '_blank'; a.rel = 'noopener'; });
+  } else {
+    status.textContent = 'מספר הוואטסאפ של העסק יעלה בקרוב. בינתיים אפשר להעתיק את ההודעה.';
+  }
+
+  document.querySelectorAll('.js-pick').forEach(function(a){
+    a.addEventListener('click', function(){
+      var want = a.getAttribute('data-product');
+      for (var i = 0; i < select.options.length; i++){
+        if (select.options[i].text === want){ select.selectedIndex = i; break; }
+      }
+      refresh();
+    });
+  });
+
+  /* the message is rebuilt on every keystroke, so the WhatsApp button is always a plain link (works everywhere) */
+  function message(){
+    var name = form.name.value.trim();
+    return [
+      'היי Danielor' + (name ? ', אני ' + name + '.' : '.'),
+      'מעניין אותי: ' + select.value,
+      form.idea.value.trim() ? 'הרעיון: ' + form.idea.value.trim() : '',
+      form.link.value.trim() ? 'חומרים: ' + form.link.value.trim() : ''
+    ].filter(Boolean).join('\n');
+  }
+  function refresh(){ if (WA) sendBtn.href = waLink(message()); }
+  form.addEventListener('input', refresh);
+  form.addEventListener('change', refresh);
+  refresh();
+
+  sendBtn.addEventListener('click', function(e){
+    if (!form.name.value.trim()){ e.preventDefault(); err.hidden = false; form.name.focus(); return; }
+    err.hidden = true;
+    if (!WA){ e.preventDefault(); copyMsg(); return; }
+    refresh();
+  });
+  form.addEventListener('submit', function(e){ e.preventDefault(); sendBtn.click(); });
+  form.name.addEventListener('input', function(){ if (form.name.value.trim()) err.hidden = true; });
+
+  function copyMsg(){
+    var s = document.getElementById('copy-status');
+    var text = message();
+    function fallback(){ window.prompt('אפשר להעתיק מכאן:', text); }
+    try {
+      navigator.clipboard.writeText(text).then(function(){ s.textContent = 'ההודעה הועתקה. אפשר להדביק אותה בוואטסאפ.'; }, fallback);
+    } catch(e){ fallback(); }
+  }
+  document.getElementById('copy').addEventListener('click', copyMsg);
+})();
+</script>
+<script>
+/* לעסק, לרגע, לטרנד + ארבעה צעדים: the cards start as a stacked deck and drop into place one by one as you scroll.
+   The scroll only decides when a card goes; the move itself is a CSS transition, so it stays smooth. */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  [['#paths .doors', '.door'], ['#how .steps', 'li']].forEach(function(cfg){
+    var box = document.querySelector(cfg[0]);
+    if (!box) return;
+    var cards = Array.prototype.slice.call(box.querySelectorAll(cfg[1]));
+    var n = cards.length;
+    if (n < 2) return;
+    box.classList.add('deck');
+    var at = [], open = [], queued = false;
+    cards.forEach(function(c, i){ c.style.zIndex = String(n - i); if (i) c.classList.add('deck-card'); open[i] = false; });
+
+    function measure(){
+      box.classList.add('deck-measure');
+      var b = box.getBoundingClientRect();
+      var base = cards.map(function(c){ var r = c.getBoundingClientRect(); return { x: r.left - b.left, y: r.top - b.top, h: r.height }; });
+      for (var i = 1; i < n; i++) {
+        var row = Math.abs(base[i].y - base[0].y) < 4;          /* same row (wide screens) */
+        var dx = base[0].x - base[i].x;
+        var dy = row ? i * 14 : (base[0].y + base[0].h + i * 14) - (base[i].y + base[i].h);
+        var lane = 0; for (var j = 0; j < i; j++) if (Math.abs(base[j].y - base[i].y) < 4) lane++;
+        cards[i].style.setProperty('--dx', dx.toFixed(1) + 'px');
+        cards[i].style.setProperty('--dy', dy.toFixed(1) + 'px');
+        cards[i].style.setProperty('--sc', (1 - 0.045 * i).toFixed(4));
+        at[i] = base[i].y + lane * 120;
+      }
+      box.classList.add('deck-still');                         /* jump to the new state without animating */
+      box.classList.remove('deck-measure');
+      check(true);
+      void box.offsetWidth;
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ box.classList.remove('deck-still'); }); });
+    }
+    function check(){
+      queued = false;
+      var vh = window.innerHeight, top = box.getBoundingClientRect().top, batch = 0;
+      for (var i = 1; i < n; i++) {
+        var y = top + at[i];
+        var want = open[i] ? y < vh * 0.9 : y < vh * 0.76;     /* a little slack so it doesn't flap at the edge */
+        if (want === open[i]) continue;
+        open[i] = want;
+        cards[i].style.transitionDelay = want ? (batch++ * 150) + 'ms' : '0ms';
+        cards[i].classList.toggle('dealt', want);
+      }
+    }
+    function ask(){ if (!queued) { queued = true; requestAnimationFrame(check); } }
+    measure();
+    window.addEventListener('scroll', ask, { passive: true });
+    var rq = 0;
+    window.addEventListener('resize', function(){ if (!rq) rq = requestAnimationFrame(function(){ rq = 0; measure(); }); });
+    window.addEventListener('load', measure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  });
+})();
+</script>
+<script>
+/* מחירים: on phones one price board at a time, switched by the two tabs */
+(function(){
+  var boards = document.querySelector('#prices .boards');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.price-tabs [role=tab]'));
+  if (!boards || !tabs.length) return;
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      boards.setAttribute('data-show', t.getAttribute('data-show'));
+      tabs.forEach(function(o){ o.setAttribute('aria-selected', String(o === t)); });
+    });
+  });
+})();
+</script>
+<script>
+/* תגובות: a real 3D ring of cards. Only one element (the spinner) turns, and the browser animates it
+   on the GPU, so the motion stays smooth. Cards face outwards; the far ones show their back side. */
+(function(){
+  var box = document.querySelector('#proof .chats');
+  if (!box) return;
+  var cards = Array.prototype.slice.call(box.querySelectorAll('.chat'));
+  var n = cards.length;
+  if (n < 3) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STEP = 360 / n;
+
+  var wrap = document.createElement('div');
+  wrap.className = 'ring-wrap';
+  box.parentNode.insertBefore(wrap, box);
+  wrap.appendChild(box);
+  box.classList.add('ring');
+  box.setAttribute('role', 'region');
+  box.setAttribute('aria-roledescription', 'קרוסלה');
+  box.setAttribute('aria-label', 'תגובות מוואטסאפ');
+  box.tabIndex = 0;
+  var hint = document.querySelector('#proof .chats-hint');
+  if (hint) hint.classList.add('off');
+
+  var spin = document.createElement('div');
+  spin.className = 'ring-spin';
+  var items = cards.map(function(c){
+    var it = document.createElement('div');
+    it.className = 'ring-item';
+    var back = document.createElement('div');
+    back.className = 'ring-back';
+    back.setAttribute('aria-hidden', 'true');
+    it.appendChild(c);
+    it.appendChild(back);
+    spin.appendChild(it);
+    return it;
+  });
+  box.appendChild(spin);
+
+  var nav = document.createElement('div');
+  nav.className = 'ring-nav';
+  nav.innerHTML = '<button type="button" class="ring-btn" data-dir="-1" aria-label="התגובה הקודמת">&rarr;</button>' +
+                  '<div class="ring-dots"></div>' +
+                  '<button type="button" class="ring-btn" data-dir="1" aria-label="התגובה הבאה">&larr;</button>';
+  wrap.parentNode.insertBefore(nav, wrap.nextSibling);
+  var dotsBox = nav.querySelector('.ring-dots');
+  var dots = cards.map(function(c, i){
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'ring-dot';
+    d.setAttribute('aria-label', 'תגובה ' + (i + 1) + ' מתוך ' + n);
+    d.addEventListener('click', function(){ moveTo(nearestFor(i), reduce ? 300 : 1000, 'io'); hold(); });
+    dotsBox.appendChild(d);
+    return d;
+  });
+
+  /* motion: CSS transitions on the spinner (GPU), with our own copy of the curve so a
+     touch in the middle of a turn picks up exactly where the ring is */
+  var EASE = { io: [.62, 0, .3, 1], out: [.18, .72, .28, 1] };
+  function bez(x1, y1, x2, y2){
+    return function(x){
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      var t = x;
+      for (var k = 0; k < 8; k++) {
+        var ex = 3*x1*t*(1-t)*(1-t) + 3*x2*t*t*(1-t) + t*t*t - x;
+        var dx = 3*x1*(1-t)*(1-t) + 6*(x2-x1)*t*(1-t) + 3*(1-x2)*t*t;
+        if (Math.abs(ex) < 1e-5 || Math.abs(dx) < 1e-6) break;
+        t = Math.max(0, Math.min(1, t - ex / dx));
+      }
+      return 3*y1*t*(1-t)*(1-t) + 3*y2*t*t*(1-t) + t*t*t;
+    };
+  }
+  var curve = { io: bez.apply(null, EASE.io), out: bez.apply(null, EASE.out) };
+
+  var W = 300, R = 300, theta = 0, anim = null, still = true;
+  function tf(a){ return 'translateZ(' + (-R).toFixed(1) + 'px) rotateY(' + a.toFixed(3) + 'deg)'; }
+  function current(){
+    if (!anim) return theta;
+    var p = (performance.now() - anim.t0) / anim.dur;
+    if (p >= 1) { anim = null; return theta; }
+    return anim.from + (anim.to - anim.from) * curve[anim.ease](Math.max(0, p));
+  }
+  function moveTo(a, dur, ease){
+    var from = current();
+    theta = a;
+    if (!dur) {
+      anim = null;
+      spin.style.transition = 'none';
+      spin.style.transform = tf(a);
+      still = true;
+      return;
+    }
+    if (still) { getComputedStyle(spin).transform; still = false; }   /* lock the start point before the transition */
+    anim = { from: from, to: a, t0: performance.now(), dur: dur, ease: ease };
+    spin.style.transition = 'transform ' + dur + 'ms cubic-bezier(' + EASE[ease].join(',') + ')';
+    spin.style.transform = tf(a);
+    mark();
+  }
+  function frontIndex(a){ return ((Math.round(a / STEP) % n) + n) % n; }
+  function nearestFor(i){ var base = i * STEP; return base + 360 * Math.round((theta - base) / 360); }
+  function turn(dir){ moveTo(Math.round(theta / STEP) * STEP + dir * STEP, reduce ? 300 : 1150, 'io'); }
+  function mark(){
+    var f = frontIndex(theta);
+    for (var j = 0; j < n; j++) {
+      dots[j].setAttribute('aria-current', j === f ? 'true' : 'false');
+      cards[j].setAttribute('aria-hidden', j === f ? 'false' : 'true');
+    }
+  }
+
+  function layout(){
+    var pr = wrap.parentNode.getBoundingClientRect(), cw = document.documentElement.clientWidth;
+    wrap.style.marginLeft = (-Math.max(0, pr.left)).toFixed(1) + 'px';
+    wrap.style.marginRight = (-Math.max(0, cw - pr.right)).toFixed(1) + 'px';
+    var vw = Math.min(wrap.clientWidth || window.innerWidth, cw);
+    W = Math.round(Math.min(330, Math.max(220, vw * 0.62)));
+    R = (W * (vw < 600 ? 1.25 : 1.6)) / (2 * Math.tan(Math.PI / n));          /* the ring, with air between neighbouring cards */
+    box.style.setProperty('--ring-w', W + 'px');
+    box.style.perspective = Math.round(Math.max(760, W * 3)) + 'px';
+    box.classList.add('measuring');
+    var h = 0;
+    cards.forEach(function(c){ h = Math.max(h, c.offsetHeight); });
+    box.classList.remove('measuring');
+    box.style.height = h + 'px';
+    wrap.style.paddingTop = Math.round(h * 0.14 + 18) + 'px';
+    items.forEach(function(it, i){
+      it.style.transform = 'rotateY(' + (-i * STEP).toFixed(3) + 'deg) translateZ(' + R.toFixed(1) + 'px)';
+    });
+    moveTo(Math.round(current() / STEP) * STEP, 0);
+    mark();
+  }
+
+  /* autoplay: only while the section is on screen and nobody is touching it */
+  var visible = false, holdUntil = 0, hover = false;
+  function hold(){ holdUntil = Date.now() + 7000; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }, { threshold: 0.35 }).observe(wrap);
+  }
+  if (!reduce) {
+    setInterval(function(){
+      if (!visible || dragging || hover || document.hidden || Date.now() < holdUntil) return;
+      turn(1);
+    }, 3800);
+  }
+  if (window.matchMedia('(hover: hover)').matches) {
+    wrap.addEventListener('mouseenter', function(){ hover = true; });
+    wrap.addEventListener('mouseleave', function(){ hover = false; });
+  }
+
+  /* drag / swipe: the ring follows the finger, then glides to the nearest card */
+  var pid = null, sx = 0, sy = 0, a0 = 0, lx = 0, lt = 0, v = 0, decided = false, dragging = false, moved = false;
+  function dpp(){ return STEP / (W * 0.9); }                  /* degrees per pixel of drag */
+  box.addEventListener('pointerdown', function(e){
+    if (e.button) return;
+    pid = e.pointerId; sx = lx = e.clientX; sy = e.clientY; lt = e.timeStamp;
+    v = 0; decided = false; moved = false;
+    hold();
+  });
+  box.addEventListener('pointermove', function(e){
+    if (e.pointerId !== pid) return;
+    var dx = e.clientX - sx, dy = e.clientY - sy;
+    if (!decided) {
+      if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
+      decided = true;
+      if (Math.abs(dx) <= Math.abs(dy)) { pid = null; return; }
+      dragging = true; moved = true;
+      a0 = current() - dx * dpp();
+      moveTo(current(), 0);
+      try { box.setPointerCapture(e.pointerId); } catch (_) {}
+      box.classList.add('dragging');
+    }
+    var dt = Math.max(1, e.timeStamp - lt);
+    v = v * 0.6 + ((e.clientX - lx) / dt) * 0.4;
+    lx = e.clientX; lt = e.timeStamp;
+    theta = a0 + dx * dpp();                                   /* drag right = the left card comes to the front */
+    spin.style.transform = tf(theta);
+  });
+  function end(e){
+    if (e.pointerId !== pid) return;
+    pid = null;
+    if (!dragging) return;
+    dragging = false;
+    box.classList.remove('dragging');
+    var vd = (e.timeStamp - lt > 90) ? 0 : v * dpp();          /* deg per ms; no fling if the finger had stopped */
+    var proj = theta + vd * 240;
+    var tgt = Math.round(proj / STEP) * STEP;
+    var lo = Math.round(theta / STEP) * STEP - 2 * STEP, hi = lo + 4 * STEP;
+    tgt = Math.max(lo, Math.min(hi, tgt));
+    var dur = Math.round(Math.max(450, Math.min(1050, 420 + Math.abs(tgt - theta) / STEP * 480)));
+    moveTo(tgt, reduce ? 300 : dur, 'out');
+    hold();
+  }
+  box.addEventListener('pointerup', end);
+  box.addEventListener('pointercancel', end);
+
+  cards.forEach(function(c, i){
+    c.addEventListener('click', function(){
+      if (moved) return;
+      if (i !== frontIndex(theta)) { moveTo(nearestFor(i), reduce ? 300 : 1000, 'io'); hold(); }
+    });
+  });
+  nav.querySelectorAll('.ring-btn').forEach(function(b){
+    b.addEventListener('click', function(){ turn(Number(b.getAttribute('data-dir'))); hold(); });
+  });
+  box.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowLeft') { turn(1); hold(); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { turn(-1); hold(); e.preventDefault(); }
+  });
+
+  var rq = 0;
+  window.addEventListener('resize', function(){ if (!rq) rq = requestAnimationFrame(function(){ rq = 0; layout(); }); });
+  window.addEventListener('load', layout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  layout();
+})();
+</script>
+<script>
+/* the sign's "tick-tick": every few seconds one letter stutters, like a real neon tube */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var on = Array.prototype.slice.call(document.querySelectorAll('.sign .on'));
+  if (!on.length) return;
+  var sign = on[0].parentNode, visible = true;
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }).observe(sign);
+  on.forEach(function(el){ el.addEventListener('animationend', function(e){ if (e.animationName === 'tick') el.classList.remove('tick'); }); });
+  function later(){ setTimeout(flick, 5500 + Math.random() * 5000); }
+  function flick(){
+    if (visible && !document.hidden) {
+      var el = on[Math.floor(Math.random() * on.length)];
+      el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+      if (Math.random() < 0.3) { var el2 = on[Math.floor(Math.random() * on.length)]; setTimeout(function(){ el2.classList.remove('tick'); void el2.offsetWidth; el2.classList.add('tick'); }, 140); }
+    }
+    later();
+  }
+  setTimeout(later, 2200);
+})();
+</script>
+<script>
+/* faq: open and close with a smooth height + fade; opening one closes the others */
+(function(){
+  var items = Array.prototype.slice.call(document.querySelectorAll('.faq details'));
+  if (!items.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var EASE = 'cubic-bezier(.3,.9,.3,1)';
+  function run(d, opening){
+    var ans = d.querySelector('.ans'), p = ans.firstElementChild;
+    if (d._anim) { d._anim.cancel(); d._anim = null; }
+    if (opening) { d.open = true; d.classList.add('is-open'); } else { d.classList.remove('is-open'); }
+    if (reduce || !ans.animate) { if (!opening) d.open = false; return; }
+    var from = opening ? 0 : ans.offsetHeight, to = opening ? ans.scrollHeight : 0;
+    var a = ans.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: opening ? 480 : 380, easing: EASE });
+    p.animate(opening ? [{ opacity: 0, transform: 'translateY(-8px)' }, { opacity: 1, transform: 'none' }]
+                      : [{ opacity: 1 }, { opacity: 0 }], { duration: opening ? 420 : 220, delay: opening ? 90 : 0, easing: EASE, fill: 'backwards' });
+    d._anim = a;
+    a.onfinish = function(){ d._anim = null; if (!opening) d.open = false; };
+  }
+  items.forEach(function(d){
+    d.querySelector('summary').addEventListener('click', function(e){
+      e.preventDefault();
+      var opening = !d.classList.contains('is-open');
+      if (opening) items.forEach(function(o){ if (o !== d && o.classList.contains('is-open')) run(o, false); });
+      run(d, opening);
+    });
+  });
+})();
+</script>
+</body>
+</html>

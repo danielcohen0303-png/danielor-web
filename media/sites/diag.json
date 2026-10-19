@@ -1,11 +1,11 @@
 {
  "adel": {
   "failed": [
-   "https://images.unsplash.com/photo-1571907480495-c8a3a40b3e64?w=800&sat=-60 net::ERR_BLOCKED_BY_ORB",
+   "https://images.unsplash.com/photo-1621535834820-c7e6385c92e2?w=800 net::ERR_BLOCKED_BY_ORB",
    "https://images.unsplash.com/photo-1620331317060-f4f6309bdc40?w=800 net::ERR_BLOCKED_BY_ORB",
    "https://images.unsplash.com/photo-1571907480495-c8a3a40b3e64?w=800 net::ERR_BLOCKED_BY_ORB",
-   "https://images.unsplash.com/photo-1620331317060-f4f6309bdc40?w=1400 net::ERR_BLOCKED_BY_ORB",
-   "https://images.unsplash.com/photo-1621535834820-c7e6385c92e2?w=800 net::ERR_BLOCKED_BY_ORB"
+   "https://images.unsplash.com/photo-1571907480495-c8a3a40b3e64?w=800&sat=-60 net::ERR_BLOCKED_BY_ORB",
+   "https://images.unsplash.com/photo-1620331317060-f4f6309bdc40?w=1400 net::ERR_BLOCKED_BY_ORB"
   ],
   "bad": [],
   "console": [
@@ -97,6 +97,9 @@
     "h": 1042,
     "chain": "SECTION.offer < BODY. < HTML."
    }
+  ],
+  "hidden": [
+   "A.wa-float"
   ]
  },
  "medicar": {
@@ -106,6 +109,10 @@
    "Failed to load resource: the server responded with a status of 404 ()"
   ],
   "gap": [],
-  "unsplash": []
+  "unsplash": [],
+  "hidden": [
+   "DIV.mcta",
+   "BUTTON.acc-btn"
+  ]
  }
 }

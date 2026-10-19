@@ -25,6 +25,8 @@ for (const t of req.targets) {
   await pg.waitForTimeout(2000);
   await pg.evaluate(() => window.scrollTo(0, 0));
   await pg.waitForTimeout(2000);
+  d.unsplash = await pg.evaluate(() => [...document.querySelectorAll('*')].filter(e => (e.currentSrc||e.src||'').includes('unsplash') || getComputedStyle(e).backgroundImage.includes('unsplash'))
+    .map(e => { const r = e.getBoundingClientRect(); const chain = []; let p = e; for (let i = 0; i < 4 && p; i++, p = p.parentElement) chain.push(p.tagName + '.' + String(p.className).slice(0, 40)); return { url: (e.currentSrc||e.src||getComputedStyle(e).backgroundImage).slice(0, 110), ok: e.tagName === 'IMG' ? e.naturalWidth > 0 : null, top: Math.round(r.top + scrollY), h: Math.round(r.height), chain: chain.join(' < ') }; }));
   if (t.gap) d.gap = await pg.evaluate(([a, z]) => [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect(); const top = r.top + scrollY; return top >= a && top <= z && r.height > 80; })
     .slice(0, 25).map(e => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return `${e.tagName}.${e.className}#${e.id} top=${Math.round(r.top + scrollY)} h=${Math.round(r.height)} op=${cs.opacity} vis=${cs.visibility} bg=${cs.backgroundImage.slice(0, 120)} src=${(e.currentSrc || e.src || '').slice(0, 120)}`; }), t.gap);
   await pg.screenshot({ path: `media/sites/${t.name}.png`, fullPage: true });

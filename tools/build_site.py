@@ -37,7 +37,7 @@ names|={n.replace('.mp4','-poster.jpg') for n in re.findall(r'data-video="([\w.\
 os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief'}|names|(set(LEGAL) if WITH_LEGAL else set())
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief','wa-avatar.jpg'}|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')

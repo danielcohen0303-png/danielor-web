@@ -17,6 +17,14 @@
       }
     },
     {
+      "src": "/inbox/?",
+      "dest": "/inbox/index.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
       "src": "/",
       "has": [
         {

@@ -37,7 +37,7 @@ names|={n.replace('.mp4','-poster.jpg') for n in re.findall(r'data-video="([\w.\
 os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief','wa-avatar.jpg'}|names|(set(LEGAL) if WITH_LEGAL else set())
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','wa-avatar.jpg'}|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
@@ -49,10 +49,13 @@ open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\n')
 # brief.danielor.ai is served by the same Vercel project: its host is routed into /brief (routes run before static files)
 os.makedirs(f'{OUT}/brief',exist_ok=True)
 shutil.copy2('/home/claude/danielor-web/brief/index.html', f'{OUT}/brief/index.html')
+# the inbox: Daniel's page for reading and answering WhatsApp chats (noindex, key-protected API)
+shutil.copytree('/home/claude/danielor-web/inbox', f'{OUT}/inbox', dirs_exist_ok=True)
 import json
 B={"type":"host","value":"brief.danielor.ai"}
 cfg={"routes":[
   {"src":"/(.*)","has":[B],"continue":True,"headers":{"X-Robots-Tag":"noindex, nofollow","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff","Cache-Control":"no-cache"}},
+  {"src":"/inbox/?","dest":"/inbox/index.html","headers":{"X-Robots-Tag":"noindex, nofollow","Cache-Control":"no-cache"}},
   {"src":"/","has":[B],"dest":"/brief/index.html"},
   {"src":"/([A-Za-z0-9]{8,32})/?","has":[B],"dest":"/brief/index.html"}
 ]}

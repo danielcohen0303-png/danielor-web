@@ -203,6 +203,15 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .site-demo figcaption b{color:var(--fg)}
 .site-demo figcaption a{color:var(--cyan)}
 @media (max-width: 800px){.launch{grid-template-columns:minmax(0,1fr)}}
+/* quote to deck: a vertical clip on one side, the promise and a WhatsApp button on the other */
+.q2d{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:clamp(1.5rem,1rem + 3vw,3.5rem);align-items:center}
+.q2d-vid{width:100%;max-width:320px;justify-self:center;border-radius:28px;border-color:var(--pink-hot);box-shadow:0 18px 44px rgba(255,47,200,.2)}
+.q2d-text{display:grid;gap:1.2rem;justify-items:start}
+.q2d-text .kicker{margin:0}
+.q2d-text h2{margin:0;max-width:18ch}
+.q2d-text .btn{max-width:min(100%,22rem)}
+#decks .sound-btn{top:.7rem;bottom:auto;inset-inline:auto .7rem;margin:0;font-size:.78rem;padding:.35rem .8rem}
+@media (max-width: 800px){.q2d{grid-template-columns:minmax(0,1fr)}.q2d-vid{max-width:300px}.q2d-text{justify-items:center;text-align:center}.q2d-text h2{margin-inline:auto}}
 
 /* paths */
 .doors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem}
@@ -473,6 +482,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <a href="/trends">טרנדים</a>
       <a href="#prices">מחירים</a>
       <a href="#launch">חבילת השקה</a>
+      <a href="#decks">מצגות</a>
       <a href="#order">הזמנה</a>
     </nav>
   </header>
@@ -770,6 +780,20 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     </div>
   </section>
 
+  <section id="decks">
+    <div class="q2d">
+      <div class="q2d-vid frame glow-a has-video">
+        <video src="quote-to-deck.mp4" poster="quote-to-deck-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="סרטון: מהצעת מחיר יבשה למצגת ברמת ברושור"></video>
+        <button type="button" class="sound-btn" id="q2d-sound" aria-pressed="false">🔊 להפעלה עם קול</button>
+      </div>
+      <div class="q2d-text">
+        <p class="kicker">מצגות לעסק</p>
+        <h2>הופכים הצעת מחיר יבשה <span class="neon-pink">למצגת שמרגישה כמו ברושור</span></h2>
+        <a class="btn btn-pink" id="q2d-wa" href="#order">רוצים כזאת לעסק? כתבו לנו בוואטסאפ</a>
+      </div>
+    </div>
+  </section>
+
   <section id="maker">
     <div class="maker">
       <div class="frame glow-c" data-video="daniel-double.mp4" data-ready data-sound>
@@ -966,6 +990,19 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   var select = document.getElementById('f-product');
 
   function waLink(text){ return 'https://wa.me/' + WA + (text ? '?text=' + encodeURIComponent(text) : ''); }
+
+  // quote to deck: sound on/off for the clip, and a WhatsApp button with the message already written
+  (function(){
+    var v = document.querySelector('#decks video'), b = document.getElementById('q2d-sound');
+    if (v && b) b.addEventListener('click', function(){
+      v.muted = !v.muted;
+      if (!v.muted){ v.currentTime = 0; v.play(); }
+      b.textContent = v.muted ? '🔊 להפעלה עם קול' : '🔇 השתקה';
+      b.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
+    });
+    var a = document.getElementById('q2d-wa');
+    if (a && WA){ a.href = waLink('היי! ראיתי באתר את המצגת שנבנתה מהצעת מחיר, ואני רוצה כזאת לעסק שלי'); a.target = '_blank'; a.rel = 'noopener'; }
+  })();
 
   if (WA){
     document.querySelectorAll('.js-wa').forEach(function(a){ a.href = waLink(''); a.target = '_blank'; a.rel = 'noopener'; });

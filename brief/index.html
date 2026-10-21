@@ -590,10 +590,10 @@ input:disabled,textarea:disabled{opacity:.6}
         document.getElementById("consent").classList.remove("need");
         changed();
       } }),
-      el("span", null, ["קראתי ואני מסכים/ה ל",
-        el("a", { href: "https://danielor.ai/terms.html", target: "_blank", rel: "noopener", text: "תקנון" }), " ול",
+      el("span", null, ["קראתי את ",
+        el("a", { href: "https://danielor.ai/terms.html", target: "_blank", rel: "noopener", text: "התקנון" }), " ואת ",
         el("a", { href: "https://danielor.ai/privacy.html", target: "_blank", rel: "noopener", text: "מדיניות הפרטיות" }),
-        ". מותר לי להשתמש בחומרים ששלחתי, ומי שמופיע בהם בסדר עם זה."])
+        ", והם מקובלים עליי. התמונות והקבצים ששלחתי הם שלי או שקיבלתי רשות לשלוח אותם, ומי שמופיע בהם יודע על זה ומסכים."])
     ]));
     app.appendChild(el("p", { class: "foot" }, ["הקבצים נשמרים באחסון סגור ומגיעים רק לצוות של Danielor. ",
       el("a", { href: waLink("היי, יש לי שאלה לגבי טופס הבריף (" + S.tpl.title + ")"), target: "_blank", rel: "noopener", text: "שאלה? כתבו לנו בוואטסאפ" })]));

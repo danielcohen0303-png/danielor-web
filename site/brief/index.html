@@ -170,6 +170,10 @@ input:disabled,textarea:disabled{opacity:.6}
 @keyframes pop{from{transform:scale(.3);opacity:0}}
 .donebox p{color:var(--muted);max-width:44ch;margin:0 auto 18px}
 .ghost{border:1px solid var(--line-2);background:#fff;border-radius:12px;padding:11px 18px;cursor:pointer}
+.consent{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin:28px 0 0;font-size:.95rem;line-height:1.55;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.consent input{flex:none;width:22px;height:22px;margin:2px 0 0;accent-color:var(--pink);cursor:pointer}
+.consent a{color:var(--pink);text-underline-offset:3px}
+.consent.need{border-color:var(--pink-hot);box-shadow:0 0 0 3px var(--pink-soft)}
 .foot{color:var(--dim);font-size:.8rem;text-align:center;margin:28px 0 0}
 .foot a,.help{color:var(--cyan)}
 .help{display:inline-block;margin-top:8px;font-size:.88rem;text-decoration:none}
@@ -579,6 +583,18 @@ input:disabled,textarea:disabled{opacity:.6}
       s.fields.forEach(function (f) { sec.appendChild(renderField(f)); });
       app.appendChild(sec);
     });
+    var agreed = !!(S.answers._consent && S.answers._consent.at);
+    app.appendChild(el("label", { class: "consent", id: "consent" }, [
+      el("input", { type: "checkbox", id: "consent-cb", checked: agreed, disabled: S.locked, onchange: function () {
+        S.answers._consent = this.checked ? { at: new Date().toISOString(), v: 1 } : null;
+        document.getElementById("consent").classList.remove("need");
+        changed();
+      } }),
+      el("span", null, ["קראתי ואני מסכים/ה ל",
+        el("a", { href: "https://danielor.ai/terms.html", target: "_blank", rel: "noopener", text: "תקנון" }), " ול",
+        el("a", { href: "https://danielor.ai/privacy.html", target: "_blank", rel: "noopener", text: "מדיניות הפרטיות" }),
+        ". מותר לי להשתמש בחומרים ששלחתי, ומי שמופיע בהם בסדר עם זה."])
+    ]));
     app.appendChild(el("p", { class: "foot" }, ["הקבצים נשמרים באחסון סגור ומגיעים רק לצוות של Danielor. ",
       el("a", { href: waLink("היי, יש לי שאלה לגבי טופס הבריף (" + S.tpl.title + ")"), target: "_blank", rel: "noopener", text: "שאלה? כתבו לנו בוואטסאפ" })]));
     document.getElementById("bar").hidden = S.locked;
@@ -599,7 +615,7 @@ input:disabled,textarea:disabled{opacity:.6}
     document.getElementById("pb").style.width = (p.total ? p.done / p.total * 100 : 100) + "%";
     var send = document.getElementById("send");
     send.textContent = S.status === "submitted" ? "שליחת עדכון" : "שליחה לצוות";
-    send.setAttribute("aria-disabled", p.missing.length ? "true" : "false");
+    send.setAttribute("aria-disabled", (p.missing.length || !(S.answers._consent && S.answers._consent.at)) ? "true" : "false");
     // live check marks without a full re-render
     p.secs.forEach(function (st) {
       var sec = document.getElementById("sec-" + st.s.id);
@@ -624,6 +640,12 @@ input:disabled,textarea:disabled{opacity:.6}
     if (p.missing.length) {
       toast("חסר עוד: " + p.missing.map(function (s) { return s.title; }).join(", "));
       go(p.missing[0].id); return;
+    }
+    if (!(S.answers._consent && S.answers._consent.at)) {
+      var cbox = document.getElementById("consent");
+      toast("רק לסמן את האישור בסוף הטופס, ואפשר לשלוח");
+      if (cbox) { cbox.classList.add("need"); cbox.scrollIntoView({ behavior: "smooth", block: "center" }); }
+      return;
     }
     var btn = this; btn.disabled = true; btn.textContent = "שולח…";
     clearTimeout(saveT);

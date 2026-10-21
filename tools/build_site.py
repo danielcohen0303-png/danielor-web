@@ -37,7 +37,7 @@ names|={n.replace('.mp4','-poster.jpg') for n in re.findall(r'data-video="([\w.\
 os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','wa-avatar.jpg'}|names|(set(LEGAL) if WITH_LEGAL else set())
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','trends','wa-avatar.jpg','logo-icon.png','sign.webp'}|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
@@ -51,11 +51,20 @@ os.makedirs(f'{OUT}/brief',exist_ok=True)
 shutil.copy2('/home/claude/danielor-web/brief/index.html', f'{OUT}/brief/index.html')
 # the inbox: Daniel's page for reading and answering WhatsApp chats (noindex, key-protected API)
 shutil.copytree('/home/claude/danielor-web/inbox', f'{OUT}/inbox', dirs_exist_ok=True)
+# the trends chart: danielor.ai/trends (reads the live list from the danielor-trends function; its loops live in trends/m)
+TR='/home/claude/danielor-web/trends'
+os.makedirs(f'{OUT}/trends/m',exist_ok=True)
+for n in os.listdir(f'{TR}/m'): shutil.copy2(f'{TR}/m/{n}', f'{OUT}/trends/m/{n}')
+tpage=open(f'{TR}/index.html',encoding='utf-8').read().replace('<meta name="claude:viewport-fit-sides" content="cover">\n','')
+thead=head.replace('<link rel="canonical" href="https://danielor.ai/">','<link rel="canonical" href="https://danielor.ai/trends">').replace('content="https://danielor.ai/"','content="https://danielor.ai/trends"').replace('Danielor · שולחים תמונה. מקבלים סרטון.','הטרנדים החמים עכשיו · Danielor').replace('<meta property="og:description" content="סרטוני AI בעברית לעסקים ולאנשים פרטיים: טרנדים, קליפים אישיים וסרטונים לעסק.">','<meta property="og:description" content="טרנדי ה-AI החמים עכשיו. בוחרים טרנד, שולחים תמונה בוואטסאפ ומקבלים אותו עם הפנים שלכם.">')
+thead+='<link rel="icon" href="/logo-icon.png">\n<link rel="apple-touch-icon" href="/logo-icon.png">\n'
+open(f'{OUT}/trends/index.html','w',encoding='utf-8').write(thead+tpage.rstrip()+'\n</body>\n</html>\n')
 import json
 B={"type":"host","value":"brief.danielor.ai"}
 cfg={"routes":[
   {"src":"/(.*)","has":[B],"continue":True,"headers":{"X-Robots-Tag":"noindex, nofollow","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff","Cache-Control":"no-cache"}},
   {"src":"/inbox/?","dest":"/inbox/index.html","headers":{"X-Robots-Tag":"noindex, nofollow","Cache-Control":"no-cache"}},
+  {"src":"/trends/?","dest":"/trends/index.html"},
   {"src":"/","has":[B],"dest":"/brief/index.html"},
   {"src":"/([A-Za-z0-9]{8,32})/?","has":[B],"dest":"/brief/index.html"}
 ]}

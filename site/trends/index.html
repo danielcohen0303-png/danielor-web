@@ -297,6 +297,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   function orderText(t){ return 'היי! ראיתי בדף הטרנדים את "' + t.title + '" ואני רוצה להזמין אותו'; }
   function photos(t){ if (t.photos_note) return t.photos_note; var n = t.photos; return !n || n <= 1 ? 'אדם אחד' : n === 2 ? 'זוג' : n + ' אנשים'; }
   function safeUrl(u){ return /^https:\/\//.test(u || '') ? u : ''; }
+  // media paths are relative to the site root, or full https links (e.g. a video still hosted on the generator's CDN)
+  function media(u){ return !u ? '' : /^https:\/\//.test(u) ? u : ROOT + u; }
   function tiktokId(u){ var m = /tiktok\.com\/@[^/]+\/video\/(\d{8,25})/.exec(u || ''); return m ? m[1] : ''; }
   function short(n){ return n >= 1e6 ? (Math.round(n / 1e5) / 10) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n); }
   function viewsHe(n){ if (!n) return ''; if (n >= 1e6) return (Math.round(n / 1e5) / 10) + ' מיליון צפיות'; if (n >= 1e3) return Math.round(n / 1e3) + ' אלף צפיות'; return n + ' צפיות'; }
@@ -327,8 +329,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   // our example video: plays silently in view, tap = full video with sound
   function videoFrame(t, eager, ours){
     return '<div class="vid frame" role="button" tabindex="0" data-kind="video" aria-label="צפייה עם קול: ' + esc(t.title) + '">' +
-      '<img src="' + esc(ROOT + t.poster) + '" alt="" loading="' + (eager ? 'eager' : 'lazy') + '">' +
-      '<video muted loop playsinline preload="none" data-src="' + esc(ROOT + t.preview) + '" aria-hidden="true"></video>' +
+      (t.poster ? '<img src="' + esc(media(t.poster)) + '" alt="" loading="' + (eager ? 'eager' : 'lazy') + '">' : '') +
+      '<video muted loop playsinline preload="' + (t.poster ? 'none' : 'metadata') + '"' + (t.poster ? '' : ' src="' + esc(media(t.preview)) + '#t=0.5"') + ' data-src="' + esc(media(t.preview)) + '" aria-hidden="true"></video>' +
       (ours ? '<span class="ours">הדוגמה שלנו</span>' : '') + '<span class="play">▶ עם קול</span></div>';
   }
   // no example yet: a neon poster with the real numbers, tap = the original post
@@ -370,7 +372,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       f.addEventListener('click', go);
       f.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
       var v = f.querySelector('video');
-      v.addEventListener('playing', function(){ f.querySelector('img').style.visibility = 'hidden'; });
+      v.addEventListener('playing', function(){ var im = f.querySelector('img'); if (im) im.style.visibility = 'hidden'; });
       if (io) io.observe(v);
     } else if (ON_SITE && tiktokId(t.source_url)){
       // on danielor.ai the original plays right here (TikTok's own player); elsewhere the link opens TikTok
@@ -410,7 +412,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       emb.innerHTML = '<iframe src="https://www.tiktok.com/player/v1/' + tiktokId(t.source_url) + '?autoplay=1&loop=1&music_info=1&description=1&rel=0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="' + esc(t.title) + '"></iframe>';
     } else {
       emb.hidden = true; emb.textContent = ''; pv.hidden = false;
-      pv.poster = ROOT + t.poster; pv.src = ROOT + (t.video || t.preview);
+      pv.poster = media(t.poster); pv.src = media(t.video || t.preview);
     }
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
     if (kind !== 'embed'){ var p = pv.play(); if (p && p.catch) p.catch(function(){}); }

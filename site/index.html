@@ -412,6 +412,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .float{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom, 0px));left:calc(16px + env(safe-area-inset-left, 0px));z-index:20;padding:.65rem 1.1rem}
 .float{gap:.45rem}
 .float .ico{flex:none}
+.float{transition:opacity .25s ease,transform .25s ease}
+.float.away{opacity:0;transform:translateY(14px);pointer-events:none}
 @media (max-width:620px){
   .float{width:56px;height:56px;padding:0;border-radius:50%;justify-content:center;box-shadow:0 10px 26px rgba(200,40,200,.38)}
   .float .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -467,8 +469,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   <header class="top">
     <nav class="nav" aria-label="ניווט">
       <a href="#before-after">לפני ואחרי</a>
-      <a href="#launch">חבילת השקה</a>
       <a href="#prices">מחירים</a>
+      <a href="#launch">חבילת השקה</a>
       <a href="#order">הזמנה</a>
     </nav>
   </header>
@@ -552,147 +554,9 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <h3>פרסומת לנדל״ן</h3><p>רילס לפרויקט מתוך ההדמיות. לסוכנויות, למשרדי תיווך וליזמים בישראל.</p>
       </article>
       <article class="reel">
-        <div class="frame glow-a" data-video="explainer.mp4" data-gallery="explainers"><span class="tag">3 דוגמאות</span><span class="ph">סרטון הסבר</span></div>
+        <div class="frame glow-a" data-video="explainer.mp4" data-gallery="explainers"><span class="tag">עוד דוגמאות</span><span class="ph">סרטון הסבר</span></div>
         <h3>סרטון הסבר</h3><p>רעיון מסובך, מוסבר בקליפ אחד ברור.</p>
       </article>
-    </div>
-  </section>
-
-  <section id="launch">
-    <h2>חבילת השקה לעסקים: <span class="neon-pink">סרטון + דף נחיתה</span></h2>
-    <p class="lead">פותחים עסק, מוצר, שירות או מבצע חדש? מקבלים סרטון השקה ודף נחיתה שמביא פניות ישר לוואטסאפ.</p>
-    <div class="launch">
-      <div>
-        <ul class="incl">
-          <li><b>סרטון השקה עד 30 שניות</b> בסגנון משולב, עם קריינות בעברית וכתוביות. גרסה לאורך לרילס ולסטורי, וגרסה לרוחב לאתר.</li>
-          <li><b>דף נחיתה בצבעים של המותג</b>, מותאם לנייד, עם כפתור וואטסאפ וטופס לפניות.</li>
-          <li><b>שני סבבי תיקונים</b> ומסירה תוך 5 ימי עבודה.</li>
-          <li><b>שנה ראשונה של אחסון ודומיין כלולה.</b> אחר כך ₪49 לחודש, כולל תיקונים קטנים. הדומיין רשום על שמכם.</li>
-        </ul>
-        <div class="deal">
-          <div class="deal-price"><b>₪2,490</b><span>+ מע״מ</span></div>
-          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה · ₪2,490 + מע״מ">להזמנת חבילת השקה</a>
-          <p>רוצים פתיח שעוצר את הגלילה? שדרוג לסרטון בסגנון מטורף: <bdi dir="ltr">+₪800</bdi>.</p>
-        </div>
-      </div>
-      <figure class="site-demo">
-        <div class="sites">
-          <div class="site-item">
-            <div class="site-phone"><video src="site-adele-v2.mp4" poster="site-adele-v2-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף נחיתה של קליניקת יופי"></video></div>
-            <p class="site-name"><b>קליניקת יופי</b><br>קורס הרמת ריסים וגבות</p>
-          </div>
-          <div class="site-item">
-            <div class="site-phone"><video src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף הנחיתה של מדיקר"></video></div>
-            <p class="site-name"><b>מדיקר</b><br>כתב שירות רפואי</p>
-          </div>
-        </div>
-        <figcaption>דפי נחיתה שבנינו, ככה הם נראים בטלפון.</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section id="paths">
-    <p class="kicker">למי זה</p>
-    <h2>לעסק, לרגע, לטרנד</h2>
-    <div class="doors">
-      <div class="door d1">
-        <h3>עסקים</h3>
-        <p>סרטונים לרשתות ולמודעות, בלי צלם ובלי עורך, וחבילת השקה עם דף נחיתה. משלמים לפי עבודה, בלי מנוי.</p>
-        <div class="go"><b>מ־₪199</b><a class="js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">להזמנת סרטון היכרות</a></div>
-      </div>
-      <div class="door d2">
-        <h3>רגעים אישיים</h3>
-        <p>קליפ מוזיקה שבו אתם הגיבורים: לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק.</p>
-        <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ</a></div>
-      </div>
-      <div class="door d3">
-        <h3>טרנדים</h3>
-        <p>במקום ללמוד כלים ולשרוף קרדיטים: שולחים תמונות, בוחרים טרנד (או שולחים אחד שאהבתם) ומקבלים אותו מוכן.</p>
-        <div class="go"><b>₪149</b><a class="js-pick" href="#order" data-product="טרנד · ₪149">להזמנת טרנד</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="how">
-    <p class="kicker">איך זה עובד</p>
-    <h2>ארבעה צעדים</h2>
-    <ol class="steps">
-      <li><h3>שולחים</h3><p>בוואטסאפ או בטופס: מה רוצים, ותמונות או סרטונים שיש לכם.</p></li>
-      <li><h3>משלמים</h3><p>לפי סרטון, לפני שמתחילים. בלי מנוי ובלי התחייבות.</p></li>
-      <li><h3>מאשרים טיוטה</h3><p>מקבלים טיוטה ב־<span class="res">480p</span> ואומרים מה לשנות.</p></li>
-      <li><h3>מקבלים סרטון</h3><p>גרסה סופית ב־<span class="res">1080p</span>. סבב תיקון אחד כלול במחיר.</p></li>
-    </ol>
-  </section>
-
-  <section id="prices">
-    <p class="kicker">תפריט</p>
-    <h2>מחירים</h2>
-    <div class="price-tabs" role="tablist" aria-label="סוג המחירון"><button type="button" role="tab" aria-selected="true" data-show="biz">לעסקים</button><button type="button" role="tab" aria-selected="false" data-show="priv">לפרטיים</button></div>
-    <div class="boards" data-show="biz">
-      <div class="board b-biz">
-        <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים לפני מע״מ</span></header>
-        <div class="row entry">
-          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
-          <p class="desc">סרטון אחד עד 30 שניות בסגנון נקי. פעם אחת לכל עסק.</p>
-        </div>
-        <div class="row">
-          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
-          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
-        </div>
-        <div class="row">
-          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
-          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
-        </div>
-        <div class="row">
-          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
-          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
-        </div>
-        <div class="row">
-          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
-          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
-        </div>
-        <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
-        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
-      </div>
-      <div class="board b-priv">
-        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
-        <div class="row entry">
-          <span class="name">טרנד</span><span class="price">₪149</span>
-          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהדוגמאות או שולחים אחד שאהבתם, ומקבלים תוך 24 שעות.</p>
-        </div>
-        <div class="row">
-          <span class="name">שלושה טרנדים</span><span class="price">₪349</span>
-          <p class="desc">אותה תמונה או שלוש תמונות שונות.</p>
-        </div>
-        <div class="row">
-          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
-          <p class="desc">עד 2 דקות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
-        </div>
-        <div class="row">
-          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
-          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
-        </div>
-        <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
-      </div>
-    </div>
-    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
-  </section>
-
-  <section id="maker">
-    <div class="maker">
-      <div class="frame glow-c" data-video="daniel-double.mp4" data-ready data-sound>
-        <span class="tag">הכפיל הדיגיטלי שלי</span>
-        <span class="ph">כאן יופיע סרטון קצר של הכפיל הדיגיטלי</span>
-      </div>
-      <div>
-        <p class="kicker">מי מאחורי זה</p>
-        <h2>אני דניאל, ויש לי צוות</h2>
-        <p>מאחורי Danielor עומדת מערכת עבודה שבניתי: צוות של סוכני AI שמפיק את הסרטונים עם הכלים המובילים בעולם. <strong>הדמות שמופיעה בסרטונים היא הכפיל הדיגיטלי שלי</strong>, עם הקול שלי, וזה בדיוק מה שאפשר לבנות גם לכם.</p>
-        <p>אני הקו האחרון: עובר על כל סרטון, מתקן ומאשר לפני שהוא יוצא אליכם. אם משהו לא נראה כמוכם או לא נשמע כמוכם, הוא לא נשלח.</p>
-        <ul class="tools" aria-label="כלים">
-          <li>Seedance</li><li>ElevenLabs</li><li>Suno</li><li>Remotion</li><li>Claude</li>
-        </ul>
-      </div>
     </div>
   </section>
 
@@ -783,6 +647,141 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <p class="chats-hint">← החליקו לעוד תגובות</p>
   </section>
 
+  <section id="paths">
+    <p class="kicker">למי זה</p>
+    <h2>לעסק, לרגע, לטרנד</h2>
+    <div class="doors">
+      <div class="door d1">
+        <h3>עסקים</h3>
+        <p>סרטונים לרשתות ולמודעות, בלי צלם ובלי עורך, וחבילת השקה עם דף נחיתה. משלמים לפי עבודה, בלי מנוי.</p>
+        <div class="go"><b>מ־₪199</b><a class="js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">להזמנת סרטון היכרות</a></div>
+      </div>
+      <div class="door d2">
+        <h3>רגעים אישיים</h3>
+        <p>קליפ מוזיקה שבו אתם הגיבורים: לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק.</p>
+        <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ</a></div>
+      </div>
+      <div class="door d3">
+        <h3>טרנדים</h3>
+        <p>במקום ללמוד כלים ולשרוף קרדיטים: שולחים תמונות, בוחרים טרנד (או שולחים אחד שאהבתם) ומקבלים אותו מוכן.</p>
+        <div class="go"><b>₪149</b><a class="js-pick" href="#order" data-product="טרנד · ₪149">להזמנת טרנד</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <p class="kicker">איך זה עובד</p>
+    <h2>ארבעה צעדים</h2>
+    <ol class="steps">
+      <li><h3>שולחים</h3><p>בוואטסאפ או בטופס: מה רוצים, ותמונות או סרטונים שיש לכם.</p></li>
+      <li><h3>משלמים</h3><p>לפי סרטון, לפני שמתחילים. בלי מנוי ובלי התחייבות.</p></li>
+      <li><h3>מאשרים טיוטה</h3><p>מקבלים טיוטה ב־<span class="res">480p</span> ואומרים מה לשנות.</p></li>
+      <li><h3>מקבלים סרטון</h3><p>גרסה סופית ב־<span class="res">1080p</span>. סבב תיקון אחד כלול במחיר.</p></li>
+    </ol>
+  </section>
+
+  <section id="prices">
+    <p class="kicker">תפריט</p>
+    <h2>מחירים</h2>
+    <div class="price-tabs" role="tablist" aria-label="סוג המחירון"><button type="button" role="tab" aria-selected="true" data-show="biz">לעסקים</button><button type="button" role="tab" aria-selected="false" data-show="priv">לפרטיים</button></div>
+    <div class="boards" data-show="biz">
+      <div class="board b-biz">
+        <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים לפני מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
+          <p class="desc">סרטון אחד עד 30 שניות בסגנון נקי. פעם אחת לכל עסק.</p>
+        </div>
+        <div class="row">
+          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
+          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
+        </div>
+        <div class="row">
+          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
+          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
+        </div>
+        <div class="row">
+          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
+          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
+        </div>
+        <div class="row">
+          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
+          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
+        </div>
+        <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
+        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
+      </div>
+      <div class="board b-priv">
+        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">טרנד</span><span class="price">₪149</span>
+          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהדוגמאות או שולחים אחד שאהבתם, ומקבלים תוך 24 שעות.</p>
+        </div>
+        <div class="row">
+          <span class="name">שלושה טרנדים</span><span class="price">₪349</span>
+          <p class="desc">אותה תמונה או שלוש תמונות שונות.</p>
+        </div>
+        <div class="row">
+          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
+          <p class="desc">עד 2 דקות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
+        </div>
+        <div class="row">
+          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
+          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
+        </div>
+        <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
+      </div>
+    </div>
+    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
+  </section>
+
+  <section id="launch">
+    <h2>חבילת השקה לעסקים: <span class="neon-pink">סרטון + דף נחיתה</span></h2>
+    <p class="lead">פותחים עסק, מוצר, שירות או מבצע חדש? מקבלים סרטון השקה ודף נחיתה שמביא פניות ישר לוואטסאפ.</p>
+    <div class="launch">
+      <div>
+        <ul class="incl">
+          <li><b>סרטון השקה עד 30 שניות</b> בסגנון משולב, עם קריינות בעברית וכתוביות. גרסה לאורך לרילס ולסטורי, וגרסה לרוחב לאתר.</li>
+          <li><b>דף נחיתה בצבעים של המותג</b>, מותאם לנייד, עם כפתור וואטסאפ וטופס לפניות.</li>
+          <li><b>שני סבבי תיקונים</b> ומסירה תוך 5 ימי עבודה.</li>
+          <li><b>שנה ראשונה של אחסון ודומיין כלולה.</b> אחר כך ₪49 לחודש, כולל תיקונים קטנים. הדומיין רשום על שמכם.</li>
+        </ul>
+        <div class="deal">
+          <div class="deal-price"><b>₪2,490</b><span>+ מע״מ</span></div>
+          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה · ₪2,490 + מע״מ">להזמנת חבילת השקה</a>
+          <p>רוצים פתיח שעוצר את הגלילה? שדרוג לסרטון בסגנון מטורף: <bdi dir="ltr">+₪800</bdi>.</p>
+        </div>
+      </div>
+      <figure class="site-demo">
+        <div class="sites">
+          <div class="site-item">
+            <div class="site-phone"><video src="site-adele-v2.mp4" poster="site-adele-v2-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף נחיתה של קליניקת יופי"></video></div>
+            <p class="site-name"><b>קליניקת יופי</b><br>קורס הרמת ריסים וגבות</p>
+          </div>
+          <div class="site-item">
+            <div class="site-phone"><video src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted autoplay loop playsinline aria-label="גלילה בדף הנחיתה של מדיקר"></video></div>
+            <p class="site-name"><b>מדיקר</b><br>כתב שירות רפואי</p>
+          </div>
+        </div>
+        <figcaption>דפי נחיתה שבנינו, ככה הם נראים בטלפון.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="maker">
+    <div class="maker">
+      <div class="frame glow-c" data-video="daniel-double.mp4" data-ready data-sound>
+        <span class="tag">הכפיל הדיגיטלי שלי</span>
+        <span class="ph">כאן יופיע סרטון קצר של הכפיל הדיגיטלי</span>
+      </div>
+      <div>
+        <p class="kicker">מי מאחורי זה</p>
+        <h2>אני דניאל, ויש לי צוות</h2>
+        <p>מאחורי Danielor עומדת מערכת עבודה שבניתי: צוות של סוכני AI שמפיק את הסרטונים עם הכלים המובילים בעולם. <strong>הדמות שמופיעה בסרטונים היא הכפיל הדיגיטלי שלי</strong>, עם הקול שלי, וזה בדיוק מה שאפשר לבנות גם לכם.</p>
+        <p>אני הקו האחרון: עובר על כל סרטון, מתקן ומאשר לפני שהוא יוצא אליכם. אם משהו לא נראה כמוכם או לא נשמע כמוכם, הוא לא נשלח.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="order">
     <div class="order">
       <div>
@@ -844,7 +843,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   </footer>
 </div>
 
-<aside aria-label="יצירת קשר"><a class="btn btn-pink float js-wa" href="#order" aria-label="שלחו לנו בוואטסאפ"><svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg><span class="lbl">וואטסאפ</span></a></aside>
+<aside aria-label="יצירת קשר"><a class="btn btn-pink float js-wa away" href="#order" aria-label="שלחו לנו בוואטסאפ"><svg class="ico" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg><span class="lbl">וואטסאפ</span></a></aside>
 
 <dialog class="player" id="player" aria-labelledby="player-title">
   <div class="player-top">
@@ -945,10 +944,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     var items = g ? GALLERIES[g] : [{src: el.getAttribute('data-full'), title: el.getAttribute('data-title') || '', poster: ''}];
     el.setAttribute('role', 'button');
     el.setAttribute('tabindex', '0');
-    el.setAttribute('aria-label', g ? 'צפייה ב־' + items.length + ' סרטונים' : 'צפייה מלאה עם קול: ' + items[0].title);
+    el.setAttribute('aria-label', g ? 'לצפייה בעבודות דומות' : 'צפייה מלאה עם קול: ' + items[0].title);
     var badge = document.createElement('span');
     badge.className = 'play';
-    badge.textContent = g ? '▶ לצפייה ב־' + items.length + ' סרטונים' : '▶ צפייה מלאה עם קול';
+    badge.textContent = g ? (el.clientWidth && el.clientWidth < 200 ? '▶ עוד עבודות' : '▶ לצפייה בעבודות דומות') : '▶ צפייה מלאה עם קול';
     el.appendChild(badge);
     function go(){ openPlayer(items, el.classList.contains('wide')); }
     el.addEventListener('click', go);
@@ -1398,6 +1397,15 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     var h = document.documentElement;
     if ((h.scrollTop + innerHeight) / h.scrollHeight > 0.75) { seen = true; send('scroll_75'); }
   }, { passive: true });
+})();
+</script>
+<script>
+/* the floating WhatsApp button stays out of the way while the hero's own buttons are on screen */
+(function(){
+  var f = document.querySelector('.float'), h = document.querySelector('.hero .more') || document.querySelector('.hero .offers');
+  if (!f) return;
+  if (!h || !('IntersectionObserver' in window)) { f.classList.remove('away'); return; }
+  new IntersectionObserver(function(es){ f.classList.toggle('away', es[0].isIntersecting); }, { rootMargin: '0px 0px 40px 0px' }).observe(h);
 })();
 </script>
 </body>

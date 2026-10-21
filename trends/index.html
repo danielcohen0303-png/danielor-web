@@ -1,11 +1,11 @@
 <title>הטרנדים של Danielor</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="טבלת טרנדי ה-AI החמים עכשיו בטיקטוק ובאינסטגרם. בוחרים טרנד, שולחים תמונה בוואטסאפ ומקבלים אותו עם הפנים שלכם.">
+<meta name="description" content="טרנדי ה-AI החמים עכשיו בטיקטוק ובאינסטגרם, מדורגים כל בוקר. בוחרים טרנד, שולחים תמונה בוואטסאפ ומקבלים אותו עם הפנים שלכם.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&display=swap">
 <style>
-/* Layout: a weekly chart on the site's lilac neon wall. Big Karantina rank numbers, a 9:16 loop per trend, one WhatsApp button per row. Single light look, same as danielor.ai. */
+/* Layout: a daily chart on the site's lilac neon wall. Big Karantina rank numbers, real view counts, our own example video when we have one (a neon poster with a link to the original when we don't), then a shelf of trends we already made. Single light look, same as danielor.ai. */
 :root{
   color-scheme: light;
   --wall:#f6f1fb;
@@ -20,6 +20,7 @@
   --grad:linear-gradient(90deg,#ff2fc8,#8b3dff);
   --pink-glow:rgba(255,47,200,.32);
   --cyan:#09788a;
+  --cyan-hot:#43f0ff;
   --volt:#ecff52;
   --night:#24113f;
   --lift:0 12px 34px rgba(70,30,120,.08);
@@ -53,79 +54,90 @@ h1,h2,h3{text-wrap:balance;margin:0}
 
 /* hero */
 .hero{padding-block:1.2rem 1.4rem;display:grid;gap:1rem}
-.kicker{font-size:var(--step--1);color:var(--cyan);letter-spacing:.08em;font-weight:500;margin:0}
+.kicker{font-size:var(--step--1);color:var(--cyan);letter-spacing:.06em;font-weight:500;margin:0}
 .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(3.4rem,2.2rem + 6vw,7rem);line-height:.84}
 .hero h1 span{display:block}
 .neon-pink{color:var(--pink);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 6px 18px rgba(255,47,200,.30))}
 .hero h1 .l2{animation:flicker 2.6s ease-out .6s 1 both}
 @keyframes flicker{0%{opacity:.15}8%{opacity:1}10%{opacity:.3}14%{opacity:1}18%{opacity:.5}22%,100%{opacity:1}}
 .lead{color:var(--muted);max-width:56ch;margin:0;font-size:1.08rem;line-height:1.5}
-@media (min-width:760px){.lead{font-size:var(--step-1)}}
 .steps{list-style:none;margin:.2rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.5rem}
 .steps li{display:flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.3rem .9rem .3rem .4rem;font-size:var(--step--1);font-weight:500}
 .steps li b{display:grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--grad);color:#fff;font-size:.8rem;flex:none}
 .terms{margin:0;color:var(--muted);font-size:var(--step--1)}
 .terms strong{color:var(--fg)}
 
-/* chart */
-.chart-head{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1rem;flex-wrap:wrap;padding-block:1.2rem .9rem;border-top:1px solid var(--line-2)}
-.chart-head h2{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:.9}
+/* section heads */
+.sec-head{display:grid;gap:.35rem;padding-block:1.2rem .9rem;border-top:1px solid var(--line-2)}
+.sec-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1rem;flex-wrap:wrap}
+.sec-head h2{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:.9}
+.sec-head p{margin:0;color:var(--muted);font-size:var(--step--1);max-width:60ch}
 .upd{display:inline-flex;align-items:center;gap:.45rem;font-size:var(--step--1);color:var(--muted)}
-.upd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--pink-hot);box-shadow:0 0 0 0 var(--pink-glow);animation:live 2s ease-out infinite}
+.upd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--pink-hot);animation:live 2s ease-out infinite}
 @keyframes live{0%{box-shadow:0 0 0 0 rgba(255,47,200,.55)}100%{box-shadow:0 0 0 10px rgba(255,47,200,0)}}
-.chart{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:0;padding:0;list-style:none}
 
+/* the chart */
+.chart{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin:0;padding:0;list-style:none}
 .t{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--lift);padding:.75rem;
   display:grid;grid-template-columns:112px minmax(0,1fr);grid-template-areas:"vid body" "cta cta";gap:.8rem .9rem;align-items:start}
 .t .vid{grid-area:vid}
 .t .body{grid-area:body;min-width:0;display:grid;gap:.35rem;align-content:start}
 .t .cta{grid-area:cta}
 .t.top{border:2px solid var(--pink-hot);grid-template-columns:44% minmax(0,1fr);box-shadow:0 18px 44px rgba(139,61,255,.20),0 0 26px rgba(255,47,200,.22)}
-
 .line{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
 .rank{font-family:var(--display);font-weight:700;font-size:2.9rem;line-height:.75;color:transparent;-webkit-text-stroke:1.6px var(--violet);font-variant-numeric:tabular-nums;min-width:1.2ch}
 .t.podium .rank{color:var(--pink);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:0}
 .t.top .rank{font-size:4.4rem}
 .chips{display:flex;gap:.3rem;flex-wrap:wrap}
 .chip{font-size:.72rem;font-weight:700;line-height:1.5;border-radius:999px;padding:.08rem .55rem;border:1px solid var(--line-2);color:var(--muted);background:#fff;white-space:nowrap}
-.chip.hot{background:var(--grad);color:#fff;border-color:transparent}
+.chip.rise{background:var(--grad);color:#fff;border-color:transparent}
+.chip.peak{color:var(--pink);border-color:var(--pink-hot)}
 .chip.new{background:var(--volt);color:var(--fg);border-color:#d6e83a}
+.chip.season{color:var(--cyan);border-color:var(--cyan)}
 .t h3{font-size:1.05rem;line-height:1.25;font-weight:700}
 .t.top h3{font-size:var(--step-1)}
 .t p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.45}
+.views{font-size:.82rem;font-weight:700;color:var(--fg);font-variant-numeric:tabular-nums}
 .src{font-size:.8rem;color:var(--cyan);text-decoration:underline;text-underline-offset:3px;width:max-content;max-width:100%}
 
-/* video frames */
-.frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:12px;overflow:hidden;background:var(--night);isolation:isolate;cursor:pointer}
+/* frames: our example video, or a neon poster that opens the original */
+.frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:12px;overflow:hidden;background:var(--night);isolation:isolate;cursor:pointer;display:block;text-decoration:none}
 .frame video,.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.frame .play{position:absolute;bottom:.45rem;inset-inline:0;margin-inline:auto;width:max-content;z-index:2;font-size:.7rem;font-weight:700;color:#fff;background:rgba(29,16,51,.82);border-radius:999px;padding:.2rem .6rem;pointer-events:none;white-space:nowrap}
+.frame .play{position:absolute;bottom:.45rem;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - .6rem);z-index:2;font-size:.7rem;font-weight:700;color:#fff;background:rgba(29,16,51,.82);border-radius:999px;padding:.2rem .6rem;pointer-events:none;white-space:nowrap}
 .frame:hover .play{background:var(--pink-hot)}
+.frame .ours{position:absolute;top:.4rem;inset-inline-start:.4rem;z-index:2;font-size:.62rem;font-weight:700;color:var(--fg);background:var(--volt);border-radius:6px;padding:.05rem .4rem}
 .t.top .frame{border-radius:14px}
 .t.top .frame .play{font-size:.78rem;padding:.3rem .8rem;bottom:.6rem}
-.soon{position:absolute;inset:0;display:grid;place-content:center;gap:.4rem;text-align:center;padding:.6rem;color:#fff;
-  background:radial-gradient(90% 60% at 70% 20%, rgba(255,47,200,.55), transparent 70%),radial-gradient(80% 50% at 20% 85%, rgba(67,240,255,.35), transparent 70%),var(--night)}
-.soon b{font-family:var(--display);font-weight:700;font-size:1.9rem;line-height:.85}
-.soon span{font-size:.68rem;line-height:1.35;opacity:.85}
-a.frame{display:block;text-decoration:none}
+.poster{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:.6rem .55rem 2.2rem;color:#fff;direction:ltr;text-align:left;
+  background:radial-gradient(90% 55% at var(--px,70%) 18%, rgba(255,47,200,.62), transparent 70%),radial-gradient(80% 50% at var(--qx,20%) 88%, rgba(67,240,255,.38), transparent 70%),var(--night)}
+.poster .en{font-family:var(--display);font-weight:700;font-size:1.75rem;line-height:.82;text-transform:uppercase;letter-spacing:.01em;overflow-wrap:anywhere;text-shadow:0 0 18px rgba(255,47,200,.55)}
+.poster .big{display:grid;gap:.1rem;direction:rtl;text-align:right}
+.poster .big b{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:.8;color:var(--volt);text-shadow:0 0 16px rgba(236,255,82,.45);direction:ltr;text-align:right}
+.poster .big span{font-size:.62rem;line-height:1.3;opacity:.9}
+.t.top .poster{padding:1rem .9rem 3rem}
+.t.top .poster .en{font-size:2.9rem}
+.t.top .poster .big b{font-size:3.6rem}
+.t.top .poster .big span{font-size:.75rem}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font:inherit;font-weight:700;border-radius:999px;padding:.75rem 1.3rem;text-decoration:none;cursor:pointer;border:2px solid transparent;transition:transform .15s ease, box-shadow .15s ease;text-align:center}
 .btn:hover{transform:translateY(-2px)}
 .btn-pink{background:var(--grad);color:#fff;box-shadow:0 10px 28px rgba(200,40,200,.28)}
-.btn-soft{background:#fff;color:var(--violet);border-color:var(--line-2)}
-.btn-soft:hover{border-color:var(--violet)}
 .btn .ico{flex:none}
 .t .cta{width:100%;font-size:.95rem;padding:.7rem 1rem}
 .t:not(.top) .cta{background:#fff;color:var(--pink);border-color:var(--pink-hot);box-shadow:none}
 .t:not(.top) .cta:hover{background:var(--grad);color:#fff;border-color:transparent}
 
-/* preview-only example card */
-.demo{outline:2px dashed var(--violet);outline-offset:4px}
-.t.demo{grid-template-areas:"note note" "vid body" "cta cta"}
-.demo-note{grid-area:note;margin:0;font-size:.75rem;font-weight:700;color:var(--violet);background:#f1eafa;border-radius:8px;padding:.3rem .6rem}
+/* ready-made shelf */
+.shelf{display:flex;gap:.8rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:.2rem 0 1rem;margin:0;list-style:none;scrollbar-width:thin}
+.tile{flex:0 0 148px;scroll-snap-align:start;display:grid;gap:.45rem;align-content:start;min-width:0}
+.tile .frame{border-radius:14px;box-shadow:var(--lift)}
+.tile h3{font-size:.86rem;line-height:1.3;font-weight:700}
+.tile .go{font-size:.8rem;font-weight:700;color:var(--pink);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem}
+.tile .go:hover{text-decoration:underline}
 
 /* other trend */
-.ask{margin-block:2.4rem 1rem;border-radius:22px;padding:1.6rem 1.2rem;display:grid;gap:.8rem;justify-items:start;color:#fff;
+.ask{margin-block:1.6rem 1rem;border-radius:22px;padding:1.6rem 1.2rem;display:grid;gap:.8rem;justify-items:start;color:#fff;
   background:radial-gradient(70% 90% at 90% 10%, rgba(255,47,200,.55), transparent 70%),radial-gradient(60% 80% at 10% 100%, rgba(67,240,255,.30), transparent 70%),var(--night)}
 .ask h2{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:.9}
 .ask p{margin:0;max-width:52ch;opacity:.9}
@@ -135,7 +147,7 @@ a.frame{display:block;text-decoration:none}
 footer{border-top:1px solid var(--line-2);padding-block:1.2rem 2rem;font-size:.8rem;color:var(--muted);display:flex;gap:.4rem 1.2rem;flex-wrap:wrap;justify-content:space-between}
 footer a{color:var(--muted)}
 
-/* player */
+/* player: our video with sound, or the original post from TikTok */
 dialog.player{padding:0;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--fg);width:min(92vw,420px);max-height:94vh;overflow:auto}
 dialog.player.landscape{width:min(94vw,860px)}
 dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
@@ -143,20 +155,24 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .player-top h3{font-size:var(--step-0);line-height:1.3}
 .player-close{font:inherit;font-size:1.6rem;line-height:1;background:none;border:0;color:var(--fg);cursor:pointer;padding:.1rem .6rem;border-radius:8px}
 .player video{display:block;width:100%;max-height:70vh;background:#000}
-.player-cta{padding:.8rem 1rem 1rem}
+.player .embed{position:relative;width:100%;aspect-ratio:9/16;max-height:70vh;background:#000}
+.player .embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.player-cta{padding:.8rem 1rem 1rem;display:grid;gap:.5rem;justify-items:center}
 .player-cta .btn{width:100%}
+.player-cta .src{font-size:.78rem}
 
 @media (min-width:760px){
+  .lead{font-size:var(--step-1)}
   .chart{grid-template-columns:repeat(2,minmax(0,1fr))}
   .t{grid-template-columns:132px minmax(0,1fr);grid-template-areas:"vid body" "vid cta";padding:.9rem;row-gap:.6rem}
   .t .cta{align-self:end;width:auto;justify-self:start}
-  .t.demo{grid-template-areas:"note note" "vid body" "vid cta"}
   .t.top{grid-column:1/-1;grid-template-columns:250px minmax(0,1fr);grid-template-areas:"vid ." "vid body" "vid cta" "vid .";grid-template-rows:1fr auto auto 1fr;padding:1.2rem;column-gap:2rem;row-gap:1.2rem}
   .t.top .body{gap:.7rem}
   .t.top .rank{font-size:6rem}
   .t.top h3{font-family:var(--display);font-size:clamp(2.6rem,1.6rem + 2.4vw,3.8rem);line-height:.9}
   .t.top p{font-size:var(--step-1);max-width:40ch}
   .t.top .cta{font-size:1.05rem;padding:.85rem 1.6rem}
+  .tile{flex-basis:164px}
   .ask{padding:2.2rem 2rem}
 }
 @media (prefers-reduced-motion: reduce){
@@ -185,12 +201,20 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <p class="terms"><strong>₪149 לטרנד</strong> · עד 24 שעות, ולרוב תוך כמה שעות · סבב תיקון כלול</p>
     </section>
 
-    <section aria-labelledby="chart-title">
-      <div class="chart-head">
-        <h2 id="chart-title">טבלת השבוע</h2>
-        <span class="upd" id="upd">מתעדכן כל בוקר</span>
+    <section aria-labelledby="hot-title">
+      <div class="sec-head">
+        <div class="row"><h2 id="hot-title">החמים עכשיו</h2><span class="upd" id="upd">מתעדכן כל בוקר</span></div>
+        <p>מדורג לפי הצפיות בסרטון המוביל של כל טרנד, כמה הוא חדש, ובכמה אתרי טרנדים הוא מופיע.</p>
       </div>
-      <ol class="chart" id="chart"></ol>
+      <ol class="chart" id="hot"></ol>
+    </section>
+
+    <section aria-labelledby="ready-title">
+      <div class="sec-head" style="margin-top:2rem">
+        <div class="row"><h2 id="ready-title">כבר הכנו</h2></div>
+        <p>טרנדים שהכנו עם הפנים של אנשים אמיתיים. לחיצה על סרטון פותחת אותו עם קול.</p>
+      </div>
+      <ul class="shelf" id="ready"></ul>
     </section>
 
     <section class="ask" aria-labelledby="ask-title">
@@ -210,7 +234,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 <dialog class="player" id="player" aria-labelledby="player-title">
   <div class="player-top"><h3 id="player-title"></h3><button class="player-close" type="button" aria-label="סגירה">×</button></div>
   <video id="player-video" controls playsinline preload="none"></video>
-  <div class="player-cta"><a class="btn btn-pink" id="player-wa" href="https://wa.me/972507149677" target="_blank" rel="noopener">אני רוצה את הטרנד הזה</a></div>
+  <div class="embed" id="player-embed" hidden></div>
+  <div class="player-cta">
+    <a class="btn btn-pink" id="player-wa" href="https://wa.me/972507149677" target="_blank" rel="noopener">אני רוצה את הטרנד הזה</a>
+    <a class="src" id="player-src" href="https://www.tiktok.com/" target="_blank" rel="noopener" hidden>לסרטון המקורי בטיקטוק ↗</a>
+  </div>
 </dialog>
 
 <script>
@@ -221,24 +249,40 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   var ROOT = ON_SITE ? '/' : '';
   var REDUCE = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   // shown at once, and kept if the live list can't be reached
-  var DATA = {updated: '2026-10-21T05:00:00Z', trends: [
-    {slug:'boombox', title:'ריקוד עם בומבוקס ברחוב', blurb:'אתם וחבר רוקדים ברחוב עם בומבוקס על הכתף, כמו בקליפ משנות ה-90.', video:'trend-full.mp4', preview:'trends/m/boombox.mp4', poster:'trends/m/boombox.jpg', heat:'חם עכשיו', photos:2},
-    {slug:'storm', title:'טרנד STORM של Yung Lean', blurb:'מדליקים סיגריה מול שורות של אנשים בחליפות, והמצלמה סובבת סביבכם על השיר STORM.', video:'trend-bow-full.mp4', preview:'trends/m/storm.mp4', poster:'trends/m/storm.jpg', heat:'חם עכשיו', photos:1},
-    {slug:'skydive', title:'צניחה חופשית מעל דובאי', blurb:'קופצים מהמטוס מעל קו הרקיע של דובאי וצונחים מעל האי בצורת דקל.', video:'trend-skydive-full.mp4', preview:'trends/m/skydive.mp4', poster:'trends/m/skydive.jpg', photos:1},
-    {slug:'knight', title:'הופך לאביר עם אריה', blurb:'מחזיקים את הכלב, מפעילים את המכשיר, והופכים לאביר בשריון עם אריה לצדכם.', video:'trend-knight-full.mp4', preview:'trends/m/knight.mp4', poster:'trends/m/knight.jpg', photos:1},
-    {slug:'moto', title:'אופנוע בגשם בלילה', blurb:'רכיבה דרמטית בכביש רטוב בלילה, אורות העיר ומצלמה שרודפת אחריכם.', video:'trend-moto-full.mp4', preview:'trends/m/moto.mp4', poster:'trends/m/moto.jpg', photos:1},
-    {slug:'action', title:'קרב מסדרון כמו בסרט', blurb:'אגרופים, ניצוצות ומסדרון חשוך, ואתם הגיבורים של סצנת האקשן.', video:'trend-action-full.mp4', preview:'trends/m/action.mp4', poster:'trends/m/action.jpg', photos:1},
-    {slug:'cliff', title:'דרמה זוגית על צוק', blurb:'ריב מול השקיעה, פיצוץ ענק בים, ונשיקה בסוף. סצנה קולנועית לזוג.', video:'trend-cliff-full.mp4', preview:'trends/m/cliff.mp4', poster:'trends/m/cliff.jpg', photos:2}
-  ]};
-  // preview only (never on danielor.ai): how a fresh trend looks before we've made our own example
-  var DEMO = ON_SITE ? null : {slug:'babydoll', demo:true, title:'ריקוד Babydoll עם החברים', blurb:'שלושה חברים בחליפות שחורות, יד ביד, רוקדים צעדים לעבר המצלמה על מדרכה שטופת שמש. על השיר Babydoll של Jamie Miller.', heat:'חדש', photos:'1 עד 3 תמונות', source_url:'https://www.tiktok.com/@jamiemillmusic/video/7674629461723139358'};
+  var DATA = {updated: '2026-10-21T08:00:00Z',
+    hot: [
+      {slug:'bulin-47', title:'פריסטייל Bulin 47', title_en:'Bulin 47', blurb:'אתם עומדים מתחת לאורות אדומים בכניסה למועדון ומפילים פריסטייל על ביט דמבו, וכולם מסביב מצלמים בטלפונים.', heat:'בעלייה', photos:1, views:4700000, source_url:'https://www.tiktok.com/@kevincitooficial11/video/7691875916644994326'},
+      {slug:'alors-on-danse', title:'Alors On Danse באולפן', title_en:'Alors On Danse', blurb:'שניים באולפן לבן: אחד מנגן על קלידים קטנים, השני מוחא כפיים, מצביע על המסך ורוקד. על השיר של Stromae.', heat:'בשיא', photos:2, views:10100000, source_url:'https://www.tiktok.com/@tsukyofficiel/video/7646336057927142689'},
+      {slug:'burning-bridges', title:'Burning Bridges בארוחת ערב', title_en:'Burning Bridges', blurb:'ארוחת ערב מתחת לנברשות: אתם מרימים כוס, מסתכלים מסביב לשולחן, והחברים מרימים כוסות מאחוריכם. על השיר של Drake.', heat:'בשיא', photos:1, photos_note:'תמונה אחת, או עד 4 עם חברים', views:1000000, source_url:'https://www.tiktok.com/@tonegully/video/7694774387920096526'},
+      {slug:'closed-on-sunday', title:'Closed on Sunday במקהלה', title_en:'Closed on Sunday', blurb:'אתם עומדים בלי לזוז באמצע מקהלה בגלימות על גבעה שטופת שמש, וכולם מסביב שרים ומתנדנדים. עובד גם עם חתול או כלב.', heat:'בעלייה', photos:1, views:null, source_url:'https://www.tiktok.com/@downey.ai/video/7696461038996163853'},
+      {slug:'zombie-couple', title:'הזוג והזומבי', title_en:'Zombie Couple', blurb:'בבקתה חשוכה בן הזוג הפך לזומבי. מורידים את האקדח, פותחים ידיים לחיבוק, וקופצים לזיכרון שלכם בשדה זהוב.', heat:null, photos:2, views:1600000, source_url:'https://www.tiktok.com/@ghostxsniper108/video/7691766350611598605'},
+      {slug:'invisible-moped', title:'מרדף על אופנוע בלתי נראה', title_en:'Crazy Frog AI', blurb:'אתם דוהרים על אופנוע שלא קיים בכביש מוגבה, שוטר על אופנוע מרחף רודף אחריכם, וסלטה באוויר. עם הסאונד של Crazy Frog.', heat:'חדש', photos:1, photos_note:'1 עד 2 תמונות', views:208400, source_url:'https://www.tiktok.com/@wdmowski/video/7695695581510946081'},
+      {slug:'babydoll', title:'ריקוד Babydoll עם החברים', title_en:'Babydoll Two-Step', blurb:'שלושה חברים בחליפות שחורות, יד ביד, רוקדים צעדים לעבר המצלמה על מדרכה שטופת שמש. על השיר Babydoll של Jamie Miller.', heat:null, photos:3, photos_note:'1 עד 3 תמונות', views:6580000, source_url:'https://www.tiktok.com/@jamiemillmusic/video/7674629461723139358'},
+      {slug:'ghost-prank', title:'הרוח שמאחוריכם', title_en:'Ghost Prank', blurb:'רוח חיוורת מופיעה לאט מאחוריכם, אתם לא שמים לב, ואז מסתובבים. מתיחה לליל כל הקדושים, עובד גם עם חיית מחמד.', heat:'עונתי · עד 31.10', photos:1, views:null, source_url:null},
+      {slug:'hit-the-road', title:'הטנדר והשטח הפרטי', title_en:'Hit the Road Dude', blurb:'אתם, או הכלב שלכם, נוהגים בטנדר ישן, עוצרים ליד שני דייגים ומודיעים להם שזה שטח פרטי: Hit the road, dude.', heat:'בשיא', photos:1, views:null, source_url:null}
+    ],
+    ready: [
+      {slug:'boombox', title:'ריקוד עם בומבוקס ברחוב', video:'trend-full.mp4', preview:'trends/m/boombox.mp4', poster:'trends/m/boombox.jpg', photos:2},
+      {slug:'storm', title:'טרנד STORM של Yung Lean', video:'trend-bow-full.mp4', preview:'trends/m/storm.mp4', poster:'trends/m/storm.jpg', photos:1},
+      {slug:'skydive', title:'צניחה חופשית מעל דובאי', video:'trend-skydive-full.mp4', preview:'trends/m/skydive.mp4', poster:'trends/m/skydive.jpg', photos:1},
+      {slug:'knight', title:'הופך לאביר עם אריה', video:'trend-knight-full.mp4', preview:'trends/m/knight.mp4', poster:'trends/m/knight.jpg', photos:1},
+      {slug:'moto', title:'אופנוע בגשם בלילה', video:'trend-moto-full.mp4', preview:'trends/m/moto.mp4', poster:'trends/m/moto.jpg', photos:1},
+      {slug:'action', title:'קרב מסדרון כמו בסרט', video:'trend-action-full.mp4', preview:'trends/m/action.mp4', poster:'trends/m/action.jpg', photos:1},
+      {slug:'cliff', title:'דרמה זוגית על צוק', video:'trend-cliff-full.mp4', preview:'trends/m/cliff.mp4', poster:'trends/m/cliff.jpg', photos:2}
+    ]};
 
   var ICON = '<svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg>';
+  var CTA = ICON + 'אני רוצה את הטרנד הזה';
   function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function waLink(text){ return 'https://wa.me/' + WA + (text ? '?text=' + encodeURIComponent(text) : ''); }
   function orderText(t){ return 'היי! ראיתי בדף הטרנדים את "' + t.title + '" ואני רוצה להזמין אותו'; }
-  function photos(n){ if (typeof n === 'string') return n; return !n || n <= 1 ? 'תמונה אחת' : n + ' תמונות'; }
+  function photos(t){ if (t.photos_note) return t.photos_note; var n = t.photos; return !n || n <= 1 ? 'תמונה אחת' : n + ' תמונות'; }
   function safeUrl(u){ return /^https:\/\//.test(u || '') ? u : ''; }
+  function tiktokId(u){ var m = /tiktok\.com\/@[^/]+\/video\/(\d{8,25})/.exec(u || ''); return m ? m[1] : ''; }
+  function short(n){ return n >= 1e6 ? (Math.round(n / 1e5) / 10) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n); }
+  function viewsHe(n){ if (!n) return ''; if (n >= 1e6) return (Math.round(n / 1e5) / 10) + ' מיליון צפיות'; if (n >= 1e3) return Math.round(n / 1e3) + ' אלף צפיות'; return n + ' צפיות'; }
+  function heatClass(h){ return /עלייה/.test(h) ? 'rise' : /שיא/.test(h) ? 'peak' : /חדש/.test(h) ? 'new' : 'season'; }
+  function hue(slug){ var h = 0; for (var i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) % 997; return h; }
 
   document.querySelectorAll('[data-root-src]').forEach(function(el){ el.src = ROOT + el.getAttribute('data-root-src'); });
   document.getElementById('ask-wa').href = waLink('היי! ראיתי טרנד שאני רוצה לעשות עם הפנים שלי, הנה הקישור: ');
@@ -261,47 +305,66 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     });
   }, {threshold: .45}) : null;
 
-  function card(t, i){
+  // our example video: plays silently in view, tap = full video with sound
+  function videoFrame(t, eager, ours){
+    return '<div class="vid frame" role="button" tabindex="0" data-kind="video" aria-label="צפייה עם קול: ' + esc(t.title) + '">' +
+      '<img src="' + esc(ROOT + t.poster) + '" alt="" loading="' + (eager ? 'eager' : 'lazy') + '">' +
+      '<video muted loop playsinline preload="none" data-src="' + esc(ROOT + t.preview) + '" aria-hidden="true"></video>' +
+      (ours ? '<span class="ours">הדוגמה שלנו</span>' : '') + '<span class="play">▶ עם קול</span></div>';
+  }
+  // no example yet: a neon poster with the real numbers, tap = the original post
+  function posterFrame(t){
+    var src = safeUrl(t.source_url), h = hue(t.slug);
+    var style = ' style="--px:' + (20 + h % 60) + '%;--qx:' + (15 + (h >> 2) % 60) + '%"';
+    var inner = '<div class="poster"' + style + '><span class="en">' + esc(t.title_en || t.title) + '</span>' +
+      '<span class="big">' + (t.views ? '<b>' + short(t.views) + '</b><span>צפיות בסרטון המוביל</span>' : '<span>הדוגמה שלנו בהכנה</span>') + '</span></div>';
+    return src ? '<a class="vid frame" data-kind="embed" href="' + esc(src) + '" target="_blank" rel="noopener" aria-label="הסרטון המקורי של ' + esc(t.title) + '">' + inner + '<span class="play">▶ לסרטון המקורי</span></a>'
+               : '<div class="vid frame">' + inner + '</div>';
+  }
+
+  function hotCard(t, i){
     var li = document.createElement('li');
-    li.className = 't' + (i === 0 ? ' top' : '') + (i < 3 ? ' podium' : '') + (t.demo ? ' demo' : '');
+    li.className = 't' + (i === 0 ? ' top' : '') + (i < 3 ? ' podium' : '');
     var src = safeUrl(t.source_url);
-    var vid;
-    if (t.preview){
-      vid = '<div class="vid frame" role="button" tabindex="0" aria-label="צפייה עם קול: ' + esc(t.title) + '">' +
-        '<img src="' + esc(ROOT + t.poster) + '" alt="" loading="' + (i < 2 ? 'eager' : 'lazy') + '">' +
-        '<video muted loop playsinline preload="none" data-src="' + esc(ROOT + t.preview) + '" aria-hidden="true"></video>' +
-        '<span class="play">▶ עם קול</span></div>';
-    } else {
-      vid = (src ? '<a class="vid frame" href="' + esc(src) + '" target="_blank" rel="noopener" aria-label="הסרטון המקורי של ' + esc(t.title) + '">' : '<div class="vid frame">') +
-        '<div class="soon"><b>דוגמה<br>בהכנה</b><span>נעלה בקרוב דוגמה שלנו</span></div>' +
-        (src ? '<span class="play">▶ למקור</span></a>' : '</div>');
-    }
-    var chips = (t.heat ? '<span class="chip ' + (/חדש/.test(t.heat) ? 'new' : 'hot') + '">' + esc(t.heat) + '</span>' : '') +
-      '<span class="chip">' + esc(photos(t.photos)) + '</span>';
-    li.innerHTML = (t.demo ? '<p class="demo-note">דוגמה לתצוגה בלבד: ככה ייראה טרנד חדש שעוד אין לו סרטון שלנו</p>' : '') + vid +
+    var chips = (t.heat ? '<span class="chip ' + heatClass(t.heat) + '">' + esc(t.heat) + '</span>' : '') + '<span class="chip">' + esc(photos(t)) + '</span>';
+    li.innerHTML = (t.preview ? videoFrame(t, i < 2, true) : posterFrame(t)) +
       '<div class="body"><div class="line"><span class="rank" aria-label="מקום ' + (i + 1) + '">' + (i + 1) + '</span><span class="chips">' + chips + '</span></div>' +
-      '<h3>' + esc(t.title) + '</h3><p>' + esc(t.blurb) + '</p>' +
+      '<h3>' + esc(t.title) + '</h3>' + (t.views ? '<span class="views">' + viewsHe(t.views) + ' בטיקטוק</span>' : '') + '<p>' + esc(t.blurb) + '</p>' +
       (src ? '<a class="src" href="' + esc(src) + '" target="_blank" rel="noopener">איפה זה התחיל ↗</a>' : '') + '</div>' +
-      '<a class="btn btn-pink cta" href="' + esc(waLink(orderText(t))) + '" target="_blank" rel="noopener" data-trend="' + esc(t.title) + '">' + ICON + 'אני רוצה את הטרנד הזה</a>';
-    var f = li.querySelector('.frame[role="button"]');
-    if (f){
-      var go = function(){ openPlayer(t); };
+      '<a class="btn btn-pink cta" href="' + esc(waLink(orderText(t))) + '" target="_blank" rel="noopener" data-trend="' + esc(t.title) + '">' + CTA + '</a>';
+    wire(li, t);
+    return li;
+  }
+  function readyTile(t){
+    var li = document.createElement('li');
+    li.className = 'tile';
+    li.innerHTML = videoFrame(t, false, false) + '<h3>' + esc(t.title) + '</h3>' +
+      '<a class="go" href="' + esc(waLink(orderText(t))) + '" target="_blank" rel="noopener" data-trend="' + esc(t.title) + '">להזמנה בוואטסאפ ←</a>';
+    wire(li, t);
+    return li;
+  }
+  function wire(li, t){
+    var f = li.querySelector('.frame[data-kind]');
+    if (!f) return;
+    if (f.getAttribute('data-kind') === 'video'){
+      var go = function(){ openPlayer(t, 'video'); };
       f.addEventListener('click', go);
       f.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
       var v = f.querySelector('video');
       v.addEventListener('playing', function(){ f.querySelector('img').style.visibility = 'hidden'; });
       if (io) io.observe(v);
+    } else if (ON_SITE && tiktokId(t.source_url)){
+      // on danielor.ai the original plays right here (TikTok's own player); elsewhere the link opens TikTok
+      f.addEventListener('click', function(e){ e.preventDefault(); openPlayer(t, 'embed'); });
     }
-    return li;
   }
 
   function render(data){
-    var list = (data.trends || []).slice();
-    if (DEMO) list.push(DEMO);
-    var ol = document.getElementById('chart');
-    if (io) ol.querySelectorAll('video').forEach(function(v){ io.unobserve(v); });
-    ol.textContent = '';
-    list.forEach(function(t, i){ ol.appendChild(card(t, i)); });
+    if (io) document.querySelectorAll('.frame video').forEach(function(v){ io.unobserve(v); });
+    var hot = document.getElementById('hot'), ready = document.getElementById('ready');
+    hot.textContent = ''; ready.textContent = '';
+    (data.hot || []).forEach(function(t, i){ hot.appendChild(hotCard(t, i)); });
+    (data.ready || []).forEach(function(t){ ready.appendChild(readyTile(t)); });
     document.getElementById('upd').textContent = updatedLabel(data.updated);
   }
   render(DATA);
@@ -309,28 +372,35 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     var ctl = window.AbortController ? new AbortController() : null;
     if (ctl) setTimeout(function(){ ctl.abort(); }, 5000);
     fetch(API, ctl ? {signal: ctl.signal} : {}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
-      if (d && d.trends && d.trends.length) render(d);
+      if (d && d.hot && d.hot.length) render(d);
     }).catch(function(){});
   }
 
-  // player: the full video with sound, and the order button right under it
-  var dlg = document.getElementById('player'), pv = document.getElementById('player-video');
+  // player
+  var dlg = document.getElementById('player'), pv = document.getElementById('player-video'), emb = document.getElementById('player-embed');
+  var psrc = document.getElementById('player-src'), pwa = document.getElementById('player-wa');
   pv.addEventListener('loadedmetadata', function(){ dlg.classList.toggle('landscape', pv.videoWidth > pv.videoHeight); });
-  function openPlayer(t){
+  function openPlayer(t, kind){
     document.getElementById('player-title').textContent = t.title;
-    var a = document.getElementById('player-wa');
-    a.href = waLink(orderText(t)); a.setAttribute('data-trend', t.title);
-    a.innerHTML = ICON + 'אני רוצה את הטרנד הזה';
+    pwa.href = waLink(orderText(t)); pwa.setAttribute('data-trend', t.title); pwa.innerHTML = CTA;
+    var src = safeUrl(t.source_url);
+    psrc.hidden = !src; if (src) psrc.href = src;
     dlg.classList.remove('landscape');
-    pv.poster = ROOT + t.poster; pv.src = ROOT + (t.video || t.preview);
+    if (kind === 'embed'){
+      pv.hidden = true; emb.hidden = false;
+      emb.innerHTML = '<iframe src="https://www.tiktok.com/player/v1/' + tiktokId(t.source_url) + '?autoplay=1&loop=1&music_info=1&description=1&rel=0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="' + esc(t.title) + '"></iframe>';
+    } else {
+      emb.hidden = true; emb.textContent = ''; pv.hidden = false;
+      pv.poster = ROOT + t.poster; pv.src = ROOT + (t.video || t.preview);
+    }
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
-    var p = pv.play(); if (p && p.catch) p.catch(function(){});
-    track('video_open', t.title);
+    if (kind !== 'embed'){ var p = pv.play(); if (p && p.catch) p.catch(function(){}); }
+    track('video_open', (kind === 'embed' ? 'מקור: ' : '') + t.title);
   }
-  function closePlayer(){ pv.pause(); pv.removeAttribute('src'); pv.load(); if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
+  function closePlayer(){ pv.pause(); pv.removeAttribute('src'); pv.load(); emb.textContent = ''; if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
   dlg.querySelector('.player-close').addEventListener('click', closePlayer);
   dlg.addEventListener('click', function(e){ if (e.target === dlg) closePlayer(); });
-  dlg.addEventListener('cancel', function(){ pv.pause(); });
+  dlg.addEventListener('cancel', function(){ pv.pause(); emb.textContent = ''; });
 
   /* anonymous stats, same as danielor.ai: no cookies, no personal details, only on the real domain */
   var track = function(){};
@@ -349,7 +419,9 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     track('view');
     document.addEventListener('click', function(e){
       var a = e.target.closest && e.target.closest('a');
-      if (a && /wa\.me/.test(a.href)) track('wa_click', a.getAttribute('data-trend') ? 'טרנד: ' + a.getAttribute('data-trend') : (a.textContent || '').trim());
+      if (!a) return;
+      if (/wa\.me/.test(a.href)) track('wa_click', a.getAttribute('data-trend') ? 'טרנד: ' + a.getAttribute('data-trend') : (a.textContent || '').trim());
+      else if (/tiktok\.com/.test(a.href)) track('source_open', a.closest('.t') ? (a.closest('.t').querySelector('h3') || {}).textContent : '');
     }, true);
   }
 })();

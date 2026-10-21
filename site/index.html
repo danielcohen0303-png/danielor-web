@@ -147,6 +147,7 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .ba-grid{grid-template-columns:minmax(0,1fr)}
 .ba{grid-template-columns:minmax(0,480px) minmax(0,1fr);align-items:center;gap:1.4rem}
 .ba-text{display:grid;gap:.6rem;min-width:0}
+.ba-text .trends-link{justify-self:start;margin-top:.2rem}
 .ba.wide{grid-template-columns:minmax(0,1fr)}
 @media (max-width: 900px){.ba{grid-template-columns:minmax(0,1fr)}}
 @media (max-width: 700px){
@@ -469,6 +470,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   <header class="top">
     <nav class="nav" aria-label="ניווט">
       <a href="#before-after">לפני ואחרי</a>
+      <a href="/trends">טרנדים</a>
       <a href="#prices">מחירים</a>
       <a href="#launch">חבילת השקה</a>
       <a href="#order">הזמנה</a>
@@ -513,6 +515,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <div class="ba-text">
           <h3>שלוש תמונות, טרנד של 10 עד 30 שניות</h3>
           <p>בלי ללמוד אף כלי ובלי לשרוף קרדיטים. ₪149, עד 24 שעות ולרוב תוך כמה שעות. לחצו על הסרטון לדוגמאות, או שלחו לנו טרנד שאהבתם.</p>
+          <a class="btn btn-soft trends-link" href="/trends">לטרנדים החמים עכשיו <span class="arr" aria-hidden="true">←</span></a>
         </div>
       </article>
       <article class="ba wide">

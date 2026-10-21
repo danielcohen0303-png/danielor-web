@@ -25,6 +25,10 @@
       }
     },
     {
+      "src": "/trends/?",
+      "dest": "/trends/index.html"
+    },
+    {
       "src": "/",
       "has": [
         {

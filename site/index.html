@@ -210,7 +210,7 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .q2d-text .kicker{margin:0}
 .q2d-text h2{margin:0;max-width:18ch}
 .q2d-text .btn{max-width:min(100%,22rem)}
-#decks .sound-btn{top:.7rem;bottom:auto;inset-inline:auto .7rem;margin:0;font-size:.78rem;padding:.35rem .8rem}
+#decks .sound-btn{top:.6rem;bottom:auto;inset-inline:auto .6rem;margin:0;width:2.4rem;height:2.4rem;padding:0;display:grid;place-items:center;font-size:1.05rem;line-height:1}
 @media (max-width: 800px){.q2d{grid-template-columns:minmax(0,1fr)}.q2d-vid{max-width:300px}.q2d-text{justify-items:center;text-align:center}.q2d-text h2{margin-inline:auto}}
 
 /* paths */
@@ -784,7 +784,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <div class="q2d">
       <div class="q2d-vid frame glow-a has-video">
         <video src="quote-to-deck.mp4" poster="quote-to-deck-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="סרטון: מהצעת מחיר יבשה למצגת ברמת ברושור"></video>
-        <button type="button" class="sound-btn" id="q2d-sound" aria-pressed="false">🔊 להפעלה עם קול</button>
+        <button type="button" class="sound-btn" id="q2d-sound" aria-pressed="false" aria-label="הפעלת קול" title="הפעלת קול">🔊</button>
       </div>
       <div class="q2d-text">
         <p class="kicker">מצגות לעסק</p>
@@ -997,7 +997,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     if (v && b) b.addEventListener('click', function(){
       v.muted = !v.muted;
       if (!v.muted){ v.currentTime = 0; v.play(); }
-      b.textContent = v.muted ? '🔊 להפעלה עם קול' : '🔇 השתקה';
+      b.textContent = v.muted ? '🔊' : '🔇';
+      b.setAttribute('aria-label', v.muted ? 'הפעלת קול' : 'השתקה'); b.title = b.getAttribute('aria-label');
       b.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
     });
     var a = document.getElementById('q2d-wa');

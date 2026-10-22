@@ -587,6 +587,87 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .priv-door b{font-weight:600}
 .priv-door .pd-go{font-weight:700;color:var(--pink);white-space:nowrap}
 .nav a.priv{color:var(--pink);font-weight:700}
+
+/* podcast reels: six services in the row, and a section where a phone plays the three editing levels (drawn in code, no footage) */
+.svc{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media (max-width:1100px){.svc{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}.svc .svc-i:last-child{grid-column:auto}}
+.pod{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);grid-template-areas:"head demo" "body demo";column-gap:clamp(1.5rem,1rem + 3vw,3.5rem);row-gap:1.4rem;align-items:start}
+.pod-head{grid-area:head}
+.pod-body{grid-area:body;display:grid;gap:1.3rem;justify-items:start;min-width:0}
+.pod-demo{grid-area:demo;margin:0;width:100%;max-width:300px;justify-self:center;align-self:center}
+.pod-demo figcaption{margin-top:.7rem;font-size:var(--step--1);color:var(--muted);text-align:center}
+.pod-screen{position:relative;aspect-ratio:9/16;border-radius:30px;overflow:hidden;background:#0d0a1c;border:6px solid #1d1033;box-shadow:0 18px 44px rgba(255,47,200,.22),0 0 0 1px var(--line-2);isolation:isolate;color:#fff;font-family:var(--body);direction:rtl}
+.pod-scene{position:absolute;inset:0;transform-origin:50% 45%}
+.pod-bg{position:absolute;inset:-10%;background:radial-gradient(40% 30% at 25% 20%,rgba(255,47,200,.5),transparent 70%),radial-gradient(45% 35% at 80% 35%,rgba(67,240,255,.38),transparent 70%),radial-gradient(60% 40% at 50% 92%,rgba(139,61,255,.5),transparent 70%),#140c2b}
+.pod-screen[data-bg="2"] .pod-bg{filter:hue-rotate(120deg) saturate(1.3) brightness(1.1)}
+.pod-mic{position:absolute;left:50%;top:33%;width:34%;transform:translate(-50%,-50%);transition:opacity .2s}
+.pod-mic svg{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 26px rgba(0,0,0,.5))}
+.pod-wave{position:absolute;left:50%;top:53%;transform:translateX(-50%);display:flex;gap:4px;align-items:center;height:30px;transition:opacity .2s}
+.pod-wave i{display:block;width:4px;height:30%;border-radius:2px;background:#fff;opacity:.8;animation:podw .8s ease-in-out infinite alternate}
+.pod-wave i:nth-child(2n){animation-duration:.55s}
+.pod-wave i:nth-child(3n){animation-duration:.95s;animation-delay:-.3s}
+.pod-wave i:nth-child(4n+1){animation-delay:-.5s}
+@keyframes podw{to{height:100%}}
+.pod-screen.quiet .pod-mic,.pod-screen.quiet .pod-wave{opacity:.12}
+.pod-label{position:absolute;inset-inline-start:8%;top:60%;display:grid;gap:3px;transition:opacity .25s}
+.pod-label::before{content:"";width:24px;height:2px;background:#43f0ff;border-radius:2px}
+.pod-label b{font-size:13px;letter-spacing:.2em;font-weight:700}
+.pod-label small{font-size:9px;letter-spacing:.3em;color:rgba(255,255,255,.72)}
+.pod-band{position:absolute;inset-inline:0;top:64%;height:28%;background:linear-gradient(transparent,rgba(0,0,0,.6) 30%,rgba(0,0,0,.6) 72%,transparent);opacity:0;transition:opacity .2s}
+.pod-cap{position:absolute;inset-inline:5%;top:70%;margin:0;text-align:center;font-weight:700;font-size:21px;line-height:1.3;text-shadow:0 2px 12px rgba(0,0,0,.65);min-height:2.6em}
+.pod-cap span{display:inline-block;margin-inline:.13em;animation:podin .22s ease-out both}
+@keyframes podin{from{opacity:0;transform:translateY(8px) scale(.9)}}
+.pod-cap .g,.pod-cap .r{font-family:var(--display);font-size:1.55em;line-height:.85;vertical-align:-.08em}
+.pod-cap .g{color:#3dffa0;text-shadow:0 0 18px rgba(61,255,160,.6)}
+.pod-cap .r{color:#ff4d6a;text-shadow:0 0 18px rgba(255,77,106,.6)}
+.pod-num{position:absolute;left:50%;top:33%;transform:translate(-50%,-50%) scale(.55);opacity:0;text-align:center;font-family:var(--display);font-weight:700;line-height:.78;pointer-events:none}
+.pod-num.on{opacity:1;transform:translate(-50%,-50%) scale(1);transition:transform .28s cubic-bezier(.2,1.6,.4,1),opacity .12s}
+.pod-num b{display:block;font-size:150px;text-shadow:0 0 44px rgba(255,47,200,.7)}
+.pod-num small{display:block;font-size:30px;letter-spacing:.06em;color:#43f0ff}
+.pod-broll{position:absolute;inset:0;opacity:0;overflow:hidden;background:linear-gradient(170deg,#2a1450,#0b1a33);perspective:700px}
+.pod-feed{position:absolute;left:15%;right:15%;top:0;display:grid;gap:12px;transform-style:preserve-3d}
+.pod-feed i{display:block;height:104px;border-radius:14px;background:linear-gradient(135deg,rgba(255,47,200,.8),rgba(139,61,255,.75));box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.pod-feed i:nth-child(3n+2){background:linear-gradient(135deg,rgba(67,240,255,.75),rgba(139,61,255,.65))}
+.pod-feed i:nth-child(3n){background:linear-gradient(135deg,rgba(236,255,82,.7),rgba(255,47,200,.65))}
+.pod-feed i.hit{outline:3px solid #3dffa0;outline-offset:3px;transition:outline-color .2s}
+.pod-kin{position:absolute;inset:0;display:grid;place-content:center;text-align:center;background:#0b0718;opacity:0;font-family:var(--display);font-weight:700;line-height:.8}
+.pod-kin b{display:block;font-size:150px;opacity:0;transform:scale(1.8)}
+.pod-kin span{display:block;font-size:60px;opacity:0;transform:translateY(20px);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pod-kin .in{opacity:1;transform:none;transition:transform .2s cubic-bezier(.2,1.5,.4,1),opacity .1s}
+.pod-frame{position:absolute;inset:5%;border:3px solid #fff;border-radius:4px;opacity:0;pointer-events:none}
+.pod-screen.freeze .pod-scene{filter:grayscale(1) contrast(1.2)}
+.pod-screen.freeze .pod-frame{opacity:1}
+.pod-screen.glitch .pod-scene{animation:podg .1s steps(2) infinite}
+@keyframes podg{0%{transform:translate(4px,-2px);filter:hue-rotate(80deg) saturate(2)}50%{transform:translate(-5px,3px);filter:hue-rotate(-60deg)}100%{transform:translate(2px,1px)}}
+.pod-screen.glitch .pod-cap{text-shadow:3px 0 #ff2fc8,-3px 0 #43f0ff}
+.pod-end{position:absolute;inset:0;display:grid;place-content:center;background:#000;opacity:0;transition:opacity .25s;pointer-events:none}
+.pod-end span{border:1px solid rgba(255,255,255,.45);border-radius:10px;padding:.55rem 1rem;font-size:12px;letter-spacing:.3em;color:rgba(255,255,255,.85)}
+.pod-screen.ended .pod-end{opacity:1}
+.pod-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.pod-badge{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;font-size:11px;font-weight:700;letter-spacing:.06em;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.15rem .7rem;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.lv-tabs{display:flex;gap:4px;padding:4px;width:100%;max-width:440px;background:#fff;border:1px solid var(--line-2);border-radius:999px;box-shadow:var(--lift)}
+.lv-tabs button{flex:1;min-height:46px;border:0;border-radius:999px;background:transparent;font:inherit;font-weight:700;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;transition:background .2s,color .2s}
+.lv-tabs button[aria-selected="true"]{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(200,40,200,.28)}
+.lv-tabs .m{display:inline-flex;gap:2px}
+.lv-tabs .m i{display:block;width:4px;height:11px;border-radius:2px;background:currentColor;opacity:.3}
+.lv-tabs .m i.on{opacity:1}
+.lv-card{width:100%;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.1rem 1.25rem;box-shadow:var(--lift)}
+.lv-card p{margin:0;color:var(--muted)}
+.lv-card .lv-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:.25rem .9rem;margin-top:.8rem;color:var(--fg)}
+.lv-price b{font-family:var(--display);font-size:2.7rem;line-height:.9}
+.lv-price .alt{color:var(--muted);font-size:var(--step--1)}
+.pod-cta{display:flex;align-items:center;gap:.6rem 1rem;flex-wrap:wrap}
+.pod-cta span{color:var(--muted);font-size:var(--step--1);max-width:34ch}
+@media (max-width:800px){
+  .pod{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "demo" "body"}
+  .pod-head{text-align:center}.pod-head h2,.pod-head .lead{margin-inline:auto}
+  .pod-demo{max-width:270px}
+  .pod-body{justify-items:center}.lv-card{text-align:start}
+  .pod-cta{justify-content:center;text-align:center}
+}
+@media (max-width:480px){.pod-cta .btn{width:100%}}
+@media (prefers-reduced-motion: reduce){.pod-wave i,.pod-cap span{animation:none}.pod-screen.glitch .pod-scene{animation:none}}
 </style>
 
 <div class="wrap">
@@ -627,6 +708,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <a class="svc-i" href="#launch"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>דפי נחיתה ואתרים</b><span class="d">בצבעי המותג, מותאמים לנייד, עם כפתור וואטסאפ.</span></a>
       <a class="svc-i" href="#decks"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span><b>מצגות והצעות מחיר</b><span class="d">הצעת מחיר יבשה הופכת למסמך שמרגיש כמו ברושור.</span></a>
       <a class="svc-i" href="#maker"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span><b>כפיל דיגיטלי</b><span class="d">אתם בסרטון, בקול שלכם, בלי לצלם כל פעם מחדש.</span></a>
+      <a class="svc-i" href="#podcast"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></span><b>עריכת פודקאסטים</b><span class="d">פרק אחד הופך לחמישה רילסים, תוך 48 שעות.</span></a>
     </nav>
     <a class="priv-door" href="/trends"><span class="pd-t"><span class="pd-k">גם לפרטיים</span><b>טרנד מ־₪149, וקליפ אישי שבו אתם הגיבורים</b></span><span class="pd-go">לטרנדים ולקליפים ←</span></a>
   </section>
@@ -697,6 +779,59 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <li>אישור שלכם לפני כל מסירה</li>
       <li>סבב תיקון כלול</li>
     </ul>
+  </section>
+
+  <section id="podcast">
+    <div class="pod">
+      <div class="pod-head">
+        <p class="kicker">עריכת פודקאסטים</p>
+        <h2>פרק אחד. <span class="neon-pink">חמישה רילסים שעוצרים את הגלילה.</span></h2>
+        <p class="lead">שולחים את הפרק המלא. אנחנו בוחרים את הרגעים הכי חזקים, פותחים כל רילס במשפט שתופס, ומוסיפים כתוביות, גרפיקה וסאונד. תוך 48 שעות.</p>
+      </div>
+      <figure class="pod-demo">
+        <div class="pod-screen" id="pod-screen" data-level="2" role="img" aria-label="המחשה: אותו קטע מפודקאסט בשלוש רמות עריכה. כתוביות שנבנות מילה אחרי מילה, מספר ענק שנספר, ובמשולב ובמטורף גם תמונות, גליץ׳ ופריז.">
+          <div class="pod-scene" aria-hidden="true">
+            <div class="pod-bg"></div>
+            <div class="pod-mic"><svg viewBox="0 0 64 96" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="19" y="4" width="26" height="46" rx="13" fill="rgba(255,255,255,.1)"/><path d="M26 17h12M26 25h12M26 33h12" opacity=".55"/><path d="M10 38a22 22 0 0 0 44 0"/><path d="M32 60v16M19 78h26"/></svg></div>
+            <div class="pod-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="pod-label"><b>שם האורח</b><small>שם העסק</small></div>
+            <div class="pod-broll"><div class="pod-feed"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+            <div class="pod-num"><b>0</b><small>שניות</small></div>
+            <div class="pod-band"></div>
+            <p class="pod-cap"></p>
+            <div class="pod-kin"><b>3</b><span>שניות</span></div>
+            <div class="pod-frame"></div>
+          </div>
+          <div class="pod-end" aria-hidden="true"><span>הלוגו שלכם</span></div>
+          <div class="pod-flash" aria-hidden="true"></div>
+          <span class="pod-badge" aria-hidden="true">משולב</span>
+        </div>
+        <figcaption>המחשה של שלוש רמות העריכה. לחצו על רמה כדי לראות את ההבדל.</figcaption>
+      </figure>
+      <div class="pod-body">
+        <div class="lv-tabs" role="tablist" aria-label="רמת העריכה">
+          <button type="button" role="tab" aria-selected="false" aria-controls="lv-card" data-lv="1" tabindex="-1">נקי <span class="m" aria-hidden="true"><i class="on"></i><i></i><i></i></span></button>
+          <button type="button" role="tab" aria-selected="true" aria-controls="lv-card" data-lv="2">משולב <span class="m" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="lv-card" data-lv="3" tabindex="-1">מטורף <span class="m" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span></button>
+        </div>
+        <div class="lv-card" id="lv-card" role="tabpanel" aria-live="polite">
+          <p id="lv-desc">כל מה שבנקי, ועוד תמונות במסך מלא שזזות על המילים, אפקטים קוליים, ושקט במוזיקה רגע לפני המשפט החזק.</p>
+          <p class="lv-price"><b id="lv-p5">₪690</b><span>ל־5 רילסים מפרק אחד</span><span class="alt" id="lv-p10">10 רילסים: ₪1,290</span></p>
+        </div>
+        <ul class="incl">
+          <li><b>אנחנו בוחרים את הרגעים</b> ופותחים כל רילס במשפט הכי חזק.</li>
+          <li><b>חיתוך על סוף משפט,</b> בלי מילה קטועה באמצע.</li>
+          <li><b>מצלמה אחת או שתיים,</b> עם השם והתפקיד של כל דובר על המסך.</li>
+          <li><b>צוות אנושי עובר על כל רילס</b> לפני שהוא יוצא אליכם.</li>
+        </ul>
+        <div class="pod-cta">
+          <a class="btn btn-pink js-pick" href="#order" data-product="5 רילסים מפודקאסט · מ־₪490 + מע״מ">להזמנת רילסים מהפרק שלכם</a>
+          <a class="btn btn-ghost js-pick" href="#order" data-product="רילס ניסיון מפודקאסט · מ־₪98 + מע״מ">לנסות רילס אחד <small>· <span id="lv-p1">₪138</span></small></a>
+        </div>
+        <p class="small pod-try">רוצים לראות קודם שהסגנון מתאים לכם? מזמינים רילס אחד במחיר היחסי מהחבילה, פעם אחת לכל עסק. אהבתם? משלימים לחבילה, והסכום ששילמתם נכנס בה.</p>
+        <p class="small">המחירים לפני מע״מ, לפרק של עד שעה וחצי. מסירה תוך 48 שעות (לא כולל שבת), או אקספרס תוך 24 שעות. פודקאסט שבועי? 4 פרקים בחודש ב־15% פחות.</p>
+      </div>
+    </div>
   </section>
 
   <section id="proof">
@@ -841,6 +976,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <div class="row">
           <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
           <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
+        </div>
+        <div class="row">
+          <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
+          <p class="desc">5 רילסים מפרק אחד, בסגנון נקי, משולב או מטורף. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
         </div>
         <div class="row">
           <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
@@ -1009,6 +1148,9 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
             <option>סרטון נקי לעסק · ₪390 + מע״מ</option>
             <option>סרטון משולב לעסק · ₪890 + מע״מ</option>
             <option>סרטון מטורף לעסק · ₪1,690 + מע״מ</option>
+            <option>רילס ניסיון מפודקאסט · מ־₪98 + מע״מ</option>
+            <option>5 רילסים מפודקאסט · מ־₪490 + מע״מ</option>
+            <option>10 רילסים מפודקאסט · מ־₪890 + מע״מ</option>
             <option>חבילת השקה · ₪2,490 + מע״מ</option>
             <option>סוכן וואטסאפ או פתרון AI לעסק · לפי הצעה</option>
             <option>מצגת או הצעת מחיר מעוצבת · לפי הצעה</option>
@@ -1035,6 +1177,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <details><summary><span class="q-n" aria-hidden="true">04</span><span class="q-t">אפשר להכניס לסרטון עוד אנשים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן, גם כשזו הפתעה. רק ודאו שמי שמופיע בסדר עם זה. הצוות עובר על כל החומרים, ואם משהו לא תקין נחזור אליכם. סרטונים של מפורסמים ואנשי ציבור אנחנו לא עושים, וקול משובט רק באישור של בעל הקול.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">05</span><span class="q-t">מה קורה עם דף הנחיתה אחרי השנה הראשונה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>ממשיכים ב־₪49 לחודש, כולל אחסון ותיקונים קטנים, או לוקחים את הדף לאחסון אחר. הדומיין רשום על שמכם, ומקבלים את כל הקבצים.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">06</span><span class="q-t">המחירים כוללים מע״מ?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לפרטיים המחירים כוללים מע״מ. לעסקים המחירים לפני מע״מ, ומקבלים חשבונית.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">07</span><span class="q-t">מה שולחים כדי לקבל רילסים מפודקאסט?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לפרק המלא, בדרייב, בוויטרנספר או ביוטיוב. אם צילמתם בשתי מצלמות, שלחו את שתיהן ואת קובץ הסאונד. את הרגעים אנחנו בוחרים, ואם יש נושא שחשוב לכם להבליט או להשאיר בחוץ, כתבו לנו.</p></div></details>
     </div>
     <div class="faq-cta">
       <div><b>יש שאלה שלא מופיעה כאן?</b><span>כתבו לנו בוואטסאפ ונחזור אליכם.</span></div>
@@ -1677,6 +1820,147 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   new IntersectionObserver(function(es){
     if (es[0].isIntersecting && !played) { played = true; play(); }
   }, { threshold: .35 }).observe(ph);
+})();
+</script>
+<script>
+/* podcast demo: one short reel drawn in code. Every frame is a pure function of time, so switching the level replays the same moment. */
+(function(){
+  var scr = document.getElementById('pod-screen');
+  if (!scr) return;
+  function $(s){ return scr.querySelector(s); }
+  var scene = $('.pod-scene'), cap = $('.pod-cap'), num = $('.pod-num'), numB = num.querySelector('b'),
+      broll = $('.pod-broll'), feed = $('.pod-feed'), cards = feed.querySelectorAll('i'), band = $('.pod-band'),
+      label = $('.pod-label'), kin = $('.pod-kin'), kinB = kin.querySelector('b'), kinS = kin.querySelector('span'),
+      flash = $('.pod-flash'), badge = $('.pod-badge');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.lv-tabs [role=tab]'));
+  var desc = document.getElementById('lv-desc'), p5 = document.getElementById('lv-p5'), p10 = document.getElementById('lv-p10'), p1 = document.getElementById('lv-p1');
+  var LV = {
+    1: { name: 'נקי', d: 'כתוביות קולנועיות שנבנות מילה אחרי מילה, מילות מפתח בירוק ובאדום, מספרים ענקיים שנספרים, מוזיקת רקע וסיום עם הלוגו שלכם.', p1: '₪98', p5: '₪490', p10: '₪890' },
+    2: { name: 'משולב', d: 'כל מה שבנקי, ועוד תמונות במסך מלא שזזות על המילים, אפקטים קוליים, ושקט במוזיקה רגע לפני המשפט החזק.', p1: '₪138', p5: '₪690', p10: '₪1,290' },
+    3: { name: 'מטורף', d: 'כל מה שבמשולב, ועוד פתיח של טקסט ענק, רקע שמתחלף מאחורי הדובר, פריז בשחור לבן, גליץ׳ וזומים.', p1: '₪178', p5: '₪890', p10: '₪1,690' }
+  };
+  /* [word, start, colour]; seconds after the opener */
+  var LINES = [
+    { a: 0.15, b: 2.25, w: [['יש', .15], ['לכם', .35], ['בדיוק', .6], ['3', .9], ['שניות', 1.15]] },
+    { a: 2.3, b: 4.45, w: [['לעצור', 2.35], ['את', 2.62], ['הגלילה', 2.85, 'g']] },
+    { a: 4.5, b: 6.6, w: [['או', 4.55], ['שהצופה', 4.8], ['ממשיך', 5.1], ['הלאה', 5.4, 'r']] }
+  ];
+  var END = 6.6, TAIL = 0.75;
+  var level = 2, start = 0, raf = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var shown = { li: -2, n: 0 };
+
+  function clamp(x, a, b){ return Math.max(a, Math.min(b, x)); }
+  function ease(x){ x = clamp(x, 0, 1); return 1 - Math.pow(1 - x, 3); }
+  function pulse(t, at, len){ return t >= at && t < at + len ? 1 - (t - at) / len : 0; }
+  function opener(){ return level === 3 ? 1.25 : 0; }
+  function total(){ return opener() + END + TAIL; }
+  function still(){ return opener() + 3.3; }
+
+  function render(T){
+    var off = opener(), t = T - off, inKin = level === 3 && T < off;
+
+    /* level 3 opener: a giant "3 שניות" slams on black */
+    kin.style.opacity = inKin ? 1 : 0;
+    kinB.classList.toggle('in', inKin && T >= .05);
+    kinS.classList.toggle('in', inKin && T >= .45);
+
+    /* captions, word by word; a new line clears the old one */
+    var li = -1, line = null, n = 0;
+    if (!inKin && t < END) for (var i = 0; i < LINES.length; i++) if (t >= LINES[i].a && t < LINES[i].b) { li = i; line = LINES[i]; }
+    if (line) line.w.forEach(function(w){ if (t >= w[1]) n++; });
+    if (li !== shown.li || n < shown.n) { cap.textContent = ''; shown.li = li; shown.n = 0; }
+    while (line && shown.n < n) {
+      var w = line.w[shown.n++], s = document.createElement('span');
+      s.textContent = w[0]; if (w[2]) s.className = w[2];
+      cap.appendChild(s);
+    }
+
+    /* the giant number counts up while it is said */
+    var numOn = !inKin && t >= .9 && t < 2.15;
+    num.classList.toggle('on', numOn);
+    var v = String(Math.round(3 * ease((t - .9) / .4)));
+    if (numB.textContent !== v) numB.textContent = v;
+
+    /* levels 2 and 3: a full-screen picture under the voice. Here a feed that scrolls and stops on "הגלילה" */
+    var brOn = level >= 2 && t >= 2.3 && t < 4.45;
+    broll.style.opacity = brOn ? 1 : 0;
+    band.style.opacity = brOn ? 1 : 0;
+    if (brOn) {
+      var y = 200 - 450 * ease((t - 2.3) / .55);
+      feed.style.transform = 'translateY(' + y.toFixed(1) + 'px) rotateX(12deg) scale(' + (1 + .08 * (t - 2.3) / 2.15).toFixed(3) + ')';
+      cards[4].classList.toggle('hit', t >= 2.85);
+    }
+
+    label.style.opacity = !inKin && t >= .15 && t < 2.25 ? 1 : 0;
+    scr.classList.toggle('quiet', numOn || brOn);
+
+    /* level 3 extras: glitch on the cuts, background swap, black and white freeze, punches and shakes */
+    var l3 = level === 3;
+    scr.classList.toggle('glitch', l3 && ((t >= 2.2 && t < 2.4) || (t >= 4.42 && t < 4.6)));
+    if (l3 && t >= 4.5) scr.setAttribute('data-bg', '2'); else scr.removeAttribute('data-bg');
+    scr.classList.toggle('freeze', l3 && t >= 5.6 && t < END);
+    scr.classList.toggle('ended', t >= END);
+
+    var f = 0;
+    if (level >= 2) f = Math.max(f, .9 * pulse(t, 2.3, .16));
+    if (l3) f = Math.max(f, pulse(t, 0, .18), pulse(t, 5.6, .12));
+    flash.style.opacity = f.toFixed(2);
+
+    var sc = 1, sx = 0, sy = 0;
+    if (level >= 2) sc += .05 * pulse(t, 2.85, .5);
+    if (l3 && !reduce) {
+      sc += .08 * (pulse(t, 2.85, .4) + pulse(t, 5.4, .4));
+      var sh = pulse(t, 2.85, .3) + pulse(t, 5.4, .3) + pulse(T, .05, .25) + pulse(T, .45, .2);
+      if (sh > 0) { sx = (Math.random() - .5) * 12 * sh; sy = (Math.random() - .5) * 12 * sh; }
+    }
+    scene.style.transform = 'translate(' + sx.toFixed(1) + 'px,' + sy.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+  }
+
+  function frame(now){
+    if (!start) start = now;
+    render(((now - start) / 1000) % total());
+    raf = requestAnimationFrame(frame);
+  }
+  function play(){ if (!raf && !reduce) raf = requestAnimationFrame(frame); }
+  function stop(){ if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+  function setLevel(lv, focus){
+    level = lv;
+    scr.setAttribute('data-level', lv);
+    badge.textContent = LV[lv].name;
+    desc.textContent = LV[lv].d;
+    p5.textContent = LV[lv].p5;
+    p10.textContent = '10 רילסים: ' + LV[lv].p10;
+    if (p1) p1.textContent = LV[lv].p1;
+    tabs.forEach(function(b){
+      var on = Number(b.getAttribute('data-lv')) === lv;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+      if (on && focus) b.focus();
+    });
+    shown.li = -2; start = 0;
+    if (!raf) render(still());
+  }
+  tabs.forEach(function(b, i){
+    b.addEventListener('click', function(){ setLevel(Number(b.getAttribute('data-lv'))); });
+    b.addEventListener('keydown', function(e){
+      var j = i;
+      if (e.key === 'ArrowLeft') j = Math.min(tabs.length - 1, i + 1);       /* RTL: left is next */
+      else if (e.key === 'ArrowRight') j = Math.max(0, i - 1);
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = tabs.length - 1;
+      else return;
+      e.preventDefault();
+      setLevel(Number(tabs[j].getAttribute('data-lv')), true);
+    });
+  });
+
+  render(still());
+  if (reduce) return;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ if (es[0].isIntersecting) play(); else stop(); }, { threshold: .2 }).observe(scr);
+  } else play();
 })();
 </script>
 </body>

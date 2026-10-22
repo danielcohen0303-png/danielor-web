@@ -9,17 +9,17 @@
 <meta property="og:site_name" content="Danielor">
 <meta property="og:locale" content="he_IL">
 <meta property="og:url" content="https://danielor.ai/">
-<meta property="og:title" content="Danielor · שולחים תמונה. מקבלים סרטון.">
-<meta property="og:description" content="סרטוני AI בעברית לעסקים ולאנשים פרטיים: טרנדים, קליפים אישיים וסרטונים לעסק.">
+<meta property="og:title" content="Danielor · כל ה-AI שהעסק צריך">
+<meta property="og:description" content="פתרונות AI לעסקים בעברית: סרטוני פרסומת, סוכן וואטסאפ, דפי נחיתה, מצגות והצעות מחיר מעוצבות. וגם טרנדים וקליפים אישיים.">
 <meta property="og:image" content="https://danielor.ai/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Danielor: שולחים תמונה. מקבלים סרטון.">
+<meta property="og:image:alt" content="Danielor: פתרונות AI לעסקים, בעברית">
 <meta name="twitter:card" content="summary_large_image">
-<title>Danielor · סרטוני AI בעברית</title>
+<title>Danielor · פתרונות AI לעסקים, בעברית</title>
 <link rel="icon" href="logo-icon.png">
 <link rel="apple-touch-icon" href="logo-icon.png">
-<meta name="description" content="סרטוני AI בעברית לעסקים ולאנשים פרטיים: טרנדים, קליפים אישיים וסרטונים לעסק.">
+<meta name="description" content="פתרונות AI לעסקים בעברית: סרטוני פרסומת, סוכן וואטסאפ, דפי נחיתה, מצגות והצעות מחיר מעוצבות. וגם טרנדים וקליפים אישיים.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Rubik:wght@400;500;700;900&display=swap">
@@ -125,6 +125,104 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .hero h1 .l1{display:block}
 .hero h1 .l2{display:block;animation:flicker 2.6s ease-out 1.3s 1 both}
 @keyframes flicker{0%{opacity:.15;text-shadow:none}8%{opacity:1}10%{opacity:.3}14%{opacity:1}18%{opacity:.5}22%,100%{opacity:1}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.hero h1{font-size:clamp(3.4rem,2.2rem + 5.4vw,7.2rem)}
+.hero .phone{max-width:290px}
+.rot{font-family:var(--display);font-weight:700;font-size:clamp(2rem,1.5rem + 2vw,3.1rem);line-height:1.05;margin:1.1rem 0 0;min-height:1.05em;color:var(--fg)}
+.rot-w{color:var(--violet);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.rot [aria-hidden]::after{content:"";display:inline-block;width:.09em;min-width:3px;height:.78em;margin-inline-start:.08em;vertical-align:-.04em;background:var(--pink-hot);border-radius:2px;box-shadow:0 0 10px var(--pink-glow);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.hero .lead{font-size:var(--step-0);margin-top:.9rem}
+.hero .offers{margin-top:1.4rem}
+/* services row: what we build, visible at first glance */
+.svc{grid-column:1 / -1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.75rem}
+.svc-i{position:relative;display:flex;flex-direction:column;gap:.3rem;padding:1rem .95rem 1.1rem;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--lift);text-decoration:none;color:var(--fg);min-width:0;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.svc-i:hover{transform:translateY(-3px);border-color:var(--pink-hot);box-shadow:0 14px 34px rgba(255,47,200,.18)}
+.svc-i::after{content:"←";position:absolute;top:1rem;inset-inline-end:1rem;font-weight:700;color:var(--line-2);transition:color .18s ease,translate .18s ease}
+.svc-i:hover::after{color:var(--pink-hot);translate:-3px 0}
+.svc-i .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#e2f4f8;color:var(--cyan);margin-bottom:.35rem}
+.svc-i:nth-child(3n+2) .ic{background:#fbe5f5;color:var(--pink)}
+.svc-i:nth-child(3n) .ic{background:#eee5fc;color:var(--violet)}
+.svc-i svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.svc-i b{font-size:var(--step-0);line-height:1.2}
+.svc-i .d{font-size:var(--step--1);color:var(--muted);line-height:1.45}
+.svc-i.main{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:1.5px solid transparent;box-shadow:0 14px 34px rgba(255,47,200,.16)}
+.svc-i.main .ic{background:var(--grad);color:#fff}
+@media (max-width:1100px){.svc{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){
+  .hero>div:first-child{order:1}.hero .svc{order:2}.hero .phone{order:3}
+  .svc{text-align:start}
+}
+@media (max-width:620px){
+  .svc{grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+  .svc-i{padding:.85rem .8rem .9rem}
+  .svc-i .ic{width:38px;height:38px;border-radius:11px;margin-bottom:.2rem}
+  .svc-i::after{top:.85rem;inset-inline-end:.8rem}
+}
+@media (prefers-reduced-motion: reduce){.rot [aria-hidden]::after{animation:none}}
+/* WhatsApp agent */
+.agent{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(1.5rem,1rem + 3vw,3.5rem);align-items:center}
+.agent .lead{font-size:var(--step-0)}
+.agent .incl{margin-top:1.2rem}
+.agent-more{color:var(--muted);margin:1rem 0 0;max-width:58ch}
+.agent-cta{display:flex;align-items:center;gap:.6rem 1rem;flex-wrap:wrap;margin-top:1.4rem}
+.agent-cta span{color:var(--muted);font-size:var(--step--1)}
+.chat-demo{margin:0;display:grid;justify-items:center;gap:.8rem}
+.chat-demo figcaption{font-size:var(--step--1);color:var(--muted);text-align:center;max-width:36ch}
+.wa-phone{width:100%;max-width:330px;border-radius:30px;border:2px solid var(--cyan);box-shadow:0 18px 44px var(--cyan-glow),0 0 30px rgba(20,179,209,.18);overflow:hidden;background:#f1eafa}
+.wa-top{display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;background:var(--fg);color:#fff}
+.wa-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--grad);font-family:var(--display);font-weight:700;font-size:1.3rem;line-height:1}
+.wa-who{display:grid;line-height:1.2}
+.wa-who b{font-size:.95rem}
+.wa-who small{font-size:.72rem;opacity:.75}
+.wa-body{display:flex;flex-direction:column;gap:.45rem;padding:1rem .75rem 1.1rem;min-height:430px;
+  background:radial-gradient(circle at 20% 15%,rgba(255,47,200,.08),transparent 40%),radial-gradient(circle at 85% 70%,rgba(20,179,209,.10),transparent 45%),#f4eefa}
+.msg{max-width:84%;padding:.45rem .65rem .3rem;border-radius:12px;font-size:.88rem;line-height:1.42;box-shadow:0 1px 1.5px rgba(29,16,51,.14);transition:opacity .35s ease,transform .35s ease}
+.msg p{margin:0}
+.msg time{display:block;text-align:left;font-size:.66rem;color:#7d7396;margin-top:.15rem;direction:ltr}
+.msg.mi{align-self:flex-start;background:#fff;border-start-start-radius:4px}
+.msg.mo{align-self:flex-end;background:#dcf8c6;border-start-end-radius:4px}
+.msg .lnk{display:block;margin-top:.3rem;font-size:.8rem;color:#0a6fb0;text-decoration:underline;direction:ltr;text-align:right}
+.msg.voice{display:flex;align-items:center;gap:.55rem;min-width:190px}
+.msg.voice time{margin:0 0 0 auto}
+.vplay{width:0;height:0;border-block:7px solid transparent;border-inline-end:11px solid var(--cyan);flex:none}
+.wave{display:flex;align-items:center;gap:2px;height:22px;direction:ltr}
+.wave i{display:block;width:3px;border-radius:2px;background:#9e93b8}
+.wave i:nth-child(4n+1){height:30%}.wave i:nth-child(4n+2){height:75%}.wave i:nth-child(4n+3){height:100%}.wave i:nth-child(4n){height:50%}
+.msg.typing{display:none;gap:4px;padding:.6rem .75rem}
+.msg.typing span{width:7px;height:7px;border-radius:50%;background:#8a7fa6;animation:dot 1.1s ease-in-out infinite}
+.msg.typing span:nth-child(2){animation-delay:.15s}.msg.typing span:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.wa-phone.play .msg:not(.typing){opacity:0;transform:translateY(10px) scale(.98)}
+.wa-phone.play .msg.show{opacity:1;transform:none}
+.wa-phone.play .msg.typing.on{display:flex}
+@media (max-width:900px){.agent{grid-template-columns:minmax(0,1fr)}.wa-phone{max-width:310px}}
+@media (max-width:480px){.agent-cta .btn{width:100%}}
+.q2d-sub{margin:0;color:var(--muted);max-width:54ch}
+.built{margin-top:clamp(2rem,1.5rem + 2vw,3rem)}
+.built-h{font-size:var(--step-1);line-height:1.3;margin-bottom:1rem}
+.built-h span{color:var(--muted);font-weight:500}
+.built-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem}
+.built-list li{display:flex;flex-direction:column;gap:.3rem;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1rem 1rem 1.1rem;box-shadow:var(--lift);min-width:0}
+.built-list b{font-size:var(--step-0)}
+.built-list li>span:last-child{color:var(--muted);font-size:var(--step--1);line-height:1.5}
+.bi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#e2f4f8;color:var(--cyan);margin-bottom:.3rem}
+.built-list li:nth-child(2) .bi{background:#fbe5f5;color:var(--pink)}
+.built-list li:nth-child(3) .bi{background:#eee5fc;color:var(--violet)}
+.bi svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:1000px){.built-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.built-list{grid-template-columns:1fr}}
+@media (max-width: 800px){.q2d-sub{margin-inline:auto}}
+.row .price.quote{font-size:var(--step-0);color:var(--violet)}
+#reels .tape{margin-top:1.4rem}
+.lib-link{margin-top:1.8rem}
+.lib-link .n{font-weight:500;opacity:.85;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.lib-link{width:100%}}
+@media (min-width:901px){
+  .hero{padding-block:.6rem 1.6rem;row-gap:1.8rem}
+  .hero .sign{width:min(100%,330px);margin-bottom:1rem}
+  .hero h1{font-size:clamp(3.4rem,2.2rem + 4.6vw,6.3rem)}
+}
 .offers{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.8rem}
 .offers .btn{flex-direction:column;gap:0;line-height:1.25;padding:.75rem 1.4rem}
 .more{margin-top:.8rem;font-size:var(--step-0)}
@@ -478,11 +576,13 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 <div class="wrap">
   <header class="top">
     <nav class="nav" aria-label="ניווט">
-      <a href="#before-after">לפני ואחרי</a>
+      <a href="#services">שירותים</a>
       <a href="/trends">טרנדים</a>
+      <a href="/videos">סרטונים שהכנו</a>
+      <a href="#agent">סוכן AI</a>
       <a href="#prices">מחירים</a>
       <a href="#launch">חבילת השקה</a>
-      <a href="#decks">מצגות</a>
+      <a href="#decks">מצגות והצעות מחיר</a>
       <a href="#order">הזמנה</a>
     </nav>
   </header>
@@ -491,25 +591,27 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   <section class="hero" id="top">
     <div>
       <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
-      <p class="kicker">סרטוני AI בעברית</p>
-      <h1><span class="l1">שולחים תמונה.</span><span class="l2 neon-pink">מקבלים סרטון.</span></h1>
-      <p class="lead">טרנדים, קליפים אישיים וסרטונים לעסק. אתם שולחים מה שיש לכם, אנחנו מכינים טיוטה, ואתם מאשרים לפני שהסרטון יוצא.</p>
+      <p class="kicker">פתרונות AI לעסקים, בעברית</p>
+      <h1><span class="l1">כל ה-AI</span><span class="l2 neon-pink">שהעסק צריך.</span></h1>
+      <p class="rot"><span class="sr-only">בונים לכם סרטוני פרסומת, סוכן וואטסאפ, דפי נחיתה, מצגות, הצעות מחיר מעוצבות וכפיל דיגיטלי.</span><span aria-hidden="true">בונים לכם <span class="rot-w" id="rot-w">סרטון פרסומת</span></span></p>
+      <p class="lead">מספרים לנו מה העסק צריך, אנחנו בונים, ואתם מאשרים לפני שזה יוצא לאוויר.</p>
       <div class="offers">
-        <a class="btn btn-pink js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">סרטון היכרות לעסק<small>₪199 · פעם אחת לכל עסק</small></a>
-        <a class="btn btn-ghost js-pick" href="#order" data-product="טרנד · ₪149">טרנד מוכן<small>₪149 · תוך 24 שעות</small></a>
+        <a class="btn btn-pink js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם הצעה מדויקת</small></a>
+        <a class="btn btn-ghost js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">סרטון היכרות לעסק<small>₪199 · פעם אחת לכל עסק</small></a>
       </div>
-      <a class="btn btn-soft more" href="#prices">לכל התפריט והמחירים <span class="arr" aria-hidden="true">←</span></a>
-      <ul class="tape" aria-label="מה מקבלים">
-        <li>כתוביות בעברית</li>
-        <li>גם בקול שלכם</li>
-        <li>אישור שלכם לפני כל מסירה</li>
-        <li>סבב תיקון כלול</li>
-      </ul>
     </div>
     <div class="frame phone glow-a" data-video="showreel.mp4" data-full="showreel-full.mp4" data-title="השואוריל המלא">
       <span class="tag">שואוריל</span>
       <span class="ph">כאן יתנגן השואוריל, בלי קול</span>
     </div>
+    <nav class="svc" id="services" aria-label="השירותים שלנו">
+      <a class="svc-i main" href="#reels"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>סרטוני פרסומת</b><span class="d">מודעות, רילס ופרסומות למוצר. בלי צלם ובלי עורך.</span></a>
+      <a class="svc-i" href="#agent"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ AI</b><span class="d">עונה ללקוחות 24/7 בעברית, ומעביר אליכם רק את מה שצריך.</span></a>
+      <a class="svc-i" href="#launch"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>דפי נחיתה ואתרים</b><span class="d">בצבעי המותג, מותאמים לנייד, עם כפתור וואטסאפ.</span></a>
+      <a class="svc-i" href="#decks"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span><b>מצגות והצעות מחיר</b><span class="d">הצעת מחיר יבשה הופכת למסמך שמרגיש כמו ברושור.</span></a>
+      <a class="svc-i" href="#maker"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span><b>כפיל דיגיטלי</b><span class="d">אתם בסרטון, בקול שלכם, בלי לצלם כל פעם מחדש.</span></a>
+      <a class="svc-i" href="/trends"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 3l1.9 4.7L17.5 9.5l-4.6 1.8L11 16l-1.9-4.7L4.5 9.5l4.6-1.8z"/><path d="M18 14.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg></span><b>טרנדים וקליפים אישיים</b><span class="d">לפרטיים: טרנד מ־₪149, וקליפ שבו אתם הגיבורים.</span></a>
+    </nav>
   </section>
 
   <section id="before-after">
@@ -567,10 +669,17 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <h3>פרסומת לנדל״ן</h3><p>רילס לפרויקט מתוך ההדמיות. לסוכנויות, למשרדי תיווך וליזמים בישראל.</p>
       </article>
       <article class="reel">
-        <div class="frame glow-a" data-video="explainer.mp4" data-gallery="explainers"><span class="tag">עוד דוגמאות</span><span class="ph">סרטון הסבר</span></div>
+        <div class="frame glow-a" data-video="/lib/dubai-population-p.mp4" data-poster="/lib/dubai-population.jpg" data-gallery="explainers"><span class="tag">עוד דוגמאות</span><span class="ph">סרטון הסבר</span></div>
         <h3>סרטון הסבר</h3><p>רעיון מסובך, מוסבר בקליפ אחד ברור.</p>
       </article>
     </div>
+    <a class="btn btn-pink lib-link" href="/videos">לעוד סרטונים שהכנו <span class="n">(43)</span> <span class="arr" aria-hidden="true">←</span></a>
+    <ul class="tape" aria-label="מה מקבלים בכל סרטון">
+      <li>כתוביות בעברית</li>
+      <li>גם בקול שלכם</li>
+      <li>אישור שלכם לפני כל מסירה</li>
+      <li>סבב תיקון כלול</li>
+    </ul>
   </section>
 
   <section id="proof">
@@ -662,11 +771,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
   <section id="paths">
     <p class="kicker">למי זה</p>
-    <h2>לעסק, לרגע, לטרנד</h2>
+    <h2>לעסק, לרגע אישי, לטרנד</h2>
     <div class="doors">
       <div class="door d1">
         <h3>עסקים</h3>
-        <p>סרטונים לרשתות ולמודעות, בלי צלם ובלי עורך, וחבילת השקה עם דף נחיתה. משלמים לפי עבודה, בלי מנוי.</p>
+        <p>סרטוני פרסומת לרשתות ולמודעות, סוכן וואטסאפ, דפי נחיתה, מצגות והצעות מחיר מעוצבות. בלי צלם ובלי עורך.</p>
         <div class="go"><b>מ־₪199</b><a class="js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">להזמנת סרטון היכרות</a></div>
       </div>
       <div class="door d2">
@@ -719,6 +828,14 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <div class="row">
           <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
           <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
+        </div>
+        <div class="row">
+          <span class="name">סוכן וואטסאפ או פתרון AI</span><span class="price quote">לפי הצעה</span>
+          <p class="desc">סוכן וואטסאפ, סוכן קולי לטלפון או כפיל דיגיטלי, לפי מה שהעסק צריך. <a href="#agent">מה זה כולל</a></p>
+        </div>
+        <div class="row">
+          <span class="name">מצגת או הצעת מחיר מעוצבת</span><span class="price quote">לפי הצעה</span>
+          <p class="desc">מסמך ברמת ברושור, בצבעי המותג. <a href="#decks">דוגמה</a></p>
         </div>
         <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
         <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
@@ -780,6 +897,50 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     </div>
   </section>
 
+  <section id="agent">
+    <div class="agent">
+      <div class="agent-text">
+        <p class="kicker">סוכן AI לעסק</p>
+        <h2>סוכן וואטסאפ שעונה ללקוחות <span class="neon-pink">גם ב־2 בלילה</span></h2>
+        <p class="lead">סוכן בעברית שמכיר את השירותים, המחירים והנהלים של העסק שלכם. עונה מיד, אוסף פרטים, ומעביר אליכם רק את מה שבאמת צריך אתכם.</p>
+        <ul class="incl">
+          <li><b>עונה 24/7 בעברית טבעית,</b> כולל הודעות קוליות ותמונות.</li>
+          <li><b>שולח ללקוח בדיוק מה שצריך:</b> מחיר, טופס פרטים, סרטון הסבר או קישור לתשלום.</li>
+          <li><b>מעביר אליכם שיחה עם סיכום קצר</b> כשצריך מגע אנושי, ואתם ממשיכים מהטלפון.</li>
+          <li><b>דוח בוואטסאפ כשתבקשו:</b> מי פנה, מי קיבל מחיר ומי שילם.</li>
+        </ul>
+        <p class="agent-more">אפשר גם סוכן קולי שעונה לטלפון, וכפיל דיגיטלי שמדבר בקול שלכם. המחיר לפי הצעה, אחרי שיחת התאמה קצרה.</p>
+        <div class="agent-cta">
+          <a class="btn btn-pink js-wa" href="#order" data-wa-text="היי, אשמח לשמוע על סוכן וואטסאפ לעסק שלי">דברו עם הסוכן שלנו בוואטסאפ</a>
+          <span>הסוכן שיענה לכם בנוי בדיוק ככה.</span>
+        </div>
+      </div>
+      <figure class="chat-demo">
+        <div class="wa-phone" id="wa-demo">
+          <div class="wa-top"><span class="wa-av" aria-hidden="true">D</span><span class="wa-who"><b>Danielor</b><small id="wa-state">מחובר/ת</small></span></div>
+          <div class="wa-body" role="img" aria-label="המחשה: לקוחה שואלת בלילה כמה עולה טרנד, שולחת הודעה קולית, והסוכן עונה עם מחיר וקישור לטופס">
+            <div class="msg mi" data-at="0"><p>היי, ראיתי את הטרנדים באתר. כמה עולה אחד?</p><time>23:47</time></div>
+            <div class="msg mo" data-at="1"><p>היי! 🙂 טרנד מוכן עולה ₪149, ומגיע תוך 24 שעות, לרוב תוך כמה שעות. רוצה לראות את הטרנדים החמים של השבוע?</p><time>23:47</time></div>
+            <div class="msg mi voice" data-at="2"><span class="vplay" aria-hidden="true"></span><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><time>0:06</time></div>
+            <div class="msg mo" data-at="3"><p>הבנתי, טרנד אחד לך ולחברה שלך. הנה טופס קצר להעלאת התמונות, 3 לכל אחת:</p><span class="lnk">brief.danielor.ai</span><time>23:48</time></div>
+            <div class="msg mi" data-at="4"><p>מעולה, תודה!! ❤️</p><time>23:48</time></div>
+            <div class="msg mo typing" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <figcaption>המחשה של שיחה עם הסוכן של Danielor. את אותו דבר בונים לעסק שלכם, עם המחירים והנהלים שלכם.</figcaption>
+      </figure>
+    </div>
+    <div class="built">
+      <h3 class="built-h">סוכן לכל עסק ולכל מטרה. <span>כאלה כבר בנינו:</span></h3>
+      <ul class="built-list">
+        <li><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg></span><b>סוכנות נדל״ן</b><span>עונה ללידים על הפרויקטים, אוסף תקציב ופרטים, ומעביר ליועץ רק לידים רלוונטיים.</span></li>
+        <li><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c-3 4-6 6.5-6 10a6 6 0 0 0 12 0c0-3.5-3-6-6-10z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 5 0"/></svg></span><b>קליניקת יופי</b><span>עונה ללקוחות על הטיפולים והקורסים, מבין הודעות קוליות, ומעביר לבעלת העסק את מה שצריך אותה.</span></li>
+        <li><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>עסק של שירותים</b><span>נותן מחירים, שולח טופס בריף וקישור לתשלום, ומדווח לבעלים מי שילם. זה הסוכן שעונה לכם כאן.</span></li>
+        <li><span class="bi" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><b>עוזר אישי לבעל העסק</b><span>יומן, תזכורות והתראות מהמערכות של העסק, ישר לוואטסאפ.</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section id="decks">
     <div class="q2d">
       <div class="q2d-vid frame glow-a has-video">
@@ -787,9 +948,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <button type="button" class="sound-btn" id="q2d-sound" aria-pressed="false" aria-label="הפעלת קול" title="הפעלת קול">🔊</button>
       </div>
       <div class="q2d-text">
-        <p class="kicker">מצגות לעסק</p>
-        <h2>הופכים הצעת מחיר יבשה <span class="neon-pink">למצגת שמרגישה כמו ברושור</span></h2>
-        <a class="btn btn-pink" id="q2d-wa" href="#order">רוצים כזאת לעסק? כתבו לנו בוואטסאפ</a>
+        <p class="kicker">הצעות מחיר ומצגות</p>
+        <h2>הצעות מחיר מעוצבות <span class="neon-pink">ומצגות מקצועיות לעסקים</span></h2>
+        <p class="q2d-sub">בסרטון: הצעת מחיר יבשה שהופכת למסמך שמרגיש כמו ברושור. באותה רמה בונים גם מצגת מכירה, מצגת שמציגה את העסק או קטלוג.</p>
+        <a class="btn btn-pink" id="q2d-wa" href="#order">רוצים כזה לעסק? כתבו לנו בוואטסאפ</a>
       </div>
     </div>
   </section>
@@ -831,6 +993,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
             <option>סרטון משולב לעסק · ₪890 + מע״מ</option>
             <option>סרטון מטורף לעסק · ₪1,690 + מע״מ</option>
             <option>חבילת השקה · ₪2,490 + מע״מ</option>
+            <option>סוכן וואטסאפ או פתרון AI לעסק · לפי הצעה</option>
+            <option>מצגת או הצעת מחיר מעוצבת · לפי הצעה</option>
             <option>עוד לא יודע/ת</option>
           </select>
         </div>
@@ -918,9 +1082,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   // Click a frame to watch the full video with sound. data-full = one video, data-gallery = a set from GALLERIES.
   var GALLERIES = {
     explainers: [
-      {src: 'explainer-full.mp4', poster: 'p-explainer.jpg', title: 'קליפ ראפרים מתמונה אחת'},
-      {src: 'explainer-hit-full.mp4', poster: 'p-hit.jpg', title: 'הלהיט החדש: הורדה באיכות מלאה'},
-      {src: 'explainer-whatsapp-full.mp4', poster: 'p-whatsapp.jpg', title: 'שמירת סרטון מוואטסאפ באיכות מלאה'}
+      {src: '/lib/dubai-population.mp4', poster: '/lib/dubai-population.jpg', title: 'הסבר: גידול האוכלוסייה בדובאי'},
+      {src: '/lib/uae-embassy.mp4', poster: '/lib/uae-embassy.jpg', title: 'הסבר: שגרירות האמירויות בישראל'},
+      {src: '/how-launch.mp4', poster: '/lib/how-launch.jpg', title: 'ככה עובדת חבילת ההשקה'},
+      {src: '/how-business.mp4', poster: '/lib/how-business.jpg', title: 'ככה עובד סרטון לעסק'}
     ],
     trends: [
       {src: 'trend-full.mp4', poster: 'p-trend.jpg', title: 'ריקוד עם בומבוקס ברחוב'},
@@ -1002,11 +1167,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       b.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
     });
     var a = document.getElementById('q2d-wa');
-    if (a && WA){ a.href = waLink('היי! ראיתי באתר את המצגת שנבנתה מהצעת מחיר, ואני רוצה כזאת לעסק שלי'); a.target = '_blank'; a.rel = 'noopener'; }
+    if (a && WA){ a.href = waLink('היי! ראיתי באתר את הצעת המחיר המעוצבת, ואני רוצה הצעות מחיר ומצגות כאלה לעסק שלי'); a.target = '_blank'; a.rel = 'noopener'; }
   })();
 
   if (WA){
-    document.querySelectorAll('.js-wa').forEach(function(a){ a.href = waLink(''); a.target = '_blank'; a.rel = 'noopener'; });
+    document.querySelectorAll('.js-wa').forEach(function(a){ a.href = waLink(a.getAttribute('data-wa-text') || ''); a.target = '_blank'; a.rel = 'noopener'; });
   } else {
     status.textContent = 'מספר הוואטסאפ של העסק יעלה בקרוב. בינתיים אפשר להעתיק את ההודעה.';
   }
@@ -1447,6 +1612,54 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   if (!f) return;
   if (!h || !('IntersectionObserver' in window)) { f.classList.remove('away'); return; }
   new IntersectionObserver(function(es){ f.classList.toggle('away', es[0].isIntersecting); }, { rootMargin: '0px 0px 40px 0px' }).observe(h);
+})();
+</script>
+<script>
+/* hero: "בונים לכם ___" types one service after another */
+(function(){
+  var el = document.getElementById('rot-w');
+  if (!el) return;
+  var words = ['סרטון פרסומת','סוכן וואטסאפ','דף נחיתה','מצגת מכירה','הצעת מחיר מעוצבת','כפיל דיגיטלי','סרטון לרשתות'];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var i = 0, n = words[0].length, del = false;
+  function step(){
+    var w = words[i];
+    if (!del) {
+      if (n < w.length) { n++; el.textContent = w.slice(0, n); return setTimeout(step, 70); }
+      del = true; return setTimeout(step, 1700);
+    }
+    if (n > 0) { n--; el.textContent = w.slice(0, n); return setTimeout(step, 32); }
+    del = false; i = (i + 1) % words.length; setTimeout(step, 260);
+  }
+  setTimeout(step, 2600);
+})();
+/* agent demo: the chat plays message by message when it scrolls into view */
+(function(){
+  var ph = document.getElementById('wa-demo');
+  if (!ph || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+  var msgs = Array.prototype.slice.call(ph.querySelectorAll('.msg[data-at]'));
+  var typing = ph.querySelector('.msg.typing'), state = document.getElementById('wa-state');
+  var timers = [], played = false;
+  function at(ms, f){ timers.push(setTimeout(f, ms)); }
+  function play(){
+    timers.forEach(clearTimeout); timers = [];
+    ph.classList.add('play');
+    msgs.forEach(function(m){ m.classList.remove('show'); });
+    var t = 300;
+    msgs.forEach(function(m){
+      if (m.classList.contains('mo')) {
+        at(t, function(){ typing.parentNode.insertBefore(typing, m); typing.classList.add('on'); state.textContent = 'מקליד/ה…'; });
+        t += 1300;
+        at(t, function(){ typing.classList.remove('on'); state.textContent = 'מחובר/ת'; m.classList.add('show'); });
+      } else {
+        at(t, function(){ m.classList.add('show'); });
+      }
+      t += 1100;
+    });
+  }
+  new IntersectionObserver(function(es){
+    if (es[0].isIntersecting && !played) { played = true; play(); }
+  }, { threshold: .35 }).observe(ph);
 })();
 </script>
 </body>

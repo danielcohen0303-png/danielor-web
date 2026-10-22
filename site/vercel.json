@@ -29,6 +29,10 @@
       "dest": "/trends/index.html"
     },
     {
+      "src": "/videos/?",
+      "dest": "/videos/index.html"
+    },
+    {
       "src": "/",
       "has": [
         {

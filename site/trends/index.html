@@ -14,7 +14,7 @@
 <meta property="og:image" content="https://danielor.ai/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Danielor: שולחים תמונה. מקבלים סרטון.">
+<meta property="og:image:alt" content="Danielor: פתרונות AI לעסקים, בעברית">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/logo-icon.png">
 <link rel="apple-touch-icon" href="/logo-icon.png">
@@ -91,6 +91,8 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .sec-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1rem;flex-wrap:wrap}
 .sec-head h2{font-family:var(--display);font-weight:700;font-size:var(--step-2);line-height:.9}
 .sec-head p{margin:0;color:var(--muted);font-size:var(--step--1);max-width:60ch}
+.sec-head .all{font-size:var(--step--1);font-weight:700;color:var(--violet);text-decoration:none;border:1px solid var(--line-2);background:#fff;border-radius:999px;padding:.3rem .85rem;white-space:nowrap}
+.sec-head .all:hover{border-color:var(--violet)}
 .upd{display:inline-flex;align-items:center;gap:.45rem;font-size:var(--step--1);color:var(--muted)}
 .upd::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--pink-hot);animation:live 2s ease-out infinite}
 @keyframes live{0%{box-shadow:0 0 0 0 rgba(255,47,200,.55)}100%{box-shadow:0 0 0 10px rgba(255,47,200,0)}}
@@ -137,6 +139,11 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .poster .big b{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:.8;color:var(--volt);text-shadow:0 0 16px rgba(236,255,82,.45);direction:ltr;text-align:right}
 .poster .big span{font-size:.62rem;line-height:1.3;opacity:.9}
 .t.top .poster{padding:1rem .9rem 3rem}
+/* a still from the original post: the whole frame, on a blurred copy of itself */
+.frame .sbg{position:absolute;inset:-12%;background-size:cover;background-position:center;filter:blur(16px) saturate(1.2) brightness(.62);z-index:-1}
+.frame img.sthumb{object-fit:contain}
+.frame .orig{position:absolute;top:.4rem;inset-inline-start:.4rem;z-index:2;font-size:.62rem;font-weight:700;color:#fff;background:rgba(29,16,51,.74);border-radius:6px;padding:.08rem .45rem;max-width:calc(100% - .8rem);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.t.top .frame .orig{font-size:.72rem}
 .t.top .poster .en{font-size:2.9rem}
 .t.top .poster .big b{font-size:3.6rem}
 .t.top .poster .big span{font-size:.75rem}
@@ -233,7 +240,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
     <section aria-labelledby="ready-title">
       <div class="sec-head" style="margin-top:2rem">
-        <div class="row"><h2 id="ready-title">כבר הכנו</h2></div>
+        <div class="row"><h2 id="ready-title">כבר הכנו</h2><a class="all" href="/videos#trend">לעוד סרטונים שהכנו ←</a></div>
         <p>טרנדים שהכנו עם הפנים של אנשים אמיתיים. לחיצה על סרטון פותחת אותו עם קול.</p>
       </div>
       <ul class="shelf" id="ready"></ul>
@@ -244,7 +251,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <p>שלחו לנו את הקישור בוואטסאפ, ונגיד לכם אם אפשר לעשות אותו עם הפנים שלכם.</p>
       <a class="btn btn-pink" id="ask-wa" href="https://wa.me/972507149677" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z"/><path d="M8.6 11.6h.01M12 11.6h.01M15.4 11.6h.01" stroke-width="2.8"/></svg>שליחת טרנד בוואטסאפ</a>
     </section>
-    <p class="more">מחפשים משהו אחר? <a href="https://danielor.ai/#prices">קליפ אישי, סרטון לעסק או חבילת השקה</a></p>
+    <p class="more">מחפשים משהו אחר? <a href="https://danielor.ai/videos">סרטונים שהכנו</a> · <a href="https://danielor.ai/#prices">קליפ אישי, סרטון לעסק או חבילת השקה</a></p>
   </main>
 
   <footer>
@@ -336,9 +343,16 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       '<video muted loop playsinline preload="' + (t.poster ? 'none' : 'metadata') + '"' + (t.poster ? '' : ' src="' + esc(media(t.preview)) + '#t=0.5"') + ' data-src="' + esc(media(t.preview)) + '" aria-hidden="true"></video>' +
       (ours ? '<span class="ours">הדוגמה שלנו</span>' : '') + '<span class="play">▶ עם קול</span></div>';
   }
-  // no example yet: a neon poster with the real numbers, tap = the original post
+  function author(u){ var m = /tiktok\.com\/(@[\w.\-]+)/.exec(u || ''); return m ? m[1] : ''; }
+  // no example yet: a still from the original post (credited, tap = the original), or a neon poster with the real numbers
   function posterFrame(t){
-    var src = safeUrl(t.source_url), h = hue(t.slug);
+    var src = safeUrl(t.source_url), h = hue(t.slug), thumb = safeUrl(t.source_thumb);
+    if (thumb){
+      var still = '<span class="sbg" style="background-image:url(&quot;' + esc(thumb) + '&quot;)"></span><img class="sthumb" src="' + esc(thumb) + '" alt="" loading="lazy">' +
+        '<span class="orig">מהסרטון המקורי</span>';
+      return src ? '<a class="vid frame" data-kind="embed" href="' + esc(src) + '" target="_blank" rel="noopener" aria-label="הסרטון המקורי של ' + esc(t.title) + '">' + still + '<span class="play">▶ לסרטון המקורי</span></a>'
+                 : '<div class="vid frame">' + still + '</div>';
+    }
     var style = ' style="--px:' + (20 + h % 60) + '%;--qx:' + (15 + (h >> 2) % 60) + '%"';
     var inner = '<div class="poster"' + style + '><span class="en">' + esc(t.title_en || t.title) + '</span>' +
       '<span class="big">' + (t.views ? '<b>' + short(t.views) + '</b><span>צפיות בסרטון המוביל</span>' : '<span>הדוגמה שלנו בהכנה</span>') + '</span></div>';
@@ -354,7 +368,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     li.innerHTML = (t.preview ? videoFrame(t, i < 2, true) : posterFrame(t)) +
       '<div class="body"><div class="line"><span class="rank" aria-label="מקום ' + (i + 1) + '">' + (i + 1) + '</span><span class="chips">' + chips + '</span></div>' +
       '<h3>' + esc(t.title) + '</h3>' + (t.views ? '<span class="views">' + viewsHe(t.views) + ' בטיקטוק</span>' : '') + '<p>' + esc(t.blurb) + '</p>' +
-      (src ? '<a class="src" href="' + esc(src) + '" target="_blank" rel="noopener">איפה זה התחיל ↗</a>' : '') + '</div>' +
+      (src ? '<a class="src" href="' + esc(src) + '" target="_blank" rel="noopener">איפה זה התחיל' + (author(src) ? ': <bdi dir="ltr">' + esc(author(src)) + '</bdi>' : '') + ' ↗</a>' : '') + '</div>' +
       '<a class="btn btn-pink cta" href="' + esc(waLink(orderText(t))) + '" target="_blank" rel="noopener" data-trend="' + esc(t.title) + '">' + CTA + '</a>';
     wire(li, t);
     return li;

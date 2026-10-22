@@ -119,7 +119,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .t.top h3{font-size:var(--step-1)}
 .t p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.45}
 .views{font-size:.82rem;font-weight:700;color:var(--fg);font-variant-numeric:tabular-nums}
-.src{font-size:.8rem;color:var(--cyan);text-decoration:underline;text-underline-offset:3px;width:max-content;max-width:100%}
+.src{font-size:.8rem;color:var(--cyan);text-decoration:underline;text-underline-offset:3px;width:fit-content;max-width:100%;overflow-wrap:anywhere}
 
 /* frames: our example video, or a neon poster that opens the original */
 .frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:12px;overflow:hidden;background:var(--night);isolation:isolate;cursor:pointer;display:block;text-decoration:none}
@@ -134,7 +134,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .t.top .frame .play{font-size:.78rem;padding:.3rem .8rem;bottom:.6rem}
 .poster{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:.6rem .55rem 2.2rem;color:#fff;direction:ltr;text-align:left;
   background:radial-gradient(90% 55% at var(--px,70%) 18%, rgba(255,47,200,.62), transparent 70%),radial-gradient(80% 50% at var(--qx,20%) 88%, rgba(67,240,255,.38), transparent 70%),var(--night)}
-.poster .en{font-family:var(--display);font-weight:700;font-size:1.75rem;line-height:.82;text-transform:uppercase;letter-spacing:.01em;overflow-wrap:anywhere;text-shadow:0 0 18px rgba(255,47,200,.55)}
+.poster .en{font-family:var(--display);font-weight:700;font-size:1.75rem;line-height:.82;text-transform:uppercase;letter-spacing:.01em;overflow-wrap:normal;word-break:keep-all;text-shadow:0 0 18px rgba(255,47,200,.55)}
 .poster .big{display:grid;gap:.1rem;direction:rtl;text-align:right}
 .poster .big b{font-family:var(--display);font-weight:700;font-size:2.3rem;line-height:.8;color:var(--volt);text-shadow:0 0 16px rgba(236,255,82,.45);direction:ltr;text-align:right}
 .poster .big span{font-size:.62rem;line-height:1.3;opacity:.9}
@@ -405,7 +405,18 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     (data.hot || []).forEach(function(t, i){ hot.appendChild(hotCard(t, i)); });
     (data.ready || []).forEach(function(t){ ready.appendChild(readyTile(t)); });
     document.getElementById('upd').textContent = updatedLabel(data.updated);
+    fitPosters();
   }
+  // poster titles: whole words only, so a long word shrinks the title instead of breaking in the middle
+  function fitPosters(){
+    document.querySelectorAll('.poster .en').forEach(function(el){
+      el.style.fontSize = '';
+      var box = el.parentElement, fs = parseFloat(getComputedStyle(el).fontSize), n = 0;
+      while ((el.scrollWidth > el.clientWidth + 1 || box.scrollHeight > box.clientHeight + 1) && fs > 11 && n++ < 40){ fs *= 0.92; el.style.fontSize = fs + 'px'; }
+    });
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPosters);
+  var fitT; window.addEventListener('resize', function(){ clearTimeout(fitT); fitT = setTimeout(fitPosters, 150); });
   render(DATA);
   if (window.fetch){
     var ctl = window.AbortController ? new AbortController() : null;

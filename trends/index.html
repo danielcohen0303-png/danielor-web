@@ -67,6 +67,16 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .terms{margin:0;color:var(--muted);font-size:var(--step--1)}
 .terms strong{color:var(--fg)}
 
+/* the explainer: a short silent loop in the card, a tap plays the full explainer with sound right here */
+.how{display:grid;grid-template-columns:128px minmax(0,1fr);gap:.8rem 1rem;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--lift);padding:.75rem;margin-bottom:1.2rem}
+.how-vid{position:relative;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:var(--night);cursor:pointer;border:2px solid var(--pink-hot);box-shadow:0 10px 26px var(--pink-glow);isolation:isolate}
+.how-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.how-vid .play{position:absolute;bottom:.45rem;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - .6rem);z-index:2;font-size:.7rem;font-weight:700;color:#fff;background:rgba(29,16,51,.82);border-radius:999px;padding:.2rem .6rem;pointer-events:none;white-space:nowrap}
+.how-vid:hover .play,.how-vid.sound .play{background:var(--pink-hot)}
+.how h2{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,1.4rem + 1.6vw,2.7rem);line-height:.95}
+.how p{margin:.45rem 0 0;color:var(--muted);font-size:var(--step--1);max-width:46ch}
+@media (min-width:700px){.how{grid-template-columns:180px minmax(0,1fr);gap:1rem 1.6rem;padding:1rem 1.2rem}.how-vid .play{font-size:.78rem;padding:.3rem .8rem}}
+
 /* section heads */
 .sec-head{display:grid;gap:.35rem;padding-block:1.2rem .9rem;border-top:1px solid var(--line-2)}
 .sec-head .row{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem 1rem;flex-wrap:wrap}
@@ -213,6 +223,17 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <p class="terms"><strong>₪149 לטרנד</strong>, עד 2 אנשים בסרטון · עד 24 שעות, ולרוב תוך כמה שעות · סבב תיקון כלול</p>
     </section>
 
+    <section class="how" aria-labelledby="how-title">
+      <div class="how-vid" id="how-box" role="button" tabindex="0" aria-pressed="false" aria-label="סרטון ההסבר, צפייה עם קול">
+        <video id="how-video" muted autoplay loop playsinline preload="metadata" data-root-src="lib/how-trend-p.mp4" data-root-poster="lib/how-trend.jpg" aria-hidden="true"></video>
+        <span class="play" id="how-label">▶ עם קול</span>
+      </div>
+      <div>
+        <h2 id="how-title">גם אתם יכולים להופיע בטרנדים <span class="neon-pink">הכי חמים</span></h2>
+        <p>ככה זה עובד, בכמה צעדים פשוטים: בוחרים טרנד, שולחים תמונה בוואטסאפ, ומקבלים אותו עם הפנים שלכם. פחות מדקה של הסבר.</p>
+      </div>
+    </section>
+
     <section aria-labelledby="hot-title">
       <div class="sec-head">
         <div class="row"><h2 id="hot-title">החמים עכשיו</h2><span class="upd" id="upd">מתעדכן כל בוקר</span></div>
@@ -299,6 +320,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   function hue(slug){ var h = 0; for (var i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) % 997; return h; }
 
   document.querySelectorAll('[data-root-src]').forEach(function(el){ el.src = ROOT + el.getAttribute('data-root-src'); });
+  document.querySelectorAll('[data-root-poster]').forEach(function(el){ el.poster = ROOT + el.getAttribute('data-root-poster'); });
   document.getElementById('ask-wa').href = waLink('היי! ראיתי טרנד שאני רוצה לעשות עם הפנים שלי, הנה הקישור: ');
 
   function updatedLabel(iso){
@@ -383,12 +405,30 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
   // sound on in one card mutes every other card; sound on restarts the clip so it plays from the top
   function setSound(v, on){
-    if (on) document.querySelectorAll('.frame[data-kind="video"] video').forEach(function(o){ if (o !== v && !o.muted) setSound(o, false); });
+    if (on){ document.querySelectorAll('.frame[data-kind="video"] video').forEach(function(o){ if (o !== v && !o.muted) setSound(o, false); }); if (hv && !hv.muted) howSound(false); }
     var f = v.closest('.frame'), lb = f && f.querySelector('.play');
     if (on){ if (!v.getAttribute('src')) v.src = v.getAttribute('data-src'); v.muted = false; v.currentTime = 0; var p = v.play(); if (p && p.catch) p.catch(function(){ v.muted = true; }); }
     else v.muted = true;
     if (lb) lb.textContent = on ? 'השתקה' : '▶ עם קול';
     if (f){ f.classList.toggle('sound', on); f.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  }
+
+  // the explainer at the top: tap = the full explainer with sound from the start, tap again = mute; when it ends it goes back to the silent loop
+  var hv = document.getElementById('how-video'), hb = document.getElementById('how-box'), hl = document.getElementById('how-label');
+  function howSound(on){
+    if (on){
+      document.querySelectorAll('.frame[data-kind="video"] video').forEach(function(o){ if (!o.muted) setSound(o, false); });
+      if (!hv.getAttribute('data-full')){ hv.setAttribute('data-full', '1'); hv.loop = false; hv.src = ROOT + 'how-trend.mp4'; }
+      hv.muted = false; hv.currentTime = 0; var p = hv.play(); if (p && p.catch) p.catch(function(){ hv.muted = true; });
+      track('how_video', 'trend');
+    } else hv.muted = true;
+    hl.textContent = on ? 'השתקה' : '▶ עם קול';
+    hb.classList.toggle('sound', on); hb.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  if (hv && hb){
+    hb.addEventListener('click', function(){ howSound(hv.muted); });
+    hb.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); howSound(hv.muted); } });
+    hv.addEventListener('ended', function(){ hv.removeAttribute('data-full'); hv.loop = true; hv.src = ROOT + 'lib/how-trend-p.mp4'; howSound(false); var p = hv.play(); if (p && p.catch) p.catch(function(){}); });
   }
 
   // the blurred backdrop is the same video drawn into a tiny canvas while it plays (no second download)

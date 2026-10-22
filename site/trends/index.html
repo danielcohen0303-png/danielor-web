@@ -124,9 +124,11 @@ h1,h2,h3{text-wrap:balance;margin:0}
 /* frames: our example video, or a neon poster that opens the original */
 .frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:12px;overflow:hidden;background:var(--night);isolation:isolate;cursor:pointer;display:block;text-decoration:none}
 .frame video,.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-/* a near-square example keeps its own frame, letterboxed like the original post */
+/* a square or landscape example is shown whole, letterboxed, never cropped */
 .frame.square{background:#000}
-.frame.square video{object-fit:contain}
+.frame.square video{object-fit:contain;z-index:1}
+/* a landscape example also gets a soft blurred copy of itself behind it, so the vertical card never looks empty */
+.frame canvas.fill{position:absolute;inset:0;width:100%;height:100%;display:block;filter:blur(8px) brightness(.5) saturate(1.2);transform:scale(1.2)}
 .frame .play{position:absolute;bottom:.45rem;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - .6rem);z-index:2;font-size:.7rem;font-weight:700;color:#fff;background:rgba(29,16,51,.82);border-radius:999px;padding:.2rem .6rem;pointer-events:none;white-space:nowrap}
 .frame:hover .play{background:var(--pink-hot)}
 .frame .ours{position:absolute;top:.4rem;inset-inline-start:.4rem;z-index:2;font-size:.62rem;font-weight:700;color:var(--fg);background:var(--volt);border-radius:6px;padding:.05rem .4rem}
@@ -284,7 +286,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       {slug:'alors-on-danse', title:'Alors On Danse באולפן', title_en:'Alors On Danse', blurb:'שניים באולפן לבן: אחד מנגן על קלידים קטנים, השני מוחא כפיים, מצביע על המסך ורוקד. על השיר של Stromae.', heat:'בשיא', photos:2, views:10100000, source_url:'https://www.tiktok.com/@tsukyofficiel/video/7646336057927142689'},
       {slug:'burning-bridges', title:'Burning Bridges בארוחת ערב', title_en:'Burning Bridges', blurb:'ארוחת ערב מתחת לנברשות: אתם מרימים כוס, מסתכלים מסביב לשולחן, והחברים מרימים כוסות מאחוריכם. על השיר של Drake.', heat:'בשיא', photos:1, photos_note:'לבד, או עם עד 3 חברים', views:1000000, source_url:'https://www.tiktok.com/@tonegully/video/7694774387920096526'},
       {slug:'closed-on-sunday', title:'Closed on Sunday במקהלה', title_en:'Closed on Sunday', blurb:'אתם עומדים בלי לזוז באמצע מקהלה בגלימות על גבעה שטופת שמש, וכולם מסביב שרים ומתנדנדים. עובד גם עם חתול או כלב.', heat:'בעלייה', photos:1, photos_note:'אדם אחד או חיית מחמד', views:null, source_url:'https://www.tiktok.com/@downey.ai/video/7696461038996163853'},
-      {slug:'zombie-couple', title:'הזוג והזומבי', title_en:'Zombie Couple', blurb:'בבקתה חשוכה בן הזוג הפך לזומבי. מורידים את האקדח, פותחים ידיים לחיבוק, וקופצים לזיכרון שלכם בשדה זהוב.', heat:null, photos:2, views:1600000, source_url:'https://www.tiktok.com/@ghostxsniper108/video/7691766350611598605'},
+      {slug:'zombie-couple', title:'הזוג והזומבי', title_en:'Zombie Couple', blurb:'בבקתה חשוכה בן הזוג הפך לזומבי. מורידים את האקדח, פותחים ידיים לחיבוק, וקופצים לזיכרון שלכם בשדה זהוב.', heat:null, photos:2, views:1600000, source_url:'https://www.tiktok.com/@ghostxsniper108/video/7691766350611598605', preview:'https://d8j0ntlcm91z4.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/hf_20261022_210428_8f3ac4fa-8129-4084-926c-30dc3f75fa58.mp4', video:'https://d8j0ntlcm91z4.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/hf_20261022_211703_886ddb91-1520-4e95-a5a5-5ee0f055980f.mp4'},
       {slug:'invisible-moped', title:'מרדף על אופנוע בלתי נראה', title_en:'Crazy Frog AI', blurb:'אתם דוהרים על אופנוע שלא קיים בכביש מוגבה, שוטר על אופנוע מרחף רודף אחריכם, וסלטה באוויר. עם הסאונד של Crazy Frog.', heat:'חדש', photos:1, photos_note:'אדם אחד, או 2 עם השוטר', views:208400, source_url:'https://www.tiktok.com/@wdmowski/video/7695695581510946081'},
       {slug:'babydoll', title:'ריקוד Babydoll עם החברים', title_en:'Babydoll Two-Step', blurb:'שלושה חברים בחליפות שחורות, יד ביד, רוקדים צעדים לעבר המצלמה על מדרכה שטופת שמש. על השיר Babydoll של Jamie Miller.', heat:null, photos:3, photos_note:'1 עד 3 אנשים', views:6580000, source_url:'https://www.tiktok.com/@jamiemillmusic/video/7674629461723139358'},
       {slug:'ghost-prank', title:'הרוח שמאחוריכם', title_en:'Ghost Prank', blurb:'רוח חיוורת מופיעה לאט מאחוריכם, אתם לא שמים לב, ואז מסתובבים. מתיחה לליל כל הקדושים, עובד גם עם חיית מחמד.', heat:'עונתי · עד 31.10', photos:1, photos_note:'אדם אחד או חיית מחמד', views:null, source_url:null},
@@ -389,13 +391,29 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       f.addEventListener('click', go);
       f.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
       var v = f.querySelector('video');
-      v.addEventListener('loadedmetadata', function(){ var r = v.videoWidth / v.videoHeight; if (r > .8 && r < 1.3) f.classList.add('square'); });
+      v.addEventListener('loadedmetadata', function(){ var r = v.videoWidth / v.videoHeight; if (r > .8) f.classList.add('square'); if (r >= 1.3) blurFill(f, v); });
       v.addEventListener('playing', function(){ var im = f.querySelector('img'); if (im) im.style.visibility = 'hidden'; });
       if (io) io.observe(v);
     } else if (ON_SITE && tiktokId(t.source_url)){
       // on danielor.ai the original plays right here (TikTok's own player); elsewhere the link opens TikTok
       f.addEventListener('click', function(e){ e.preventDefault(); openPlayer(t, 'embed'); });
     }
+  }
+
+  // the blurred backdrop is the same video drawn into a tiny canvas while it plays (no second download)
+  function blurFill(f, v){
+    if (f.querySelector('canvas.fill')) return;
+    var c = document.createElement('canvas'); c.className = 'fill'; c.width = 48; c.height = 86; c.setAttribute('aria-hidden', 'true');
+    f.insertBefore(c, v);
+    var g = c.getContext('2d'), raf = 0;
+    function draw(){
+      var vw = v.videoWidth, vh = v.videoHeight, sw = vh * 48 / 86;
+      try { g.drawImage(v, (vw - sw) / 2, 0, sw, vh, 0, 0, 48, 86); } catch (e) {}
+      raf = v.paused || v.ended ? 0 : requestAnimationFrame(draw);
+    }
+    v.addEventListener('playing', function(){ if (!raf) raf = requestAnimationFrame(draw); });
+    v.addEventListener('loadeddata', draw);
+    if (v.readyState >= 2) draw();
   }
 
   function render(data){

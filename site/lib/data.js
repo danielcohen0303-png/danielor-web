@@ -242,17 +242,6 @@ window.VIDEOS = [
   "dur": 20
  },
  {
-  "slug": "home-clip",
-  "cat": "personal",
-  "title": "קליפ: נתתי לך בית",
-  "src": "/lib/home-clip.mp4",
-  "preview": "/lib/home-clip-p.mp4",
-  "poster": "/lib/home-clip.jpg",
-  "w": 910,
-  "h": 512,
-  "dur": 37
- },
- {
   "slug": "home-clip-edit",
   "cat": "personal",
   "title": "נתתי לך בית, גרסה ערוכה עם אפקטים",
@@ -262,17 +251,6 @@ window.VIDEOS = [
   "w": 910,
   "h": 512,
   "dur": 37
- },
- {
-  "slug": "friend-home",
-  "cat": "personal",
-  "title": "נתתי לך בית, עם חבר",
-  "src": "/lib/friend-home.mp4",
-  "preview": "/lib/friend-home-p.mp4",
-  "poster": "/lib/friend-home.jpg",
-  "w": 910,
-  "h": 512,
-  "dur": 17
  },
  {
   "slug": "rappers",
@@ -372,83 +350,6 @@ window.VIDEOS = [
   "w": 720,
   "h": 1280,
   "dur": 67
- },
- {
-  "slug": "dubai-population",
-  "cat": "explainer",
-  "title": "הסבר: גידול האוכלוסייה בדובאי",
-  "src": "/lib/dubai-population.mp4",
-  "preview": "/lib/dubai-population-p.mp4",
-  "poster": "/lib/dubai-population.jpg",
-  "w": 512,
-  "h": 910,
-  "dur": 35
- },
- {
-  "slug": "uae-embassy",
-  "cat": "explainer",
-  "title": "הסבר: שגרירות האמירויות בישראל",
-  "src": "/lib/uae-embassy.mp4",
-  "preview": "/lib/uae-embassy-p.mp4",
-  "poster": "/lib/uae-embassy.jpg",
-  "w": 512,
-  "h": 910,
-  "dur": 22
- },
- {
-  "slug": "how-launch",
-  "cat": "explainer",
-  "title": "ככה עובדת חבילת ההשקה",
-  "src": "/how-launch.mp4",
-  "preview": "/lib/how-launch-p.mp4",
-  "poster": "/lib/how-launch.jpg",
-  "w": 720,
-  "h": 1280,
-  "dur": 50
- },
- {
-  "slug": "how-business",
-  "cat": "explainer",
-  "title": "ככה עובד סרטון לעסק",
-  "src": "/how-business.mp4",
-  "preview": "/lib/how-business-p.mp4",
-  "poster": "/lib/how-business.jpg",
-  "w": 720,
-  "h": 1280,
-  "dur": 50
- },
- {
-  "slug": "how-trend",
-  "cat": "explainer",
-  "title": "ככה מזמינים טרנד",
-  "src": "/how-trend.mp4",
-  "preview": "/lib/how-trend-p.mp4",
-  "poster": "/lib/how-trend.jpg",
-  "w": 720,
-  "h": 1280,
-  "dur": 50
- },
- {
-  "slug": "how-clip",
-  "cat": "explainer",
-  "title": "ככה עובד קליפ אישי",
-  "src": "/how-clip.mp4",
-  "preview": "/lib/how-clip-p.mp4",
-  "poster": "/lib/how-clip.jpg",
-  "w": 720,
-  "h": 1280,
-  "dur": 50
- },
- {
-  "slug": "how-ai",
-  "cat": "explainer",
-  "title": "ככה מתחילים עם סוכן AI",
-  "src": "/how-ai.mp4",
-  "preview": "/lib/how-ai-p.mp4",
-  "poster": "/lib/how-ai.jpg",
-  "w": 720,
-  "h": 1280,
-  "dur": 32
  },
  {
   "slug": "explainer-rappers",

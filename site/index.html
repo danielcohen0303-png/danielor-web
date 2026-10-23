@@ -930,7 +930,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
         <div class="row entry">
           <span class="name">סרטון היכרות</span><span class="price">₪199</span>
-          <p class="desc">סרטון אחד עד 30 שניות בסגנון נקי. פעם אחת לכל עסק.</p>
+          <p class="desc">שולחים תמונות או סרטונים מהעסק, ומקבלים סרטון של עד 30 שניות לרילס ולסטורי, עם כתוביות ומוזיקה. פעם אחת לכל עסק.</p>
         </div>
         <div class="row">
           <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
@@ -1343,7 +1343,18 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       form.link.value.trim() ? 'חומרים: ' + form.link.value.trim() : ''
     ].filter(Boolean).join('\n');
   }
-  function refresh(){ if (WA) sendBtn.href = waLink(message()); }
+  /* the example in the idea box follows the product: a business product gets a business example */
+  function hint(){
+    var p = select.value, h;
+    if (/טרנד/.test(p)) h = 'לדוגמה: טרנד מדף הטרנדים, או לינק לטרנד שאהבתם';
+    else if (/קליפ/.test(p)) h = 'לדוגמה: קליפ ליום ההולדת ה־40 של אמא, על שיר שהיא אוהבת';
+    else if (/פודקאסט/.test(p)) h = 'לדוגמה: פודקאסט שבועי על עסקים, רוצים רילסים מהפרק האחרון';
+    else if (/סוכן/.test(p)) h = 'לדוגמה: קליניקה שמקבלת הרבה שאלות בוואטסאפ על מחירים ותורים';
+    else if (/מצגת/.test(p)) h = 'לדוגמה: הצעת מחיר לשיפוצים שתיראה כמו ברושור';
+    else h = 'לדוגמה: סטודיו לכושר, רוצים סרטון לסטורי שמזמין לשיעור ניסיון';
+    if (form.idea.placeholder !== h) form.idea.placeholder = h;
+  }
+  function refresh(){ hint(); if (WA) sendBtn.href = waLink(message()); }
   form.addEventListener('input', refresh);
   form.addEventListener('change', refresh);
   refresh();

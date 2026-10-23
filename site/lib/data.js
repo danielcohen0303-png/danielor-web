@@ -286,6 +286,17 @@ window.VIDEOS = [
   "dur": 24
  },
  {
+  "slug": "basketball",
+  "cat": "business",
+  "title": "פרסומת ספורט: הטבעה ברגע האחרון",
+  "src": "/lib/basketball.mp4",
+  "preview": "/lib/basketball-p.mp4",
+  "poster": "/lib/basketball.jpg",
+  "w": 1080,
+  "h": 1080,
+  "dur": 10
+ },
+ {
   "slug": "car",
   "cat": "business",
   "title": "פרסומת קונספט לרכב חשמלי",

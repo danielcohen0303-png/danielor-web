@@ -170,7 +170,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     if (!n) return;
     var b = document.createElement('button');
     b.type = 'button'; b.dataset.kind = k[0];
-    b.innerHTML = k[1] + '<span>' + n + '</span>';
+    b.textContent = k[1];
     b.addEventListener('click', function(){ show(k[0], true); });
     chips.appendChild(b);
   });

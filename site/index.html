@@ -108,6 +108,18 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .frame.has-video .ph{display:none}
 .frame .sound-btn{position:absolute;bottom:.8rem;inset-inline:0;margin-inline:auto;width:max-content;z-index:3;font:inherit;font-size:.85rem;color:#fff;background:var(--cyan);border:0;border-radius:999px;padding:.45rem 1rem;cursor:pointer;box-shadow:0 6px 18px var(--cyan-glow)}
 .frame:not(.has-video) .sound-btn{display:none}
+/* explainers: a short silent loop, a tap plays the whole explainer with sound right in place */
+.how-card{display:grid;grid-template-columns:132px minmax(0,1fr);gap:.9rem 1.2rem;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--lift);padding:.9rem 1rem;margin-top:2rem}
+.how-card .frame{width:100%;border:2px solid var(--pink);box-shadow:0 12px 28px rgba(217,16,154,.18)}
+.how-card .frame .sound-btn{font-size:.72rem;padding:.3rem .75rem;bottom:.5rem;white-space:nowrap;background:rgba(29,16,51,.82);box-shadow:none}
+.how-card .frame.sound .sound-btn,.how-card .frame .sound-btn:hover{background:var(--pink)}
+.how-card h3{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,1.3rem + 1.4vw,2.5rem);line-height:.95;margin:0}
+.how-card p{margin:.4rem 0 0;color:var(--muted);font-size:var(--step--1);max-width:48ch}
+@media (min-width:700px){.how-card{grid-template-columns:170px minmax(0,1fr);padding:1rem 1.3rem;gap:1rem 1.6rem}}
+.door .how-card{margin-top:.3rem;grid-template-columns:92px minmax(0,1fr);gap:.75rem;padding:.6rem;box-shadow:none;background:rgba(255,255,255,.75)}
+.door .how-card h3{font-family:inherit;font-size:.95rem;line-height:1.3;font-weight:700;color:var(--fg)}
+.door .how-card p{font-size:.8rem;margin-top:.2rem}
+.door .how-card .frame .sound-btn{font-size:.64rem;padding:.2rem .5rem;bottom:.35rem}
 .frame .sound-btn:focus-visible{outline:2px solid var(--volt);outline-offset:3px}
 .frame[data-full],.frame[data-gallery]{cursor:pointer}
 .frame .play{position:absolute;bottom:.7rem;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - 1rem);z-index:3;font-size:.78rem;font-weight:700;color:#fff;background:var(--fg);border-radius:999px;padding:.35rem .85rem;box-shadow:0 4px 18px rgba(29,16,51,.35);pointer-events:none;white-space:nowrap}
@@ -929,16 +941,28 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <div class="door d1">
         <h3>עסקים</h3>
         <p>סרטוני פרסומת לרשתות ולמודעות, סוכן וואטסאפ, דפי נחיתה, מצגות והצעות מחיר מעוצבות. בלי צלם ובלי עורך.</p>
+        <div class="how-card">
+          <div class="frame" data-video="/lib/how-business-p.mp4" data-poster="/lib/how-business.jpg" data-full-sound="/how-business.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+          <div><h3>סרטון שמביא לקוחות, בכמה צעדים פשוטים</h3><p>כותבים לנו, בוחרים סגנון, מעלים מה שיש, ומקבלים סרטון מוכן.</p></div>
+        </div>
         <div class="go"><b>מ־₪199</b><a class="js-pick" href="#order" data-product="סרטון היכרות לעסק · ₪199 + מע״מ">להזמנת סרטון היכרות</a></div>
       </div>
       <div class="door d2">
         <h3>רגעים אישיים</h3>
         <p>קליפ מוזיקה שבו אתם הגיבורים: לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק.</p>
+        <div class="how-card">
+          <div class="frame" data-video="/lib/how-clip-p.mp4" data-poster="/lib/how-clip.jpg" data-full-sound="/how-clip.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+          <div><h3>קליפ שכולו עליכם, בכמה צעדים פשוטים</h3><p>ממלאים טופס קצר, מעלים תמונות, שומעים את השיר ומקבלים את הקליפ.</p></div>
+        </div>
         <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ</a></div>
       </div>
       <div class="door d3">
         <h3>טרנדים</h3>
         <p>במקום ללמוד כלים ולשרוף קרדיטים: שולחים תמונות, בוחרים טרנד (או שולחים אחד שאהבתם) ומקבלים אותו מוכן.</p>
+        <div class="how-card">
+          <div class="frame" data-video="/lib/how-trend-p.mp4" data-poster="/lib/how-trend.jpg" data-full-sound="/how-trend.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+          <div><h3>גם אתם יכולים להופיע בטרנדים הכי חמים</h3><p>בוחרים טרנד, שולחים תמונה ומקבלים אותו עם הפנים שלכם.</p></div>
+        </div>
         <div class="go"><b>₪149</b><a class="js-pick" href="#order" data-product="טרנד · ₪149">להזמנת טרנד</a></div>
       </div>
     </div>
@@ -1052,6 +1076,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <figcaption>דפי נחיתה שבנינו, ככה הם נראים בטלפון.</figcaption>
       </figure>
     </div>
+    <div class="how-card">
+        <div class="frame" data-video="/lib/how-launch-p.mp4" data-poster="/lib/how-launch.jpg" data-full-sound="/how-launch.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+        <div><h3>ככה עובדת חבילת ההשקה</h3><p>ממלאים טופס אחד, מעלים לוגו ותמונות, ותוך 5 ימי עבודה סרטון ההשקה ודף הנחיתה באוויר.</p></div>
+      </div>
   </section>
 
   <section id="agent">
@@ -1079,6 +1107,10 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <figcaption>המחשה של הסוכן בפעולה. את אותו דבר בונים לעסק שלכם, עם המחירים והנהלים שלכם.</figcaption>
       </figure>
     </div>
+    <div class="how-card">
+        <div class="frame" data-video="/lib/how-ai-p.mp4" data-poster="/lib/how-ai.jpg" data-full-sound="/how-ai.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+        <div><h3>צריכים סוכן AI לעסק? ככה מתחילים</h3><p>כותבים מה רוצים לפתור, עונים על כמה שאלות, ודניאל חוזר עם הצעה מותאמת בדיוק לעסק שלכם.</p></div>
+      </div>
     <div class="built">
       <h3 class="built-h">סוכן לכל עסק ולכל מטרה. <span>כאלה כבר בנינו:</span></h3>
       <ul class="built-list">
@@ -1206,6 +1238,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   var VIDEOS_READY = true;
 
   // Frames marked data-ready already have their file next to the page; the rest wait for VIDEOS_READY.
+  var SOUNDERS = [];   // every clip with a sound button: turning one on mutes the rest
   document.querySelectorAll('[data-video]').forEach(function(el){
       if (!VIDEOS_READY && !el.hasAttribute('data-ready')) return;
       var v = document.createElement('video');
@@ -1220,14 +1253,26 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       if (el.hasAttribute('data-sound')){
         // Talking clips need their voice: a tap toggles sound and restarts from the top.
         v.removeAttribute('aria-hidden');
+        // Explainers loop a short silent preview; data-full-sound swaps in the whole explainer once the sound goes on.
         var b = document.createElement('button');
         b.type = 'button'; b.className = 'sound-btn';
-        b.textContent = '🔊 להפעלה עם קול';
-        b.addEventListener('click', function(){
-          v.muted = !v.muted;
-          if (!v.muted){ v.currentTime = 0; v.play(); }
-          b.textContent = v.muted ? '🔊 להפעלה עם קול' : '🔇 השתקה';
-        });
+        var custom = el.getAttribute('data-sound-label');
+        var lbOn = custom || '🔊 להפעלה עם קול', lbOff = custom ? 'השתקה' : '🔇 השתקה';
+        var full = el.getAttribute('data-full-sound'), loopSrc = v.getAttribute('src');
+        var setOn = function(on){
+          if (on){
+            SOUNDERS.forEach(function(s){ if (s.v !== v && !s.v.muted) s.set(false); });
+            if (full && v.getAttribute('src') !== full){ v.loop = false; v.src = full; }
+            v.muted = false; v.currentTime = 0;
+            var p = v.play(); if (p && p.catch) p.catch(function(){ v.muted = true; });
+          } else v.muted = true;
+          b.textContent = on ? lbOff : lbOn;
+          el.classList.toggle('sound', on);
+        };
+        if (full) v.addEventListener('ended', function(){ v.src = loopSrc; v.loop = true; setOn(false); var p = v.play(); if (p && p.catch) p.catch(function(){}); });
+        SOUNDERS.push({v: v, set: setOn});
+        b.textContent = lbOn;
+        b.addEventListener('click', function(){ setOn(v.muted); });
         el.appendChild(b);
       }
   });

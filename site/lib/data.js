@@ -338,7 +338,7 @@ window.VIDEOS = [
   "poster": "/lib/recipe.jpg",
   "w": 720,
   "h": 1280,
-  "dur": 44
+  "dur": 40
  },
  {
   "slug": "katana-edit",

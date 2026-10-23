@@ -611,7 +611,6 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .pod-demo{grid-area:demo;margin:0;width:100%;max-width:300px;justify-self:center;align-self:center}
 .pod-demo figcaption{margin-top:.7rem;font-size:var(--step--1);color:var(--muted);text-align:center}
 .pod-screen{position:relative;aspect-ratio:9/16;border-radius:30px;overflow:hidden;background:#0d0a1c;border:6px solid #1d1033;box-shadow:0 18px 44px rgba(255,47,200,.22),0 0 0 1px var(--line-2);isolation:isolate;color:#fff;font-family:var(--body);direction:rtl}
-.pod-badge{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;font-size:11px;font-weight:700;letter-spacing:.06em;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.15rem .7rem;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .lv-tabs{display:flex;gap:4px;padding:4px;width:100%;max-width:440px;background:#fff;border:1px solid var(--line-2);border-radius:999px;box-shadow:var(--lift)}
 .lv-tabs button{flex:1;min-height:46px;border:0;border-radius:999px;background:transparent;font:inherit;font-weight:700;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;transition:background .2s,color .2s}
 .lv-tabs button[aria-selected="true"]{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(200,40,200,.28)}
@@ -758,12 +757,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <p class="lead">שולחים את הפרק המלא. אנחנו בוחרים את הרגעים הכי חזקים, פותחים כל רילס במשפט שתופס, ומוסיפים כתוביות, גרפיקה וסאונד. תוך 48 שעות.</p>
       </div>
       <figure class="pod-demo">
-        <div class="pod-screen pod-real" id="pod-screen" data-level="2">
-          <video playsinline muted loop preload="none" poster="pod10-poster.jpg" data-src-1="pod10-clean.mp4" data-src-2="pod10-combined.mp4" data-src-3="pod10-crazy.mp4" aria-label="רילס אמיתי מפרק פודקאסט, ברמת העריכה שנבחרה"></video>
-          <span class="pod-badge" aria-hidden="true">משולב</span>
+        <div class="pod-screen pod-real" id="pod-screen">
+          <video playsinline muted loop preload="none" poster="pod10-poster.jpg" data-src="pod10-combined.mp4" aria-label="רילס אמיתי מפרק פודקאסט שערכנו, ברמת עריכה משולבת"></video>
           <button type="button" class="sound-btn">▶ עם קול</button>
         </div>
-        <figcaption>רילס אמיתי מפרק שערכנו. לחצו על רמה, והרילס ממשיך מאותו רגע בעריכה אחרת.</figcaption>
+        <figcaption>רילס אמיתי מפרק שערכנו, ברמת עריכה משולבת.</figcaption>
       </figure>
       <div class="pod-body">
         <div class="lv-tabs" role="tablist" aria-label="רמת העריכה">
@@ -1812,11 +1810,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 })();
 </script>
 <script>
-/* podcast demo: one real reel in three edit levels. Switching the level keeps the same moment. */
+/* podcast demo: one real reel (combined level). The level tabs change the description and the prices. */
 (function(){
   var scr = document.getElementById('pod-screen');
   if (!scr) return;
-  var v = scr.querySelector('video'), badge = scr.querySelector('.pod-badge'), btn = scr.querySelector('.sound-btn');
+  var v = scr.querySelector('video'), btn = scr.querySelector('.sound-btn');
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.lv-tabs [role=tab]'));
   var desc = document.getElementById('lv-desc'), p5 = document.getElementById('lv-p5'), p10 = document.getElementById('lv-p10'), p1 = document.getElementById('lv-p1');
   var LV = {
@@ -1830,16 +1828,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
   function tryPlay(){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
   function label(){ btn.textContent = v.muted ? '▶ עם קול' : 'השתקה'; scr.classList.toggle('sound', !v.muted); }
-  function load(lv, keep){
-    var t = keep ? v.currentTime : 0, run = seen && (!v.paused || !v.muted || (inView && !reduce));
-    v.src = v.getAttribute('data-src-' + lv);
-    if (t > .3) v.addEventListener('loadedmetadata', function(){ try { v.currentTime = Math.min(t, (v.duration || t) - .3); } catch (e) {} }, { once: true });
-    if (run) tryPlay();
-  }
+  function load(){ if (!v.getAttribute('src')) v.src = v.getAttribute('data-src'); }
   function setSound(on){
     if (on){
       sounders.forEach(function(s){ if (s.v !== v && !s.v.muted) s.set(false); });
-      if (!v.getAttribute('src')){ seen = true; load(level, false); }
+      seen = true; load();
       v.muted = false; v.currentTime = 0;
       var p = v.play(); if (p && p.catch) p.catch(function(){ v.muted = true; label(); });
     } else v.muted = true;
@@ -1849,10 +1842,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   btn.addEventListener('click', function(){ setSound(v.muted); });
 
   function setLevel(lv, focus){
-    var changed = lv !== level;
     level = lv;
-    scr.setAttribute('data-level', lv);
-    badge.textContent = LV[lv].name;
     desc.textContent = LV[lv].d;
     p5.textContent = LV[lv].p5;
     p10.textContent = '10 רילסים: ' + LV[lv].p10;
@@ -1863,7 +1853,6 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       b.tabIndex = on ? 0 : -1;
       if (on && focus) b.focus();
     });
-    if (changed && v.getAttribute('src')) load(lv, true);
   }
   tabs.forEach(function(b, i){
     b.addEventListener('click', function(){ setLevel(Number(b.getAttribute('data-lv'))); });
@@ -1882,7 +1871,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   /* the reel loads only when the section comes near, plays silently in view, and stops (and goes quiet) when scrolled away */
   function enter(){
     inView = true;
-    if (!seen){ seen = true; load(level, false); }
+    if (!seen){ seen = true; load(); }
     if (!reduce || !v.muted) tryPlay();
   }
   function leave(){ inView = false; v.pause(); if (!v.muted){ v.muted = true; label(); } }

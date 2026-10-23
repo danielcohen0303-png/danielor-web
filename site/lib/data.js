@@ -143,17 +143,6 @@ window.VIDEOS = [
   "dur": 19
  },
  {
-  "slug": "desert-jump",
-  "cat": "trend",
-  "title": "טנדר קופץ מעליי במדבר",
-  "src": "/lib/desert-jump.mp4",
-  "preview": "/lib/desert-jump-p.mp4",
-  "poster": "/lib/desert-jump.jpg",
-  "w": 512,
-  "h": 910,
-  "dur": 12
- },
- {
   "slug": "desert-drift",
   "cat": "trend",
   "title": "קפה במדבר וטנדר בדריפט",
@@ -174,17 +163,6 @@ window.VIDEOS = [
   "w": 512,
   "h": 910,
   "dur": 34
- },
- {
-  "slug": "fashion-montage",
-  "cat": "trend",
-  "title": "מונטאז׳ אופנה ורכבי ספורט",
-  "src": "/lib/fashion-montage.mp4",
-  "preview": "/lib/fashion-montage-p.mp4",
-  "poster": "/lib/fashion-montage.jpg",
-  "w": 512,
-  "h": 910,
-  "dur": 15
  },
  {
   "slug": "sports-car",

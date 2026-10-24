@@ -1,0 +1,58 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<!--
+  Danielor Instagram slide, base template (brand line "לילך זוהר").
+  1080x1350 (4:5 feed). Every pixel is a function of t: the renderer calls await seek(t) per frame.
+  Fonts: npm i @fontsource/karantina @fontsource/rubik  (adjust FONT path below).
+  Fixed parts: background glows, pill kicker, Karantina headline with a gradient span, footer danielor.ai.
+  Only the content area (y 300 to 1290) changes from slide to slide.
+-->
+<style>
+@font-face{font-family:K;font-weight:700;src:url(FONT/@fontsource/karantina/files/karantina-hebrew-700-normal.woff2)}
+@font-face{font-family:K;font-weight:700;src:url(FONT/@fontsource/karantina/files/karantina-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:500;src:url(FONT/@fontsource/rubik/files/rubik-hebrew-500-normal.woff2)}
+@font-face{font-family:R;font-weight:500;src:url(FONT/@fontsource/rubik/files/rubik-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:400;src:url(FONT/@fontsource/rubik/files/rubik-hebrew-400-normal.woff2)}
+@font-face{font-family:R;font-weight:400;src:url(FONT/@fontsource/rubik/files/rubik-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+:root{--bg:#f6f1fb;--ink:#1d1033;--teal:#09788a;--muted:#5f5480;--pink:#ff2fc8;--violet:#8b3dff;--cyan:#43f0ff;
+ --grad:linear-gradient(90deg,#ff2fc8,#8b3dff);--shadow:0 34px 60px -26px rgba(61,20,110,.55),0 10px 26px -12px rgba(61,20,110,.35)}
+html,body{margin:0;background:var(--bg)}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;background:var(--bg)}
+.c::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(620px 520px at 104% 4%,rgba(255,47,200,.30),transparent 66%),
+ radial-gradient(560px 560px at -8% 46%,rgba(67,240,255,.26),transparent 66%),
+ radial-gradient(760px 480px at 60% 108%,rgba(139,61,255,.20),transparent 68%)}
+/* header: kicker pill at y 42, headline box at y 108. Same on every slide. */
+.head{position:absolute;top:42px;left:0;right:0;text-align:center;z-index:5}
+.kick{display:table;margin:0 auto;font-family:R;font-weight:500;font-size:34px;line-height:40px;letter-spacing:.02em;color:var(--ink);padding:6px 26px 8px;border-radius:999px;
+ background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:3px solid transparent;box-shadow:0 6px 14px -9px rgba(139,61,255,.55)}
+h1{margin:6px 0 0;font-family:K;font-weight:700;font-size:118px;line-height:.92;color:var(--ink);letter-spacing:.01em}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:R;font-weight:500;font-size:26px;color:var(--muted);letter-spacing:.04em;z-index:5}
+/* building blocks */
+.card{position:absolute;border-radius:26px;padding:4px;box-sizing:border-box;background:linear-gradient(140deg,#ff2fc8,#8b3dff);box-shadow:var(--shadow)}
+.card .in{position:relative;width:100%;height:100%;border-radius:22px;overflow:hidden;background:#120b1f}
+.tag{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;font-family:R;font-weight:500;font-size:20px;line-height:1;color:#fff;padding:9px 15px 9px 14px;border-radius:999px;
+ background:rgba(18,9,36,.72);backdrop-filter:blur(10px);box-shadow:0 0 0 1.5px rgba(255,255,255,.28),0 10px 22px -10px rgba(0,0,0,.6)}
+.tag i{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 10px rgba(255,47,200,.9)}
+.chip{display:inline-flex;align-items:center;gap:12px;direction:ltr;font-family:R;font-weight:500;font-size:29px;color:var(--ink);padding:8px 22px 8px 12px;border-radius:999px;
+ background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:3px solid transparent;box-shadow:0 14px 30px -18px rgba(139,61,255,.55)}
+.board{position:absolute;left:70px;right:70px;top:300px;bottom:130px;border-radius:44px;padding:52px 56px 46px;box-sizing:border-box;
+ background:rgba(255,255,255,.72);box-shadow:0 40px 90px -40px rgba(61,20,110,.45),0 0 0 1px rgba(203,187,232,.7)}
+.lab{font-family:R;font-weight:500;font-size:29px;color:var(--teal);letter-spacing:.04em}
+</style></head><body><div class="c">
+<div class="head"><p class="kick">KICKER</p><h1>HEADLINE <span>GRADIENT PART</span></h1></div>
+<!-- content area: y 300 to 1290 -->
+<div class="foot">danielor.ai</div>
+</div>
+<script>
+const clamp=x=>Math.max(0,Math.min(1,x));
+const outCubic=x=>1-Math.pow(1-x,3);
+const outBack=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const spring=p=>p>=1?1:1-Math.exp(-7.5*p)*Math.cos(7.2*p);   // fly-in with a small overshoot
+async function seek(t){
+  // animate only the content; the header and footer stay still
+}
+window.seek=seek;
+const q=new URLSearchParams(location.search);
+document.fonts.ready.then(async()=>{await seek(q.has('t')?parseFloat(q.get('t')):99);window.__ready=true;});
+</script></body></html>

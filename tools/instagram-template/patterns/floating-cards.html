@@ -1,0 +1,187 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-hebrew-700-normal.woff2)}
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-500-normal.woff2)}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-400-normal.woff2)}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+html,body{margin:0;background:#f6f1fb}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;background:#f6f1fb}
+.c::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(620px 520px at 104% 4%,rgba(255,47,200,.30),transparent 66%),
+ radial-gradient(560px 560px at -8% 46%,rgba(67,240,255,.26),transparent 66%),
+ radial-gradient(760px 480px at 60% 108%,rgba(139,61,255,.20),transparent 68%)}
+.head{position:absolute;top:42px;left:0;right:0;text-align:center;z-index:5}
+.kick{display:table;margin:0 auto;font-family:R;font-weight:500;font-size:34px;line-height:40px;letter-spacing:.02em;color:#1d1033;padding:6px 26px 8px;border-radius:999px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fc8,#8b3dff) border-box;border:3px solid transparent;box-shadow:0 6px 14px -9px rgba(139,61,255,.55)}
+h1{margin:6px 0 0;font-family:K;font-weight:700;font-size:118px;line-height:.92;color:#1d1033;letter-spacing:.01em}
+h1 span{background:linear-gradient(90deg,#ff2fc8,#8b3dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.glow{position:absolute;left:140px;top:380px;width:800px;height:860px;border-radius:50%;
+ background:radial-gradient(50% 50% at 50% 50%,rgba(255,47,200,.26),rgba(139,61,255,.14) 55%,transparent 75%);filter:blur(30px)}
+.stage{position:absolute;inset:0;perspective:1900px;perspective-origin:540px 780px}
+.world{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:540px 790px}
+.card{position:absolute;border-radius:26px;padding:4px;box-sizing:border-box;will-change:transform,opacity;
+ background:linear-gradient(140deg,#ff2fc8,#8b3dff);box-shadow:0 34px 60px -26px rgba(61,20,110,.55),0 10px 26px -12px rgba(61,20,110,.35)}
+.card .in{position:relative;width:100%;height:100%;border-radius:22px;overflow:hidden;background:#120b1f}
+.card .in>img.v{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.p{width:236px;height:420px}.l{width:360px;height:203px}
+.tag{position:absolute;right:12px;bottom:12px;z-index:4;direction:rtl;display:inline-flex;align-items:center;gap:8px;
+ font-family:R;font-weight:500;font-size:20px;line-height:1;color:#fff;padding:9px 15px 9px 14px;border-radius:999px;
+ background:rgba(18,9,36,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+ box-shadow:0 0 0 1.5px rgba(255,255,255,.28),0 10px 22px -10px rgba(0,0,0,.6);will-change:transform,opacity}
+.tag i{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#ff2fc8,#8b3dff);box-shadow:0 0 10px rgba(255,47,200,.9)}
+/* CRM */
+.crm .in{background:linear-gradient(160deg,#ffffff,#f7f0ff)}
+.crm .bar{position:absolute;top:12px;right:16px;left:16px;display:flex;align-items:center;justify-content:space-between;font-family:R;font-weight:500;font-size:15px;color:#1d1033}
+.crm .bar b{font-weight:500}
+.crm .bar span{font-size:11px;color:#8a7fa8;font-family:R;font-weight:400;display:flex;gap:5px;align-items:center}
+.crm .bar span::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
+.cols{position:absolute;top:40px;right:12px;left:12px;bottom:12px;display:flex;gap:8px}
+.col{flex:1;border-radius:12px;background:rgba(139,61,255,.06);position:relative}
+.col h6{margin:0;padding:7px 9px 0;font-family:R;font-weight:500;font-size:11px;color:#09788a;letter-spacing:.03em}
+.lead{position:absolute;right:7px;left:7px;height:30px;border-radius:9px;background:#fff;box-shadow:0 4px 10px -6px rgba(61,20,110,.4),0 0 0 1px rgba(139,61,255,.10);
+ display:flex;align-items:center;gap:6px;padding:0 7px;box-sizing:border-box}
+.lead .av{width:16px;height:16px;border-radius:50%;flex:0 0 16px;background:linear-gradient(135deg,#ffb3ea,#b48cff)}
+.lead .ln{flex:1;display:flex;flex-direction:column;gap:4px}
+.lead .ln u{display:block;height:4px;border-radius:3px;background:#e5dcf3;text-decoration:none}
+.lead .ln u+u{width:60%;background:#efe9f8}
+.lead.hot{box-shadow:0 6px 16px -6px rgba(255,47,200,.6),0 0 0 1.5px #ff2fc8}
+.lead .ok{width:14px;height:14px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;opacity:0}
+/* automation */
+.auto .in{background:radial-gradient(120% 90% at 80% 0%,#3a1f6e,#1d1033 60%,#120b1f)}
+.auto .in::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1.4px);background-size:16px 16px}
+.auto svg.wires{position:absolute;inset:0;width:100%;height:100%}
+.node{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;
+ box-shadow:0 0 0 2px rgba(255,255,255,.18),0 10px 22px -8px rgba(0,0,0,.6)}
+.node img{width:30px;height:30px;object-fit:contain}
+.node .ring{position:absolute;inset:-7px;border-radius:50%;border:2px solid #ff4fd2;box-shadow:0 0 18px rgba(255,79,210,.9);opacity:0}
+.node em{position:absolute;top:62px;left:50%;transform:translateX(-50%);font-style:normal;font-family:R;font-weight:400;font-size:11px;color:rgba(255,255,255,.75);white-space:nowrap}
+.spark{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;will-change:transform,opacity}
+.foot{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:R;font-weight:500;font-size:26px;color:#5f5480;letter-spacing:.04em;z-index:5}
+</style></head><body><div class="c">
+<div class="head"><p class="kick">ולא רק סרטונים</p><h1>עוד המון <span>דברים שיצרתי</span></h1></div>
+<div class="glow"></div>
+<div id="sparks"></div>
+<div class="stage"><div class="world" id="world">
+
+  <div class="card p" id="pod"><div class="in"><img class="v"><span class="tag"><i></i>עריכת פודקאסטים</span></div></div>
+  <div class="card p" id="song"><div class="in"><img class="v"><span class="tag"><i></i>שירים מקוריים</span></div></div>
+  <div class="card p" id="deck"><div class="in"><img class="v"><span class="tag" style="font-size:19px;padding-left:12px"><i></i>מצגות והצעות מחיר</span></div></div>
+  <div class="card p" id="explainer"><div class="in"><img class="v"><span class="tag"><i></i>סרטוני הסבר</span></div></div>
+
+  <div class="card l crm" id="crm"><div class="in">
+    <div class="bar"><b>לידים</b><span>מתעדכן בזמן אמת</span></div>
+    <div class="cols">
+      <div class="col" data-c="0"><h6>חדש</h6></div>
+      <div class="col" data-c="1"><h6>בשיחה</h6></div>
+      <div class="col" data-c="2"><h6>נסגר</h6></div>
+    </div>
+    <span class="tag"><i></i>מערכת CRM</span>
+  </div></div>
+
+  <div class="card l auto" id="auto"><div class="in">
+    <svg class="wires" viewBox="0 0 352 195"><defs><linearGradient id="wg" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#43f0ff"/><stop offset="1" stop-color="#ff2fc8"/></linearGradient></defs>
+      <path id="w" d="M298 46 C 262 46, 246 96, 210 96 S 158 46, 124 46 S 80 96, 50 96" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="3" stroke-linecap="round"/>
+      <path id="w2" d="M298 46 C 262 46, 246 96, 210 96 S 158 46, 124 46 S 80 96, 50 96" fill="none" stroke="url(#wg)" stroke-width="3" stroke-linecap="round"/>
+      <circle id="pulse" r="6" fill="#fff" style="filter:drop-shadow(0 0 6px #ff4fd2) drop-shadow(0 0 12px #ff2fc8)"/>
+    </svg>
+    <div class="node" style="left:298px;top:46px"><svg viewBox="0 0 32 32" width="32" height="32"><circle cx="16" cy="16" r="15" fill="#25D366"/><path d="M9.5 21.8l1-3.4a7.6 7.6 0 1 1 2.6 2.5z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg><span class="ring"></span><em>הודעה נכנסת</em></div>
+    <div class="node" style="left:210px;top:96px"><img src="logos/01-claude.svg" alt=""><span class="ring"></span><em>Claude מבין</em></div>
+    <div class="node" style="left:124px;top:46px"><img src="logos/14-make.svg" alt=""><span class="ring"></span><em>Make מפעיל</em></div>
+    <div class="node" style="left:50px;top:96px"><img src="logos/15-supabase.svg" alt=""><span class="ring"></span><em>נשמר</em></div>
+    <span class="tag"><i></i>אוטומציות</span>
+  </div></div>
+
+  <div class="card l" id="turtle"><div class="in"><img class="v"><span class="tag"><i></i>סרטוני ילדים</span></div></div>
+  <div class="card l" id="sock"><div class="in"><img class="v"><span class="tag"><i></i>שירי ילדים</span></div></div>
+
+</div></div>
+<div class="foot">danielor.ai</div>
+</div>
+<script>
+// every pixel is a function of t (seconds); the renderer awaits seek(t) per frame
+const FR='../more/fr/';
+// x,y = top-left in the 1080x1350 frame, r = resting tilt, t0 = when it starts flying, from = where it flies in from
+const C={
+ turtle:   {x:360,y:322, r:-2,   t0:0.10,from:[  0,-980], spin:-18, vid:'turtle',   n:253, off:0},
+ deck:     {x:776,y:316, r:4,    t0:0.24,from:[ 820,-420],spin: 24, vid:'deck',     n:252, off:0},
+ pod:      {x:68, y:330, r:-4,   t0:0.38,from:[-820,-300],spin:-26, vid:'pod',      n:252, off:0},
+ crm:      {x:360,y:553, r:2,    t0:0.52,from:[ 940, 60], spin: 20},
+ song:     {x:70, y:790, r:3,    t0:0.66,from:[-880, 260],spin:-22, vid:'song',     n:264, off:0},
+ explainer:{x:774,y:776, r:-3,   t0:0.80,from:[ 880, 380],spin: 24, vid:'explainer',n:252, off:0},
+ sock:     {x:360,y:784, r:-1.5, t0:0.94,from:[  0, 980], spin: 16, vid:'sock',     n:178, off:1.0},
+ auto:     {x:360,y:1015,r:2.5,  t0:1.08,from:[-940, 520],spin:-20},
+};
+const FLY=0.9;
+const clamp=x=>Math.max(0,Math.min(1,x));
+const outCubic=x=>1-Math.pow(1-x,3);
+const spring=p=>p>=1?1:1-Math.exp(-7.5*p)*Math.cos(7.2*p);
+const outBack=x=>{const c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const els={};
+Object.keys(C).forEach((k,i)=>{const e=document.getElementById(k);els[k]={e,img:e.querySelector('img.v'),tag:e.querySelector('.tag'),ph:i*0.83};});
+// CRM leads: [column, slot] keyframes
+const crmCols=[...document.querySelectorAll('#crm .col')];
+const LEADS=[{c:0,s:0},{c:0,s:1},{c:1,s:0},{c:2,s:0}];
+const leadEls=LEADS.map((L,i)=>{const d=document.createElement('div');d.className='lead';d.innerHTML='<span class="av"></span><span class="ln"><u></u><u></u></span><span class="ok"><svg width="9" height="9" viewBox="0 0 10 10"><path d="M2 5.2l2 2 4-4.4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';document.querySelector('#crm .cols').appendChild(d);return d;});
+// the hot lead (index 0) travels new -> talking -> closed
+function colPos(c,s){const W=328,gap=8,cw=(W-2*gap)/3;const right=c*(cw+gap);return {right:right+7,top:24+s*36,w:cw-14};}
+// automation path
+const wire=document.getElementById('w'), wire2=document.getElementById('w2'), pulse=document.getElementById('pulse');
+const WL=wire.getTotalLength(); wire2.style.strokeDasharray=WL; const nodes=[...document.querySelectorAll('#auto .node')];
+const NODE_AT=[0,0.36,0.68,1];
+// sparkles
+const SP=[[150,300],[960,280],[1020,640],[40,700],[300,1250],[800,1270],[560,300],[1040,1080],[30,1100],[700,560]];
+const sparks=document.getElementById('sparks');
+const spEls=SP.map(([x,y],i)=>{const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','spark');s.style.left=x+'px';s.style.top=y+'px';
+ s.innerHTML='<path d="M12 0 C13 8 16 11 24 12 C16 13 13 16 12 24 C11 16 8 13 0 12 C8 11 11 8 12 0Z" fill="'+(i%3?'#ff4fd2':'#8b3dff')+'"/>';sparks.appendChild(s);return s;});
+
+async function setVid(k,t){const c=C[k],o=els[k];if(!c.vid)return;
+  const i=Math.max(0,Math.min(c.n-1,Math.floor(Math.max(0,t-c.off)*30)));const src=FR+c.vid+'/'+String(i+1).padStart(3,'0')+'.jpg';
+  if(o.img.dataset.s!==src){o.img.dataset.s=src;o.img.src=src;try{await o.img.decode();}catch(e){}}}
+
+async function seek(t){
+  // camera: a slow drift so the whole wall feels 3D
+  const w=document.getElementById('world');
+  const cam=clamp(t/8);
+  w.style.transform=`translateZ(0) rotateX(${2.2*Math.sin(t*0.7)}deg) rotateY(${-3.2*Math.sin(t*0.55+0.4)}deg) scale(${0.985+0.03*outCubic(cam)})`;
+  const jobs=[];
+  for(const k in C){const c=C[k],o=els[k];
+    const p=clamp((t-c.t0)/FLY), s=spring(p), a=outCubic(clamp(p*3.2));
+    const fx=c.from[0]*(1-s), fy=c.from[1]*(1-s);
+    const rz=c.r+c.spin*(1-s), ry=(c.from[0]>0?-1:1)*48*(1-outCubic(p)), rx=(c.from[1]>0?-1:1)*30*(1-outCubic(p));
+    const sc=0.82+0.18*outCubic(p);
+    const fl=Math.sin((t+o.ph)*2*Math.PI/3.4)*5, fr=Math.sin((t+o.ph)*2*Math.PI/4.1)*0.7;
+    const z=18*Math.sin((t*0.6+o.ph));
+    o.e.style.left=c.x+'px'; o.e.style.top=c.y+'px';
+    o.e.style.opacity=a;
+    o.e.style.transform=`translate3d(${fx}px,${fy+fl}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz+fr}deg) scale(${sc})`;
+    const tp=clamp((t-c.t0-FLY*0.55)/0.45);
+    o.tag.style.opacity=outCubic(clamp(tp*2)); o.tag.style.transform=`translateY(${(1-outCubic(tp))*14}px) scale(${tp<=0?0.6:0.6+0.4*outBack(tp)})`;
+    jobs.push(setVid(k,t));
+  }
+  // CRM: one lead moves new -> talking at 2.4s, then talking -> closed at 4.0s and gets a check
+  leadEls.forEach((d,i)=>{let L=LEADS[i];let pos=colPos(L.c,L.s);
+    if(i===0){const m1=outCubic(clamp((t-2.4)/0.6)), m2=outCubic(clamp((t-4.0)/0.6));
+      const a=colPos(0,0), b=colPos(1,1), c=colPos(2,1);
+      const r=m2>0?b.right+(c.right-b.right)*m2:a.right+(b.right-a.right)*m1, tp=m2>0?b.top+(c.top-b.top)*m2:a.top+(b.top-a.top)*m1;
+      const lift=Math.sin(Math.PI*(m2>0&&m2<1?m2:(m1<1?m1:0)))*8;
+      pos={right:r,top:tp-lift,w:a.w}; d.classList.toggle('hot',t>2.3);
+      d.querySelector('.ok').style.opacity=outCubic(clamp((t-4.55)/0.3)); d.style.zIndex=3;}
+    if(i===1){const m=outCubic(clamp((t-2.6)/0.4)); pos={...pos,top:pos.top-36*m};}
+    d.style.right=pos.right+'px'; d.style.top=pos.top+'px'; d.style.width=pos.w+'px';});
+  // automation: the wire draws itself, then a pulse runs through the nodes every 1.7s
+  const draw=outCubic(clamp((t-1.6)/0.9)); wire2.style.strokeDashoffset=WL*(1-draw);
+  const cyc=t<2.4?-1:((t-2.4)%1.7)/1.2;
+  if(cyc>=0&&cyc<=1){const q=outCubic(cyc)*0.999,pt=wire.getPointAtLength(WL*q);pulse.setAttribute('cx',pt.x);pulse.setAttribute('cy',pt.y);pulse.style.opacity=Math.min(1,Math.sin(Math.PI*cyc)*3);}
+  else pulse.style.opacity=0;
+  nodes.forEach((n,i)=>{let g=0;if(cyc>=0){const q=cyc>1?1.5:outCubic(cyc);const d=q-NODE_AT[i];g=d>=0&&d<0.35?1-d/0.35:0;}
+    n.querySelector('.ring').style.opacity=g; n.style.transform=`scale(${1+0.08*g})`;});
+  // sparkles twinkle and drift up
+  spEls.forEach((s,i)=>{const ph=i*0.77,tw=0.5+0.5*Math.sin(t*2.2+ph*3);const show=clamp((t-0.6-i*0.08)/0.5);
+    s.style.opacity=(0.25+0.75*tw)*show; s.style.transform=`translateY(${-t*6}px) rotate(${t*30+i*20}deg) scale(${0.55+0.5*tw})`;});
+  await Promise.all(jobs);
+}
+window.seek=seek;
+const q=new URLSearchParams(location.search);
+document.fonts.ready.then(async()=>{await seek(q.has('t')?parseFloat(q.get('t')):6);window.__ready=true;});
+</script></body></html>

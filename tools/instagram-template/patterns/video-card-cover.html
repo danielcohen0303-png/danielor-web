@@ -1,0 +1,124 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-hebrew-700-normal.woff2)}
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-500-normal.woff2)}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-400-normal.woff2)}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+html,body{margin:0;background:#f6f1fb}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;background:#f6f1fb}
+.c::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(620px 520px at 104% 4%,rgba(255,47,200,.30),transparent 66%),
+ radial-gradient(560px 560px at -8% 46%,rgba(67,240,255,.26),transparent 66%),
+ radial-gradient(760px 480px at 60% 108%,rgba(139,61,255,.20),transparent 68%)}
+.head{position:absolute;top:42px;left:0;right:0;text-align:center}
+.kick{display:table;margin:0 auto;font-family:R;font-weight:500;font-size:34px;line-height:40px;letter-spacing:.02em;color:#1d1033;padding:6px 26px 8px;border-radius:999px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fc8,#8b3dff) border-box;border:3px solid transparent;box-shadow:0 6px 14px -9px rgba(139,61,255,.55)}
+h1{margin:6px 0 0;font-family:K;font-weight:700;font-size:118px;line-height:.92;color:#1d1033;letter-spacing:.01em}
+h1 span{background:linear-gradient(90deg,#ff2fc8,#8b3dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.glow{position:absolute;left:190px;top:330px;width:700px;height:930px;border-radius:80px;
+ background:radial-gradient(50% 50% at 50% 50%,rgba(255,47,200,.30),rgba(139,61,255,.16) 55%,transparent 75%);filter:blur(40px)}
+.card{position:absolute;left:264px;top:294px;width:552px;height:972px;border-radius:40px;padding:6px;box-sizing:border-box;
+ background:linear-gradient(140deg,#ff2fc8,#8b3dff);box-shadow:0 40px 80px -30px rgba(61,20,110,.55),0 10px 30px -10px rgba(61,20,110,.30)}
+.card .in{position:relative;width:540px;height:960px;border-radius:34px;background:#120b1f;overflow:hidden}
+#cv{position:absolute;inset:0;width:540px;height:960px;display:block}
+.shade{position:absolute;left:0;right:0;top:0;height:230px;background:linear-gradient(rgba(10,5,22,.42),rgba(10,5,22,0))}
+.chip{position:absolute;top:30px;left:50%;transform:translateX(-50%);direction:ltr;display:flex;align-items:center;gap:14px;
+ padding:10px 24px 10px 12px;border-radius:999px;background:rgba(14,7,28,.46);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+ box-shadow:0 0 0 1.5px rgba(255,255,255,.26),0 16px 34px -16px rgba(0,0,0,.6)}
+.dial{width:46px;height:46px;flex:0 0 46px}
+.time{display:flex;font-family:R;font-weight:500;font-size:40px;line-height:1;color:#fff;letter-spacing:.02em}
+.d{position:relative;width:.62em;height:1.12em;overflow:hidden}
+.d b{position:absolute;left:0;right:0;top:.08em;text-align:center;font-weight:500;will-change:transform,opacity}
+.colon{width:.32em;text-align:center;position:relative;top:.02em}
+.foot{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:R;font-weight:500;font-size:26px;color:#5f5480;letter-spacing:.04em}
+</style></head><body><div class="c">
+<div class="head"><p class="kick">בשנה וחצי האחרונות</p><h1>למדתי ובניתי <span>המון עם AI</span></h1></div>
+<div class="glow"></div>
+<div class="card"><div class="in">
+  <canvas id="cv" width="810" height="1440"></canvas>
+  <div class="shade"></div>
+  <div class="chip">
+    <svg class="dial" viewBox="0 0 46 46">
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2fc8"/><stop offset="1" stop-color="#8b3dff"/></linearGradient></defs>
+      <circle cx="23" cy="23" r="20.5" fill="rgba(255,255,255,.10)" stroke="url(#g)" stroke-width="3"/>
+      <g id="ticks"></g>
+      <line id="hh" x1="23" y1="23" x2="23" y2="13" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/>
+      <line id="mh" x1="23" y1="23" x2="23" y2="8" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+      <line id="sh" x1="23" y1="26" x2="23" y2="7" stroke="#ff4fd2" stroke-width="1.3" stroke-linecap="round"/>
+      <circle cx="23" cy="23" r="2.4" fill="#fff"/>
+    </svg>
+    <div class="time" id="time"></div>
+  </div>
+</div></div>
+<div class="foot">הנה כמה מהם ←</div>
+</div>
+<script>
+// timelapse cover: one continuous shot, the clock runs with the light; the last 0.6 s sweeps back to morning for a seamless loop
+const FPS=24, NF=360, L=NF/FPS, WIPE=0.6;
+const KEYS=[[0,450],[4,690],[7,990],[9,1110],[11.5,1200],[L-WIPE,1380]];   // seconds -> minutes of the day
+const Z0=1.30, Z1=1.46, CX=590, CY=770;                                  // slow push toward the desk
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d'); ctx.imageSmoothingQuality='high';
+const oc=document.createElement('canvas'); oc.width=cv.width; oc.height=cv.height; const octx=oc.getContext('2d'); octx.imageSmoothingQuality='high';
+const tk=document.getElementById('ticks');
+for(let i=0;i<12;i++){const a=i*30*Math.PI/180, r1=i%3?16.5:15, r2=18.2;
+  const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',23+r1*Math.sin(a));l.setAttribute('y1',23-r1*Math.cos(a));
+  l.setAttribute('x2',23+r2*Math.sin(a));l.setAttribute('y2',23-r2*Math.cos(a));
+  l.setAttribute('stroke','rgba(255,255,255,'+(i%3?'.45':'.9')+')');l.setAttribute('stroke-width',i%3?1:1.6);tk.appendChild(l);}
+const timeEl=document.getElementById('time'); const digs=[];
+for(let i=0;i<5;i++){ if(i===2){const c=document.createElement('div');c.className='colon';c.textContent=':';timeEl.appendChild(c);continue;}
+  const d=document.createElement('div');d.className='d';const b=document.createElement('b');d.appendChild(b);timeEl.appendChild(d);digs.push(b);}
+const cache={};
+function frame(i){i=Math.max(0,Math.min(NF,i));if(cache[i])return cache[i];const im=new Image();im.src='../clock3/fr/'+String(i).padStart(3,'0')+'.jpg';cache[i]=im.decode().then(()=>im);return cache[i];}
+const clamp=x=>Math.max(0,Math.min(1,x));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+function zoomAt(t){return Z0+(Z1-Z0)*(t/L);}
+async function draw(i,z,c){
+  const im=await frame(i); const W=c.canvas.width,H=c.canvas.height;
+  const s=(W/im.width)*z, w=im.width*s, h=im.height*s;
+  let x=W/2-CX*s, y=H/2-CY*s; x=Math.min(0,Math.max(W-w,x)); y=Math.min(0,Math.max(H-h,y));
+  c.drawImage(im,x,y,w,h);
+}
+function minutesAt(t){
+  for(let k=0;k<KEYS.length-1;k++){const [t0,m0]=KEYS[k],[t1,m1]=KEYS[k+1]; if(t<=t1) return m0+(m1-m0)*clamp((t-t0)/(t1-t0));}
+  return KEYS[KEYS.length-1][1];
+}
+function setClock(min,t){
+  const mA=(min%60)*6, hA=((min/60)%12)*30, sA=t*360;
+  document.getElementById('mh').setAttribute('transform','rotate('+mA+' 23 23)');
+  document.getElementById('hh').setAttribute('transform','rotate('+hA+' 23 23)');
+  document.getElementById('sh').setAttribute('transform','rotate('+sA+' 23 23)');
+  const m=Math.floor(min)%1440, hh=Math.floor(m/60), mm=Math.floor((m%60)/5)*5;
+  const s=String(hh).padStart(2,'0')+String(mm).padStart(2,'0');
+  digs.forEach((b,i)=>{b.textContent=s[i];});
+}
+async function seek(t){
+  t=((t%L)+L)%L;
+  const i=Math.round(t*FPS);
+  ctx.clearRect(0,0,cv.width,cv.height);
+  await draw(i,zoomAt(t),ctx);
+  const a=clamp((t-(L-WIPE))/WIPE);
+  let min=minutesAt(t);
+  if(a>0){
+    const ae=ease(a), W=cv.width,H=cv.height,cx=W/2,cy=H*0.5,p=Math.min(1,ae*1.06);
+    octx.clearRect(0,0,W,H); octx.globalCompositeOperation='source-over';
+    await draw(0,Z0,octx);
+    const g=octx.createConicGradient(-Math.PI/2,cx,cy);
+    g.addColorStop(0,'rgba(0,0,0,1)'); g.addColorStop(Math.max(0,p-0.035),'rgba(0,0,0,1)');
+    g.addColorStop(Math.min(1,p),'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    octx.globalCompositeOperation='destination-in'; octx.fillStyle=g; octx.fillRect(0,0,W,H); octx.globalCompositeOperation='source-over';
+    ctx.drawImage(oc,0,0);
+    if(p<1){const ang=-Math.PI/2+2*Math.PI*p, R=Math.hypot(W,H);
+      ctx.save(); ctx.globalAlpha=0.75*Math.sin(Math.PI*p); ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.lineCap='round';
+      ctx.shadowColor='rgba(255,79,210,.95)'; ctx.shadowBlur=28;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R*Math.cos(ang),cy+R*Math.sin(ang)); ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx,cy,7,0,2*Math.PI); ctx.fillStyle='#fff'; ctx.fill(); ctx.restore();}
+    min=1380+(450+1440-1380)*ae;     // 23:00 runs on to 07:30 the next morning
+  }
+  setClock(min,t);
+}
+window.seek=seek;
+const q=new URLSearchParams(location.search);
+document.fonts.ready.then(async()=>{await seek(q.has('t')?parseFloat(q.get('t')):0.4);window.__ready=true;});
+</script></body></html>

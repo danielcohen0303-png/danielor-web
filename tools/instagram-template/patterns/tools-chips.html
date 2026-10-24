@@ -1,0 +1,69 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-hebrew-700-normal.woff2)}
+@font-face{font-family:K;font-weight:700;src:url(../ogfonts/node_modules/@fontsource/karantina/files/karantina-latin-700-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-500-normal.woff2)}
+@font-face{font-family:R;font-weight:500;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-500-normal.woff2);unicode-range:U+0000-00FF}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-hebrew-400-normal.woff2)}
+@font-face{font-family:R;font-weight:400;src:url(../ogfonts/node_modules/@fontsource/rubik/files/rubik-latin-400-normal.woff2);unicode-range:U+0000-00FF}
+html,body{margin:0;background:#f6f1fb}
+.c{width:1080px;height:1350px;position:relative;overflow:hidden;background:#f6f1fb}
+.c::before{content:"";position:absolute;inset:0;background:
+ radial-gradient(620px 520px at 104% 4%,rgba(255,47,200,.30),transparent 66%),
+ radial-gradient(560px 560px at -8% 46%,rgba(67,240,255,.26),transparent 66%),
+ radial-gradient(760px 480px at 60% 108%,rgba(139,61,255,.20),transparent 68%)}
+.head{position:absolute;top:42px;left:0;right:0;text-align:center}
+.kick{display:table;margin:0 auto;font-family:R;font-weight:500;font-size:34px;line-height:40px;letter-spacing:.02em;color:#1d1033;padding:6px 26px 8px;border-radius:999px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fc8,#8b3dff) border-box;border:3px solid transparent;box-shadow:0 6px 14px -9px rgba(139,61,255,.55)}
+h1{margin:6px 0 0;font-family:K;font-weight:700;font-size:118px;line-height:.92;color:#1d1033;letter-spacing:.01em}
+h1 span{background:linear-gradient(90deg,#ff2fc8,#8b3dff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.board{position:absolute;left:70px;right:70px;top:300px;bottom:130px;border-radius:44px;padding:52px 56px 46px;box-sizing:border-box;
+ background:rgba(255,255,255,.72);box-shadow:0 40px 90px -40px rgba(61,20,110,.45),0 0 0 1px rgba(203,187,232,.7);
+ display:flex;flex-direction:column;justify-content:space-between}
+.grp{display:flex;flex-direction:column;gap:16px}
+.lab{font-family:R;font-weight:500;font-size:29px;color:#09788a;letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-start}
+.chip{direction:ltr;font-family:R;font-weight:500;font-size:29px;color:#1d1033;padding:8px 22px 8px 12px;border-radius:999px;
+ background:linear-gradient(#fff,#fff) padding-box,linear-gradient(90deg,#ff2fc8,#8b3dff) border-box;border:3px solid transparent;
+ box-shadow:0 14px 30px -18px rgba(139,61,255,.55);will-change:transform,opacity}
+.chip{display:inline-flex;align-items:center;gap:12px}
+.ic{width:34px;height:34px;flex:0 0 34px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px;overflow:hidden}
+.ic img{width:30px;height:30px;object-fit:contain;display:block}
+.ic.crop img{width:auto;height:34px;max-width:none;object-fit:cover;object-position:left center}
+.ic.crop{justify-content:flex-start;border-radius:8px}
+.ic.zoom img{width:42px;height:42px;max-width:none}
+.more{font-family:R;font-weight:400;font-size:30px;color:#3a2d57;text-align:center}
+.foot{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:R;font-weight:500;font-size:26px;color:#5f5480;letter-spacing:.04em}
+</style></head><body><div class="c">
+<div class="head"><p class="kick">הכלים</p><h1>התנסיתי כמעט <span>בכל כלי AI</span></h1></div>
+<div class="board">
+  <div class="grp"><div class="lab">וידאו ותמונה</div><div class="chips"><span class="chip"><span class="ic"><img src="logos/03-higgsfield.png" alt=""></span><span>Higgsfield</span></span><span class="chip"><span class="ic"><img src="logos/05-seedance.svg" alt=""></span><span>Seedance</span></span><span class="chip"><span class="ic"><img src="logos/24-kling.svg" alt=""></span><span>Kling</span></span><span class="chip"><span class="ic"><img src="logos/23-veo.svg" alt=""></span><span>Veo</span></span><span class="chip"><span class="ic"><img src="logos/09-nano-banana.svg" alt=""></span><span>Nano Banana</span></span><span class="chip"><span class="ic"><img src="logos/17-canva.png" alt=""></span><span>Canva</span></span></div></div>
+  <div class="grp"><div class="lab">קול ומוזיקה</div><div class="chips"><span class="chip"><span class="ic"><img src="logos/02-elevenlabs.svg" alt=""></span><span>ElevenLabs</span></span><span class="chip"><span class="ic"><img src="logos/06-suno.svg" alt=""></span><span>Suno</span></span><span class="chip"><span class="ic"><img src="logos/13-whisper-icon.svg" alt=""></span><span>Whisper</span></span></div></div>
+  <div class="grp"><div class="lab">מודלים וסוכנים</div><div class="chips"><span class="chip"><span class="ic"><img src="logos/01-claude.svg" alt=""></span><span>Claude</span></span><span class="chip"><span class="ic"><img src="logos/04-claude-code.svg" alt=""></span><span>Claude Code</span></span><span class="chip"><span class="ic"><img src="logos/20-chatgpt.svg" alt=""></span><span>ChatGPT</span></span><span class="chip"><span class="ic zoom"><img src="logos/25-codex.svg" alt=""></span><span>Codex</span></span><span class="chip"><span class="ic"><img src="logos/11-gemini.svg" alt=""></span><span>Gemini</span></span><span class="chip"><span class="ic crop"><img src="logos/21-grok.svg" alt=""></span><span>Grok</span></span><span class="chip"><span class="ic"><img src="logos/22-notebooklm.svg" alt=""></span><span>NotebookLM</span></span></div></div>
+  <div class="grp"><div class="lab">אוטומציה ואתרים</div><div class="chips"><span class="chip"><span class="ic"><img src="logos/14-make.svg" alt=""></span><span>Make</span></span><span class="chip"><span class="ic"><img src="logos/15-supabase.svg" alt=""></span><span>Supabase</span></span><span class="chip"><span class="ic"><img src="logos/16-vercel.svg" alt=""></span><span>Vercel</span></span><span class="chip"><span class="ic"><img src="logos/19-kapso.png" alt=""></span><span>Kapso</span></span><span class="chip"><span class="ic"><img src="logos/26-colab.svg" alt=""></span><span>Colab</span></span><span class="chip"><span class="ic"><img src="logos/12-remotion-crop.png" alt=""></span><span>Remotion</span></span></div></div>
+  <div class="more">ועוד הרבה, כל שבוע משהו חדש</div>
+</div>
+<div class="foot">danielor.ai</div>
+</div>
+<script>
+// every pixel is a function of t (seconds); the renderer calls seek(t) per frame
+const groups=[...document.querySelectorAll('.grp')], more=document.querySelector('.more');
+const clamp=(x)=>Math.max(0,Math.min(1,x));
+const outBack=(x)=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const outCubic=(x)=>1-Math.pow(1-x,3);
+function seek(t){
+  groups.forEach((g,i)=>{
+    const g0=0.25+i*0.85;
+    const lab=g.querySelector('.lab'); const a=outCubic(clamp((t-g0)/0.35));
+    lab.style.opacity=a; lab.style.transform=`translateY(${(1-a)*16}px)`;
+    g.querySelectorAll('.chip').forEach((ch,j)=>{
+      const p=clamp((t-g0-0.15-j*0.09)/0.45);
+      const s=p<=0?0.6:0.6+0.4*outBack(p);
+      ch.style.opacity=outCubic(clamp(p*1.6)); ch.style.transform=`translateY(${(1-outCubic(p))*26}px) scale(${s})`;
+    });
+  });
+  const m=outCubic(clamp((t-4.1)/0.5)); more.style.opacity=m; more.style.transform=`translateY(${(1-m)*12}px)`;
+}
+window.seek=seek;
+const q=new URLSearchParams(location.search); seek(q.has('t')?parseFloat(q.get('t')):99);
+document.fonts.ready.then(()=>{window.__ready=true});
+</script></body></html>

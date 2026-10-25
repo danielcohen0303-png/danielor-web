@@ -40,7 +40,7 @@ os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
 HOW={'how-trend.mp4','how-clip.mp4','how-business.mp4','how-launch.mp4','how-ai.mp4'}   # sent by the WhatsApp agent (media_base)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','trends','videos','lib','wa-avatar.jpg','logo-icon.png','sign.webp'}|HOW|names|(set(LEGAL) if WITH_LEGAL else set())
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','app','trends','videos','lib','wa-avatar.jpg','logo-icon.png','sign.webp'}|HOW|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')
@@ -56,6 +56,9 @@ os.makedirs(f'{OUT}/brief',exist_ok=True)
 shutil.copy2('/home/claude/danielor-web/brief/index.html', f'{OUT}/brief/index.html')
 # the inbox: Daniel's page for reading and answering WhatsApp chats (noindex, key-protected API)
 shutil.copytree('/home/claude/danielor-web/inbox', f'{OUT}/inbox', dirs_exist_ok=True)
+# the app: Daniel's control center (home, content approvals, inbox, team), installable, noindex, key-protected API.
+# Content media for approval lives only in site/app/c/<token>/ (added there directly, not in app/), so it is not stored twice.
+shutil.copytree('/home/claude/danielor-web/app', f'{OUT}/app', dirs_exist_ok=True)
 # the trends chart: danielor.ai/trends (reads the live list from the danielor-trends function; its loops live in trends/m)
 TR='/home/claude/danielor-web/trends'
 os.makedirs(f'{OUT}/trends/m',exist_ok=True)
@@ -80,6 +83,8 @@ B={"type":"host","value":"brief.danielor.ai"}
 cfg={"routes":[
   {"src":"/(.*)","has":[B],"continue":True,"headers":{"X-Robots-Tag":"noindex, nofollow","Referrer-Policy":"no-referrer","X-Content-Type-Options":"nosniff","Cache-Control":"no-cache"}},
   {"src":"/inbox/?","dest":"/inbox/index.html","headers":{"X-Robots-Tag":"noindex, nofollow","Cache-Control":"no-cache"}},
+  {"src":"/app/?","dest":"/app/index.html","headers":{"X-Robots-Tag":"noindex, nofollow","Cache-Control":"no-cache"}},
+  {"src":"/app/c/(.*)","headers":{"X-Robots-Tag":"noindex, nofollow"},"continue":True},
   {"src":"/trends/?","dest":"/trends/index.html"},
   {"src":"/videos/?","dest":"/videos/index.html"},
   {"src":"/","has":[B],"dest":"/brief/index.html"},

@@ -25,6 +25,21 @@
       }
     },
     {
+      "src": "/app/?",
+      "dest": "/app/index.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
+      "src": "/app/c/(.*)",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      },
+      "continue": true
+    },
+    {
       "src": "/trends/?",
       "dest": "/trends/index.html"
     },

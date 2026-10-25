@@ -77,7 +77,8 @@ h2.sec small{font-weight:400;color:var(--dim);font-size:13px}
 .qa i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:var(--grad)}
 .qa i svg{width:21px;height:21px}
 .qa.ceo i{background:linear-gradient(135deg,#1d1033,#4b2a7a)}
-.qa.wa i{background:linear-gradient(135deg,#13a05c,#0d7a46)}
+.qa.wa i{background:linear-gradient(135deg,#2bd46d,#0f8f4b);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.qa.wa i img{width:100%;height:100%;display:block;mix-blend-mode:screen;transform:scale(1.12)}
 /* waiting list */
 .wait{display:flex;flex-direction:column;gap:10px}
 .witem{display:flex;align-items:center;gap:12px;padding:14px;border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:start;width:100%}
@@ -536,7 +537,7 @@ function renderHome(){
   var quick = el('div', { class: 'quick' }, [
     el('a', { class: 'qa', href: L.claude || '#', 'aria-label': 'לשיחה עם Claude' }, [el('i', { html: svg(IC.spark) }), 'Claude']),
     el('a', { class: 'qa ceo', href: L.grok || '#', 'aria-label': 'למנכ״ל בגרוק' }, [el('i', { html: svg(IC.brief) }), 'המנכ״ל']),
-    el('a', { class: 'qa wa', href: L.wa_agent || '#', target: '_blank', rel: 'noopener', 'aria-label': 'לסוכן בוואטסאפ' }, [el('i', { html: svg(IC.phone) }), 'הסוכן בוואטסאפ'])
+    el('a', { class: 'qa wa', href: L.wa_agent || '#', target: '_blank', rel: 'noopener', 'aria-label': 'לסוכן בוואטסאפ' }, [el('i', {}, [el('img', { src: '/app/icon-192.png', alt: '' })]), 'הסוכן בוואטסאפ'])
   ]);
   v.appendChild(quick);
 

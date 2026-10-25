@@ -40,7 +40,7 @@ os.makedirs(OUT,exist_ok=True)
 missing=[n for n in sorted(names) if not os.path.exists(f'{SRC}/{n}')]
 if missing: print('MISSING', missing); sys.exit(1)
 HOW={'how-trend.mp4','how-clip.mp4','how-business.mp4','how-launch.mp4','how-ai.mp4'}   # sent by the WhatsApp agent (media_base)
-keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','app','trends','videos','lib','wa-avatar.jpg','logo-icon.png','sign.webp'}|HOW|names|(set(LEGAL) if WITH_LEGAL else set())
+keep={'index.html','og.jpg','robots.txt','vercel.json','brief','inbox','app','app-home.jpg','app-content.jpg','trends','videos','lib','wa-avatar.jpg','logo-icon.png','sign.webp'}|HOW|names|(set(LEGAL) if WITH_LEGAL else set())
 for f in os.listdir(OUT):
     if f not in keep: os.remove(f'{OUT}/{f}')
 for n in sorted(names): shutil.copy2(f'{SRC}/{n}', f'{OUT}/{n}')

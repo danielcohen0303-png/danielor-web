@@ -14,3 +14,5 @@ The Vercel project serves the `site/` folder (`tools/build_site.py` builds it). 
 3. Build a preview first, check `/`, `/app/`, `/inbox/`, `/trends` and `/videos` on the preview URL, then deploy the same commit to production.
 
 - `app/` – Daniel's control center at brief.danielor.ai/app (installable). Its content media for approval lives only in `site/app/c/<token>/`.
+
+**Warning:** since 23.10.2026 the homepage has been edited directly in `site/index.html`. The artifact source that `tools/build_site.py` reads (`SRC`) is older, so running the build would undo those edits. Edit `site/index.html` directly until the source is synced.

@@ -110,6 +110,9 @@ h2.sec small{font-weight:400;color:var(--dim);font-size:13px}
 .day.today .dn b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .day .its{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
 .day .none{color:var(--dim);font-size:13px;padding-top:2px}
+.wk{font-size:12px;font-weight:700;color:var(--muted);padding:14px 0 2px;border-top:1px solid var(--line)}
+.wk:first-child{padding-top:6px;border-top:0}
+.wk + .day{border-top:0}
 .ev{display:flex;align-items:center;gap:8px;width:100%;text-align:start;padding:7px 10px;border-radius:12px;background:var(--soft);font-size:14px}
 .ev i{width:8px;height:8px;border-radius:50%;flex:none}
 .ev .t{font-variant-numeric:tabular-nums;font-weight:500;color:var(--muted);font-size:13px;flex:none}
@@ -572,11 +575,12 @@ function renderHome(){
   var rows = tasks().filter(function(t){ return t.publish_at; });
   var ahead = rows.map(function(t){ return t.day_offset; }).filter(function(o){ return o != null && o >= 0; });
   var start = ahead.length ? Math.max(0, Math.min.apply(null, ahead)) : 0;
-  v.appendChild(el('h2', { class: 'sec' }, ['לוח הפרסומים', el('small', { text: start > 0 ? 'השבוע הקרוב ריק, מוצג השבוע שמתחיל ב-' + dmOffset(start) : 'שבעת הימים הקרובים' })]));
+  v.appendChild(el('h2', { class: 'sec' }, ['לוח הפרסומים', el('small', { text: start > 0 ? 'שבועיים, מ-' + dmOffset(start) : 'השבועיים הקרובים' })]));
   v.appendChild(el('div', { class: 'legend' }, Object.keys(BRAND).filter(function(k){ return k !== 'general'; }).map(function(k){ return el('span', {}, [el('i', { style: 'background:' + BRAND[k][1] }), BRAND[k][0]]); })));
   var sched = el('div', { class: 'card sched' });
-  for (var k = start; k < start + 7; k++){
+  for (var k = start; k < start + 14; k++){
     var dow = (now.dow + k) % 7; if (dow === 6) continue;
+    if (k === start || dow === 0) sched.appendChild(el('div', { class: 'wk', text: (k === 0 ? 'השבוע' : 'השבוע של ' + dmOffset(k)) }));
     var items = rows.filter(function(t){ return t.day_offset === k; }).sort(function(a, b){ return String(a.publish_time).localeCompare(String(b.publish_time)); });
     var its = el('div', { class: 'its' });
     if (!items.length) its.appendChild(el('span', { class: 'none', text: 'אין פרסום' }));

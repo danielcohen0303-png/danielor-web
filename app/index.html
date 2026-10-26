@@ -127,8 +127,14 @@ h2.sec small{font-weight:400;color:var(--dim);font-size:13px}
 .s-work{background:var(--violet-soft);color:var(--violet-ink)}
 .s-fix{background:var(--amber-soft);color:var(--amber)}
 .s-dim{background:#eee9f5;color:var(--muted)}
-.nodate{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:13px;color:var(--muted)}
-.nodate span.c{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink)}
+/* ideas without a date: one swipeable row */
+.nd{display:flex;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;margin:0 -16px;padding:2px 16px 26px;scroll-padding:0 16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nd::-webkit-scrollbar{display:none}
+.ndc{flex:0 0 152px;scroll-snap-align:start;display:flex;flex-direction:column;gap:8px;min-height:122px;padding:12px 12px 11px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 22px -16px rgba(61,20,110,.42),0 1px 3px -2px rgba(61,20,110,.16);text-align:start}
+.ndc .k{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--muted)}
+.ndc .k i{width:8px;height:8px;border-radius:50%;flex:none}
+.ndc b{flex:1;font-size:14px;font-weight:500;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ndc .s{align-self:flex-start;font-size:11.5px;font-weight:500;padding:1px 8px;border-radius:999px;white-space:nowrap}
 /* stats */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .stat{padding:14px}
@@ -619,8 +625,19 @@ function renderHome(){
     sched.appendChild(el('div', { class: 'day' + (k === 0 ? ' today' : '') }, [el('div', { class: 'dn' }, [el('b', { text: k === 0 ? 'היום' : DAYS[dow] }), el('small', { text: dmOffset(k) })]), its]));
   }
   v.appendChild(sched);
-  var nodate = tasks().filter(function(t){ return !t.publish_at && t.status !== 'done'; });
-  if (nodate.length) v.appendChild(el('div', { class: 'nodate' }, [el('span', { text: 'עוד בלי מועד:' })].concat(nodate.map(function(t){ return el('span', { class: 'c', text: t.title }); }))));
+  var nodate = tasks().filter(function(t){ return !t.publish_at && t.status !== 'done' && t.status !== 'cancelled'; })
+    .sort(function(a, b){ return (a.brand === 'danielor' ? 0 : 1) - (b.brand === 'danielor' ? 0 : 1) || a.id - b.id; });
+  if (nodate.length){
+    v.appendChild(el('h2', { class: 'sec' }, ['עוד בלי מועד', el('span', { class: 'pill', text: String(nodate.length) }), el('small', { text: 'ייכנסו ללוח בתכנון השבועי' })]));
+    v.appendChild(el('div', { class: 'nd', role: 'list' }, nodate.map(function(t){
+      var st = statusOf(t), hasPreview = t.media && t.media.length;
+      return el('button', { class: 'ndc', role: 'listitem', onclick: hasPreview ? function(){ go('content', 'item-' + t.id); } : null, tabindex: hasPreview ? null : '-1', 'aria-label': t.title + ', ' + st[0] }, [
+        el('span', { class: 'k' }, [el('i', { style: 'background:' + brandOf(t)[1] }), (TYPE[t.task_type] || 'משימה')]),
+        el('b', { text: t.title, dir: 'auto' }),
+        el('span', { class: 's ' + st[1], text: st[0] })
+      ]);
+    })));
+  }
 
   // numbers
   v.appendChild(el('h2', { class: 'sec', text: 'במספרים' }));

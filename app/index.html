@@ -94,6 +94,10 @@ h2.sec small{font-weight:400;color:var(--dim);font-size:13px}
 .witem .why{color:var(--pink);font-weight:500;font-size:13px}
 .witem .go{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--violet-soft);color:var(--violet-ink)}
 .witem .go svg{width:16px;height:16px}
+.witem.share{align-items:flex-start}
+.witem.share .wb b{white-space:normal}
+.witem .sbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn.sm{min-height:40px;padding:0 16px;font-size:14px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 .allgood{display:flex;align-items:center;gap:12px;padding:16px;border-radius:20px;background:var(--card);border:1px solid var(--line)}
 .allgood i{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green);flex:none}
 .allgood i svg{width:18px;height:18px}
@@ -331,6 +335,7 @@ body.chat-open .tabs{display:none}
 'use strict';
 var HQ = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/functions/v1/danielor-hq';
 var WA = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/functions/v1/danielor-wa-tools';
+var IGH = { danielor: 'https://www.instagram.com/daniel_ccohen/', ac_he: 'https://www.instagram.com/acholding.il/', ac_en: 'https://www.instagram.com/acholding.co/' };
 var KEY_NAME = 'dl_inbox_key';
 var TAB_NAME = 'dl_app_tab';
 var root = document.getElementById('root');
@@ -413,6 +418,8 @@ function whyYou(t){
   return 'צריך אישור ליצירה בתשלום';
 }
 function statusOf(t){
+  if (t.story_shared_at) return ['עלה ושותף לסטורי', 's-ok'];
+  if (t.share_due) return ['עלה, לשתף בסטורי', 's-wait'];
   switch (t.status){
     case 'scheduled': return ['מתוזמן', 's-ok'];
     case 'done': return ['פורסם', 's-ok'];
@@ -532,8 +539,10 @@ function renderHome(){
   var H = S.home, now = il(new Date().toISOString());
   v.innerHTML = '';
   var waiting = tasks().filter(needsYou);
+  var shares = tasks().filter(function(t){ return t.share_due; });
   var waWait = (H.wa && H.wa.waiting_you) || 0;
   var parts = [];
+  if (shares.length) parts.push(shares.length === 1 ? 'פוסט אחד מחכה לשיתוף בסטורי' : shares.length + ' פוסטים מחכים לשיתוף בסטורי');
   if (waiting.length) parts.push(waiting.length === 1 ? 'פריט אחד מחכה לאישור שלך' : waiting.length + ' פריטים מחכים לאישור שלך');
   if (waWait) parts.push(waWait === 1 ? 'שיחה אחת בוואטסאפ מחכה לך' : waWait + ' שיחות בוואטסאפ מחכות לך');
   var hero = el('section', { class: 'hero', 'aria-label': 'סיכום' }, [
@@ -550,8 +559,24 @@ function renderHome(){
   v.appendChild(quick);
 
   // waiting for you
-  v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', (waiting.length + (waWait ? 1 : 0)) ? el('span', { class: 'pill', text: String(waiting.length + (waWait ? 1 : 0)) }) : null]));
+  v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', (shares.length + waiting.length + (waWait ? 1 : 0)) ? el('span', { class: 'pill', text: String(shares.length + waiting.length + (waWait ? 1 : 0)) }) : null]));
   var wl = el('div', { class: 'wait' });
+  shares.forEach(function(t){
+    var thumb = t.media && t.media.length ? el('span', { class: 'wthumb', style: 'background-image:url("' + encodeURI(t.media[0].poster || t.media[0].src) + '")' }) : el('span', { class: 'wthumb ph', html: svg(IC.content) });
+    var busy = !!S.busy[t.id];
+    wl.appendChild(el('div', { class: 'witem share' }, [
+      thumb,
+      el('span', { class: 'wb' }, [
+        el('b', { text: 'הפוסט עלה. שתף לסטורי' }),
+        el('small', { text: (TYPE[t.task_type] || 'פוסט') + ': ' + t.title }),
+        el('small', { class: 'why', text: 'בפוסט באינסטגרם: סמל המטוס, ואז הוספה לסטורי' }),
+        el('span', { class: 'sbtns' }, [
+          el('a', { class: 'btn sm', href: IGH[t.brand] || IGH.danielor, target: '_blank', rel: 'noopener', text: 'פתח באינסטגרם' }),
+          el('button', { type: 'button', class: 'btn sm primary', disabled: busy, text: busy ? 'שומר...' : 'שיתפתי', onclick: function(){ decide(t.id, 'shared'); } })
+        ])
+      ])
+    ]));
+  });
   waiting.forEach(function(t){
     var thumb = t.media && t.media.length ? el('span', { class: 'wthumb', style: 'background-image:url("' + encodeURI(t.media[0].poster || t.media[0].src) + '")' }) : el('span', { class: 'wthumb ph', html: svg(IC.spark) });
     var hasPreview = t.media && t.media.length;
@@ -568,7 +593,7 @@ function renderHome(){
       el('span', { class: 'go', html: svg(IC.chev) })
     ]));
   }
-  if (!waiting.length && !waWait) wl.appendChild(el('div', { class: 'allgood' }, [el('i', { html: svg(IC.check) }), el('span', { text: 'הכל מטופל. כשמשהו יהיה מוכן לאישור, הוא יופיע כאן.' })]));
+  if (!waiting.length && !waWait && !shares.length) wl.appendChild(el('div', { class: 'allgood' }, [el('i', { html: svg(IC.check) }), el('span', { text: 'הכל מטופל. כשמשהו יהיה מוכן לאישור, הוא יופיע כאן.' })]));
   v.appendChild(wl);
 
   // schedule
@@ -771,7 +796,7 @@ function decide(id, action, note){
   S.busy[id] = true; S.contentSig = ''; renderAll();
   call(HQ, '/decide', { method: 'POST', body: { id: id, action: action, note: note || null } }).then(function(r){
     S.busy[id] = false;
-    if (r.ok) toast(action === 'approve' ? 'נשמר. אישרת.' : 'נשמר. קיבלתי את התיקון, ואחזיר גרסה חדשה.');
+    if (r.ok) toast(action === 'approve' ? 'נשמר. אישרת.' : action === 'shared' ? 'נשמר. סימנת ששיתפת לסטורי.' : 'נשמר. קיבלתי את התיקון, ואחזיר גרסה חדשה.');
     else if (r.error === 'locked') toast('כבר אי אפשר לשנות את זה מכאן');
     else toast('לא נשמר: ' + (r.error || 'שגיאה'));
     S.contentSig = ''; return loadHome();

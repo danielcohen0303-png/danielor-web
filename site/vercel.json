@@ -35,7 +35,8 @@
     {
       "src": "/app/c/(.*)",
       "headers": {
-        "X-Robots-Tag": "noindex, nofollow"
+        "X-Robots-Tag": "noindex, nofollow",
+        "Access-Control-Allow-Origin": "https://drive.google.com"
       },
       "continue": true
     },

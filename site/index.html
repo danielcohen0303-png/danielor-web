@@ -436,6 +436,9 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .b.emo time{font-size:.62rem;background:rgba(255,255,255,.88);border-radius:99px;padding:.05rem .4rem;margin-right:.3rem;vertical-align:.45em}
 .rx{align-self:inherit;margin-top:-.45rem;margin-inline:.6rem;background:#fff;border:2px solid #efeae2;border-radius:99px;padding:0 .4rem;font-size:.78rem;line-height:1.5}
 .b.in + .rx{align-self:flex-start}
+.b.sent + .rx{align-self:flex-end}
+.b.doc{display:flex;align-items:center;gap:.55rem;font-size:.85rem;color:rgba(17,27,33,.8)}
+.b.doc::before{content:"";width:1.5rem;height:1.9rem;border-radius:4px;flex:none;background:repeating-linear-gradient(#fff 0 .3rem,#d9cdea .3rem .42rem) .3rem .35rem/calc(100% - .6rem) calc(100% - .55rem) no-repeat,#fff;border:2px solid #b89ae6}
 .chats-hint{display:none;font-size:var(--step--1);color:var(--muted);margin:.6rem 0 0}
 .honest{font-size:var(--step--1);color:var(--muted);margin:1rem 0 0;max-width:62ch}
 @media (max-width:900px){.chats{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -461,6 +464,8 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .ring-item:nth-child(8){animation-delay:-1.7s;animation-duration:6.1s}
 .ring-item:nth-child(9){animation-delay:-3.7s;animation-duration:5.7s}
 .ring-item:nth-child(10){animation-delay:-4.6s;animation-duration:5.5s}
+.ring-item:nth-child(11){animation-delay:-.3s;animation-duration:5.8s}
+.ring-item:nth-child(12){animation-delay:-2.1s;animation-duration:6.3s}
 @keyframes hover-float{0%,100%{translate:0 0}50%{translate:0 -10px}}
 @media (prefers-reduced-motion: reduce){.ring-item{animation:none}}
 .ring-item .chat{position:absolute;inset:0;display:flex;flex-direction:column;backface-visibility:hidden;-webkit-backface-visibility:hidden;cursor:grab;
@@ -816,6 +821,18 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <h2>ככה הגיבו כשקיבלו את הסרטון</h2>
     <p class="lead">מילה במילה מוואטסאפ, רק בלי שמות ובלי תמונות.</p>
     <div class="chats">
+      <article class="chat" aria-label="תגובות על דוח קמפיין שהכנתי">
+        <div class="chat-h">על <b>דוח קמפיין שהכנתי</b></div>
+        <div class="msgs">
+          <div class="b sent doc">דוח קמפיין · דף אחד</div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>אהבתי את הפירוט, מי הכין את זה?<time>16:13</time></div>
+          <span class="rx">❤️</span>
+          <div class="b sent">אני אחי<time>16:16</time></div>
+          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>פשששש<time>16:16</time></div>
+          <div class="b in">מקצוען<time>16:16</time></div>
+          <div class="b in">עברתי על זה תודה<time>16:17</time></div>
+        </div>
+      </article>
       <article class="chat" aria-label="תגובות על פודקאסט שערכתי">
         <div class="chat-h">על <b>פודקאסט שערכתי</b></div>
         <div class="msgs">
@@ -870,6 +887,15 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇</span>מהממם 🥹<time>0:08</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇</span>נסיךךךך אין עליך ❤️<time>0:31</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇</span>מושלםםםםםםם<time>2:27</time></div>
+        </div>
+      </article>
+      <article class="chat" aria-label="תגובות על עריכת פודקאסט">
+        <div class="chat-h">על <b>עריכת פודקאסט</b></div>
+        <div class="msgs">
+          <div class="b sent vid">סרטון · 0:35<time>16:17</time></div>
+          <span class="rx">❤️</span>
+          <div class="b in">עריכה פצצה<time>16:18</time></div>
+          <div class="b sent emo" aria-label="לב ופרצוף מאוהב">❤️🥰<time>16:20</time></div>
         </div>
       </article>
       <article class="chat" aria-label="תגובות על קליפ ראפרים מתמונה אחת">

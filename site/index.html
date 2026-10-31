@@ -750,6 +750,16 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .priv-card .how-card{display:block;padding:0;border:0;background:none;box-shadow:none;margin:.2rem 0 0}
 .priv-card .how-card>div:not(.frame){display:none}
 .priv-card .how-card .frame{max-width:230px;margin:0 auto}
+.ba-one{grid-template-columns:minmax(0,1fr)}
+#private .ba{background:#fff}
+.trend-go{display:flex;align-items:center;flex-wrap:wrap;gap:.8rem 1.2rem;margin-top:.4rem}
+.trend-go b{font-family:var(--display);font-size:var(--step-2);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:grid}
+.trend-go b small{font-family:var(--body,inherit);font-size:.8rem;font-weight:600;-webkit-text-fill-color:var(--muted);color:var(--muted)}
+#private .how-card{background:#fff}
+.clip-card .tier-k{margin-bottom:.4rem}
+.clip-card .go{display:flex;align-items:center;gap:1.2rem;margin-top:.7rem}
+.clip-card .go b{font-family:var(--display);font-size:var(--step-2);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.clip-card .go a{font-weight:700;color:var(--pink);text-decoration:none}
 </style>
 
 <div class="wrap">
@@ -760,7 +770,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <a href="#more">סרטונים ועוד</a>
       <a href="#prices">מחירים</a>
       <a href="#order">הזמנה</a>
-      <a class="priv" href="#private">לפרטיים</a>
+      <a class="priv" href="#trend">טרנד AI</a>
     </nav>
   </header>
   <main id="main">
@@ -928,11 +938,11 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <p class="lead">אתרים, דפי נחיתה ואפליקציות שבנינו לעסקים, כמו שהם נראים בטלפון.</p>
     <div class="folio" data-work="story">
       <article class="folio-item">
-        <div class="site-phone folio-phone"><video src="site-ac.mp4" poster="site-ac-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של AC Holding"></video></div>
+        <div class="site-phone folio-phone"><video src="site-ac.mp4?v=2" poster="site-ac-poster.jpg?v=2" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של AC Holding"></video></div>
         <div class="folio-txt"><span class="tier-k">אתר סיפור</span><b>AC Holding</b><span>סוכנות בוטיק להשקעות נדל״ן בדובאי. סיפור שנגלל כמו סרט, קטלוג פרויקטים, מדריך להורדה ווואטסאפ בכל מסך.</span><a href="https://ac-holding.co" target="_blank" rel="noopener">לאתר החי ←</a></div>
       </article>
       <article class="folio-item">
-        <div class="site-phone folio-phone"><video src="site-adele.mp4" poster="site-adele-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
+        <div class="site-phone folio-phone"><video src="site-adele.mp4?v=2" poster="site-adele-poster.jpg?v=2" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
         <div class="folio-txt"><span class="tier-k">אתר סיפור</span><b>Adele Beauty Clinic</b><span>קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה, תפריט טיפולים וקביעת תור בלחיצה.</span><a href="https://adele-beauty.com" target="_blank" rel="noopener">לאתר החי ←</a></div>
       </article>
     </div>
@@ -963,19 +973,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <div class="tab-panel" role="tabpanel" id="before-after" aria-labelledby="t-before-after">
     
     <h2>מה ששולחים, ומה שמקבלים</h2>
-    <div class="ba-grid">
-      <article class="ba">
-        <div class="ba-pair">
-          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">לפני</span><span class="ph">תמונה מהטלפון</span></div>
-          <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">אחרי</span><span class="ph">הטרנד המוכן</span></div>
-        </div>
-        <div class="ba-text">
-          <h3>שלוש תמונות, טרנד של 10 עד 30 שניות</h3>
-          <p>בלי ללמוד אף כלי ובלי לשרוף קרדיטים. מ־₪99 לאדם אחד, עד 24 שעות ולרוב תוך כמה שעות. לחצו על הסרטון לדוגמאות, או שלחו לנו טרנד שאהבתם.</p>
-          <a class="btn btn-soft trends-link" href="/trends">לטרנדים החמים עכשיו <span class="arr" aria-hidden="true">←</span></a>
-        </div>
-      </article>
+    <div class="ba-grid ba-one">
       <article class="ba wide">
         <div class="ba-pair">
           <div class="frame wide dim" data-video="business-before.mp4"><span class="tag before">לפני</span><span class="ph">צילום גולמי</span></div>
@@ -1018,10 +1016,6 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   </div>
     <div class="vid-block" id="reels">    <h3 class="sub-h">עוד דוגמאות</h3>
     <div class="reels">
-      <article class="reel">
-        <div class="frame glow-b" data-video="music-clip.mp4" data-full="music-clip-full.mp4" data-title="קליפ אישי: FOLLOW"><span class="tag">00:20</span><span class="ph">קליפ מוזיקה אישי</span></div>
-        <h3>קליפ מוזיקה אישי</h3><p>אתם הגיבורים, על שיר מקורי או על שיר שבחרתם.</p>
-      </article>
       <article class="reel">
         <div class="frame glow-c" data-video="recipe.mp4" data-full="recipe-full.mp4" data-title="סרטון מתכון: נאגטס ביתיים"><span class="tag">00:43</span><span class="ph">סרטון מתכון</span></div>
         <h3>סרטון מתכון</h3><p>כל שלב במתכון על המסך, בקצב של רילס. למסעדות ולבלוגרים של אוכל.</p>
@@ -1134,31 +1128,37 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   </section>
 
   <section id="private">
-    <div class="private">
-      <p class="kicker">גם ללקוחות פרטיים</p>
-      <h2>סרטון AI <span class="neon-pink">שבו אתם הכוכבים</span></h2>
-      <p class="lead">לא רק לעסקים: מתנה ליום הולדת, הפתעה לזוגיות, או הטרנד הכי חם ברשת, עם הפנים שלכם. שולחים תמונות, ואנחנו עושים את השאר.</p>
-      <div class="priv-cards">
-        <article class="priv-card">
-          <span class="tier-k">טרנדים</span>
-          <h3>הטרנד הכי חם, עם הפנים שלכם</h3>
-          <p>בוחרים טרנד מהטבלה או שולחים אחד שאהבתם, שולחים 3 תמונות, ומקבלים אותו מוכן תוך 24 שעות.</p>
-          <div class="how-card">
-          <div class="frame" data-video="/lib/how-trend-p.mp4" data-poster="/lib/how-trend.jpg" data-full-sound="/how-trend.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-          <div><h3>גם אתם יכולים להופיע בטרנדים הכי חמים</h3><p>בוחרים טרנד, שולחים תמונה ומקבלים אותו עם הפנים שלכם.</p></div>
+    <div class="private" id="trend">
+      <p class="kicker">לפרטיים</p>
+      <h2>טרנד AI: <span class="neon-pink">אתם הכוכבים של הטרנד</span></h2>
+      <p class="lead">הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה או שולחים אחד שאהבתם, שולחים 3 תמונות, ואנחנו עושים את השאר.</p>
+      <div class="ba-grid ba-one">
+      <article class="ba">
+        <div class="ba-pair">
+          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">לפני</span><span class="ph">תמונה מהטלפון</span></div>
+          <span class="arrow" aria-hidden="true">←</span>
+          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">אחרי</span><span class="ph">הטרנד המוכן</span></div>
         </div>
-          <div class="go"><b>מ־₪99</b><a href="/trends">לטבלת הטרנדים ←</a></div>
-        </article>
-        <article class="priv-card">
+        <div class="ba-text">
+          <h3>שלוש תמונות, טרנד מוכן</h3>
+          <p>בלי ללמוד אף כלי ובלי לשרוף קרדיטים. סרטון של 10 עד 30 שניות, לרוב תוך כמה שעות ולכל המאוחר תוך 24 שעות. לחצו על הסרטון לעוד דוגמאות, או שלחו לנו טרנד שראיתם ואהבתם.</p>
+          <div class="trend-go"><b>מ־₪99<small>לאדם אחד</small></b><a class="btn btn-pink" href="/trends">לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a></div>
+        </div>
+      </article>
+      </div>
+      <div class="how-card">
+        <div class="frame" data-video="/lib/how-trend-p.mp4" data-poster="/lib/how-trend.jpg" data-full-sound="/how-trend.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+        <div><h3>ככה מזמינים טרנד</h3><p>בוחרים טרנד, שולחים תמונות ומקבלים אותו עם הפנים שלכם.</p></div>
+      </div>
+      <h3 class="sub-h">ועוד לפרטיים</h3>
+      <div class="how-card clip-card">
+        <div class="frame" data-video="/lib/how-clip-p.mp4" data-poster="/lib/how-clip.jpg" data-full-sound="/how-clip.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
+        <div>
           <span class="tier-k">קליפ מוזיקה אישי</span>
           <h3>קליפ שכולו עליכם, במתנה</h3>
           <p>לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק. אתם הגיבורים, על שיר שבחרתם.</p>
-          <div class="how-card">
-          <div class="frame" data-video="/lib/how-clip-p.mp4" data-poster="/lib/how-clip.jpg" data-full-sound="/how-clip.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-          <div><h3>קליפ שכולו עליכם, בכמה צעדים פשוטים</h3><p>ממלאים טופס קצר, מעלים תמונות, שומעים את השיר ומקבלים את הקליפ.</p></div>
-        </div>
           <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ ←</a></div>
-        </article>
+        </div>
       </div>
     </div>
   </section>

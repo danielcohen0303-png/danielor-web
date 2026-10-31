@@ -760,6 +760,43 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .clip-card .go{display:flex;align-items:center;gap:1.2rem;margin-top:.7rem}
 .clip-card .go b{font-family:var(--display);font-size:var(--step-2);background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .clip-card .go a{font-weight:700;color:var(--pink);text-decoration:none}
+/* compact steps (Daniel 1.11: the four boxes were too big) */
+.steps{gap:.7rem}
+.steps li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.8rem;align-items:center;padding:.85rem 1.05rem;border-radius:16px;box-shadow:0 6px 18px rgba(70,30,120,.07)}
+.steps li::before{grid-row:1 / span 2;font-size:2.2rem}
+.steps h3{margin:0;font-size:1.05rem;line-height:1.25}
+.steps p{grid-column:2;margin:.15rem 0 0;font-size:.86rem;line-height:1.45}
+/* compact business types */
+.built-list{gap:.6rem}
+.built-list li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.75rem;row-gap:.1rem;align-items:center;padding:.8rem .95rem;border-radius:14px;box-shadow:0 6px 18px rgba(70,30,120,.07)}
+.built-list .bi{grid-row:1 / span 2;width:36px;height:36px;border-radius:10px;margin:0}
+.built-list .bi svg{width:20px;height:20px}
+.built-list b{font-size:1rem;line-height:1.25}
+.built-list li>span:last-child{grid-column:2;font-size:.84rem;line-height:1.45}
+@media (max-width:760px){
+  .steps,.built-list{grid-template-columns:1fr;gap:0;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--lift);overflow:hidden}
+  .steps li,.built-list li{border:0;border-radius:0;box-shadow:none;background:none;padding:.8rem 1rem}
+  .steps li+li,.built-list li+li{border-top:1px solid var(--line)}
+  .steps li::before{font-size:1.9rem;min-width:1.4rem;text-align:center}
+}
+.ba-lead{margin-top:.5rem}
+.reels{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (max-width:700px){.reels>.reel:last-child:nth-child(odd){grid-column:1 / -1;width:calc(50% - .5rem);justify-self:center}}
+/* tab bars that scroll sideways: an arrow and a fade say there is more */
+.tabwrap{position:relative;width:max-content;max-width:100%;margin-top:clamp(1.2rem,1rem + 1vw,1.8rem)}
+.tabwrap .tabbar{margin-top:0}
+.tabwrap::before,.tabwrap::after{content:"";position:absolute;top:1px;bottom:1px;width:64px;pointer-events:none;z-index:1;opacity:0;transition:opacity .25s}
+.tabwrap::before{left:1px;border-radius:999px 0 0 999px;background:linear-gradient(to right,#fff 40%,rgba(255,255,255,0))}
+.tabwrap::after{right:1px;border-radius:0 999px 999px 0;background:linear-gradient(to left,#fff 40%,rgba(255,255,255,0))}
+.tabwrap.more-end::before,.tabwrap.more-start::after{opacity:1}
+.tab-more{position:absolute;top:50%;z-index:2;width:38px;height:38px;margin-top:-19px;border:0;border-radius:50%;padding:0;display:grid;place-items:center;background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(200,40,200,.35);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s}
+.tab-more svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tab-more.end{left:6px}
+.tab-more.start{right:6px}
+.tabwrap.more-end .tab-more.end,.tabwrap.more-start .tab-more.start{opacity:1;pointer-events:auto}
+.tabwrap.more-end:not(.touched) .tab-more.end{animation:tab-nudge 1.8s ease-in-out infinite}
+@keyframes tab-nudge{0%,55%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}}
+@media (prefers-reduced-motion: reduce){.tab-more{animation:none!important}}
 </style>
 
 <div class="wrap">
@@ -973,16 +1010,17 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <div class="tab-panel" role="tabpanel" id="before-after" aria-labelledby="t-before-after">
     
     <h2>מה ששולחים, ומה שמקבלים</h2>
+    <p class="lead ba-lead">שולחים לנו רק תמונות מהטלפון, או סרטון רפרנס של סגנון שאהבתם. את כל השאר אנחנו עושים.</p>
     <div class="ba-grid ba-one">
-      <article class="ba wide">
+      <article class="ba">
         <div class="ba-pair">
-          <div class="frame wide dim" data-video="business-before.mp4"><span class="tag before">לפני</span><span class="ph">צילום גולמי</span></div>
+          <div class="frame dim" data-video="food-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונות מהטלפון</span></div>
           <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame wide glow-c" data-video="business-after.mp4" data-full="business-after-full.mp4" data-title="אחרי העריכה"><span class="tag after">אחרי</span><span class="ph">רילס מוכן לפרסום</span></div>
+          <div class="frame glow-b" data-video="food-after.mp4" data-full="food-after-full.mp4" data-title="פרסומת לעראייס, מתמונה מהטלפון"><span class="tag after">מקבלים</span><span class="ph">פרסומת מוכנה</span></div>
         </div>
         <div class="ba-text">
-          <h3>חומר גולמי, קליפ ערוך בסגנון קטאנה</h3>
-          <p>אותם קטעים אחרי עריכה: מילים ענקיות בתלת־ממד, חיתוכים חדים, האטות וסאונד. כך אפשר לערוך גם את הסרטון של העסק שלכם.</p>
+          <h3>תמונה של מנה על צלחת, פרסומת של 18 שניות</h3>
+          <p>תמונות רגילות מהטלפון, בלי תאורה ובלי סטודיו. יצאה פרסומת עם קריינות בעברית, אש וסאונד, כמו של רשת מזון. ככה זה עובד גם למנה, למוצר או לשירות שלכם.</p>
         </div>
       </article>
     </div>
@@ -1135,9 +1173,9 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <div class="ba-grid ba-one">
       <article class="ba">
         <div class="ba-pair">
-          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">לפני</span><span class="ph">תמונה מהטלפון</span></div>
+          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
           <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">אחרי</span><span class="ph">הטרנד המוכן</span></div>
+          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
         </div>
         <div class="ba-text">
           <h3>שלוש תמונות, טרנד מוכן</h3>
@@ -2247,6 +2285,39 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   });
   if (location.hash) reveal(location.hash.slice(1));
   window.addEventListener('hashchange', function(){ reveal(location.hash.slice(1)); });
+})();
+</script>
+<script>
+/* tab bars that scroll sideways (phones): arrows + fade where there is more, and a one-time nudge */
+(function(){
+  [].slice.call(document.querySelectorAll('.tabbar')).forEach(function(bar){
+    var w = document.createElement('div'); w.className = 'tabwrap';
+    bar.parentNode.insertBefore(w, bar); w.appendChild(bar);
+    function mk(cls, label, dir, d){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'tab-more ' + cls; b.setAttribute('aria-label', label); b.tabIndex = -1;
+      b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '"/></svg>';
+      b.addEventListener('click', function(){ w.classList.add('touched'); try { bar.scrollBy({left: dir * Math.max(160, bar.clientWidth * .6), behavior: 'smooth'}); } catch(e) { bar.scrollLeft += dir * 160; } });
+      w.appendChild(b);
+    }
+    mk('end', 'לשירותים נוספים', -1, 'M14.5 6l-6 6 6 6');
+    mk('start', 'חזרה להתחלה', 1, 'M9.5 6l6 6-6 6');
+    function upd(){
+      var max = bar.scrollWidth - bar.clientWidth, pos = Math.abs(bar.scrollLeft);
+      w.classList.toggle('more-end', max > 4 && pos < max - 4);
+      w.classList.toggle('more-start', max > 4 && pos > 4);
+    }
+    var nudging = false;
+    bar.addEventListener('scroll', function(){ upd(); if (!nudging && Math.abs(bar.scrollLeft) > 8) w.classList.add('touched'); }, {passive: true});
+    window.addEventListener('resize', upd); window.addEventListener('load', upd); upd();
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var io = new IntersectionObserver(function(es){
+        if (!es[0].isIntersecting) return; io.disconnect();
+        if (!w.classList.contains('more-end')) return;
+        setTimeout(function(){ nudging = true; try { bar.scrollBy({left: -48, behavior: 'smooth'}); setTimeout(function(){ bar.scrollBy({left: 48, behavior: 'smooth'}); setTimeout(function(){ nudging = false; }, 700); }, 520); } catch(e) { nudging = false; } }, 400);
+      }, {threshold: .9});
+      io.observe(bar);
+    }
+  });
 })();
 </script>
 </body>

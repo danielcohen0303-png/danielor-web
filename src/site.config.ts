@@ -29,8 +29,9 @@ export type Scene = {
 // media: one 16:9 master per scene, cut from the film so each scene ends on
 // the very frame the next one starts with (no seam between scenes). Computers
 // play 1920x1080 WebP frames; phones play a 9:16 crop as video.
-const film = (name: string, frames: number): FilmMedia => ({
-  base: `/film/${name}/v1`,
+// A new render of a scene goes in a new version folder (the media is cached as immutable).
+const film = (name: string, frames: number, v = 1): FilmMedia => ({
+  base: `/film/${name}/v${v}`,
   frames,
   fps: 24,
   framesPhone: "frames/wide",
@@ -146,8 +147,8 @@ export const scenes: Scene[] = [
   },
   {
     name: "city",
-    label: "מתוך העדשה אל העיר, ורחפן שיורד אל משרד שבו דניאל עובד מול מסך",
-    media: film("city", 448),
+    label: "מתוך העדשה אל העיר, ורחפן שנכנס מבעד לזכוכית אל משרד שבו דניאל, בחליפה בהירה, עובד מול מסך",
+    media: film("city", 486, 2),
     pace: 100,
     captions: [
       {
@@ -160,7 +161,7 @@ export const scenes: Scene[] = [
         line: "פתרון AI שנבנה בדיוק לעסק שלך",
       },
       {
-        from: 0.76,
+        from: 0.79,
         to: 1,
         neon: true,
         script: "Human Touch",
@@ -173,7 +174,7 @@ export const scenes: Scene[] = [
   {
     name: "sky",
     label: "נגיעה במסך, והמצלמה נכנסת לתוכו אל ים של עננים ורודים, והלוגו של Danielor נדלק",
-    media: film("sky", 321),
+    media: film("sky", 319, 2),
     pace: 105,
     finale: true,
     captions: [

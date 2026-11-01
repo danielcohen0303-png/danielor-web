@@ -2,7 +2,7 @@
   { "name": "spark", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/11e8a12c-28d6-4c7f-a817-74b2fb6dcab1.tar" },
   { "name": "clinic", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/cd5e01ac-9a9b-4740-934c-812747b2d27d.tar" },
   { "name": "studio", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/c4511763-6ee0-4a6c-870d-babd2ab07e9e.tar" },
-  { "name": "city", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/e7fbda17-8580-4b64-b3d1-cd75139602f7.tar" },
-  { "name": "sky", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/543c908a-cf2a-4d58-98ec-d73413e6a8fd.tar" },
+  { "name": "city", "v": 2, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/8749434b-2941-48e1-b131-fbf8de12dbd6.tar" },
+  { "name": "sky", "v": 2, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/41e469e7-5d3e-423c-93c8-74309dd3cc14.tar" },
   { "name": "og", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/4863a9d7-c5e6-4941-8165-f1a29cdee20c.jpg", "file": "public/og.jpg" }
 ]

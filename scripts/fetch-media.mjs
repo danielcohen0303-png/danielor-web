@@ -1,6 +1,6 @@
 // The film's media is too big for git: each scene's frames and videos are a
 // tar on Danielor's media host (scripts/media.json), fetched at build time
-// into public/film/<scene>/v1. A scene already there (local work) is skipped.
+// into public/film/<scene>/v<n>. A scene already there (local work) is skipped.
 import { existsSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
@@ -19,7 +19,8 @@ for (const m of list) {
     console.log(`media ${m.file}: ok`);
     continue;
   }
-  if (existsSync(`${root}${m.name}/v1/meta.json`)) {
+  const dir = `${m.name}/v${m.v ?? 1}`;
+  if (existsSync(`${root}${dir}/meta.json`)) {
     console.log(`media ${m.name}: already here`);
     continue;
   }
@@ -37,6 +38,6 @@ for (const m of list) {
   if (!ok) throw new Error(`could not fetch the media for ${m.name}`);
   execFileSync("tar", ["-xf", tmp, "-C", root]);
   rmSync(tmp);
-  if (!existsSync(`${root}${m.name}/v1/meta.json`)) throw new Error(`media ${m.name}: the tar has no ${m.name}/v1/meta.json`);
+  if (!existsSync(`${root}${dir}/meta.json`)) throw new Error(`media ${m.name}: the tar has no ${dir}/meta.json`);
   console.log(`media ${m.name}: ok`);
 }

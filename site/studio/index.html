@@ -1009,6 +1009,14 @@ html.studio .row{border-color:var(--line)}
 html.studio .lv-card{background:rgba(255,255,255,.04)}
 html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
 
+/* price lists open under their own button, framed in its colors */
+.price-acc{display:grid;gap:.8rem;max-width:760px;margin-top:1rem}
+.pt-panel{margin-top:-.15rem}
+.pt-panel .board{animation:board-in .45s cubic-bezier(.2,.8,.2,1);border:2px solid transparent}
+.pt-panel-biz .board{background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(120deg,#14b3d1,#7a35e6) border-box}
+.pt-panel-priv .board{background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box}
+.pt-panel .board header h3{display:none}
+html.studio .row.entry .name::after{color:#1d1033}
 </style>
 
 <div class="wrap">
@@ -1397,8 +1405,9 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
   <section id="prices">
     <h2 class="sec-h2">מחירים</h2>
     <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
-    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>סרטונים לעסקים</b><small>פרסומות, פודקאסטים ומצגות</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="pt-t"><b>מחירון לפרטיים</b><small>טרנדים וקליפים אישיים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button></div>
-    <div class="boards" id="prices-boards" data-show="none">
+    <div class="price-acc">
+      <button type="button" class="pt-btn" aria-expanded="false" aria-controls="pb-biz" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>סרטונים לעסקים</b><small>פרסומות, פודקאסטים ומצגות</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button>
+      <div class="pt-panel pt-panel-biz" id="pb-biz" hidden>
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
         <div class="row">
@@ -1432,6 +1441,9 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
         <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
         <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
       </div>
+      </div>
+      <button type="button" class="pt-btn" aria-expanded="false" aria-controls="pb-priv" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="pt-t"><b>מחירון לפרטיים</b><small>טרנדים וקליפים אישיים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button>
+      <div class="pt-panel pt-panel-priv" id="pb-priv" hidden>
       <div class="board b-priv">
         <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
         <div class="row entry">
@@ -1456,6 +1468,7 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
           <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
         </div>
         <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
+      </div>
       </div>
     </div>
     <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
@@ -1806,17 +1819,13 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
 })();
 </script>
 <script>
-/* מחירים: both boards closed; a tap opens one, a second tap closes it (Daniel 1.11: one long list was confusing) */
+/* מחירים: each list opens right under its button; a second tap closes it, opening one closes the other */
 (function(){
-  var boards = document.querySelector('#prices .boards');
-  var btns = Array.prototype.slice.call(document.querySelectorAll('#prices .pt-btn'));
-  if (!boards || !btns.length) return;
+  var btns = [].slice.call(document.querySelectorAll('#prices .pt-btn[aria-controls]'));
   btns.forEach(function(b){
     b.addEventListener('click', function(){
-      var want = b.getAttribute('data-show'), open = boards.getAttribute('data-show') === want;
-      var show = open ? 'none' : want;
-      boards.setAttribute('data-show', show);
-      btns.forEach(function(o){ o.setAttribute('aria-expanded', String(o.getAttribute('data-show') === show)); });
+      var open = b.getAttribute('aria-expanded') === 'true';
+      btns.forEach(function(o){ var on = o === b && !open; o.setAttribute('aria-expanded', String(on)); var p = document.getElementById(o.getAttribute('aria-controls')); if (p) p.hidden = !on; });
       if (!open) requestAnimationFrame(function(){ var r = b.getBoundingClientRect(); if (r.top < 70 || r.top > innerHeight * .45) b.scrollIntoView({behavior: 'smooth', block: 'start'}); });
     });
   });

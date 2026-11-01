@@ -992,6 +992,36 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
 #studio-door{padding-block:0 clamp(1rem,.8rem + 1vw,2rem)}
 .pt-link{text-decoration:none;color:var(--fg)}
 .pt-link .pt-chev{font-weight:800;color:var(--pink)}
+/* price lists open under their own button, framed in its colors */
+.price-acc{display:grid;gap:.8rem;max-width:760px;margin-top:1rem}
+.pt-panel{margin-top:-.15rem}
+.pt-panel .board{animation:board-in .45s cubic-bezier(.2,.8,.2,1);border:2px solid transparent}
+.pt-panel-biz .board{background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(120deg,#14b3d1,#7a35e6) border-box}
+.pt-panel-priv .board{background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box}
+.pt-panel .board header h3{display:none}
+/* the studio price card wears the studio look */
+.pt-link{color:#fff;background:radial-gradient(120% 120% at 100% 0%,rgba(122,53,230,.7) 0%,rgba(122,53,230,0) 60%) padding-box,radial-gradient(100% 120% at 0% 100%,rgba(217,16,154,.55) 0%,rgba(217,16,154,0) 60%) padding-box,linear-gradient(#140a26,#140a26) padding-box,var(--grad) border-box;box-shadow:0 14px 34px rgba(40,10,80,.3)}
+.pt-link .pt-t small{color:rgba(255,255,255,.8)}
+.pt-link .pt-ic{background:var(--grad);box-shadow:0 8px 18px rgba(255,47,200,.35)}
+.pt-link .pt-chev{background:rgba(255,255,255,.14);color:#fff}
+.pt-link:hover{box-shadow:0 18px 40px rgba(122,53,230,.4)}
+@media (max-width:700px){.hero-solo .trust{display:grid;justify-content:center;justify-items:start;gap:.5rem}}
+/* the four steps reveal and light up as you scroll */
+#process .steps.reveal li{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .65s cubic-bezier(.2,.8,.2,1),background .35s,box-shadow .35s}
+#process .steps.reveal li.in{opacity:1;transform:none}
+#process .steps.reveal li::before{display:inline-block;transform:scale(.3) rotate(-12deg);transition:transform .6s cubic-bezier(.3,1.7,.5,1) .12s}
+#process .steps.reveal li.in::before{transform:none}
+#process .steps li{position:relative;overflow:hidden}
+#process .steps li::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,47,200,.10) 50%,transparent 70%);transform:translateX(120%);pointer-events:none}
+#process .steps.reveal li.in::after{animation:step-sheen 1.1s ease .25s 1 both}
+@keyframes step-sheen{to{transform:translateX(-120%)}}
+@media (max-width:760px){
+  #process .steps li .bar{position:absolute;inset-block:14px;inset-inline-start:0;width:4px;border-radius:4px;background:var(--grad);transform:scaleY(0);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  #process .steps li.on{background:linear-gradient(270deg,rgba(255,47,200,.07),transparent 70%)}
+  #process .steps li.on .bar{transform:scaleY(1)}
+}
+@media (min-width:761px){#process .steps li.in{box-shadow:0 14px 34px rgba(122,53,230,.14)}}
+@media (prefers-reduced-motion: reduce){#process .steps.reveal li,#process .steps.reveal li::before{opacity:1;transform:none;transition:none}#process .steps li::after{display:none}}
 </style>
 
 <div class="wrap">
@@ -1233,8 +1263,9 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
   <section id="prices">
     <h2 class="sec-h2">מחירים</h2>
     <p class="price-hint">לחיצה פותחת את המחירון, לחיצה נוספת סוגרת.</p>
-    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>מחירון לעסקים</b><small>סוכן, אפליקציה ואתר</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button><a class="pt-btn pt-link" href="/studio/#prices"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><span class="pt-t"><b>מחירון הסטודיו</b><small>סרטונים, פודקאסטים וטרנדים</small></span><span class="pt-chev" aria-hidden="true">←</span></a></div>
-    <div class="boards" id="prices-boards" data-show="none">
+    <div class="price-acc">
+      <button type="button" class="pt-btn" aria-expanded="false" aria-controls="pb-biz" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>מחירון לעסקים</b><small>סוכן, אפליקציה ואתר</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button>
+      <div class="pt-panel pt-panel-biz" id="pb-biz" hidden>
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
         <div class="row entry">
@@ -1258,6 +1289,8 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
           <p class="desc">סוכן שעונה לטלפון, או כפיל שמדבר בקול שלכם, לפי מה שהעסק צריך. <a href="/studio/#maker">מה זה</a></p>
         </div>
       </div>
+      </div>
+      <a class="pt-btn pt-link" href="/studio/#prices"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><span class="pt-t"><b>מחירון הסטודיו</b><small>סרטונים, פודקאסטים וטרנדים</small></span><span class="pt-chev" aria-hidden="true">←</span></a>
     </div>
     <p class="note">המחירים כוללים מע״מ. את ההקמה אפשר לפרוס לשלושה תשלומים.</p>
   
@@ -1607,17 +1640,13 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
 })();
 </script>
 <script>
-/* מחירים: both boards closed; a tap opens one, a second tap closes it (Daniel 1.11: one long list was confusing) */
+/* מחירים: each list opens right under its button; a second tap closes it, opening one closes the other */
 (function(){
-  var boards = document.querySelector('#prices .boards');
-  var btns = Array.prototype.slice.call(document.querySelectorAll('#prices .pt-btn'));
-  if (!boards || !btns.length) return;
+  var btns = [].slice.call(document.querySelectorAll('#prices .pt-btn[aria-controls]'));
   btns.forEach(function(b){
     b.addEventListener('click', function(){
-      var want = b.getAttribute('data-show'), open = boards.getAttribute('data-show') === want;
-      var show = open ? 'none' : want;
-      boards.setAttribute('data-show', show);
-      btns.forEach(function(o){ o.setAttribute('aria-expanded', String(o.getAttribute('data-show') === show)); });
+      var open = b.getAttribute('aria-expanded') === 'true';
+      btns.forEach(function(o){ var on = o === b && !open; o.setAttribute('aria-expanded', String(on)); var p = document.getElementById(o.getAttribute('aria-controls')); if (p) p.hidden = !on; });
       if (!open) requestAnimationFrame(function(){ var r = b.getBoundingClientRect(); if (r.top < 70 || r.top > innerHeight * .45) b.scrollIntoView({behavior: 'smooth', block: 'start'}); });
     });
   });
@@ -2209,6 +2238,26 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
       else if (!v.paused) v.pause(); }); }, {threshold: [0, .55, 1]});
     track.querySelectorAll('video[data-src]').forEach(function(v){ io.observe(v); });
   } else track.querySelectorAll('video[data-src]').forEach(function(v){ v.src = v.dataset.src; v.autoplay = true; });
+})();
+</script>
+<script>
+/* איך עובדים: steps come in one by one; on phones the step in the middle of the screen lights up */
+(function(){
+  var list = document.querySelector('#process .steps'); if (!list || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var items = [].slice.call(list.children);
+  items.forEach(function(li){ var b = document.createElement('span'); b.className = 'bar'; b.setAttribute('aria-hidden', 'true'); li.appendChild(b); });
+  list.classList.add('reveal');
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (!e.isIntersecting) return; var i = items.indexOf(e.target), wide = innerWidth > 760;
+      setTimeout(function(){ e.target.classList.add('in'); }, wide ? i * 160 : 60); io.unobserve(e.target); });
+  }, {rootMargin: '0px 0px -10% 0px', threshold: .3});
+  items.forEach(function(li){ io.observe(li); });
+  var tick = false;
+  function act(){ tick = false; if (innerWidth > 760) return; var mid = innerHeight * .5, best = null, bd = 1e9;
+    items.forEach(function(li){ var r = li.getBoundingClientRect(), d = Math.abs((r.top + r.bottom) / 2 - mid); if (d < bd) { bd = d; best = li; } });
+    items.forEach(function(li){ li.classList.toggle('on', li === best && bd < innerHeight * .35); }); }
+  window.addEventListener('scroll', function(){ if (!tick) { tick = true; requestAnimationFrame(act); } }, {passive: true}); act();
 })();
 </script>
 </body>

@@ -1,11 +1,11 @@
-import SceneFilm from "@/film/SceneFilm";
+import OneFilm from "@/film/OneFilm";
 import ScrollGuide from "@/film/ScrollGuide";
 import Opening from "@/components/Opening";
 import { About, Cta, Faq, Footer, Services } from "@/components/Sections";
 import { scenes, site } from "@/site.config";
 
 // The page: the opening in the dark, the film (five scenes cut from one
-// continuous take, each loaded a couple of screens before it), then the
+// continuous take, on one pinned stage, each loaded a couple of screens before it), then the
 // sections on Danielor's lilac glow. Everything comes from src/site.config.ts.
 export default function Home() {
   return (
@@ -25,9 +25,7 @@ export default function Home() {
       <Opening />
 
       <div className="screen">
-        {scenes.map((s) => (
-          <SceneFilm key={s.name} {...s} />
-        ))}
+        <OneFilm scenes={scenes} />
       </div>
 
       <div id="content" className="dn-after">

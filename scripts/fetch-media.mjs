@@ -7,7 +7,18 @@ import { execFileSync } from "node:child_process";
 const list = JSON.parse(readFileSync(new URL("./media.json", import.meta.url), "utf8"));
 const root = new URL("../public/film/", import.meta.url).pathname;
 mkdirSync(root, { recursive: true });
+const here = new URL("../", import.meta.url).pathname;
 for (const m of list) {
+  if (m.file) {
+    // a single file (the share card): fetched as is
+    if (!existsSync(here + m.file)) {
+      const res = await fetch(m.url);
+      if (!res.ok) throw new Error(`could not fetch ${m.file}: HTTP ${res.status}`);
+      writeFileSync(here + m.file, Buffer.from(await res.arrayBuffer()));
+    }
+    console.log(`media ${m.file}: ok`);
+    continue;
+  }
   if (existsSync(`${root}${m.name}/v1/meta.json`)) {
     console.log(`media ${m.name}: already here`);
     continue;

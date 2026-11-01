@@ -48,3 +48,4 @@ media-src/
 
 # the film media is fetched at build time (scripts/fetch-media.mjs)
 /public/film/
+/public/og.jpg

@@ -14,6 +14,7 @@
 // driven by its own stretch of the scroll: an invisible spacer as long as
 // that scene's film, laid end to end under the stage.
 import { useEffect, useRef } from "react";
+import { AssetLoader } from "./AssetLoader";
 import { Film } from "./Film";
 import { KineticCaption, kinetic, type KineticProps } from "./Kinetic";
 import { Finale, finaleAt } from "@/components/Finale";
@@ -61,8 +62,16 @@ export default function OneFilm({
     const sec = section.current;
     if (!sec) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch = window.matchMedia("(pointer: coarse)").matches;
     const debug = /[?&]debug=film\b/.test(location.search);
     const films: (Film | null)[] = scenes.map(() => null);
+    // one download line for the whole film (Daniel, 02.11: on a computer the
+    // picture stuck the first time through, while each scene fetched only a
+    // window ahead and only from a couple of screens before it). Computers
+    // fetch every frame of every scene, the one on screen first, then the next
+    // ones in order, so by the time the visitor gets there it is already here.
+    const loader = new AssetLoader(touch ? 6 : 12);
+    const rankOf = (k: number) => (k >= on ? k - on : 10 + (on - k));
 
     // which layer is on: the scene whose stretch of scroll we are in
     let top = 0;
@@ -82,6 +91,7 @@ export default function OneFilm({
       if (i !== on) {
         layers.current.forEach((l, k) => l && (l.style.visibility = k === i ? "visible" : "hidden"));
         on = i;
+        films.forEach((f, k) => f?.setRank(rankOf(k)));
       }
     };
     measure();
@@ -99,7 +109,9 @@ export default function OneFilm({
     window.addEventListener("resize", onResize);
     window.addEventListener("film:measure", onResize);
 
-    // each scene's engine (and its download) starts when its stretch is a couple of screens away
+    // each scene's engine: on a computer all of them from the start (they share
+    // the download line, most urgent first); on a phone, where a scene is one
+    // video file, when its stretch is a couple of screens away
     const start = (i: number) => {
       const sp = spacers.current[i];
       const cv = canvases.current[i];
@@ -111,9 +123,12 @@ export default function OneFilm({
         smoothMs: 40,
         blend: true,
         lenis: "off",
-        monitor: debug && i === 0,
+        monitor: debug && i === Math.max(0, on),
         captions: [],
+        loader,
+        prefetchAll: !touch,
       });
+      film.setRank(rankOf(i));
       film.track((p) => {
         const c = caps.current[i];
         if (c) kinetic(c, p, reduced);
@@ -131,7 +146,10 @@ export default function OneFilm({
         }),
       { rootMargin: "250% 0px" },
     );
-    spacers.current.forEach((s) => s && io.observe(s));
+    // ?debug=film: the scenes' stats in the console, for checking the download line
+    if (debug) (window as unknown as { __films: () => unknown }).__films = () => films.map((f) => f?.stats() ?? null);
+    if (touch) spacers.current.forEach((s) => s && io.observe(s));
+    else scenes.forEach((_, i) => start(i));
 
     return () => {
       cancelAnimationFrame(raf);
@@ -139,6 +157,7 @@ export default function OneFilm({
       window.removeEventListener("resize", onResize);
       window.removeEventListener("film:measure", onResize);
       films.forEach((f) => f?.destroy());
+      loader.destroy();
     };
   }, [scenes]);
 

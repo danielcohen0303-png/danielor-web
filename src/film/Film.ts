@@ -28,10 +28,15 @@ export type FilmOptions = {
   captions: Caption[];
   /** share of the section's scroll before the film starts (an opening gate); the film holds its first frame */
   lead?: number;
+  /** a loader shared with other films on the page (they queue in one line, most urgent first) */
+  loader?: AssetLoader;
+  /** frames engine: fetch the whole scene in the background, not just a window around the playhead */
+  prefetchAll?: boolean;
 };
 
 export class Film {
-  private loader = new AssetLoader();
+  private loader: AssetLoader;
+  private ownLoader: boolean;
   private renderer: Renderer;
   private scroll: ScrollController;
   private timeline: TimelineController;
@@ -50,6 +55,8 @@ export class Film {
     const touch = window.matchMedia("(pointer: coarse)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const m = o.media;
+    this.ownLoader = !o.loader;
+    this.loader = o.loader ?? new AssetLoader();
     this.usesVideo = o.engine === "video" || (o.engine === "hybrid" && touch);
 
     if (o.lenis !== "off" && !reduced) {
@@ -66,14 +73,23 @@ export class Film {
       video.style.display = "none";
       canvas.style.display = "block";
       const dir = `${m.base}/${touch ? m.framesPhone : m.framesDesk}`;
-      this.renderer = new FrameSequenceRenderer(canvas, FrameSequenceRenderer.frameUrl(dir), m.frames, this.loader, o.blend);
+      this.renderer = new FrameSequenceRenderer(
+        canvas,
+        FrameSequenceRenderer.frameUrl(dir),
+        m.frames,
+        this.loader,
+        o.blend,
+        o.prefetchAll,
+      );
     }
 
     this.scroll = new ScrollController(section, reduced ? 0 : o.smoothMs);
     this.timeline = new TimelineController(o.captions, reduced);
     this.monitor = new PerformanceMonitor(m.frames, o.monitor, (): Record<string, string> => {
       const r = this.renderer;
-      return r instanceof FrameSequenceRenderer ? { "פריימים מפוענחים": `${r.decoded()}/${m.frames}` } : {};
+      return r instanceof FrameSequenceRenderer
+        ? { "פריימים מפוענחים": `${r.decoded()}/${m.frames}`, "פריימים שירדו": `${r.fetched()}/${m.frames}` }
+        : {};
     });
 
     window.addEventListener("resize", this.onResize);
@@ -112,6 +128,16 @@ export class Film {
     this.timeline.add(fn);
   }
 
+  /** how urgent this film's download is: 0 on screen, 1 next, larger later */
+  setRank(r: number) {
+    if (this.renderer instanceof FrameSequenceRenderer) this.renderer.setRank(r);
+  }
+
+  /** how it went so far: times the picture stood still while scrolled, and the worst lag in frames */
+  stats() {
+    return { stalls: this.monitor.stalls, maxLag: Math.round(this.monitor.maxLag) };
+  }
+
   resetStats() {
     this.monitor.reset();
   }
@@ -122,7 +148,7 @@ export class Film {
     window.removeEventListener("film:measure", this.onResize);
     this.lenis?.destroy();
     this.renderer.destroy();
-    this.loader.destroy();
+    if (this.ownLoader) this.loader.destroy();
     this.monitor.destroy();
   }
 }

@@ -7,21 +7,30 @@
 // It never paints a frame from the wrong side of the playhead: when the
 // visitor scrolls faster than frames decode, the picture holds the last
 // frame on the way to the target instead of jumping back and forth.
+//
+// The bytes come through the AssetLoader's queue (this renderer is one of its
+// owners). With prefetchAll the whole scene is fetched, not just a window, and
+// rank says how urgent the scene is: 0 is the one on screen, 1 the next...
+// A scene that is not on screen keeps only a few frames decoded around its
+// playhead (its first frames, or its last ones once it has been passed), so it
+// is ready the moment it takes over without holding a screenful of bitmaps.
 import type { Renderer } from "./types";
-import type { AssetLoader } from "./AssetLoader";
+import type { AssetLoader, FetchOwner } from "./AssetLoader";
 
 const pad = (n: number) => String(n).padStart(4, "0");
 
-const RADIUS = 30; // decoded frames kept each side of the playhead
+const RADIUS = 30; // decoded frames kept each side of the playhead (scene on screen)
+const RADIUS_IDLE = 2; // the same for a scene that is not on screen
 const AHEAD = 240; // compressed frames fetched ahead, in the direction of travel
 const BEHIND = 60;
 const DECODE_SLOTS = 3;
 
-export class FrameSequenceRenderer implements Renderer {
+export class FrameSequenceRenderer implements Renderer, FetchOwner {
   firstPaint: number | null = null;
   private ctx: CanvasRenderingContext2D;
   private blobs: (Blob | null)[];
   private bitmaps: (ImageBitmap | null)[];
+  private index = new Map<string, number>();
   private decoding = new Set<number>();
   private head = 0;
   private dir: 1 | -1 = 1;
@@ -29,6 +38,9 @@ export class FrameSequenceRenderer implements Renderer {
   private dead = false;
   private cw = 0;
   private ch = 0;
+  private rank = 0;
+  private ord: number[] | null = null; // fetch order, rebuilt when the playhead moves
+  private cur = 0; // first entry of ord that may still be missing
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -37,11 +49,15 @@ export class FrameSequenceRenderer implements Renderer {
     private loader: AssetLoader,
     /** mix the two neighbouring frames while moving (smoother at 24/s) */
     private blend = true,
+    /** fetch every frame of the scene, not just a window around the playhead */
+    private prefetchAll = false,
   ) {
     this.ctx = canvas.getContext("2d", { alpha: false })!;
     this.blobs = Array(n).fill(null);
     this.bitmaps = Array(n).fill(null);
+    for (let i = 0; i < n; i++) this.index.set(url(i), i);
     this.resize();
+    this.loader.register(this);
     this.pump();
   }
 
@@ -60,34 +76,62 @@ export class FrameSequenceRenderer implements Renderer {
     this.shown = -1; // repaint
   }
 
+  /** how urgent this scene is: 0 on screen, 1 next, larger later */
+  setRank(r: number) {
+    if (r === this.rank) return;
+    this.rank = r;
+    this.ord = null;
+    this.pump();
+  }
+
   /** fetch order: the playhead, then outward, the direction of travel first */
   private order(): number[] {
     const out: number[] = [];
     const ahead = this.dir;
-    for (let d = 0; d <= Math.max(AHEAD, BEHIND); d++) {
-      if (d <= AHEAD) out.push(this.head + ahead * d);
+    const fwd = this.prefetchAll ? this.n : AHEAD;
+    for (let d = 0; d <= Math.max(fwd, BEHIND); d++) {
+      if (d <= fwd) out.push(this.head + ahead * d);
       if (d > 0 && d <= BEHIND) out.push(this.head - ahead * d);
     }
+    // the rest of the scene behind the playhead last
+    if (this.prefetchAll) for (let d = BEHIND + 1; d < this.n; d++) out.push(this.head - ahead * d);
     return out.filter((i) => i >= 0 && i < this.n);
+  }
+
+  /** for the loader: the most urgent frame still missing */
+  next() {
+    if (this.dead) return null;
+    if (!this.ord) {
+      this.ord = this.order();
+      this.cur = 0;
+    }
+    while (this.cur < this.ord.length) {
+      const i = this.ord[this.cur];
+      const u = this.url(i);
+      if (this.blobs[i] || this.loader.pending(u) || this.loader.failed(u)) {
+        this.cur++;
+        continue;
+      }
+      return { url: u, prio: this.rank * 1e6 + this.cur };
+    }
+    return null;
+  }
+
+  got(url: string, b: Blob) {
+    if (this.dead) return;
+    const i = this.index.get(url);
+    if (i === undefined) return;
+    this.blobs[i] = b;
+    this.pump();
   }
 
   private pump() {
     if (this.dead) return;
-    // bytes
-    for (const i of this.order()) {
-      if (this.blobs[i] || this.loader.pending(this.url(i))) continue;
-      if (!this.loader.hasSlot()) break;
-      this.loader
-        .blob(this.url(i))
-        .then((b) => {
-          if (this.dead) return;
-          this.blobs[i] = b;
-          this.pump();
-        })
-        .catch(() => {});
-    }
+    // bytes: through the loader's queue
+    this.loader.dispatch();
     // decode: a window around the playhead, nearest first
-    for (let d = 0; d <= RADIUS && this.decoding.size < DECODE_SLOTS; d++) {
+    const radius = this.rank === 0 ? RADIUS : RADIUS_IDLE;
+    for (let d = 0; d <= radius && this.decoding.size < DECODE_SLOTS; d++) {
       for (const i of [this.head + this.dir * d, this.head - this.dir * d]) {
         if (i < 0 || i >= this.n || this.bitmaps[i] || this.decoding.has(i) || !this.blobs[i]) continue;
         if (this.decoding.size >= DECODE_SLOTS) break;
@@ -95,7 +139,8 @@ export class FrameSequenceRenderer implements Renderer {
         createImageBitmap(this.blobs[i]!)
           .then((bm) => {
             this.decoding.delete(i);
-            if (this.dead || Math.abs(i - this.head) > RADIUS + 4) return bm.close();
+            const keep = this.rank === 0 ? RADIUS + 4 : RADIUS_IDLE + 1;
+            if (this.dead || Math.abs(i - this.head) > keep) return bm.close();
             this.bitmaps[i] = bm;
             this.pump();
           })
@@ -103,8 +148,9 @@ export class FrameSequenceRenderer implements Renderer {
       }
     }
     // release what fell out of the window
+    const keep = this.rank === 0 ? RADIUS + 4 : RADIUS_IDLE + 1;
     for (let i = 0; i < this.n; i++) {
-      if (this.bitmaps[i] && Math.abs(i - this.head) > RADIUS + 4 && i !== 0) {
+      if (this.bitmaps[i] && Math.abs(i - this.head) > keep && i !== 0) {
         this.bitmaps[i]!.close();
         this.bitmaps[i] = null;
       }
@@ -128,6 +174,7 @@ export class FrameSequenceRenderer implements Renderer {
     if (target !== this.head || dir !== this.dir) {
       this.head = target;
       this.dir = dir;
+      this.ord = null;
       this.pump();
     }
     // the decoded frame nearest the target, only from between what is shown
@@ -175,12 +222,18 @@ export class FrameSequenceRenderer implements Renderer {
     return this.bitmaps.filter(Boolean).length;
   }
 
+  /** frames downloaded so far */
+  fetched() {
+    return this.blobs.filter(Boolean).length;
+  }
+
   bytes() {
     return this.blobs.reduce((s, b) => s + (b?.size ?? 0), 0);
   }
 
   destroy() {
     this.dead = true;
+    this.loader.unregister(this);
     this.bitmaps.forEach((b) => b?.close());
     this.bitmaps = [];
     this.blobs = [];

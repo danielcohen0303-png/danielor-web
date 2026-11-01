@@ -330,6 +330,38 @@ body.chat-open .tabs{display:none}
 .cr textarea{flex:1;resize:none;border:1px solid var(--line-2);border-radius:20px;padding:10px 14px;font:inherit;font-size:16px;max-height:140px;background:var(--wall);color:var(--ink)}
 .send{background:var(--grad);color:#fff;border-radius:999px;padding:11px 18px;font-weight:700;flex:none}
 .send:disabled{opacity:.5}
+.mfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+.mfoot .tm{margin-top:0}
+.fixb{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--violet-ink);background:#fff;border:1px solid #e3d4ff;border-radius:999px;padding:2px 9px 2px 7px}
+.fixb svg{width:13px;height:13px}
+.fixed{font-size:12px;font-weight:700;color:var(--green);background:#e9f9ef;border-radius:999px;padding:2px 9px}
+.fixbox{margin-top:8px;border-top:1px dashed #d8c4ff;padding-top:8px;white-space:normal}
+.fixh{margin:0 0 6px;font-size:12.5px;color:var(--muted)}
+.fixta{width:100%;resize:vertical;border:1px solid var(--line-2);border-radius:12px;padding:9px 11px;font:inherit;font-size:16px;background:#fff;color:var(--ink);box-sizing:border-box}
+.fixrow{display:flex;gap:8px;margin-top:8px}
+.fixsave{background:var(--grad);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:14px}
+.fixsave:disabled{opacity:.5}
+.fixcancel{background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--ink)}
+.learnbtn{display:flex;align-items:center;gap:12px;width:100%;text-align:start;margin:4px 0 14px;padding:12px 14px;border-radius:18px;border:2px solid transparent;
+  background:linear-gradient(135deg,#fff 0%,#fbf5ff 60%,#fff0fa 100%) padding-box,var(--grad) border-box;box-shadow:0 18px 36px -28px rgba(139,61,255,.7)}
+.learnbtn i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:var(--grad);flex:none}
+.learnbtn i svg{width:22px;height:22px}
+.learnbtn .lt{flex:1;min-width:0}
+.learnbtn b{display:block;font-size:15.5px;color:var(--ink)}
+.learnbtn small{display:block;font-size:12.5px;color:var(--muted)}
+.lcount{font-size:12px;font-weight:700;color:var(--violet-ink);background:var(--violet-soft);border-radius:999px;padding:3px 10px;flex:none;white-space:nowrap}
+.lcount.hot{background:var(--grad);color:#fff}
+.lessons .lbody{flex:1;min-height:0;overflow-y:auto;padding:12px 14px calc(16px + var(--bot));background:var(--wall);display:flex;flex-direction:column;gap:10px}
+.lh{margin:8px 2px 0;font-size:14px;color:var(--muted);font-weight:700}
+.lcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:0 1px 0 rgba(29,16,51,.05)}
+.lcard p{margin:0;font-size:14.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.lcard > b{display:block;margin-bottom:6px;font-size:14.5px}
+.lcard.sug{border-color:#f6b8e2;background:linear-gradient(160deg,#fff,#fff3fb)}
+.lcard.sug small{display:block;margin-top:6px;color:var(--muted);font-size:12.5px}
+.lmeta{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.lmeta small{color:var(--dim);font-size:12px}
+.ldel{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:999px;padding:4px 11px}
+.ldel.armed{background:var(--red);color:#fff}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
 </head>
@@ -341,6 +373,7 @@ body.chat-open .tabs{display:none}
 'use strict';
 var HQ = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/functions/v1/danielor-hq';
 var WA = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/functions/v1/danielor-wa-tools';
+var AG = 'https://pdtzwlhskwmwizgcdhsx.supabase.co/functions/v1/danielor-agent';
 var IGH = { danielor: 'https://www.instagram.com/daniel_ccohen/', ac_he: 'https://www.instagram.com/acholding.il/', ac_en: 'https://www.instagram.com/acholding.co/' };
 var KEY_NAME = 'dl_inbox_key';
 var TAB_NAME = 'dl_app_tab';
@@ -374,6 +407,8 @@ var IC = {
   phone: '<path d="M20.5 11.6a8.2 8.2 0 0 1-12 7.3L3.6 20.4l1.6-4.6a8.3 8.3 0 1 1 15.3-4.2z"/><path d="M9.2 8.6c.3 2.6 2.4 4.9 5.2 5.6l1.1-1.2"/>',
   chev: '<path d="M14.5 6 8.5 12l6 6"/>',
   check: '<path d="m5 12.5 4.3 4.3L19 7.2"/>',
+  pen: '<path d="M14.5 5.5l4 4L9 19H5v-4z"/><path d="M12.5 7.5l4 4"/>',
+  brain: '<path d="M9 4.5a3 3 0 0 0-3 3 3 3 0 0 0-1.5 5.4A3.2 3.2 0 0 0 8 18.5a2.5 2.5 0 0 0 4 1.2V5.6A2.6 2.6 0 0 0 9 4.5z"/><path d="M15 4.5a3 3 0 0 1 3 3 3 3 0 0 1 1.5 5.4 3.2 3.2 0 0 1-3.5 5.6 2.5 2.5 0 0 1-4 1.2"/>',
   back: '<path d="M9.5 6l6 6-6 6"/>',
   play: '<path d="M8 6.5v11l9-5.5z"/>',
   mute: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="m16 9.5 4.5 5M20.5 9.5 16 14.5"/>',
@@ -902,6 +937,8 @@ function renderInboxShell(){
   var v = V.inbox; v.innerHTML = '';
   v.appendChild(el('h1', { class: 'ptitle' }, ['שיחות ', el('span', { text: 'בוואטסאפ' })]));
   v.appendChild(el('p', { class: 'psub', text: 'כל השיחות של הסוכן. כשאתה כותב ללקוח, הסוכן עוצר בשיחה הזאת עד שתחזיר אליו.' }));
+  IB.learn = el('button', { class: 'learnbtn', type: 'button', onclick: openLessons }, [el('i', { html: svg(IC.brain) }), el('span', { class: 'lt' }, [el('b', { text: 'מה הסוכן למד' }), el('small', { text: 'הלקחים שלו, ותיקונים שלך מתוך שיחות' })]), el('span', { class: 'lcount' })]);
+  v.appendChild(IB.learn); refreshLessonsCount();
   IB.filters = el('div', { class: 'filters', role: 'group', 'aria-label': 'סינון' });
   IB.rows = el('div', { class: 'rows' });
   v.appendChild(IB.filters); v.appendChild(IB.rows);
@@ -970,7 +1007,8 @@ function loadConv(first){
 }
 function renderConv(first){
   var I = S.inbox, j = I.conv, c = j.conversation, box = IB.chat; if (!box) return;
-  var oldTa = box.querySelector('textarea'); var draft = oldTa ? oldTa.value : '';
+  var oldTa = box.querySelector('.cr textarea'); var draft = oldTa ? oldTa.value : '';
+  var fixFocus = !!(document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('fixta'));
   var oldMsgs = box.querySelector('.msgs'); var atBottom = !oldMsgs || (oldMsgs.scrollHeight - oldMsgs.scrollTop - oldMsgs.clientHeight < 80);
   box.innerHTML = '';
   var human = c.state === 'human' || c.state === 'human_temp';
@@ -997,7 +1035,35 @@ function renderConv(first){
     if (m.file && m.kind === 'image') b.appendChild(el('div', {}, [el('a', { href: m.file, target: '_blank', rel: 'noopener', text: 'פתח תמונה' })]));
     if (m.tools && m.tools.length){ var tl = el('div', { class: 'tools' }); m.tools.forEach(function(n){ if (TOOLS[n]) tl.appendChild(el('span', { text: TOOLS[n] })); }); if (tl.childNodes.length) b.appendChild(tl); }
     if (m.error) b.appendChild(el('span', { class: 'merr', text: 'לא נשלח ללקוח' }));
-    b.appendChild(el('span', { class: 'tm', text: clock(m.at) }));
+    if (m.role === 'assistant' && m.id){
+      var fixed = I.fixed && I.fixed[m.id];
+      var foot = el('div', { class: 'mfoot' }, [
+        fixed ? el('span', { class: 'fixed', text: 'נשמר כלקח' })
+              : el('button', { class: 'fixb', type: 'button', html: svg(IC.pen) + '<span>תיקון</span>', 'aria-label': 'תיקון לתשובה הזאת', onclick: function(){ I.fix = { id: m.id, text: '' }; renderConv(false); } }),
+        el('span', { class: 'tm', text: clock(m.at) })
+      ]);
+      b.appendChild(foot);
+      if (I.fix && I.fix.id === m.id){
+        var fta = el('textarea', { class: 'fixta', rows: '3', 'aria-label': 'מה הסוכן היה צריך לענות', placeholder: 'מה הוא היה צריך לענות? כתוב במילים שלך, למשל: לשאול קודם על איזה עסק מדובר' });
+        fta.value = I.fix.text || '';
+        fta.addEventListener('input', function(){ if (I.fix) I.fix.text = fta.value; });
+        var save = el('button', { class: 'fixsave', type: 'button', text: 'שמור כלקח' });
+        save.addEventListener('click', function(){
+          var t = fta.value.trim(); if (t.length < 4){ toast('כתוב מה היה צריך לענות'); return; }
+          save.disabled = true;
+          call(AG, '/correct', { method: 'POST', body: { message_id: m.id, correction: t } }).then(function(r){
+            save.disabled = false;
+            if (r.error){ toast('לא נשמר: ' + r.error); return; }
+            I.fixed = I.fixed || {}; I.fixed[m.id] = true; I.fix = null; S.lessonsCount = null;
+            toast('נשמר. מהשיחה הבאה הסוכן יפעל לפי זה.'); renderConv(false); refreshLessonsCount();
+          }).catch(function(){ save.disabled = false; toast('אין חיבור, נסה שוב'); });
+        });
+        b.appendChild(el('div', { class: 'fixbox' }, [
+          el('p', { class: 'fixh', text: 'התיקון נשמר כלקח, והסוכן קורא אותו בכל שיחה מעכשיו.' }), fta,
+          el('div', { class: 'fixrow' }, [save, el('button', { class: 'fixcancel', type: 'button', text: 'ביטול', onclick: function(){ I.fix = null; renderConv(false); } })])
+        ]));
+      }
+    } else b.appendChild(el('span', { class: 'tm', text: clock(m.at) }));
     msgs.appendChild(b);
   });
   if (!j.messages.length) msgs.appendChild(el('div', { class: 'empty', text: 'אין הודעות עדיין' }));
@@ -1019,6 +1085,59 @@ function renderConv(first){
   box.appendChild(el('div', { class: 'compose' }, [el('p', { class: 'hint', text: human ? 'אתה בשיחה. הסוכן ממתין עד שתחזיר אליו.' : 'כשתכתוב כאן, הסוכן יעצור בשיחה הזו עד שתחזיר אליו.' }), el('div', { class: 'cr' }, [ta, send])]));
   grow();
   if (first || atBottom) msgs.scrollTop = msgs.scrollHeight;
+  if (I.fix){ var ft = box.querySelector('.fixta'); if (ft){ if (fixFocus || !I.fix.text){ ft.focus(); var L = ft.value.length; try { ft.setSelectionRange(L, L); } catch (e) {} } if (!fixFocus && !I.fix.text) ft.scrollIntoView({ block: 'center' }); } }
+}
+function refreshLessonsCount(){
+  call(AG, '/lessons').then(function(j){
+    if (j.error || !IB.learn) return;
+    var L = j.lessons || [], sug = L.filter(function(x){ return x.status === 'suggested'; }).length;
+    S.lessonsCount = L.length;
+    var c = IB.learn.querySelector('.lcount'); c.textContent = sug ? sug + ' מחכים לאישור' : L.filter(function(x){ return x.status === 'active'; }).length + ' לקחים';
+    c.classList.toggle('hot', !!sug);
+  }).catch(function(){});
+}
+var SRC = { daniel: 'ממך', self: 'הסוכן הציע', claude: 'מ-Claude' };
+function openLessons(){
+  if (IB.lessons) IB.lessons.remove();
+  var box = el('section', { class: 'chat lessons', role: 'dialog', 'aria-label': 'מה הסוכן למד' });
+  IB.lessons = box; document.body.appendChild(box); document.body.classList.add('chat-open');
+  function close(){ box.remove(); IB.lessons = null; if (!S.inbox.openId) document.body.classList.remove('chat-open'); refreshLessonsCount(); }
+  function draw(L){
+    box.innerHTML = '';
+    box.appendChild(el('header', { class: 'ch' }, [el('button', { class: 'back', 'aria-label': 'חזרה', html: svg(IC.back), onclick: close }), el('div', { class: 'cn' }, [el('b', { text: 'מה הסוכן למד' }), el('small', { text: 'כל לקח כאן נכנס לכל שיחה של הסוכן' })])]));
+    var body = el('div', { class: 'lbody' });
+    var add = el('textarea', { class: 'fixta', rows: '2', 'aria-label': 'לקח חדש', placeholder: 'לקח חדש, למשל: כשלקוח שואל על אתר, לשאול קודם אם כבר יש לו דומיין' });
+    var addBtn = el('button', { class: 'fixsave', type: 'button', text: 'הוספה' });
+    addBtn.addEventListener('click', function(){ var t = add.value.trim(); if (t.length < 6) return toast('כתוב את הלקח במשפט'); addBtn.disabled = true;
+      call(AG, '/lessons', { method: 'POST', body: { text: t } }).then(function(r){ addBtn.disabled = false; if (r.error) return toast(r.error); toast('נוסף. הסוכן יפעל לפי זה מהשיחה הבאה.'); load(); }); });
+    body.appendChild(el('div', { class: 'lcard addc' }, [el('b', { text: 'להוסיף לקח' }), add, el('div', { class: 'fixrow' }, [addBtn])]));
+    var sug = L.filter(function(x){ return x.status === 'suggested'; }), act = L.filter(function(x){ return x.status === 'active'; });
+    if (sug.length){
+      body.appendChild(el('h3', { class: 'lh', text: 'מחכים לאישור שלך' }));
+      sug.forEach(function(x){
+        body.appendChild(el('div', { class: 'lcard sug' }, [el('p', { text: x.text }), x.reason ? el('small', { text: 'למה: ' + x.reason }) : null,
+          el('div', { class: 'fixrow' }, [
+            el('button', { class: 'fixsave', type: 'button', text: 'אישור', onclick: function(){ call(AG, '/lessons/approve', { method: 'POST', body: { id: x.id } }).then(function(){ toast('אושר'); load(); }); } }),
+            el('button', { class: 'fixcancel', type: 'button', text: 'דחייה', onclick: function(){ call(AG, '/lessons/reject', { method: 'POST', body: { id: x.id } }).then(function(){ toast('נדחה'); load(); }); } })
+          ])]));
+      });
+    }
+    body.appendChild(el('h3', { class: 'lh', text: 'פעילים (' + act.length + ')' }));
+    if (!act.length) body.appendChild(el('div', { class: 'empty', text: 'עוד אין לקחים' }));
+    act.forEach(function(x){
+      var del = el('button', { class: 'ldel', type: 'button', text: 'מחיקה' }), armed = false, tmr;
+      del.addEventListener('click', function(){
+        if (!armed){ armed = true; del.textContent = 'בטוח? למחוק'; del.classList.add('armed'); tmr = setTimeout(function(){ armed = false; del.textContent = 'מחיקה'; del.classList.remove('armed'); }, 3500); return; }
+        clearTimeout(tmr); call(AG, '/lessons', { method: 'DELETE', body: { id: x.id } }).then(function(){ toast('נמחק'); load(); });
+      });
+      var d = new Date(x.created_at);
+      body.appendChild(el('div', { class: 'lcard' }, [el('p', { text: x.text }), el('div', { class: 'lmeta' }, [el('small', { text: (SRC[x.source] || '') + ' · ' + d.getDate() + '.' + (d.getMonth() + 1) }), del])]));
+    });
+    box.appendChild(body);
+  }
+  function load(){ call(AG, '/lessons').then(function(j){ if (j.error) return toast(j.error); draw(j.lessons || []); }).catch(function(){ toast('אין חיבור'); }); }
+  box.appendChild(el('div', { class: 'empty', style: 'margin:auto', text: 'טוען…' }));
+  load();
 }
 function setMode(mode){
   var I = S.inbox; if (!I.openId) return;

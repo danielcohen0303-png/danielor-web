@@ -17,6 +17,7 @@ import { useEffect, useRef } from "react";
 import { Film } from "./Film";
 import { KineticCaption, kinetic, type KineticProps } from "./Kinetic";
 import { Finale, finaleAt } from "@/components/Finale";
+import { introAt } from "@/components/intro";
 import type { FilmMedia } from "./types";
 import "./film.css";
 
@@ -33,7 +34,16 @@ export type OneScene = {
 
 const len = (s: OneScene) => (s.media.frames / s.media.fps) * (s.pace ?? 100);
 
-export default function OneFilm({ scenes }: { scenes: OneScene[] }) {
+export default function OneFilm({
+  scenes,
+  intro,
+  introLen = 0,
+}: {
+  scenes: OneScene[];
+  /** the opening, laid over the stage; it plays across the first introLen svh of scroll */
+  intro?: React.ReactNode;
+  introLen?: number;
+}) {
   const section = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
   const spacers = useRef<(HTMLDivElement | null)[]>([]);
@@ -41,10 +51,11 @@ export default function OneFilm({ scenes }: { scenes: OneScene[] }) {
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const caps = useRef<(HTMLDivElement | null)[]>([]);
   const fins = useRef<(HTMLDivElement | null)[]>([]);
+  const introBox = useRef<HTMLDivElement>(null);
 
   const starts: number[] = [];
-  scenes.reduce((a, s) => (starts.push(a), a + len(s)), 0);
-  const total = scenes.reduce((a, s) => a + len(s), 0);
+  scenes.reduce((a, s) => (starts.push(a), a + len(s)), introLen);
+  const total = scenes.reduce((a, s) => a + len(s), introLen);
 
   useEffect(() => {
     const sec = section.current;
@@ -59,10 +70,13 @@ export default function OneFilm({ scenes }: { scenes: OneScene[] }) {
     const measure = () => {
       top = sec.getBoundingClientRect().top + window.scrollY;
       at = spacers.current.map((s) => s?.offsetTop ?? 0);
+      introPx = at[0] ?? 0;
     };
     let on = -1;
+    let introPx = 0;
     const pick = () => {
       const y = window.scrollY - top;
+      if (introBox.current) introAt(introBox.current, introPx > 0 ? Math.min(1, Math.max(0, y / introPx)) : 1, reduced);
       let i = 0;
       for (let k = 1; k < at.length; k++) if (y >= at[k]) i = k;
       if (i !== on) {
@@ -181,6 +195,11 @@ export default function OneFilm({ scenes }: { scenes: OneScene[] }) {
             )}
           </div>
         ))}
+        {intro && (
+          <div ref={introBox} className="dn-intro-host">
+            {intro}
+          </div>
+        )}
       </div>
       <div className="hf-spacers" aria-hidden>
         {scenes.map((s, i) => (

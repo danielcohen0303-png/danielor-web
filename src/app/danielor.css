@@ -31,26 +31,44 @@
 
 /* ---------- the opening: the dark the film's spark is born in ---------- */
 
-.dn-open {
-  position: relative;
-  overflow: clip;
-  isolation: isolate;
+.dn-intro-host { position: absolute; inset: 0; z-index: 3; }
+.dn-intro {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
   gap: 14px;
+  padding: 0 24px;
+  text-align: center;
+  color: #fff;
+  isolation: isolate;
+  overflow: clip;
+}
+.dn-intro-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background:
     radial-gradient(60% 46% at 50% 44%, rgba(255, 47, 200, 0.16), transparent 70%),
     radial-gradient(90% 70% at 50% 50%, #2a1446 0%, #1a0c2e 55%, #120822 100%);
-  color: #fff;
 }
-.dn-open::after {
-  /* the bottom melts into the film's first frame */
-  content: "";
+.dn-intro-sign { width: min(88vw, 760px); margin-bottom: 4px; will-change: transform, filter; }
+.dn-intro-copy, .dn-intro-cue { display: grid; justify-items: center; gap: 14px; will-change: transform, opacity, filter; }
+.dn-open-sign { width: 100%; }
+.dn-intro-bloom {
   position: absolute;
-  inset: auto 0 0;
-  height: 30%;
-  background: linear-gradient(180deg, transparent, #160a29);
-  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 70vmin;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 214, 246, 0.95) 6%, rgba(255, 47, 200, 0.55) 20%, rgba(139, 61, 255, 0.18) 42%, transparent 66%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.15);
+  pointer-events: none;
 }
-.dn-open-sign { width: min(88vw, 760px); margin-bottom: 4px; }
 .dn-open-title {
   font: 700 clamp(54px, 15vw, 128px) / 0.86 var(--font-display);
   letter-spacing: 0.01em;
@@ -72,15 +90,15 @@
   color: rgba(236, 224, 255, 0.82);
   animation: kit-rise 1s 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
-.dn-open .kit-open-cue { animation-delay: 2.3s; }
-.dn-open .swipe-cue { color: #fff; }
-.dn-open .swipe-cue-label { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 140, 228, 0.5); box-shadow: 0 0 18px rgba(255, 47, 200, 0.25); }
-.dn-open .swipe-cue-touch { border-color: var(--pink-hot); }
-.dn-open .swipe-cue-wheel { fill: var(--pink-hot); }
+.dn-intro .kit-open-cue { animation-delay: 2.3s; }
+.dn-intro .swipe-cue { color: #fff; }
+.dn-intro .swipe-cue-label { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 140, 228, 0.5); box-shadow: 0 0 18px rgba(255, 47, 200, 0.25); }
+.dn-intro .swipe-cue-touch { border-color: var(--pink-hot); }
+.dn-intro .swipe-cue-wheel { fill: var(--pink-hot); }
 
 /* pink sparks drifting up through the dark */
-.dn-open-sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.dn-open-sky i {
+.dn-intro-sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; }
+.dn-intro-sky i {
   position: absolute;
   left: calc(mod(var(--i) * 37 + 7, 100) * 1%);
   bottom: -10px;
@@ -325,7 +343,7 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dn-open-sky i, .dn-open-sign, .dn-open-sign .dn-sign-star, .dn-hot { animation: none !important; }
+  .dn-intro-sky i, .dn-open-sign, .dn-open-sign .dn-sign-star, .dn-hot { animation: none !important; }
   .dn-open-sign .dn-sign-on { animation: none !important; opacity: 1; }
 }
 

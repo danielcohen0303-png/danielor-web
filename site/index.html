@@ -780,7 +780,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   .steps li::before{font-size:1.9rem;min-width:1.4rem;text-align:center}
 }
 .ba-lead{margin-top:.5rem}
-.reels{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (min-width:1001px){.reels{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media (max-width:700px){.reels>.reel:last-child:nth-child(odd){grid-column:1 / -1;width:calc(50% - .5rem);justify-self:center}}
 /* tab bars that scroll sideways: an arrow and a fade say there is more */
 .tabwrap{position:relative;width:max-content;max-width:100%;margin-top:clamp(1.2rem,1rem + 1vw,1.8rem)}
@@ -797,6 +797,38 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .tabwrap.more-end:not(.touched) .tab-more.end{animation:tab-nudge 1.8s ease-in-out infinite}
 @keyframes tab-nudge{0%,55%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}}
 @media (prefers-reduced-motion: reduce){.tab-more{animation:none!important}}
+/* price toggles */
+.price-tabs{display:none!important}
+.price-hint{margin:.6rem 0 0;color:var(--muted);font-size:var(--step--1)}
+.price-toggles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1rem;max-width:760px}
+.pt-btn{display:flex;align-items:center;gap:.6rem;min-height:62px;padding:0 1.1rem;border:1px solid var(--line-2);border-radius:18px;background:#fff;box-shadow:var(--lift);font:inherit;font-weight:800;font-size:1.02rem;color:var(--fg);cursor:pointer;text-align:start;transition:background .25s,color .25s,box-shadow .25s,transform .15s}
+.pt-btn:active{transform:scale(.98)}
+.pt-btn .pt-ic{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#eee5fc;color:var(--violet);flex:none}
+.pt-btn .pt-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pt-btn .chev,.fold-btn .chev{width:20px;height:20px;margin-inline-start:auto;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s;flex:none}
+.pt-btn[aria-expanded="true"]{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 10px 24px rgba(200,40,200,.3)}
+.pt-btn[aria-expanded="true"] .pt-ic{background:rgba(255,255,255,.22);color:#fff}
+.pt-btn[aria-expanded="true"] .chev,.fold-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+#prices .boards{grid-template-columns:minmax(0,1fr);max-width:760px;margin-top:1rem}
+#prices .boards[data-show="none"] .board,#prices .boards[data-show="biz"] .b-priv,#prices .boards[data-show="priv"] .b-biz{display:none}
+#prices .board{animation:board-in .45s cubic-bezier(.2,.8,.2,1)}
+#prices .board header h3{display:none}
+@keyframes board-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@media (max-width:420px){.pt-btn{font-size:.95rem;padding:0 .85rem;gap:.4rem;white-space:nowrap}.pt-btn .pt-ic{display:none}}
+/* fold: how to order a video */
+.fold-btn{display:flex;align-items:center;gap:.4rem .8rem;flex-wrap:wrap;width:100%;max-width:760px;min-height:64px;padding:.7rem 1.2rem;border:1px solid var(--line-2);border-radius:18px;background:#fff;box-shadow:var(--lift);font:inherit;color:var(--fg);cursor:pointer;text-align:start}
+.fold-btn span{font-family:var(--display);font-weight:700;font-size:var(--step-1);line-height:1.05}
+.fold-btn small{color:var(--muted);font-size:.85rem}
+.fold-btn[aria-expanded="true"]{border-color:var(--pink);box-shadow:0 10px 24px rgba(200,40,200,.18)}
+.fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1)}
+.fold.open{grid-template-rows:1fr}
+.fold-in{overflow:hidden;min-height:0}
+.fold .steps{margin-top:.8rem;max-width:760px}
+.fold .steps li{opacity:0;transform:translateY(12px);transition:opacity .35s,transform .35s}
+.fold.open .steps li{opacity:1;transform:none}
+.fold.open .steps li:nth-child(2){transition-delay:.08s}.fold.open .steps li:nth-child(3){transition-delay:.16s}.fold.open .steps li:nth-child(4){transition-delay:.24s}
+@media (min-width:761px){.fold .steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion: reduce){.fold,.fold .steps li,#prices .board{transition:none!important;animation:none!important}}
 </style>
 
 <div class="wrap">
@@ -1083,13 +1115,16 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <li>סבב תיקון כלול</li>
     </ul>
   </div>
-    <div class="vid-block" id="how-video">    <h3 class="sub-h">ככה מזמינים סרטון</h3>
+    <div class="vid-block" id="how-video">
+    <button type="button" class="fold-btn" aria-expanded="false" aria-controls="how-video-steps"><span>ככה מזמינים סרטון</span><small>4 צעדים, פחות מדקה</small><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button>
+    <div class="fold" id="how-video-steps"><div class="fold-in">
     <ol class="steps">
       <li><h3>שולחים</h3><p>בוואטסאפ או בטופס: מה רוצים, ותמונות או סרטונים שיש לכם.</p></li>
       <li><h3>משלמים</h3><p>לפי סרטון, לפני שמתחילים. בלי מנוי ובלי התחייבות.</p></li>
       <li><h3>מאשרים טיוטה</h3><p>מקבלים טיוטה ב־<span class="res">480p</span> ואומרים מה לשנות.</p></li>
       <li><h3>מקבלים סרטון</h3><p>גרסה סופית ב־<span class="res">1080p</span>. סבב תיקון אחד כלול במחיר.</p></li>
     </ol>
+    </div></div>
   </div>
     </div>
     <div class="tab-panel" role="tabpanel" id="podcast" aria-labelledby="t-podcast" hidden>
@@ -1204,8 +1239,9 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   <section id="prices">
         <p class="kicker">תפריט</p>
     <h2>מחירים</h2>
-    <div class="price-tabs" role="tablist" aria-label="סוג המחירון"><button type="button" role="tab" aria-selected="true" data-show="biz">לעסקים</button><button type="button" role="tab" aria-selected="false" data-show="priv">לפרטיים</button></div>
-    <div class="boards" data-show="biz">
+    <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
+    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span>מחירון לעסקים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>מחירון לפרטיים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button></div>
+    <div class="boards" id="prices-boards" data-show="none">
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
         <div class="row entry">
@@ -1774,15 +1810,29 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 })();
 </script>
 <script>
-/* מחירים: on phones one price board at a time, switched by the two tabs */
+/* מחירים: both boards closed; a tap opens one, a second tap closes it (Daniel 1.11: one long list was confusing) */
 (function(){
   var boards = document.querySelector('#prices .boards');
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.price-tabs [role=tab]'));
-  if (!boards || !tabs.length) return;
-  tabs.forEach(function(t){
-    t.addEventListener('click', function(){
-      boards.setAttribute('data-show', t.getAttribute('data-show'));
-      tabs.forEach(function(o){ o.setAttribute('aria-selected', String(o === t)); });
+  var btns = Array.prototype.slice.call(document.querySelectorAll('#prices .pt-btn'));
+  if (!boards || !btns.length) return;
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var want = b.getAttribute('data-show'), open = boards.getAttribute('data-show') === want;
+      var show = open ? 'none' : want;
+      boards.setAttribute('data-show', show);
+      btns.forEach(function(o){ o.setAttribute('aria-expanded', String(o.getAttribute('data-show') === show)); });
+      if (!open) requestAnimationFrame(function(){ var r = b.getBoundingClientRect(); if (r.top < 70 || r.top > innerHeight * .45) b.scrollIntoView({behavior: 'smooth', block: 'start'}); });
+    });
+  });
+})();
+/* ככה מזמינים סרטון: a button that opens the steps with a short animation, a second tap closes them */
+(function(){
+  [].slice.call(document.querySelectorAll('.fold-btn')).forEach(function(b){
+    var box = document.getElementById(b.getAttribute('aria-controls')); if (!box) return;
+    b.addEventListener('click', function(){
+      var open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', String(!open));
+      box.classList.toggle('open', !open);
     });
   });
 })();

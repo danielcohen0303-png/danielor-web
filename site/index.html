@@ -969,7 +969,7 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
 .wcar-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3 * 1rem) / 4);gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:.4rem .2rem 1rem;overscroll-behavior-x:contain}
 .wcar-track::-webkit-scrollbar{display:none}
 .wslide{scroll-snap-align:start;display:grid;gap:.7rem;align-content:start;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:.9rem .9rem 1.1rem;box-shadow:var(--lift)}
-.wphone{max-width:230px;margin-inline:auto}
+.wphone{max-width:230px;margin-inline:auto;background-position:center top;background-size:cover;background-repeat:no-repeat}
 .wphone.pink{border-color:var(--pink-hot);box-shadow:0 18px 44px rgba(255,47,200,.22)}
 .wtxt{display:grid;gap:.3rem;justify-items:start}
 .wtxt b{font-family:var(--display);font-size:var(--step-1);line-height:1.1}
@@ -1022,6 +1022,34 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
 }
 @media (min-width:761px){#process .steps li.in{box-shadow:0 14px 34px rgba(122,53,230,.14)}}
 @media (prefers-reduced-motion: reduce){#process .steps.reveal li,#process .steps.reveal li::before{opacity:1;transform:none;transition:none}#process .steps li::after{display:none}}
+/* Danielor Studio: a living mini showreel instead of a plain dark button */
+.offers .btn-studio{flex-direction:row;align-items:center;gap:.8rem;padding:.5rem .7rem .5rem 1rem;border-radius:24px;overflow:hidden;isolation:isolate;text-align:start;
+  background:radial-gradient(90% 140% at 100% 0%,rgba(122,53,230,.75),rgba(122,53,230,0) 60%) padding-box,radial-gradient(80% 140% at 0% 100%,rgba(217,16,154,.55),rgba(217,16,154,0) 62%) padding-box,linear-gradient(#120821,#120821) padding-box,conic-gradient(from var(--ba),#ff2fc8,#7a35e6,#14b3d1,#ff2fc8) border-box;
+  box-shadow:0 14px 34px rgba(60,12,110,.38),0 0 0 4px rgba(255,47,200,.08)}
+.offers .btn-studio::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.2) 49%,transparent 60%);animation:bs-shine 3.8s ease-in-out infinite;pointer-events:none;z-index:3}
+.bs-reel{position:relative;width:84px;height:70px;flex:none}
+.bs-card{position:absolute;top:2px;left:23px;width:38px;height:66px;border-radius:9px;background:#1c1030 center/cover;border:1.5px solid rgba(255,255,255,.9);box-shadow:0 8px 16px rgba(0,0,0,.5);transition:translate .45s cubic-bezier(.3,1.5,.5,1),rotate .45s cubic-bezier(.3,1.5,.5,1),scale .45s}
+.bs-card.c1{translate:-20px 4px;rotate:-14deg;scale:.84;animation:bs-bob 3.4s ease-in-out infinite}
+.bs-card.c2{translate:20px 4px;rotate:14deg;scale:.84;animation:bs-bob 3.4s ease-in-out -1.7s infinite}
+.bs-card.c3{z-index:2;overflow:hidden;border-color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.55),0 0 18px rgba(255,47,200,.45)}
+.bs-card video{display:block;width:100%;height:100%;object-fit:cover}
+.btn-studio:hover .bs-card.c1{translate:-28px 2px;rotate:-20deg;scale:.9}
+.btn-studio:hover .bs-card.c2{translate:28px 2px;rotate:20deg;scale:.9}
+.btn-studio:hover .bs-card.c3{scale:1.08}
+.bs-sp{position:absolute;z-index:4;width:9px;height:9px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);filter:drop-shadow(0 0 4px #ff9be6);animation:bs-tw 2.6s ease-in-out infinite;scale:0}
+.bs-sp.p1{top:-1px;left:8px}
+.bs-sp.p2{top:10px;right:2px;width:7px;height:7px;animation-delay:-.9s}
+.bs-sp.p3{bottom:0;left:2px;width:6px;height:6px;animation-delay:-1.7s;background:#9ff3ff;filter:drop-shadow(0 0 4px #43f0ff)}
+.bs-txt{display:grid;gap:.1rem;justify-items:start;line-height:1.2}
+.btn-studio .bs-k{font-family:var(--display);font-weight:700;font-size:1.22rem;letter-spacing:.02em;background:linear-gradient(90deg,#fff 0%,#ff8ee0 22%,#cfb0ff 44%,#8ff0ff 66%,#fff 88%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bs-txt 4.5s linear infinite}
+.btn-studio small{color:rgba(255,255,255,.82);font-size:.8rem}
+.bs-go{margin-inline-start:auto;flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--grad);color:#fff;font-weight:800;box-shadow:0 6px 16px rgba(255,47,200,.45);animation:bs-nudge 1.8s ease-in-out infinite}
+@keyframes bs-shine{0%,58%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+@keyframes bs-bob{50%{transform:translateY(-4px)}}
+@keyframes bs-tw{0%,100%{scale:0;opacity:0}45%{scale:1;opacity:1}60%{scale:.6;opacity:.8}}
+@keyframes bs-txt{to{background-position:-220% 0}}
+@keyframes bs-nudge{50%{transform:translateX(-4px)}}
+@media (prefers-reduced-motion: reduce){.offers .btn-studio,.offers .btn-studio::after,.bs-card,.bs-sp,.btn-studio .bs-k,.bs-go{animation:none}.bs-sp{display:none}}
 </style>
 
 <div class="wrap">
@@ -1062,7 +1090,7 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
       <p class="lead">סוכן שעונה ללקוחות בוואטסאפ, אפליקציה שמנהלת את התורים והלקוחות, ואתר שמביא פניות. אנחנו בונים, ואתם מאשרים לפני שזה יוצא לאוויר.</p>
       <div class="offers">
         <a class="btn btn-pink js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם פתרון מדויק</small></a>
-        <a class="btn btn-studio" href="/studio/"><span class="bs-k">Danielor Studio</span><small>סרטונים, פודקאסטים וטרנדים</small></a>
+        <a class="btn btn-studio" href="/studio/"><span class="bs-reel" aria-hidden="true"><span class="bs-card c1" style="background-image:url(studio-btn-a.jpg)"></span><span class="bs-card c2" style="background-image:url(studio-btn-b.jpg)"></span><span class="bs-card c3"><video src="studio-btn.mp4" poster="studio-btn.jpg" muted autoplay loop playsinline preload="auto"></video></span><i class="bs-sp p1"></i><i class="bs-sp p2"></i><i class="bs-sp p3"></i></span><span class="bs-txt"><span class="bs-k">Danielor Studio</span><small>סרטונים, פודקאסטים וטרנדים</small></span><span class="bs-go" aria-hidden="true">←</span></a>
       </div>
       <ul class="trust"><li>מערכות שכבר עובדות אצל עסקים</li><li>שום דבר לא עולה בלי האישור שלכם</li><li>עונים בוואטסאפ 24/7</li></ul>
     </div>
@@ -1215,11 +1243,11 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
           <div class="wtxt"><span class="tier-k">אפליקציה לניהול</span><b>האפליקציה של Danielor</b><span>מסך "היום", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד.</span><a href="#bizapp">לפרטים על האפליקציה ←</a></div>
         </article>
         <article class="wslide">
-          <div class="site-phone wphone "><video data-src="site-ac.mp4?v=3" poster="site-ac-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של AC Holding"></video></div>
+          <div class="site-phone wphone "><video data-src="site-ac.mp4?v=4" poster="site-ac-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של AC Holding"></video></div>
           <div class="wtxt"><span class="tier-k">אתר סיפור</span><b>AC Holding</b><span>סוכנות בוטיק להשקעות נדל״ן בדובאי. אתר שנגלל כמו סרט, עם קטלוג פרויקטים ומדריך להורדה.</span><a href="https://ac-holding.co" target="_blank" rel="noopener">לאתר החי ←</a></div>
         </article>
         <article class="wslide">
-          <div class="site-phone wphone pink"><video data-src="site-adele.mp4?v=3" poster="site-adele-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
+          <div class="site-phone wphone pink"><video data-src="site-adele.mp4?v=4" poster="site-adele-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
           <div class="wtxt"><span class="tier-k">אתר סיפור</span><b>Adele Beauty Clinic</b><span>קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה וקביעת תור בלחיצה.</span><a href="https://adele-beauty.com" target="_blank" rel="noopener">לאתר החי ←</a></div>
         </article>
         <article class="wslide">
@@ -1250,7 +1278,7 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
     <a class="studio-door" href="/studio/">
       <span class="sdr-k">DANIELOR STUDIO</span>
       <b>צריכים גם תוכן? <span class="neon-pink">יש לנו סטודיו.</span></b>
-      <span class="sdr-d">סרטוני פרסומת, רילסים מפודקאסטים, מצגות, וטרנדים וקליפים לפרטיים.</span>
+      <span class="sdr-d">סרטוני פרסומת, עריכת פודקאסטים לרילסים, מצגות, וטרנדים וקליפים לפרטיים.</span>
       <span class="sdr-go">לסטודיו ←</span>
     </a>
   </section>
@@ -2222,7 +2250,7 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
 })();
 </script>
 <script>
-/* work carousel: swipe or arrows; a video plays only while its slide is on screen */
+/* work carousel: swipe or arrows; videos load ahead and keep playing, so a slide never comes in blank */
 (function(){
   var car = document.querySelector('.wcar'); if (!car) return;
   var track = car.querySelector('.wcar-track'), slides = [].slice.call(track.querySelectorAll('.wslide')), dots = car.querySelector('.wcar-dots');
@@ -2232,12 +2260,21 @@ section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
   car.querySelectorAll('.wcar-btn').forEach(function(b){ b.addEventListener('click', function(){ track.scrollBy({left: +b.getAttribute('data-dir') * step(), behavior: 'smooth'}); }); });
   function mark(){ var i = Math.round(Math.abs(track.scrollLeft) / Math.max(1, step())); ds.forEach(function(d, k){ d.classList.toggle('on', k === Math.min(i, ds.length - 1)); }); }
   track.addEventListener('scroll', function(){ requestAnimationFrame(mark); }, {passive: true}); mark();
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target;
-      if (e.isIntersecting && e.intersectionRatio > .55) { if (!v.src && v.dataset.src) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function(){}); }
-      else if (!v.paused) v.pause(); }); }, {threshold: [0, .55, 1]});
-    track.querySelectorAll('video[data-src]').forEach(function(v){ io.observe(v); });
-  } else track.querySelectorAll('video[data-src]').forEach(function(v){ v.src = v.dataset.src; v.autoplay = true; });
+  var vids = [].slice.call(track.querySelectorAll('video[data-src]'));
+  /* the poster sits behind each video too, so the frame is never empty while a video loads */
+  vids.forEach(function(v){ var ps = v.getAttribute('poster'); if (ps) v.parentNode.style.backgroundImage = 'url("' + ps + '")'; });
+  function load(v){ if (v && !v.getAttribute('src') && v.dataset.src) { v.preload = 'auto'; v.src = v.dataset.src; } }
+  function play(v){ load(v); var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+  if (!('IntersectionObserver' in window)) { vids.forEach(function(v){ v.autoplay = true; load(v); }); return; }
+  /* before the section arrives: load what fits on screen plus the next one */
+  var near = new IntersectionObserver(function(es){ if (!es[0].isIntersecting) return; near.disconnect();
+    var n = Math.ceil(track.clientWidth / Math.max(1, step())) + 1; vids.slice(0, n).forEach(load); }, {rootMargin: '700px 0px'});
+  near.observe(car);
+  /* any part of a video on screen: it plays, and the next two start loading */
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target, i = vids.indexOf(v);
+      if (e.isIntersecting) { play(v); load(vids[i + 1]); load(vids[i + 2]); }
+      else if (!v.paused) v.pause(); }); }, {threshold: 0});
+  vids.forEach(function(v){ io.observe(v); });
 })();
 </script>
 <script>

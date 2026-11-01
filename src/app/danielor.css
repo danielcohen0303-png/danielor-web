@@ -203,7 +203,7 @@ main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36,
 .dn-fin-sign .dn-sign-off { opacity: 0.38; }
 .dn-fin-line {
   max-width: 34ch;
-  font: 500 clamp(16px, 4.2cqw, 22px) / 1.5 var(--font-body);
+  font: 500 clamp(16px, 4.2cqw, 28px) / 1.45 var(--font-body);
   color: #fff;
   text-shadow: 0 1px 14px rgba(28, 8, 52, 0.85);
 }
@@ -354,4 +354,8 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
    its caption waits at the top of the right-hand column */
 @media (min-aspect-ratio: 4/3) {
   main .hf-sky .kc { inset-block: calc(env(safe-area-inset-top, 0px) + 90px) auto; }
+}
+
+@media (min-aspect-ratio: 4/3) {
+  main .dn-fin-cta { min-height: 62px; padding: 0 38px; font-size: 20px; }
 }

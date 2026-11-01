@@ -9,14 +9,14 @@
 <meta property="og:site_name" content="Danielor">
 <meta property="og:locale" content="he_IL">
 <meta property="og:url" content="https://danielor.ai/studio/">
-<meta property="og:title" content="Danielor Studio · סרטונים, פודקאסטים וטרנדים">
+<meta property="og:title" content="Danielor Studio: סרטונים, פודקאסטים וטרנדים">
 <meta property="og:description" content="הסטודיו של Danielor: סרטוני פרסומת, עריכת פודקאסטים לרילסים, מצגות, וטרנדים וקליפים אישיים.">
 <meta property="og:image" content="https://danielor.ai/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Danielor: פתרונות AI לעסקים, בעברית">
 <meta name="twitter:card" content="summary_large_image">
-<title>Danielor Studio · סרטונים, פודקאסטים וטרנדים</title>
+<title>Danielor Studio: סרטונים, פודקאסטים וטרנדים</title>
 <link rel="icon" href="/logo-icon.png">
 <link rel="apple-touch-icon" href="/logo-icon.png">
 <meta name="description" content="הסטודיו של Danielor: סרטוני פרסומת לעסקים, עריכת פודקאסטים לרילסים, מצגות מעוצבות, וטרנדים וקליפים אישיים לפרטיים.">
@@ -905,12 +905,12 @@ html.mnav-open{overflow:hidden}
 .sd-ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .st-door.hot{background:var(--grad);border-color:transparent;box-shadow:0 12px 30px rgba(255,47,200,.4)}
 .st-door.hot>span:last-child{color:rgba(255,255,255,.9)}
-.st-reels{position:relative;display:flex;justify-content:center;align-items:center;gap:0;min-height:300px}
-.st-reels .frame{width:34%;max-width:170px;border:2px solid rgba(255,255,255,.25);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:20px;background:#22143d}
-.st-r1{transform:rotate(-8deg) translateX(-18%) translateY(14px)}
-.st-r2{z-index:2;transform:scale(1.12);border-color:#ff7ad9!important;box-shadow:0 0 0 1px rgba(255,47,200,.4),0 24px 60px rgba(255,47,200,.35)!important}
-.st-r3{transform:rotate(8deg) translateX(18%) translateY(14px)}
-@media (max-width:860px){.studio-hero{grid-template-columns:minmax(0,1fr)}.st-reels{order:-1;min-height:0;padding:.6rem 0 1.2rem}.st-reels .frame{width:30%}}
+.st-reels{position:relative;container-type:inline-size;height:calc(min(34cqw,170px) * 1.99 + 44px)}
+.st-reels .frame{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(34cqw,170px);border:2px solid rgba(255,255,255,.25);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:20px;background:#22143d;z-index:1;transition:transform .85s cubic-bezier(.5,.05,.2,1),border-color .85s,box-shadow .85s,filter .85s}
+.st-reels .frame[data-pos="c"]{z-index:3;transform:scale(1.12);border-color:#ff7ad9;box-shadow:0 0 0 1px rgba(255,47,200,.4),0 24px 60px rgba(255,47,200,.35)}
+.st-reels .frame[data-pos="n"]{z-index:2;transform:translateX(-82%) translateY(14px) rotate(-8deg);filter:brightness(.85)}
+.st-reels .frame[data-pos="p"]{transform:translateX(82%) translateY(14px) rotate(8deg);filter:brightness(.85)}
+@media (max-width:860px){.studio-hero{grid-template-columns:minmax(0,1fr)}.st-reels{order:-1;height:calc(30cqw * 1.99 + 40px)}.st-reels .frame{width:30cqw}}
 @media (max-width:520px){.st-doors{grid-template-columns:minmax(0,1fr)}}
 #studio + #more{margin-top:0}
 /* trend stage */
@@ -1017,6 +1017,8 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
 .pt-panel-priv .board{background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box}
 .pt-panel .board header h3{display:none}
 html.studio .row.entry .name::after{color:#1d1033}
+html.studio .frame .play{background:rgba(20,10,38,.82);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover .play{background:var(--pink-hot);border-color:transparent;color:#fff}
 </style>
 
 <div class="wrap">
@@ -1111,7 +1113,7 @@ html.studio .row.entry .name::after{color:#1d1033}
         </ul>
         <div class="deal">
           <div class="deal-price"><b>₪2,490</b><span>כולל מע״מ</span></div>
-          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה · ₪2,490">להזמנת חבילת השקה</a>
+          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה, ₪2,490">להזמנת חבילת השקה</a>
           <p>רוצים פתיח שעוצר את הגלילה? שדרוג לסרטון בסגנון מטורף: <bdi dir="ltr">+₪800</bdi>.</p>
         </div>
       </div>
@@ -1191,7 +1193,7 @@ html.studio .row.entry .name::after{color:#1d1033}
         </div>
         <div class="lv-card" id="lv-card" role="tabpanel" aria-live="polite">
           <p id="lv-desc">כל מה שבנקי, ועוד תמונות אווירה עם תנועת עומק, גרפים מונפשים שמתחברים למה שנאמר, וסאונדים עדינים במעברים.</p>
-          <p class="lv-price"><b id="lv-p5">₪690</b><span>ל־5 רילסים מפרק אחד</span><span class="alt" id="lv-p10">10 רילסים: ₪1,290</span></p>
+          <p class="lv-price"><b id="lv-p5">₪690</b><span>ל־5 רילסים בסגנון <span id="lv-name">משולב</span></span><span class="alt" id="lv-p10">10 רילסים: ₪1,290</span></p>
         </div>
         <ul class="incl">
           <li><b>אנחנו בוחרים את הרגעים</b> ופותחים כל רילס במשפט הכי חזק.</li>
@@ -1200,8 +1202,8 @@ html.studio .row.entry .name::after{color:#1d1033}
           <li><b>צוות אנושי עובר על כל רילס</b> לפני שהוא יוצא אליכם.</li>
         </ul>
         <div class="pod-cta">
-          <a class="btn btn-pink js-pick" href="#order" data-product="5 רילסים מפודקאסט · מ־₪490">להזמנת רילסים מהפרק שלכם</a>
-          <a class="btn btn-ghost js-pick" href="#order" data-product="רילס ניסיון מפודקאסט · מ־₪98">לנסות רילס אחד <small>· <span id="lv-p1">₪138</span></small></a>
+          <a class="btn btn-pink js-pick" id="lv-buy5" href="#order" data-product="5 רילסים מפודקאסט, משולב, ₪690">להזמנת רילסים מהפרק שלכם</a>
+          <a class="btn btn-ghost js-pick" id="lv-buy1" href="#order" data-product="רילס ניסיון מפודקאסט, משולב, ₪138">לנסות רילס אחד <small>ב־<span id="lv-p1">₪138</span></small></a>
         </div>
         <p class="small pod-try">רוצים לראות קודם שהסגנון מתאים לכם? מזמינים רילס אחד במחיר היחסי מהחבילה, פעם אחת לכל עסק. אהבתם? משלימים לחבילה, והסכום ששילמתם נכנס בה.</p>
         <p class="small">המחירים כוללים מע״מ, לפרק של עד שעה וחצי. מסירה תוך 48 שעות (לא כולל שבת), או אקספרס תוך 24 שעות. פודקאסט שבועי? 4 פרקים בחודש ב־15% פחות.</p>
@@ -1257,7 +1259,7 @@ html.studio .row.entry .name::after{color:#1d1033}
         <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
         <p>הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה, שולחים 3 תמונות, ומקבלים אותו מוכן. רוצים משהו גדול יותר? קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
         <div class="ps-price"><b>מ־₪99</b><span>טרנד לאדם אחד, תוך 24 שעות</span></div>
-        <div class="ps-cta"><a class="btn ps-hot" href="/trends"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg>לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn ps-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ אישי</a></div>
+        <div class="ps-cta"><a class="btn ps-hot" href="/trends"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg>לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn ps-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי, ₪890">להזמנת קליפ אישי</a></div>
       </div>
     </div>
   </section>
@@ -1269,7 +1271,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על דוח קמפיין שהכנתי">
         <div class="chat-h">על <b>דוח קמפיין שהכנתי</b></div>
         <div class="msgs">
-          <div class="b sent doc">דוח קמפיין · דף אחד</div>
+          <div class="b sent doc">דוח קמפיין, דף אחד</div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>אהבתי את הפירוט, מי הכין את זה?<time>16:13</time></div>
           <span class="rx">❤️</span>
           <div class="b sent">אני אחי<time>16:16</time></div>
@@ -1281,7 +1283,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על פודקאסט שערכתי">
         <div class="chat-h">על <b>פודקאסט שערכתי</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:35<time>11:56</time></div>
+          <div class="b sent vid">סרטון 0:35<time>11:56</time></div>
           <div class="b sent">דוגמא<time>11:56</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇▇</span>אתה הכי מוכשר שפגשתי בחיי<time>11:57</time></div>
           <div class="b in">אתה מטורף<time>11:57</time></div>
@@ -1313,7 +1315,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על סרטון מתכון">
         <div class="chat-h">על <b>סרטון מתכון</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:43<time>22:10</time></div>
+          <div class="b sent vid">סרטון 0:43<time>22:10</time></div>
           <div class="b sent">תראי בזה איזה איכות<time>22:11</time></div>
           <div class="b in">וואו הרבההה יותר מוצלח 👏👏👏<time>22:14</time></div>
           <div class="b in">אלוף 👑<time>22:14</time></div>
@@ -1325,7 +1327,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על קליפ אישי">
         <div class="chat-h">על <b>קליפ אישי</b></div>
         <div class="msgs">
-          <div class="b in vid">סרטון · 0:46<time>23:47</time></div>
+          <div class="b in vid">סרטון 0:46<time>23:47</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇</span>אמאלה תראו מה דניאל עשה 🥹<time>23:47</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇ ▇▇▇▇</span>אמאלה איזה נסיך אהבתי ❤️<time>23:53</time></div>
           <span class="rx">❤️😍 2</span>
@@ -1337,7 +1339,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על עריכת פודקאסט">
         <div class="chat-h">על <b>עריכת פודקאסט</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:35<time>16:17</time></div>
+          <div class="b sent vid">סרטון 0:35<time>16:17</time></div>
           <span class="rx">❤️</span>
           <div class="b in">עריכה פצצה<time>16:18</time></div>
           <div class="b sent emo" aria-label="לב ופרצוף מאוהב">❤️🥰<time>16:20</time></div>
@@ -1346,7 +1348,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על קליפ ראפרים מתמונה אחת">
         <div class="chat-h">על <b>קליפ ראפרים מתמונה אחת</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:24<time>8:06</time></div>
+          <div class="b sent vid">סרטון 0:24<time>8:06</time></div>
           <div class="b in">תשמע<time>8:22</time></div>
           <div class="b in">זה נדיר<time>8:22</time></div>
           <div class="b in">אנשים עפים על זה<time>8:22</time></div>
@@ -1359,7 +1361,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על קליפ קצר לרשתות">
         <div class="chat-h">על <b>קליפ קצר לרשתות</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:15<time>22:20</time></div>
+          <div class="b sent vid">סרטון 0:15<time>22:20</time></div>
           <div class="b sent">תראי את זה<time>22:20</time></div>
           <div class="b in">מושלם<time>22:21</time></div>
           <div class="b in">יאללה שיר ומשפט באנגלית<time>22:21</time></div>
@@ -1369,7 +1371,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על סרטון שערכתי">
         <div class="chat-h">על <b>סרטון שערכתי</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:30<time>8:06</time></div>
+          <div class="b sent vid">סרטון 0:30<time>8:06</time></div>
           <div class="b in">אוקיי אוקיי<time>8:07</time></div>
           <div class="b in">חחחחחח יאווווו<time>8:15</time></div>
           <div class="b in">זה ענקקקקק<time>8:15</time></div>
@@ -1379,11 +1381,11 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על שני סרטונים אישיים">
         <div class="chat-h">על <b>שני סרטונים אישיים</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:31<time>18:54</time></div>
+          <div class="b sent vid">סרטון 0:31<time>18:54</time></div>
           <div class="b sent">תראי תראי<time>18:54</time></div>
           <div class="b in">או מיי גאד סו ביוטיפול 👏👏😍<time>18:56</time></div>
           <div class="b in">Loveeee it 😘😍<time>18:56</time></div>
-          <div class="b sent vid">סרטון · 1:07<time>19:11</time></div>
+          <div class="b sent vid">סרטון 1:07<time>19:11</time></div>
           <div class="b sent">איך זה?<time>19:11</time></div>
           <div class="b in">מושלםםםםםםםםםםםםם<time>19:15</time></div>
         </div>
@@ -1391,7 +1393,7 @@ html.studio .row.entry .name::after{color:#1d1033}
       <article class="chat" aria-label="תגובות על סרטון לעסק">
         <div class="chat-h">על <b>סרטון לעסק</b></div>
         <div class="msgs">
-          <div class="b sent vid">סרטון · 0:40<time>18:06</time></div>
+          <div class="b sent vid">סרטון 0:40<time>18:06</time></div>
           <div class="b sent">איך?<time>18:06</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>מעולהההה<time>18:14</time></div>
           <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇</span>פצצה<time>19:38</time></div>
@@ -1428,7 +1430,7 @@ html.studio .row.entry .name::after{color:#1d1033}
         </div>
         <div class="row">
           <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
-          <p class="desc">5 רילסים מפרק אחד, בסגנון נקי, משולב או מטורף. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
+          <p class="desc">5 רילסים מפרק אחד: נקי ₪490, משולב ₪690, מטורף ₪890. 10 רילסים: ₪890, ₪1,290 או ₪1,690. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
         </div>
         <div class="row">
           <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
@@ -1488,26 +1490,34 @@ html.studio .row.entry .name::after{color:#1d1033}
         <div class="field">
           <label for="f-product">מה מעניין אתכם</label>
           <select id="f-product" name="product">
-            <option>סוכן וואטסאפ לעסק · מ־₪3,900</option>
-            <option>אפליקציה לניהול העסק · מ־₪3,900</option>
-            <option>אפליקציה + סוכן וואטסאפ · מ־₪5,900</option>
-            <option>אתר לעסק · מ־₪1,490</option>
-            <option>הכל ביחד: סוכן + אפליקציה + אתר · מ־₪9,900</option>
-            <option>סרטון היכרות לעסק · ₪199</option>
-            <option>טרנד לאדם אחד · ₪99</option>
-            <option>טרנד ל־2 עד 3 אנשים · ₪149</option>
-            <option>שלושה טרנדים · מ־₪249</option>
-            <option>קליפ מוזיקה אישי · ₪890</option>
-            <option>קליפ פרימיום · ₪1,690</option>
-            <option>סרטון נקי לעסק · ₪390</option>
-            <option>סרטון משולב לעסק · ₪890</option>
-            <option>סרטון מטורף לעסק · ₪1,690</option>
-            <option>רילס ניסיון מפודקאסט · מ־₪98</option>
-            <option>5 רילסים מפודקאסט · מ־₪490</option>
-            <option>10 רילסים מפודקאסט · מ־₪890</option>
-            <option>חבילת השקה · ₪2,490</option>
-            <option>סוכן קולי או כפיל דיגיטלי · לפי הצעה</option>
-            <option>מצגת או הצעת מחיר מעוצבת · לפי הצעה</option>
+            <option>סוכן וואטסאפ לעסק, מ־₪3,900</option>
+            <option>אפליקציה לניהול העסק, מ־₪3,900</option>
+            <option>אפליקציה + סוכן וואטסאפ, מ־₪5,900</option>
+            <option>אתר לעסק, מ־₪1,490</option>
+            <option>הכל ביחד: סוכן + אפליקציה + אתר, מ־₪9,900</option>
+            <option>סרטון היכרות לעסק, ₪199</option>
+            <option>טרנד לאדם אחד, ₪99</option>
+            <option>טרנד ל־2 עד 3 אנשים, ₪149</option>
+            <option>שלושה טרנדים, מ־₪249</option>
+            <option>קליפ מוזיקה אישי, ₪890</option>
+            <option>קליפ פרימיום, ₪1,690</option>
+            <option>סרטון נקי לעסק, ₪390</option>
+            <option>סרטון משולב לעסק, ₪890</option>
+            <option>סרטון מטורף לעסק, ₪1,690</option>
+            <optgroup label="רילסים מפודקאסט">
+              <option>5 רילסים מפודקאסט, נקי, ₪490</option>
+              <option>5 רילסים מפודקאסט, משולב, ₪690</option>
+              <option>5 רילסים מפודקאסט, מטורף, ₪890</option>
+              <option>10 רילסים מפודקאסט, נקי, ₪890</option>
+              <option>10 רילסים מפודקאסט, משולב, ₪1,290</option>
+              <option>10 רילסים מפודקאסט, מטורף, ₪1,690</option>
+              <option>רילס ניסיון מפודקאסט, נקי, ₪98</option>
+              <option>רילס ניסיון מפודקאסט, משולב, ₪138</option>
+              <option>רילס ניסיון מפודקאסט, מטורף, ₪178</option>
+            </optgroup>
+            <option>חבילת השקה, ₪2,490</option>
+            <option>סוכן קולי או כפיל דיגיטלי, לפי הצעה</option>
+            <option>מצגת או הצעת מחיר מעוצבת, לפי הצעה</option>
             <option>עוד לא יודע/ת</option>
           </select>
         </div>
@@ -1544,7 +1554,7 @@ html.studio .row.entry .name::after{color:#1d1033}
   </main>
 
   <footer class="site-foot">
-    <span>Danielor · דניאלור ייעוץ ויזמות בע״מ</span>
+    <span>Danielor, דניאלור ייעוץ ויזמות בע״מ</span>
     <nav class="legal" aria-label="מידע משפטי"><a href="/privacy.html">מדיניות פרטיות</a><a href="/terms.html">תקנון</a><a href="/accessibility.html">הצהרת נגישות</a></nav>
     <span dir="ltr">danielor.ai</span>
   </footer>
@@ -2252,6 +2262,10 @@ html.studio .row.entry .name::after{color:#1d1033}
     p5.textContent = LV[lv].p5;
     p10.textContent = '10 רילסים: ' + LV[lv].p10;
     if (p1) p1.textContent = LV[lv].p1;
+    var nm = document.getElementById('lv-name'); if (nm) nm.textContent = LV[lv].name;
+    var b5 = document.getElementById('lv-buy5'), b1 = document.getElementById('lv-buy1');
+    if (b5) b5.setAttribute('data-product', '5 רילסים מפודקאסט, ' + LV[lv].name + ', ' + LV[lv].p5);
+    if (b1) b1.setAttribute('data-product', 'רילס ניסיון מפודקאסט, ' + LV[lv].name + ', ' + LV[lv].p1);
     tabs.forEach(function(b){
       var on = Number(b.getAttribute('data-lv')) === lv;
       b.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -2400,6 +2414,19 @@ html.studio .row.entry .name::after{color:#1d1033}
   var last = scrollY, tick = false;
   window.addEventListener('scroll', function(){ if (tick) return; tick = true; requestAnimationFrame(function(){
     var y = scrollY; if (y > last + 6 && y > 240) btn.classList.add('hide'); else if (y < last - 6 || y < 240) btn.classList.remove('hide'); last = y; tick = false; }); }, {passive: true});
+})();
+</script>
+<script>
+/* studio hero: the three reels change places by themselves every few seconds, like a carousel */
+(function(){
+  var box = document.querySelector('.st-reels'); if (!box) return;
+  var fr = [].slice.call(box.querySelectorAll('.frame')), n = fr.length, c = 1, t = null, vis = true;
+  function lay(){ fr.forEach(function(f, i){ var d = (i - c + n) % n; f.setAttribute('data-pos', d === 0 ? 'c' : d === 1 ? 'n' : 'p'); }); }
+  lay();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function run(){ clearInterval(t); if (vis && !document.hidden) t = setInterval(function(){ c = (c + 1) % n; lay(); }, 2600); }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ vis = es[0].isIntersecting; run(); }).observe(box);
+  document.addEventListener('visibilitychange', run); run();
 })();
 </script>
 </body>

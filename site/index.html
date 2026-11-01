@@ -828,6 +828,61 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .fold.open .steps li:nth-child(2){transition-delay:.08s}.fold.open .steps li:nth-child(3){transition-delay:.16s}.fold.open .steps li:nth-child(4){transition-delay:.24s}
 @media (min-width:761px){.fold .steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion: reduce){.fold,.fold .steps li,#prices .board{transition:none!important;animation:none!important}}
+/* restructure 1.11 */
+:root{--muted:#544a74}
+.hero-solo{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;min-height:min(88svh,820px);align-content:center}
+.hero-solo>div{display:grid;justify-items:center;max-width:860px}
+.hero-solo .lead{margin-inline:auto}
+.hero-solo .offers{justify-content:center}
+.hero-solo .trust{justify-content:center;flex-wrap:wrap}
+.tabcards{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;width:100%;max-width:none;padding:0;background:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
+.tabcards button{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"i b" "i s" "i e";column-gap:.75rem;row-gap:.1rem;align-items:center;justify-items:start;text-align:start;min-height:0;padding:.9rem 1rem;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--lift);color:var(--fg);white-space:normal;transition:transform .18s,box-shadow .2s,border-color .2s,background .2s}
+.tabcards button:hover{transform:translateY(-2px);border-color:var(--pink-hot)}
+.tabcards .ti{grid-area:i;width:42px;height:42px;border-radius:12px;background:#eee5fc;color:var(--violet)}
+.tabcards .ti svg{width:22px;height:22px}
+.tabcards b{grid-area:b;font-size:1.02rem;line-height:1.2}
+.tabcards small{grid-area:s;font-weight:500;font-size:.8rem;color:var(--muted);line-height:1.35}
+.tabcards em{grid-area:e;font-style:normal;font-weight:800;font-size:.85rem;color:var(--pink);margin-top:.15rem}
+.tabcards button[aria-selected="true"]{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box;border:2px solid transparent;box-shadow:0 14px 34px rgba(255,47,200,.2);color:var(--fg)}
+.tabcards button[aria-selected="true"] .ti{background:var(--grad);color:#fff}
+.cards-hint{margin:.7rem 0 0;color:var(--muted);font-size:var(--step--1)}
+@media (max-width:980px){.tabcards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.tabcards{gap:.5rem}.tabcards button{grid-template-columns:minmax(0,1fr);grid-template-areas:"i" "b" "s" "e";padding:.8rem .8rem .85rem;row-gap:.15rem}.tabcards .ti{width:36px;height:36px;margin-bottom:.25rem}.tabcards b{font-size:.95rem}}
+.tab-panel{margin-top:clamp(1.4rem,1rem + 1.5vw,2.2rem)}
+.tab-panel h2{font-size:clamp(2.1rem,1.5rem + 2.4vw,3.6rem);line-height:.95}
+#work .folio-sys{margin-top:clamp(1.4rem,1rem + 1.2vw,2rem)}
+.agent-phone{border-color:var(--violet)!important;box-shadow:0 18px 44px rgba(122,53,230,.22)!important;background:#f3ecfb}
+.agent-phone video{object-fit:contain;object-position:center}
+.priv-strip{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(1.2rem,1rem + 2vw,2.6rem);align-items:center;background:linear-gradient(160deg,#fff 0%,#fbe5f5 55%,#eee5fc 100%);border:1px solid var(--line);border-radius:calc(var(--radius) + 10px);padding:clamp(1.2rem,1rem + 2vw,2.6rem);box-shadow:var(--lift)}
+.ps-media .ba-pair{max-width:440px;margin-inline:auto}
+.ps-text h2{font-size:clamp(2.2rem,1.6rem + 2.6vw,3.8rem);line-height:.95}
+.ps-text>p:not(.kicker){color:var(--muted);margin:.7rem 0 0;max-width:52ch}
+.ps-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}
+@media (max-width:820px){.priv-strip{grid-template-columns:minmax(0,1fr)}.ps-text{text-align:center}.ps-text>p:not(.kicker){margin-inline:auto}.ps-cta{justify-content:center}}
+#private{padding-bottom:1rem}
+/* phone menu */
+.mnav-btn{display:none}
+@media (max-width:900px){
+  .nav{display:none}
+  .mnav-btn{display:grid;place-items:center;position:fixed;top:calc(12px + env(safe-area-inset-top, 0px));right:calc(12px + env(safe-area-inset-right, 0px));z-index:30;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 22px rgba(70,30,120,.16);color:var(--fg);cursor:pointer}
+  .mnav-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+}
+.mnav{position:fixed;inset:0;z-index:40;background:rgba(29,16,51,.38);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:flex;justify-content:flex-start;align-items:flex-start;padding:calc(10px + env(safe-area-inset-top, 0px)) 10px 10px}
+.mnav[hidden]{display:none}
+.mnav-card{width:min(360px,100%);max-height:calc(100svh - 20px);overflow:auto;background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(29,16,51,.3);padding:1rem;animation:mnav-in .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes mnav-in{from{opacity:0;transform:translateY(-10px) scale(.98)}to{opacity:1;transform:none}}
+.mnav-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.mnav-head b{font-family:var(--display);font-size:1.5rem}
+.mnav-x{width:40px;height:40px;border-radius:50%;border:0;background:#f3eefa;display:grid;place-items:center;cursor:pointer;color:var(--fg)}
+.mnav-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.mnav-links{display:grid}
+.mnav-links a{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;padding:.85rem .3rem;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg)}
+.mnav-links a span{font-weight:800;font-size:1.05rem}
+.mnav-links a small{color:var(--muted);font-size:.8rem}
+.mnav-links a.priv span{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mnav-wa{width:100%;margin-top:1rem;justify-content:center}
+html.mnav-open{overflow:hidden}
+@media (max-width:620px){.float{width:50px;height:50px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));left:calc(12px + env(safe-area-inset-left, 0px))}.float .ico{width:24px;height:24px}}
 </style>
 
 <div class="wrap">
@@ -837,13 +892,30 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       <a href="#work">עבודות</a>
       <a href="#more">סרטונים ועוד</a>
       <a href="#prices">מחירים</a>
+      <a href="#faq">שאלות</a>
       <a href="#order">הזמנה</a>
       <a class="priv" href="#trend">טרנד AI</a>
     </nav>
   </header>
+    <button type="button" class="mnav-btn" aria-expanded="false" aria-controls="mnav" aria-label="תפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
+    <div class="mnav" id="mnav" hidden>
+      <div class="mnav-card" role="dialog" aria-label="תפריט">
+        <div class="mnav-head"><b>Danielor</b><button type="button" class="mnav-x" aria-label="סגירת התפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+        <nav class="mnav-links" aria-label="ניווט בטלפון">
+          <a href="#build"><span>מה אנחנו בונים</span><small>סוכן, אפליקציה, אתר</small></a>
+          <a href="#work"><span>עבודות שבנינו</span><small>ככה זה נראה באמת</small></a>
+          <a href="#process"><span>איך עובדים איתנו</span><small>ארבעה צעדים</small></a>
+          <a href="#more"><span>סרטונים ועוד</span><small>פרסומות, פודקאסטים, מצגות</small></a>
+          <a href="#prices"><span>מחירים</span><small>לעסקים ולפרטיים</small></a>
+          <a href="#faq"><span>שאלות נפוצות</span></a>
+          <a href="#trend" class="priv"><span>טרנד AI</span><small>לפרטיים</small></a>
+        </nav>
+        <a class="btn btn-pink js-wa mnav-wa" href="#order">דברו איתנו בוואטסאפ</a>
+      </div>
+    </div>
   <main id="main">
 
-  <section class="hero" id="top">
+  <section class="hero hero-solo" id="top">
     <div>
       <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
       <p class="kicker">פתרונות AI לעסקים, בעברית</p>
@@ -854,17 +926,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <a class="btn btn-pink js-wa" href="#order" data-wa-text="היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק">דברו עם הסוכן שלנו<small>ככה בדיוק הוא יענה ללקוחות שלכם</small></a>
         <a class="btn btn-ghost js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם הצעה מדויקת</small></a>
       </div>
-      <ul class="trust"><li>צוות אנושי עובר על כל חומר לפני שהוא יוצא</li><li>עונים בוואטסאפ 24/7</li></ul>
+      <ul class="trust"><li>מערכות שכבר עובדות אצל עסקים</li><li>שום דבר לא עולה בלי האישור שלכם</li><li>עונים בוואטסאפ 24/7</li></ul>
     </div>
-    <div class="frame phone glow-a" data-video="agent-whatsapp.mp4" data-full="agent-whatsapp.mp4" data-title="הסוכן של Danielor בפעולה">
-      <span class="tag">סוכן וואטסאפ בפעולה</span>
-      <span class="ph">כאן יתנגן סרטון של הסוכן בפעולה</span>
-    </div>
-    <nav class="svc svc-3" id="services" aria-label="מה אנחנו בונים">
-      <a class="svc-i main" href="#agent"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ AI</b><span class="d">עונה ללקוחות 24/7 בעברית, קובע תורים ומעביר אליכם רק את מה שצריך.</span></a>
-      <a class="svc-i" href="#bizapp"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span><b>אפליקציה לניהול העסק</b><span class="d">תורים, לקוחות ולידים במקום אחד, באייקון בטלפון.</span></a>
-      <a class="svc-i" href="#sites"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>אתרים ודפי נחיתה</b><span class="d">מדף נחיתה ועד אתר שנגלל כמו סרט, שמביא פניות.</span></a>
-    </nav>
     
   </section>
 
@@ -872,7 +935,8 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <p class="kicker">מה אנחנו בונים לעסקים</p>
     <h2 class="sec-h">שלושה דברים שעובדים בשבילכם, <span class="neon-pink">גם כשאתם לא</span></h2>
     <div class="tabset" data-group="build">
-    <div class="tabbar" role="tablist" aria-label="מה אנחנו בונים"><button type="button" role="tab" id="t-agent" aria-controls="agent" aria-selected="true" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span>סוכן וואטסאפ</button><button type="button" role="tab" id="t-bizapp" aria-controls="bizapp" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span>אפליקציה לניהול</button><button type="button" role="tab" id="t-sites" aria-controls="sites" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span>אתרים</button><button type="button" role="tab" id="t-bundle" aria-controls="bundle" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span>הכל ביחד</button></div>
+    <div class="tabbar tabcards" role="tablist" aria-label="מה אנחנו בונים"><button type="button" role="tab" id="t-agent" aria-controls="agent" aria-selected="true" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ</b><small>עונה ללקוחות 24/7</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-bizapp" aria-controls="bizapp" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span><b>אפליקציה לניהול</b><small>תורים, לקוחות ולידים</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-sites" aria-controls="sites" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>אתר לעסק</b><small>מדף נחיתה ועד סרט גלילה</small><em>מ־₪1,490</em></button><button type="button" role="tab" id="t-bundle" aria-controls="bundle" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><b>הכל ביחד</b><small>סוכן, אפליקציה ואתר</small><em>מ־₪9,900</em></button></div>
+    <p class="cards-hint">לחצו על כרטיס כדי לראות פרטים, הדגמה ומחיר.</p>
     <div class="tab-panel" role="tabpanel" id="agent" aria-labelledby="t-agent">
         <div class="agent">
       <div class="agent-text">
@@ -1002,8 +1066,18 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 
   <section id="work">
     <p class="kicker">עבודות שבנינו</p>
-    <h2>ככה זה נראה <span class="neon-pink">באמת</span></h2>
-    <p class="lead">אתרים, דפי נחיתה ואפליקציות שבנינו לעסקים, כמו שהם נראים בטלפון.</p>
+    <h2>לא רק מבטיחים. <span class="neon-pink">ככה זה עובד אצל עסקים אמיתיים</span></h2>
+    <p class="lead">אותם דברים שראיתם למעלה, כמו שהם עובדים היום בטלפון. באותו סדר: הסוכן, האפליקציה והאתרים.</p>
+    <div class="folio folio-sys">
+      <article class="folio-item">
+        <div class="site-phone folio-phone agent-phone"><video src="agent-whatsapp.mp4" poster="agent-whatsapp-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="סרטון: הסוכן של Danielor בפעולה"></video></div>
+        <div class="folio-txt"><span class="tier-k">סוכן וואטסאפ</span><b>הסוכן של Danielor</b><span>עונה ללקוח בשתיים בלילה, שולח מחיר, טופס וקישור לתשלום, ומעביר אלינו רק את מה שחשוב. זה אותו סוכן שיענה לכם אם תכתבו לנו.</span><a class="js-wa" href="#order" data-wa-text="היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק">לדבר איתו בעצמכם ←</a></div>
+      </article>
+      <article class="folio-item">
+        <div class="site-phone folio-phone app-phone"><img class="as-content" src="app-content.jpg" alt="אישור תוכן באפליקציה של Danielor" loading="lazy" width="600" height="2830"></div>
+        <div class="folio-txt"><span class="tier-k">אפליקציה לניהול</span><b>האפליקציה של Danielor</b><span>מסך "היום", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד. ככה אנחנו מנהלים את העסק שלנו כל יום.</span><a href="#bizapp">לפרטים על האפליקציה ←</a></div>
+      </article>
+    </div>
     <div class="folio" data-work="story">
       <article class="folio-item">
         <div class="site-phone folio-phone"><video src="site-ac.mp4?v=3" poster="site-ac-poster.jpg?v=3" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של AC Holding"></video></div>
@@ -1017,7 +1091,6 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     <div class="sites minis" data-work="lp">
       <div class="site-item"><div class="site-phone"><video src="site-clinic.mp4" poster="site-clinic-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה בדף נחיתה של קורס ריסים וגבות"></video></div><p class="site-name"><b>דף נחיתה</b><br>קורס הרמת ריסים וגבות</p></div>
       <div class="site-item"><div class="site-phone"><video src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה בדף הנחיתה של מדיקר"></video></div><p class="site-name"><b>דף נחיתה</b><br>מדיקר, כתב שירות רפואי</p></div>
-      <div class="site-item"><div class="site-phone app-phone"><img class="as-content" src="app-content.jpg" alt="אישור תוכן באפליקציה של Danielor" loading="lazy" width="600" height="2830"></div><p class="site-name"><b>אפליקציה לעסק</b><br>האפליקציה שמנהלת את Danielor</p></div>
     </div>
   </section>
 
@@ -1203,130 +1276,6 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
     </div>
   </section>
 
-  <section id="private">
-    <div class="private" id="trend">
-      <p class="kicker">לפרטיים</p>
-      <h2>טרנד AI: <span class="neon-pink">אתם הכוכבים של הטרנד</span></h2>
-      <p class="lead">הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה או שולחים אחד שאהבתם, שולחים 3 תמונות, ואנחנו עושים את השאר.</p>
-      <div class="ba-grid ba-one">
-      <article class="ba">
-        <div class="ba-pair">
-          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
-          <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
-        </div>
-        <div class="ba-text">
-          <h3>שלוש תמונות, טרנד מוכן</h3>
-          <p>בלי ללמוד אף כלי ובלי לשרוף קרדיטים. סרטון של 10 עד 30 שניות, לרוב תוך כמה שעות ולכל המאוחר תוך 24 שעות. לחצו על הסרטון לעוד דוגמאות, או שלחו לנו טרנד שראיתם ואהבתם.</p>
-          <div class="trend-go"><b>מ־₪99<small>לאדם אחד</small></b><a class="btn btn-pink" href="/trends">לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a></div>
-        </div>
-      </article>
-      </div>
-      <div class="how-card">
-        <div class="frame" data-video="/lib/how-trend-p.mp4" data-poster="/lib/how-trend.jpg" data-full-sound="/how-trend.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-        <div><h3>ככה מזמינים טרנד</h3><p>בוחרים טרנד, שולחים תמונות ומקבלים אותו עם הפנים שלכם.</p></div>
-      </div>
-      <h3 class="sub-h">ועוד לפרטיים</h3>
-      <div class="how-card clip-card">
-        <div class="frame" data-video="/lib/how-clip-p.mp4" data-poster="/lib/how-clip.jpg" data-full-sound="/how-clip.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-        <div>
-          <span class="tier-k">קליפ מוזיקה אישי</span>
-          <h3>קליפ שכולו עליכם, במתנה</h3>
-          <p>לזוג, ליום הולדת, להצעת נישואין או לחבר שצריך לצחוק. אתם הגיבורים, על שיר שבחרתם.</p>
-          <div class="go"><b>₪890</b><a class="js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ ←</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="prices">
-        <p class="kicker">תפריט</p>
-    <h2>מחירים</h2>
-    <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
-    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span>מחירון לעסקים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>מחירון לפרטיים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button></div>
-    <div class="boards" id="prices-boards" data-show="none">
-      <div class="board b-biz">
-        <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
-        <div class="row entry">
-          <span class="name">סוכן וואטסאפ לעסק</span><span class="price">מ־₪3,900</span>
-          <p class="desc">הקמה, ועוד ₪249 לחודש. עונה ללקוחות 24/7, קובע תורים ומעביר אליכם רק את מה שצריך. <a href="#agent">מה זה כולל</a></p>
-        </div>
-        <div class="row">
-          <span class="name">אפליקציה לניהול העסק</span><span class="price">מ־₪3,900</span>
-          <p class="desc">הקמה, ועוד ₪249 לחודש. ועם סוכן וואטסאפ מ־₪5,900, ועוד ₪449 לחודש. <a href="#bizapp">החבילות</a></p>
-        </div>
-        <div class="row">
-          <span class="name">אתר לעסק</span><span class="price">מ־₪1,490</span>
-          <p class="desc">דף נחיתה ₪1,490, אתר תדמית מ־₪4,900, אתר סיפור עם סרט גלילה מ־₪8,900. <a href="#sites">מה ההבדל</a></p>
-        </div>
-        <div class="row">
-          <span class="name">הכל ביחד: סוכן, אפליקציה ואתר</span><span class="price">מ־₪9,900</span>
-          <p class="desc">הקמה, ועוד ₪499 לחודש. חוסכים ₪2,800 לעומת קנייה בנפרד. <a href="#bundle">מה כלול</a></p>
-        </div>
-        <div class="row">
-          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
-          <p class="desc">שולחים תמונות או סרטונים מהעסק, ומקבלים סרטון של עד 30 שניות לרילס ולסטורי, עם כתוביות ומוזיקה. פעם אחת לכל עסק.</p>
-        </div>
-        <div class="row">
-          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
-          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
-        </div>
-        <div class="row">
-          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
-          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
-        </div>
-        <div class="row">
-          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
-          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
-        </div>
-        <div class="row">
-          <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
-          <p class="desc">5 רילסים מפרק אחד, בסגנון נקי, משולב או מטורף. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
-        </div>
-        <div class="row">
-          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
-          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
-        </div>
-        <div class="row">
-          <span class="name">סוכן קולי או כפיל דיגיטלי</span><span class="price quote">לפי הצעה</span>
-          <p class="desc">סוכן שעונה לטלפון, או כפיל שמדבר בקול שלכם, לפי מה שהעסק צריך. <a href="#maker">מה זה</a></p>
-        </div>
-        <div class="row">
-          <span class="name">מצגת או הצעת מחיר מעוצבת</span><span class="price quote">לפי הצעה</span>
-          <p class="desc">מסמך ברמת ברושור, בצבעי המותג. <a href="#decks">דוגמה</a></p>
-        </div>
-        <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
-        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
-      </div>
-      <div class="board b-priv">
-        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
-        <div class="row entry">
-          <span class="name">טרנד לאדם אחד</span><span class="price">₪99</span>
-          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהטבלה, ומקבלים תוך 24 שעות.</p>
-        </div>
-        <div class="row">
-          <span class="name">טרנד ל־2 עד 3 אנשים</span><span class="price">₪149</span>
-          <p class="desc">וגם טרנד שאהבתם ושלחתם לנו, אחרי שנבדוק שאפשר להכין אותו.</p>
-        </div>
-        <div class="row">
-          <span class="name">שלושה טרנדים</span><span class="price">מ־₪249</span>
-          <p class="desc">₪249 לאדם אחד, ₪349 ל־2 עד 3 אנשים. מאותה תמונה או משלוש תמונות שונות.</p>
-        </div>
-        <div class="row addon"><span class="name">סבב תיקון נוסף בטרנד</span><span class="price">₪49</span></div>
-        <div class="row">
-          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
-          <p class="desc">עד 2 דקות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
-        </div>
-        <div class="row">
-          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
-          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
-        </div>
-        <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
-      </div>
-    </div>
-    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
-  
-  </section>
 
   <section id="proof">
         <p class="kicker">תגובות אמיתיות</p>
@@ -1469,6 +1418,96 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
   
   </section>
 
+  <section id="prices">
+        <p class="kicker">תפריט</p>
+    <h2>מחירים</h2>
+    <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
+    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span>מחירון לעסקים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>מחירון לפרטיים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button></div>
+    <div class="boards" id="prices-boards" data-show="none">
+      <div class="board b-biz">
+        <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">סוכן וואטסאפ לעסק</span><span class="price">מ־₪3,900</span>
+          <p class="desc">הקמה, ועוד ₪249 לחודש. עונה ללקוחות 24/7, קובע תורים ומעביר אליכם רק את מה שצריך. <a href="#agent">מה זה כולל</a></p>
+        </div>
+        <div class="row">
+          <span class="name">אפליקציה לניהול העסק</span><span class="price">מ־₪3,900</span>
+          <p class="desc">הקמה, ועוד ₪249 לחודש. ועם סוכן וואטסאפ מ־₪5,900, ועוד ₪449 לחודש. <a href="#bizapp">החבילות</a></p>
+        </div>
+        <div class="row">
+          <span class="name">אתר לעסק</span><span class="price">מ־₪1,490</span>
+          <p class="desc">דף נחיתה ₪1,490, אתר תדמית מ־₪4,900, אתר סיפור עם סרט גלילה מ־₪8,900. <a href="#sites">מה ההבדל</a></p>
+        </div>
+        <div class="row">
+          <span class="name">הכל ביחד: סוכן, אפליקציה ואתר</span><span class="price">מ־₪9,900</span>
+          <p class="desc">הקמה, ועוד ₪499 לחודש. חוסכים ₪2,800 לעומת קנייה בנפרד. <a href="#bundle">מה כלול</a></p>
+        </div>
+        <div class="row">
+          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
+          <p class="desc">שולחים תמונות או סרטונים מהעסק, ומקבלים סרטון של עד 30 שניות לרילס ולסטורי, עם כתוביות ומוזיקה. פעם אחת לכל עסק.</p>
+        </div>
+        <div class="row">
+          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
+          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
+        </div>
+        <div class="row">
+          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
+          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
+        </div>
+        <div class="row">
+          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
+          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
+        </div>
+        <div class="row">
+          <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
+          <p class="desc">5 רילסים מפרק אחד, בסגנון נקי, משולב או מטורף. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
+        </div>
+        <div class="row">
+          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
+          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
+        </div>
+        <div class="row">
+          <span class="name">סוכן קולי או כפיל דיגיטלי</span><span class="price quote">לפי הצעה</span>
+          <p class="desc">סוכן שעונה לטלפון, או כפיל שמדבר בקול שלכם, לפי מה שהעסק צריך. <a href="#maker">מה זה</a></p>
+        </div>
+        <div class="row">
+          <span class="name">מצגת או הצעת מחיר מעוצבת</span><span class="price quote">לפי הצעה</span>
+          <p class="desc">מסמך ברמת ברושור, בצבעי המותג. <a href="#decks">דוגמה</a></p>
+        </div>
+        <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
+        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
+      </div>
+      <div class="board b-priv">
+        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
+        <div class="row entry">
+          <span class="name">טרנד לאדם אחד</span><span class="price">₪99</span>
+          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהטבלה, ומקבלים תוך 24 שעות.</p>
+        </div>
+        <div class="row">
+          <span class="name">טרנד ל־2 עד 3 אנשים</span><span class="price">₪149</span>
+          <p class="desc">וגם טרנד שאהבתם ושלחתם לנו, אחרי שנבדוק שאפשר להכין אותו.</p>
+        </div>
+        <div class="row">
+          <span class="name">שלושה טרנדים</span><span class="price">מ־₪249</span>
+          <p class="desc">₪249 לאדם אחד, ₪349 ל־2 עד 3 אנשים. מאותה תמונה או משלוש תמונות שונות.</p>
+        </div>
+        <div class="row addon"><span class="name">סבב תיקון נוסף בטרנד</span><span class="price">₪49</span></div>
+        <div class="row">
+          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
+          <p class="desc">עד 2 דקות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
+        </div>
+        <div class="row">
+          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
+          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
+        </div>
+        <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
+      </div>
+    </div>
+    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
+  
+  </section>
+
+
   <section id="order">
         <div class="order">
       <div>
@@ -1520,19 +1559,39 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
         <p class="kicker">שאלות</p>
     <h2>לפני שמתחילים</h2>
     <div class="faq">
-      <details><summary><span class="q-n" aria-hidden="true">01</span><span class="q-t">איך שולחים חומרים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לדרייב, או ישירות בוואטסאפ. לטרנד הכי טוב 3 תמונות: פנים מקדימה, פרופיל וכל הגוף. סרטונים עדיף לשלוח כקובץ, כי וואטסאפ דוחס ומוריד איכות.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">02</span><span class="q-t">כמה זמן זה לוקח?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>טרנד מגיע תוך 24 שעות. בשאר הסרטונים נותנים מועד מדויק לפני שמתחילים, ואפשר להוסיף אקספרס.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">03</span><span class="q-t">ואם הטיוטה לא מתאימה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>אומרים מה לשנות, גם בהודעה קולית. סבב תיקון אחד כלול במחיר, וכל סבב נוסף מתומחר לפי היקף.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">04</span><span class="q-t">אפשר להכניס לסרטון עוד אנשים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן, גם כשזו הפתעה. רק ודאו שמי שמופיע בסדר עם זה. הצוות עובר על כל החומרים, ואם משהו לא תקין נחזור אליכם. סרטונים של מפורסמים ואנשי ציבור אנחנו לא עושים, וקול משובט רק באישור של בעל הקול.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">05</span><span class="q-t">מה קורה עם דף הנחיתה אחרי השנה הראשונה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>ממשיכים ב־₪49 לחודש, כולל אחסון ותיקונים קטנים, או לוקחים את הדף לאחסון אחר. הדומיין רשום על שמכם, ומקבלים את כל הקבצים.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">01</span><span class="q-t">איך מתחילים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כותבים לנו בוואטסאפ או בטופס מה הכי מעיק בעסק: הודעות, תורים, לידים או תיאום. בשיחת התאמה קצרה מבינים מה צריך, ומקבלים הצעה מסודרת: מה בונים, כמה זה עולה ומתי זה מוכן.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">02</span><span class="q-t">מה הסוכן עושה כשהוא לא יודע לענות?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>הסוכן בנוי לענות לפי המידע שהגדרנו איתכם: השירותים, המחירים והנהלים של העסק. כשמשהו לא ברור לו, הוא מעביר אליכם את השיחה עם סיכום קצר, ואתם ממשיכים מהטלפון. לפני שהוא עולה לאוויר אתם בודקים אותו בעצמכם.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">03</span><span class="q-t">מה כולל התשלום החודשי?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>אחסון, תחזוקה ושינויים קטנים. בסוכן וואטסאפ נוספות עלויות ההודעות של מטא, לפי העלות שלהן ובלי תוספת.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">04</span><span class="q-t">אפשר לפרוס את התשלום?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן. את ההקמה של סוכן, אפליקציה או חבילה אפשר לפרוס לשלושה תשלומים.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">05</span><span class="q-t">מה קורה עם האתר אחרי השנה הראשונה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>ממשיכים ב־₪49 לחודש, כולל אחסון ותיקונים קטנים, או לוקחים את האתר לאחסון אחר. הדומיין רשום על שמכם, ומקבלים את כל הקבצים.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">06</span><span class="q-t">המחירים כוללים מע״מ?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן, כל המחירים באתר כוללים מע״מ, גם לעסקים וגם לפרטיים. המחיר שרואים הוא המחיר שמשלמים, ועסקים מקבלים חשבונית מס.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">07</span><span class="q-t">מה שולחים כדי לקבל רילסים מפודקאסט?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לפרק המלא, בדרייב, בוויטרנספר או ביוטיוב. אם צילמתם בשתי מצלמות, שלחו את שתיהן ואת קובץ הסאונד. את הרגעים אנחנו בוחרים, ואם יש נושא שחשוב לכם להבליט או להשאיר בחוץ, כתבו לנו.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">07</span><span class="q-t">איך שולחים חומרים לסרטון?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לדרייב, או ישירות בוואטסאפ. סרטונים עדיף לשלוח כקובץ, כי וואטסאפ דוחס ומוריד איכות. לטרנד הכי טוב 3 תמונות: פנים מקדימה, פרופיל וכל הגוף.</p></div></details>
+      <details><summary><span class="q-n" aria-hidden="true">08</span><span class="q-t">ואם הטיוטה לא מתאימה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>אומרים מה לשנות, גם בהודעה קולית. סבב תיקון אחד כלול במחיר, וכל סבב נוסף מתומחר לפי היקף.</p></div></details>
     </div>
     <div class="faq-cta">
       <div><b>יש שאלה שלא מופיעה כאן?</b><span>כתבו לנו בוואטסאפ ונחזור אליכם.</span></div>
       <a class="btn btn-pink js-wa" href="#order">לשאול בוואטסאפ</a>
     </div>
   
+  </section>
+
+
+  <section id="private">
+    <div class="priv-strip" id="trend">
+      <div class="ps-media">
+          <div class="ba-pair">
+          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
+          <span class="arrow" aria-hidden="true">←</span>
+          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
+        </div>
+      </div>
+      <div class="ps-text">
+        <p class="kicker">לפרטיים</p>
+        <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
+        <p>הטרנד הכי חם ברשת עם הפנים שלכם, מ־₪99: שולחים 3 תמונות ומקבלים אותו תוך 24 שעות. או קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
+        <div class="ps-cta"><a class="btn btn-pink" href="/trends">לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn btn-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ אישי</a></div>
+      </div>
+    </div>
   </section>
 
   </main>
@@ -2344,6 +2403,7 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 /* tab bars that scroll sideways (phones): arrows + fade where there is more, and a one-time nudge */
 (function(){
   [].slice.call(document.querySelectorAll('.tabbar')).forEach(function(bar){
+    if (bar.classList.contains('tabcards')) return;
     var w = document.createElement('div'); w.className = 'tabwrap';
     bar.parentNode.insertBefore(w, bar); w.appendChild(bar);
     function mk(cls, label, dir, d){
@@ -2371,6 +2431,20 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
       io.observe(bar);
     }
   });
+})();
+</script>
+<script>
+/* phone menu: a button that opens every section, closes on a link, outside tap or Escape */
+(function(){
+  var btn = document.querySelector('.mnav-btn'), box = document.getElementById('mnav'); if (!btn || !box) return;
+  function set(open){
+    btn.setAttribute('aria-expanded', String(open)); box.hidden = !open;
+    document.documentElement.classList.toggle('mnav-open', open);
+    if (open) { var f = box.querySelector('a'); if (f) f.focus({preventScroll: true}); }
+  }
+  btn.addEventListener('click', function(){ set(btn.getAttribute('aria-expanded') !== 'true'); });
+  box.addEventListener('click', function(e){ if (e.target === box || e.target.closest('.mnav-x') || e.target.closest('a')) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { set(false); btn.focus(); } });
 })();
 </script>
 </body>

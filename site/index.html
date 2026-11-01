@@ -950,6 +950,17 @@ html.mnav-open{overflow:hidden}
 /* menu button steps aside while scrolling down */
 .mnav-btn{transition:transform .3s ease,opacity .3s ease}
 .mnav-btn.hide{transform:translateY(-90px);opacity:0;pointer-events:none}
+/* hero doors + toggle cards (1.11, 03:00) */
+.btn-studio{position:relative;color:#fff;background:linear-gradient(#140a26,#140a26) padding-box,conic-gradient(from var(--ba),#ff2fc8,#7a35e6,#14b3d1,#ff2fc8) border-box;border:2px solid transparent;animation:ba-spin 4s linear infinite;box-shadow:0 12px 30px rgba(40,10,80,.3)}
+.btn-studio .bs-k{font-weight:800;letter-spacing:.06em}
+.btn-studio small{color:rgba(255,255,255,.8)}
+.btn-studio:hover{box-shadow:0 16px 36px rgba(122,53,230,.4)}
+.hero-solo .offers .btn{min-width:min(300px,100%)}
+.tab-panel{scroll-margin-top:16px}
+.tabcards button[aria-selected="true"]::after{content:"";position:absolute}
+.tabcards button{position:relative}
+.tabcards + .cards-hint + .tab-panel,.tabcards + .cards-hint ~ .tab-panel{animation:board-in .4s cubic-bezier(.2,.8,.2,1)}
+@media (max-width:520px){.tabcards{gap:.5rem}.tabcards button{grid-template-columns:minmax(0,1fr);grid-template-areas:"i" "b" "s" "e";padding:.8rem .8rem .85rem;row-gap:.15rem}.tabcards .ti{width:38px;height:38px;margin-bottom:.3rem}.tabcards b{font-size:.98rem}}
 </style>
 
 <div class="wrap">
@@ -986,13 +997,12 @@ html.mnav-open{overflow:hidden}
     <div>
       <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
       <a class="hero-badge" href="#trend"><span class="hb-vid" aria-hidden="true"><video src="trend-badge.mp4" poster="trend-badge.jpg" muted autoplay loop playsinline preload="metadata"></video></span><span class="hb-t"><b>חדש: טרנד AI</b> עם הפנים שלכם</span><span class="hb-arr" aria-hidden="true">←</span></a>
-      <p class="kicker">פתרונות AI לעסקים, בעברית</p>
-      <h1><span class="l1">העסק שלכם</span><span class="l2 neon-pink">על אוטומט.</span></h1>
+      <h1><span class="l1">פתרונות AI</span><span class="l2 neon-pink">לעסקים.</span></h1>
       <p class="rot"><span class="sr-only">בונים לכם סוכן וואטסאפ, אפליקציה לניהול העסק, אתר שמביא פניות, מערכת לניהול לידים וסרטוני פרסומת.</span><span aria-hidden="true">בונים לכם <span class="rot-w" id="rot-w">סוכן וואטסאפ</span></span></p>
       <p class="lead">סוכן שעונה ללקוחות בוואטסאפ, אפליקציה שמנהלת את התורים והלקוחות, ואתר שמביא פניות. אנחנו בונים, ואתם מאשרים לפני שזה יוצא לאוויר.</p>
       <div class="offers">
-        <a class="btn btn-pink js-wa" href="#order" data-wa-text="היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק">דברו עם הסוכן שלנו<small>ככה בדיוק הוא יענה ללקוחות שלכם</small></a>
-        <a class="btn btn-ghost js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם הצעה מדויקת</small></a>
+        <a class="btn btn-pink js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם פתרון מדויק</small></a>
+        <a class="btn btn-studio" href="#studio"><span class="bs-k">Danielor Studio</span><small>סרטונים, פודקאסטים וטרנדים</small></a>
       </div>
       <ul class="trust"><li>מערכות שכבר עובדות אצל עסקים</li><li>שום דבר לא עולה בלי האישור שלכם</li><li>עונים בוואטסאפ 24/7</li></ul>
     </div>
@@ -1002,10 +1012,10 @@ html.mnav-open{overflow:hidden}
   <section id="build">
     <p class="kicker">מה אנחנו בונים לעסקים</p>
     <h2 class="sec-h">שלושה דברים שעובדים בשבילכם, <span class="neon-pink">גם כשאתם לא</span></h2>
-    <div class="tabset" data-group="build">
-    <div class="tabbar tabcards" role="tablist" aria-label="מה אנחנו בונים"><button type="button" role="tab" id="t-agent" aria-controls="agent" aria-selected="true" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ</b><small>עונה ללקוחות 24/7</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-bizapp" aria-controls="bizapp" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span><b>אפליקציה לניהול</b><small>תורים, לקוחות ולידים</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-sites" aria-controls="sites" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>אתר לעסק</b><small>מדף נחיתה ועד סרט גלילה</small><em>מ־₪1,490</em></button><button type="button" role="tab" id="t-bundle" aria-controls="bundle" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><b>הכל ביחד</b><small>סוכן, אפליקציה ואתר</small><em>מ־₪9,900</em></button></div>
-    <p class="cards-hint">לחצו על כרטיס כדי לראות פרטים, הדגמה ומחיר.</p>
-    <div class="tab-panel" role="tabpanel" id="agent" aria-labelledby="t-agent">
+    <div class="tabset" data-group="build" data-toggle>
+    <div class="tabbar tabcards" role="tablist" aria-label="מה אנחנו בונים"><button type="button" role="tab" id="t-agent" aria-controls="agent" aria-selected="false" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ</b><small>עונה ללקוחות 24/7</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-bizapp" aria-controls="bizapp" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span><b>אפליקציה לניהול</b><small>תורים, לקוחות ולידים</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-sites" aria-controls="sites" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>אתר לעסק</b><small>מדף נחיתה ועד סרט גלילה</small><em>מ־₪1,490</em></button><button type="button" role="tab" id="t-bundle" aria-controls="bundle" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><b>הכל ביחד</b><small>סוכן, אפליקציה ואתר</small><em>מ־₪9,900</em></button></div>
+    <p class="cards-hint">לחצו על פתרון כדי לפתוח את הפרטים, ההדגמה והמחיר. לחיצה נוספת סוגרת.</p>
+    <div class="tab-panel" role="tabpanel" id="agent" aria-labelledby="t-agent" hidden>
         <div class="agent">
       <div class="agent-text">
         <h2>סוכן וואטסאפ שעונה ללקוחות <span class="neon-pink">גם ב־2 בלילה</span></h2>
@@ -1196,9 +1206,10 @@ html.mnav-open{overflow:hidden}
   <section id="more">
     <p class="kicker">הסטודיו לעסקים</p>
     <h2 class="sec-h">סרטונים, פודקאסטים <span class="neon-pink">ומסמכים שמוכרים</span></h2>
-    <div class="tabset" data-group="more">
-    <div class="tabbar" role="tablist" aria-label="עוד שירותים"><button type="button" role="tab" id="t-before-after" aria-controls="before-after" aria-selected="true" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span>סרטוני פרסומת</button><button type="button" role="tab" id="t-podcast" aria-controls="podcast" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></span>עריכת פודקאסטים</button><button type="button" role="tab" id="t-decks" aria-controls="decks" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span>מצגות והצעות מחיר</button><button type="button" role="tab" id="t-maker" aria-controls="maker" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span>כפיל דיגיטלי</button></div>
-    <div class="tab-panel" role="tabpanel" id="before-after" aria-labelledby="t-before-after">
+    <div class="tabset" data-group="more" data-toggle>
+    <div class="tabbar tabcards" role="tablist" aria-label="שירותי הסטודיו"><button type="button" role="tab" id="t-before-after" aria-controls="before-after" aria-selected="false" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>סרטוני פרסומת</b><small>מתמונה מהטלפון לפרסומת</small></button><button type="button" role="tab" id="t-podcast" aria-controls="podcast" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></span><b>עריכת פודקאסטים</b><small>פרק אחד, חמישה רילסים</small></button><button type="button" role="tab" id="t-decks" aria-controls="decks" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span><b>מצגות והצעות מחיר</b><small>מסמכים שמוכרים</small></button><button type="button" role="tab" id="t-maker" aria-controls="maker" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span><b>כפיל דיגיטלי</b><small>מי מאחורי הסטודיו</small></button></div>
+    <p class="cards-hint">לחצו על שירות כדי לפתוח דוגמאות ומחיר. לחיצה נוספת סוגרת.</p>
+    <div class="tab-panel" role="tabpanel" id="before-after" aria-labelledby="t-before-after" hidden>
     
     <h2>מה ששולחים, ומה שמקבלים</h2>
     <p class="lead ba-lead">שולחים לנו רק תמונות מהטלפון, או סרטון רפרנס של סגנון שאהבתם. את כל השאר אנחנו עושים.</p>
@@ -2452,19 +2463,26 @@ html.mnav-open{overflow:hidden}
 /* tabs: the main services and the extra services. Deep links (#agent, #podcast...) open the right tab. */
 (function(){
   var sets = [].slice.call(document.querySelectorAll('.tabset'));
-  function activate(set, id, focus){
-    [].slice.call(set.querySelectorAll('.tabbar [role=tab]')).forEach(function(b){
+  function activate(set, id, focus, tap){
+    var toggle = set.hasAttribute('data-toggle');
+    if (toggle && tap && set.getAttribute('data-open') === id) id = '';
+    set.setAttribute('data-open', id || '');
+    var btns = [].slice.call(set.querySelectorAll('.tabbar [role=tab]'));
+    btns.forEach(function(b, i){
       var on = b.getAttribute('aria-controls') === id;
-      b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1;
+      b.setAttribute('aria-selected', on ? 'true' : 'false'); b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      b.tabIndex = (on || (!id && i === 0)) ? 0 : -1;
       if (on && focus) b.focus();
-      if (on) { var bar = b.parentNode; var r = b.offsetLeft - (bar.clientWidth - b.clientWidth) / 2; try { bar.scrollTo({left: r, behavior: 'smooth'}); } catch(e) { bar.scrollLeft = r; } }
+      if (on && !b.parentNode.classList.contains('tabcards')) { var bar = b.parentNode; var r = b.offsetLeft - (bar.clientWidth - b.clientWidth) / 2; try { bar.scrollTo({left: r, behavior: 'smooth'}); } catch(e) { bar.scrollLeft = r; } }
     });
-    [].slice.call(set.querySelectorAll(':scope > .tab-panel')).forEach(function(p){ p.hidden = p.id !== id; });
+    var shown = null;
+    [].slice.call(set.querySelectorAll(':scope > .tab-panel')).forEach(function(p){ p.hidden = p.id !== id; if (!p.hidden) shown = p; });
+    if (tap && shown) requestAnimationFrame(function(){ var r = shown.getBoundingClientRect(); if (r.top > innerHeight * .7 || r.top < 0) shown.scrollIntoView({behavior: 'smooth', block: 'start'}); });
   }
   sets.forEach(function(set){
     var btns = [].slice.call(set.querySelectorAll('.tabbar [role=tab]'));
     btns.forEach(function(b, i){
-      b.addEventListener('click', function(){ activate(set, b.getAttribute('aria-controls')); });
+      b.addEventListener('click', function(){ activate(set, b.getAttribute('aria-controls'), false, true); });
       b.addEventListener('keydown', function(e){
         var d = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0;   /* RTL */
         if (!d) return; e.preventDefault();

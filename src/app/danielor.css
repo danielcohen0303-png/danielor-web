@@ -180,7 +180,7 @@ main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36,
 
 /* ---------- the finale over the clouds ---------- */
 
-.dn-fin-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.dn-fin-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; visibility: hidden; }
 .dn-fin {
   position: absolute;
   inset: 0;
@@ -190,7 +190,6 @@ main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36,
   gap: 18px;
   padding: 0 20px;
   text-align: center;
-  visibility: hidden;
 }
 .dn-fin::before {
   content: "";
@@ -349,4 +348,10 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
   main .kc-rule { transform-origin: 100% 50%; }
   main .kc-neon { justify-self: start; width: min(100%, 560px); }
   main .kc::before { margin: -14% -12%; }
+}
+
+/* the last scene: his hand meets the screen in the middle, so on a computer
+   its caption waits at the top of the right-hand column */
+@media (min-aspect-ratio: 4/3) {
+  main .hf-sky .kc { inset-block: calc(env(safe-area-inset-top, 0px) + 90px) auto; }
 }

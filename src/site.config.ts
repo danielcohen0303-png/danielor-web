@@ -36,7 +36,6 @@ const film = (name: string, frames: number): FilmMedia => ({
   framesPhone: "frames/wide",
   framesDesk: "frames/wide",
   video: "video/p720-60.mp4",
-  videoLite: "video/lite-60.mp4",
   videoFps: 60,
 });
 

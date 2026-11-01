@@ -883,6 +883,73 @@ dialog.player::backdrop{background:rgba(29,16,51,.62);backdrop-filter:blur(4px)}
 .mnav-wa{width:100%;margin-top:1rem;justify-content:center}
 html.mnav-open{overflow:hidden}
 @media (max-width:620px){.float{width:50px;height:50px;bottom:calc(12px + env(safe-area-inset-bottom, 0px));left:calc(12px + env(safe-area-inset-left, 0px))}.float .ico{width:24px;height:24px}}
+/* studio, trend stage, hero badge, price cards (1.11 night) */
+@property --ba{syntax:'<angle>';inherits:false;initial-value:0deg}
+.hero-badge{display:inline-flex;align-items:center;gap:.55rem;margin:.2rem 0 .9rem;padding:.3rem .95rem .3rem .35rem;padding-inline:.35rem .95rem;border-radius:999px;border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,conic-gradient(from var(--ba),#ff2fc8,#7a35e6,#14b3d1,#ff2fc8) border-box;animation:ba-spin 3.5s linear infinite;box-shadow:0 10px 28px rgba(255,47,200,.25);text-decoration:none;color:var(--fg);font-size:.92rem;font-weight:600;transition:transform .18s}
+.hero-badge:hover{transform:translateY(-2px)}
+.hb-vid{width:34px;height:34px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 0 0 2px #fff,0 0 14px rgba(255,47,200,.6)}
+.hb-vid video{width:100%;height:100%;object-fit:cover;display:block}
+.hb-t b{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.hb-arr{color:var(--pink);font-weight:800}
+@keyframes ba-spin{to{--ba:360deg}}
+.studio-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(1.4rem,1rem + 2.5vw,3rem);align-items:center;border-radius:32px;padding:clamp(1.4rem,1rem + 3vw,3.4rem);color:#fff;background:radial-gradient(110% 90% at 90% 0%,rgba(122,53,230,.75) 0%,rgba(122,53,230,0) 55%),radial-gradient(90% 80% at 0% 100%,rgba(217,16,154,.6) 0%,rgba(217,16,154,0) 55%),#140a26;box-shadow:0 30px 80px rgba(40,10,80,.35)}
+.st-kicker{margin:0;letter-spacing:.32em;font-weight:800;font-size:.78rem;color:#ff8de0}
+.studio-hero h2{color:#fff;margin-top:.5rem}
+.st-lead{color:rgba(255,255,255,.8);margin:.9rem 0 0;max-width:52ch;line-height:1.6}
+.st-doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1.5rem}
+.st-door{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"i b" "i s";column-gap:.7rem;align-items:center;padding:.9rem 1rem;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;transition:transform .18s,background .2s}
+.st-door:hover{transform:translateY(-2px);background:rgba(255,255,255,.14)}
+.st-door b{grid-area:b;font-size:1.08rem}
+.st-door>span:last-child{grid-area:s;font-size:.8rem;color:rgba(255,255,255,.75)}
+.sd-ic{grid-area:i;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.14)}
+.sd-ic svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.st-door.hot{background:var(--grad);border-color:transparent;box-shadow:0 12px 30px rgba(255,47,200,.4)}
+.st-door.hot>span:last-child{color:rgba(255,255,255,.9)}
+.st-reels{position:relative;display:flex;justify-content:center;align-items:center;gap:0;min-height:300px}
+.st-reels .frame{width:34%;max-width:170px;border:2px solid rgba(255,255,255,.25);box-shadow:0 20px 50px rgba(0,0,0,.45);border-radius:20px;background:#22143d}
+.st-r1{transform:rotate(-8deg) translateX(-18%) translateY(14px)}
+.st-r2{z-index:2;transform:scale(1.12);border-color:#ff7ad9!important;box-shadow:0 0 0 1px rgba(255,47,200,.4),0 24px 60px rgba(255,47,200,.35)!important}
+.st-r3{transform:rotate(8deg) translateX(18%) translateY(14px)}
+@media (max-width:860px){.studio-hero{grid-template-columns:minmax(0,1fr)}.st-reels{order:-1;min-height:0;padding:.6rem 0 1.2rem}.st-reels .frame{width:30%}}
+@media (max-width:520px){.st-doors{grid-template-columns:minmax(0,1fr)}}
+#studio + #more{margin-top:0}
+/* trend stage */
+#private .priv-strip{background:radial-gradient(100% 90% at 100% 0%,rgba(255,47,200,.55) 0%,rgba(255,47,200,0) 55%),radial-gradient(90% 80% at 0% 100%,rgba(20,179,209,.45) 0%,rgba(20,179,209,0) 60%),#160b2b;border:0;color:#fff;box-shadow:0 30px 80px rgba(40,10,80,.35);border-radius:32px}
+#private .kicker{color:#ff8de0}
+#private .ps-text h2{color:#fff}
+#private .ps-text>p:not(.kicker){color:rgba(255,255,255,.82)}
+.ps-price{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+.ps-price b{font-family:var(--display);font-size:clamp(2.6rem,2rem + 2.5vw,4rem);line-height:1;background:linear-gradient(90deg,#ff8de0,#c9a7ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ps-price span{color:rgba(255,255,255,.75);font-size:.9rem}
+.ps-hot{background:var(--grad);color:#fff;gap:.5rem;box-shadow:0 0 0 0 rgba(255,47,200,.6),0 14px 34px rgba(255,47,200,.45);animation:hot-pulse 2.4s ease-out infinite}
+.ps-hot svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@keyframes hot-pulse{0%{box-shadow:0 0 0 0 rgba(255,47,200,.55),0 14px 34px rgba(255,47,200,.45)}70%{box-shadow:0 0 0 14px rgba(255,47,200,0),0 14px 34px rgba(255,47,200,.45)}100%{box-shadow:0 0 0 0 rgba(255,47,200,0),0 14px 34px rgba(255,47,200,.45)}}
+.ps-ghost{background:rgba(255,255,255,.08);color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+.ps-ghost:hover{background:rgba(255,255,255,.16)}
+#private .ba .frame,#private .frame{border-color:rgba(255,255,255,.3)}
+#private .ba-pair .arrow{color:#ff8de0}
+@media (max-width:820px){.ps-price{justify-content:center}}
+/* price cards */
+.price-toggles{gap:.8rem}
+.pt-btn{min-height:84px;padding:.85rem 1rem;gap:.8rem;border:2px solid transparent;border-radius:22px;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,#14b3d1,#7a35e6) border-box;box-shadow:0 14px 34px rgba(80,40,160,.14)}
+.pt-btn[data-show="priv"]{background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
+.pt-btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(80,40,160,.2)}
+.pt-btn .pt-ic{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#14b3d1,#7a35e6);color:#fff;box-shadow:0 8px 18px rgba(80,40,200,.3)}
+.pt-btn[data-show="priv"] .pt-ic{background:var(--grad);box-shadow:0 8px 18px rgba(255,47,200,.3)}
+.pt-btn .pt-ic svg{width:22px;height:22px}
+.pt-t{display:grid;gap:.15rem;min-width:0}
+.pt-t b{font-size:1.06rem;line-height:1.2;white-space:nowrap}
+.pt-t small{font-weight:500;font-size:.8rem;color:var(--muted)}
+.pt-chev{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#f3eefa;color:var(--fg);flex:none;transition:background .25s}
+.pt-chev .chev{margin:0}
+.pt-btn[aria-expanded="true"]{background:var(--grad) padding-box,var(--grad) border-box}
+.pt-btn[data-show="biz"][aria-expanded="true"]{background:linear-gradient(120deg,#14b3d1,#7a35e6) padding-box,linear-gradient(120deg,#14b3d1,#7a35e6) border-box}
+.pt-btn[aria-expanded="true"] .pt-t small{color:rgba(255,255,255,.85)}
+.pt-btn[aria-expanded="true"] .pt-chev{background:rgba(255,255,255,.22);color:#fff}
+@media (max-width:620px){.price-toggles{grid-template-columns:minmax(0,1fr)}.pt-btn .pt-ic{display:grid!important}}
+/* menu button steps aside while scrolling down */
+.mnav-btn{transition:transform .3s ease,opacity .3s ease}
+.mnav-btn.hide{transform:translateY(-90px);opacity:0;pointer-events:none}
 </style>
 
 <div class="wrap">
@@ -890,7 +957,7 @@ html.mnav-open{overflow:hidden}
     <nav class="nav" aria-label="ניווט">
       <a href="#build">מה בונים</a>
       <a href="#work">עבודות</a>
-      <a href="#more">סרטונים ועוד</a>
+      <a href="#studio">הסטודיו</a>
       <a href="#prices">מחירים</a>
       <a href="#faq">שאלות</a>
       <a href="#order">הזמנה</a>
@@ -905,10 +972,10 @@ html.mnav-open{overflow:hidden}
           <a href="#build"><span>מה אנחנו בונים</span><small>סוכן, אפליקציה, אתר</small></a>
           <a href="#work"><span>עבודות שבנינו</span><small>ככה זה נראה באמת</small></a>
           <a href="#process"><span>איך עובדים איתנו</span><small>ארבעה צעדים</small></a>
-          <a href="#more"><span>סרטונים ועוד</span><small>פרסומות, פודקאסטים, מצגות</small></a>
+          <a href="#studio"><span>הסטודיו</span><small>סרטונים, פודקאסטים, מצגות</small></a>
           <a href="#prices"><span>מחירים</span><small>לעסקים ולפרטיים</small></a>
           <a href="#faq"><span>שאלות נפוצות</span></a>
-          <a href="#trend" class="priv"><span>טרנד AI</span><small>לפרטיים</small></a>
+          <a href="#trend" class="priv"><span>טרנד AI</span><small>הטרנד הכי חם, עם הפנים שלכם</small></a>
         </nav>
         <a class="btn btn-pink js-wa mnav-wa" href="#order">דברו איתנו בוואטסאפ</a>
       </div>
@@ -918,6 +985,7 @@ html.mnav-open{overflow:hidden}
   <section class="hero hero-solo" id="top">
     <div>
       <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
+      <a class="hero-badge" href="#trend"><span class="hb-vid" aria-hidden="true"><video src="trend-badge.mp4" poster="trend-badge.jpg" muted autoplay loop playsinline preload="metadata"></video></span><span class="hb-t"><b>חדש: טרנד AI</b> עם הפנים שלכם</span><span class="hb-arr" aria-hidden="true">←</span></a>
       <p class="kicker">פתרונות AI לעסקים, בעברית</p>
       <h1><span class="l1">העסק שלכם</span><span class="l2 neon-pink">על אוטומט.</span></h1>
       <p class="rot"><span class="sr-only">בונים לכם סוכן וואטסאפ, אפליקציה לניהול העסק, אתר שמביא פניות, מערכת לניהול לידים וסרטוני פרסומת.</span><span aria-hidden="true">בונים לכם <span class="rot-w" id="rot-w">סוכן וואטסאפ</span></span></p>
@@ -1106,8 +1174,27 @@ html.mnav-open{overflow:hidden}
   
   </section>
 
+  <section id="studio">
+    <div class="studio-hero">
+      <div class="st-text">
+        <p class="st-kicker">DANIELOR STUDIO</p>
+        <h2>הסטודיו: <span class="neon-pink">תוכן שעוצר את הגלילה</span></h2>
+        <p class="st-lead">חוץ מהמערכות, יש לנו סטודיו שמכין תוכן. לעסקים: סרטוני פרסומת, רילסים מפודקאסטים ומצגות. לפרטיים: טרנדים וקליפים שאתם הכוכבים שלהם.</p>
+        <div class="st-doors">
+          <a class="st-door" href="#more"><span class="sd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>לעסקים</b><span>סרטונים, פודקאסטים, מצגות</span></a>
+          <a class="st-door hot" href="#trend"><span class="sd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg></span><b>טרנד AI</b><span>הטרנד הכי חם, עם הפנים שלכם</span></a>
+        </div>
+      </div>
+      <div class="st-reels" aria-hidden="true">
+        <div class="frame st-r1" data-video="food-after.mp4"></div>
+        <div class="frame st-r2" data-video="trend-after.mp4"></div>
+        <div class="frame st-r3" data-video="pod-reel.mp4"></div>
+      </div>
+    </div>
+  </section>
+
   <section id="more">
-    <p class="kicker">עוד שירותים לעסק</p>
+    <p class="kicker">הסטודיו לעסקים</p>
     <h2 class="sec-h">סרטונים, פודקאסטים <span class="neon-pink">ומסמכים שמוכרים</span></h2>
     <div class="tabset" data-group="more">
     <div class="tabbar" role="tablist" aria-label="עוד שירותים"><button type="button" role="tab" id="t-before-after" aria-controls="before-after" aria-selected="true" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span>סרטוני פרסומת</button><button type="button" role="tab" id="t-podcast" aria-controls="podcast" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></span>עריכת פודקאסטים</button><button type="button" role="tab" id="t-decks" aria-controls="decks" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span>מצגות והצעות מחיר</button><button type="button" role="tab" id="t-maker" aria-controls="maker" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span>כפיל דיגיטלי</button></div>
@@ -1277,6 +1364,25 @@ html.mnav-open{overflow:hidden}
   </section>
 
 
+  <section id="private">
+    <div class="priv-strip" id="trend">
+      <div class="ps-media">
+          <div class="ba-pair">
+          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
+          <span class="arrow" aria-hidden="true">←</span>
+          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
+        </div>
+      </div>
+      <div class="ps-text">
+        <p class="kicker">הסטודיו לפרטיים</p>
+        <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
+        <p>הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה, שולחים 3 תמונות, ומקבלים אותו מוכן. רוצים משהו גדול יותר? קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
+        <div class="ps-price"><b>מ־₪99</b><span>טרנד לאדם אחד, תוך 24 שעות</span></div>
+        <div class="ps-cta"><a class="btn ps-hot" href="/trends"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg>לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn ps-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ אישי</a></div>
+      </div>
+    </div>
+  </section>
+
   <section id="proof">
         <p class="kicker">תגובות אמיתיות</p>
     <h2>ככה הגיבו כשקיבלו את העבודה</h2>
@@ -1422,7 +1528,7 @@ html.mnav-open{overflow:hidden}
         <p class="kicker">תפריט</p>
     <h2>מחירים</h2>
     <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
-    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span>מחירון לעסקים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>מחירון לפרטיים<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button></div>
+    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>מחירון לעסקים</b><small>מערכות, אתרים וסרטונים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="pt-t"><b>מחירון לפרטיים</b><small>טרנדים וקליפים אישיים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button></div>
     <div class="boards" id="prices-boards" data-show="none">
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
@@ -1576,23 +1682,6 @@ html.mnav-open{overflow:hidden}
   </section>
 
 
-  <section id="private">
-    <div class="priv-strip" id="trend">
-      <div class="ps-media">
-          <div class="ba-pair">
-          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
-          <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
-        </div>
-      </div>
-      <div class="ps-text">
-        <p class="kicker">לפרטיים</p>
-        <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
-        <p>הטרנד הכי חם ברשת עם הפנים שלכם, מ־₪99: שולחים 3 תמונות ומקבלים אותו תוך 24 שעות. או קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
-        <div class="ps-cta"><a class="btn btn-pink" href="/trends">לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn btn-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ אישי</a></div>
-      </div>
-    </div>
-  </section>
 
   </main>
 
@@ -2445,6 +2534,9 @@ html.mnav-open{overflow:hidden}
   btn.addEventListener('click', function(){ set(btn.getAttribute('aria-expanded') !== 'true'); });
   box.addEventListener('click', function(e){ if (e.target === box || e.target.closest('.mnav-x') || e.target.closest('a')) set(false); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) { set(false); btn.focus(); } });
+  var last = scrollY, tick = false;
+  window.addEventListener('scroll', function(){ if (tick) return; tick = true; requestAnimationFrame(function(){
+    var y = scrollY; if (y > last + 6 && y > 240) btn.classList.add('hide'); else if (y < last - 6 || y < 240) btn.classList.remove('hide'); last = y; tick = false; }); }, {passive: true});
 })();
 </script>
 </body>

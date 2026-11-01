@@ -1580,13 +1580,16 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
 
   // Frames marked data-ready already have their file next to the page; the rest wait for VIDEOS_READY.
   var SOUNDERS = [];   // every clip with a sound button: turning one on mutes the rest
+  var LAZY = [];       // every looping frame: its video loads and plays near the screen, and pauses (muted) away from it
   window.SOUNDERS = SOUNDERS;   // the podcast demo joins the same list
   document.querySelectorAll('[data-video]').forEach(function(el){
       if (!VIDEOS_READY && !el.hasAttribute('data-ready')) return;
       var v = document.createElement('video');
-      v.src = el.getAttribute('data-video');
+      var src0 = el.getAttribute('data-video');
+      v.preload = 'none';   // the file loads only when its frame comes near the screen (see LAZY below)
       // an opening image, so the frame is never empty (e.g. iPhone low power mode doesn't autoplay)
-      v.poster = el.getAttribute('data-poster') || v.getAttribute('src').replace(/\.mp4$/, '-poster.jpg');
+      v.poster = el.getAttribute('data-poster') || src0.replace(/\.mp4$/, '-poster.jpg');
+      LAZY.push({el: el, v: v, src: src0});
       el.classList.add('has-video');
       v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
       v.setAttribute('playsinline',''); v.setAttribute('aria-hidden','true');
@@ -1600,10 +1603,11 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
         b.type = 'button'; b.className = 'sound-btn';
         var custom = el.getAttribute('data-sound-label');
         var lbOn = custom || '🔊 להפעלה עם קול', lbOff = custom ? 'השתקה' : '🔇 השתקה';
-        var full = el.getAttribute('data-full-sound'), loopSrc = v.getAttribute('src');
+        var full = el.getAttribute('data-full-sound'), loopSrc = src0;
         var setOn = function(on){
           if (on){
             SOUNDERS.forEach(function(s){ if (s.v !== v && !s.v.muted) s.set(false); });
+            if (!v.getAttribute('src')) v.src = src0;
             if (full && v.getAttribute('src') !== full){ v.loop = false; v.src = full; }
             v.muted = false; v.currentTime = 0;
             var p = v.play(); if (p && p.catch) p.catch(function(){ v.muted = true; });
@@ -1618,6 +1622,13 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
         el.appendChild(b);
       }
   });
+
+  if ('IntersectionObserver' in window) {
+    var lio = new IntersectionObserver(function(es){ es.forEach(function(e){ var it = e.target.__lv; if (!it) return;
+      if (e.isIntersecting){ if (!it.v.getAttribute('src')) it.v.src = it.src; var p = it.v.play(); if (p && p.catch) p.catch(function(){}); }
+      else if (!it.v.paused && it.v.muted) it.v.pause(); }); }, {rootMargin: '300px 0px'});
+    LAZY.forEach(function(it){ it.el.__lv = it; lio.observe(it.el); });
+  } else LAZY.forEach(function(it){ it.v.src = it.src; });
 
   // Click a frame to watch the full video with sound. data-full = one video, data-gallery = a set from GALLERIES.
   var GALLERIES = {

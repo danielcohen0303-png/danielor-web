@@ -1019,6 +1019,10 @@ html.studio a.btn-pink,html.studio .btn-pink{color:#fff}
 html.studio .row.entry .name::after{color:#1d1033}
 html.studio .frame .play{background:rgba(20,10,38,.82);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover .play{background:var(--pink-hot);border-color:transparent;color:#fff}
+html.studio .ring-back{border-color:rgba(255,255,255,.12);background:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px) 0 0/14px 14px,radial-gradient(110% 70% at 25% 12%,rgba(255,47,200,.30),transparent 62%),radial-gradient(110% 70% at 80% 92%,rgba(67,240,255,.18),transparent 62%),linear-gradient(160deg,#24133f,#170c2c 60%,#120a24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),0 30px 40px -26px rgba(0,0,0,.6)}
+html.studio .ring-back::after{content:"DANIELOR";font-family:var(--display);font-size:1.5rem;letter-spacing:.32em;color:rgba(255,255,255,.16)}
+html.studio .ring-dot::before{background:rgba(255,255,255,.3)}
+html.studio .ring-dot[aria-current="true"]::before{background:var(--grad)}
 </style>
 
 <div class="wrap">
@@ -1257,7 +1261,7 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
       <div class="ps-text">
         <p class="kicker">הסטודיו לפרטיים</p>
         <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
-        <p>הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה, שולחים 3 תמונות, ומקבלים אותו מוכן. רוצים משהו גדול יותר? קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
+        <p>הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה, שולחים 3 תמונות, ומקבלים אותו מוכן. רוצים משהו גדול יותר? קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או ליום נישואין, ב־₪890.</p>
         <div class="ps-price"><b>מ־₪99</b><span>טרנד לאדם אחד, תוך 24 שעות</span></div>
         <div class="ps-cta"><a class="btn ps-hot" href="/trends"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg>לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn ps-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי, ₪890">להזמנת קליפ אישי</a></div>
       </div>
@@ -1490,20 +1494,14 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
         <div class="field">
           <label for="f-product">מה מעניין אתכם</label>
           <select id="f-product" name="product">
-            <option>סוכן וואטסאפ לעסק, מ־₪3,900</option>
-            <option>אפליקציה לניהול העסק, מ־₪3,900</option>
-            <option>אפליקציה + סוכן וואטסאפ, מ־₪5,900</option>
-            <option>אתר לעסק, מ־₪1,490</option>
-            <option>הכל ביחד: סוכן + אפליקציה + אתר, מ־₪9,900</option>
-            <option>סרטון היכרות לעסק, ₪199</option>
-            <option>טרנד לאדם אחד, ₪99</option>
-            <option>טרנד ל־2 עד 3 אנשים, ₪149</option>
-            <option>שלושה טרנדים, מ־₪249</option>
-            <option>קליפ מוזיקה אישי, ₪890</option>
-            <option>קליפ פרימיום, ₪1,690</option>
-            <option>סרטון נקי לעסק, ₪390</option>
-            <option>סרטון משולב לעסק, ₪890</option>
-            <option>סרטון מטורף לעסק, ₪1,690</option>
+            <option selected>עוד לא יודע/ת</option>
+            <optgroup label="סרטונים לעסקים">
+              <option>סרטון היכרות לעסק, ₪199</option>
+              <option>סרטון נקי לעסק, ₪390</option>
+              <option>סרטון משולב לעסק, ₪890</option>
+              <option>סרטון מטורף לעסק, ₪1,690</option>
+              <option>חבילת השקה, ₪2,490</option>
+            </optgroup>
             <optgroup label="רילסים מפודקאסט">
               <option>5 רילסים מפודקאסט, נקי, ₪490</option>
               <option>5 רילסים מפודקאסט, משולב, ₪690</option>
@@ -1515,17 +1513,31 @@ html.studio .frame[data-full]:hover .play,html.studio .frame[data-gallery]:hover
               <option>רילס ניסיון מפודקאסט, משולב, ₪138</option>
               <option>רילס ניסיון מפודקאסט, מטורף, ₪178</option>
             </optgroup>
-            <option>חבילת השקה, ₪2,490</option>
-            <option>סוכן קולי או כפיל דיגיטלי, לפי הצעה</option>
-            <option>מצגת או הצעת מחיר מעוצבת, לפי הצעה</option>
-            <option>עוד לא יודע/ת</option>
+            <optgroup label="לפרטיים">
+              <option>טרנד לאדם אחד, ₪99</option>
+              <option>טרנד ל־2 עד 3 אנשים, ₪149</option>
+              <option>שלושה טרנדים, מ־₪249</option>
+              <option>קליפ מוזיקה אישי, ₪890</option>
+              <option>קליפ פרימיום, ₪1,690</option>
+            </optgroup>
+            <optgroup label="עוד">
+              <option>מצגת או הצעת מחיר מעוצבת, לפי הצעה</option>
+              <option>סוכן קולי או כפיל דיגיטלי, לפי הצעה</option>
+            </optgroup>
+            <optgroup label="פתרונות AI לעסקים">
+              <option>סוכן וואטסאפ לעסק, מ־₪3,900</option>
+              <option>אפליקציה לניהול העסק, מ־₪3,900</option>
+              <option>אפליקציה + סוכן וואטסאפ, מ־₪5,900</option>
+              <option>אתר לעסק, מ־₪1,490</option>
+              <option>הכול ביחד: סוכן + אפליקציה + אתר תדמית, מ־₪9,900</option>
+            </optgroup>
           </select>
         </div>
         <div class="field"><label for="f-idea">ספרו בקצרה מה הרעיון</label><textarea id="f-idea" name="idea" placeholder="לדוגמה: קליפ ליום ההולדת ה־40 של אמא, על שיר שהיא אוהבת"></textarea></div>
         <div class="field"><label for="f-link">לינק לחומרים (דרייב, לא חובה)</label><input id="f-link" name="link" type="url" dir="ltr" placeholder="https://drive.google.com/..."></div>
         <p class="err" id="f-err" hidden>חסר שם, כדי שנדע איך לפנות אליכם.</p>
         <a class="btn btn-pink send js-wa-send" href="#order" target="_blank" rel="noopener">שליחה בוואטסאפ</a>
-        <p class="small send-note">ההודעה נפתחת בוואטסאפ, ואתם רק לוחצים שליחה. <button class="linkish" type="button" id="copy">או העתקת ההודעה</button></p>
+        <p class="small send-note">ההודעה נפתחת בוואטסאפ, ואתם רק לוחצים שליחה. <button class="linkish" type="button" id="copy">או העתיקו את ההודעה</button></p>
         <p class="small" id="copy-status" aria-live="polite"></p>
       </form>
     </div>

@@ -27,16 +27,18 @@ export type Scene = {
 };
 
 // media: one 16:9 master per scene, cut from the film so each scene ends on
-// the very frame the next one starts with (no seam between scenes). Computers
-// play 1920x1080 WebP frames; phones play a 9:16 crop as video.
+// the very frame the next one starts with (no seam between scenes). The film is
+// mastered in 4K: computers play 1920x1080 WebP frames scaled down from it,
+// phones play its 9:16 centre crop as 1080x1920 video.
 // A new render of a scene goes in a new version folder (the media is cached as immutable).
-const film = (name: string, frames: number, v = 1): FilmMedia => ({
-  base: `/film/${name}/v${v}`,
+const V = 5;
+const film = (name: string, frames: number): FilmMedia => ({
+  base: `/film/${name}/v${V}`,
   frames,
   fps: 24,
   framesPhone: "frames/wide",
   framesDesk: "frames/wide",
-  video: "video/p720-60.mp4",
+  video: "video/p1080-60.mp4",
   videoFps: 60,
 });
 
@@ -148,7 +150,7 @@ export const scenes: Scene[] = [
   {
     name: "city",
     label: "מתוך העדשה אל העיר, ורחפן שנכנס מבעד לזכוכית אל משרד שבו דניאל, בחליפה בהירה, עובד מול מסך",
-    media: film("city", 486, 2),
+    media: film("city", 486),
     pace: 100,
     captions: [
       {
@@ -174,7 +176,7 @@ export const scenes: Scene[] = [
   {
     name: "sky",
     label: "נגיעה במסך, והמצלמה נכנסת לתוכו אל ים של עננים ורודים, והלוגו של Danielor נדלק",
-    media: film("sky", 319, 2),
+    media: film("sky", 319),
     pace: 105,
     finale: true,
     captions: [

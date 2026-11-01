@@ -961,18 +961,49 @@ html.mnav-open{overflow:hidden}
 .tabcards button{position:relative}
 .tabcards + .cards-hint + .tab-panel,.tabcards + .cards-hint ~ .tab-panel{animation:board-in .4s cubic-bezier(.2,.8,.2,1)}
 @media (max-width:520px){.tabcards{gap:.5rem}.tabcards button{grid-template-columns:minmax(0,1fr);grid-template-areas:"i" "b" "s" "e";padding:.8rem .8rem .85rem;row-gap:.15rem}.tabcards .ti{width:38px;height:38px;margin-bottom:.3rem}.tabcards b{font-size:.98rem}}
+/* two pages (1.11): calm section titles, only the hero shouts */
+.sec-h2{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,1.7rem + 2.6vw,3.8rem);line-height:.95}
+.sec-lead{margin-top:.6rem;font-size:var(--step-0)}
+section{padding-block:clamp(2.4rem,1.8rem + 3vw,4.6rem)}
+.wcar{margin-top:clamp(1.2rem,1rem + 1vw,1.8rem)}
+.wcar-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 3 * 1rem) / 4);gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:.4rem .2rem 1rem;overscroll-behavior-x:contain}
+.wcar-track::-webkit-scrollbar{display:none}
+.wslide{scroll-snap-align:start;display:grid;gap:.7rem;align-content:start;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:.9rem .9rem 1.1rem;box-shadow:var(--lift)}
+.wphone{max-width:230px;margin-inline:auto}
+.wphone.pink{border-color:var(--pink-hot);box-shadow:0 18px 44px rgba(255,47,200,.22)}
+.wtxt{display:grid;gap:.3rem;justify-items:start}
+.wtxt b{font-family:var(--display);font-size:var(--step-1);line-height:1.1}
+.wtxt span:not(.tier-k){color:var(--muted);font-size:.86rem;line-height:1.5}
+.wtxt a{font-weight:700;color:var(--pink);text-decoration:none;font-size:.88rem}
+.wcar-nav{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:.3rem}
+.wcar-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:var(--lift);color:var(--fg)}
+.wcar-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.wcar-dots{display:flex;gap:6px}
+.wcar-dots i{width:7px;height:7px;border-radius:99px;background:var(--line-2);transition:width .25s,background .25s}
+.wcar-dots i.on{width:22px;background:var(--grad)}
+@media (max-width:980px){.wcar-track{grid-auto-columns:calc((100% - 1rem) / 2.15)}}
+@media (max-width:620px){.wcar-track{grid-auto-columns:78%}.wphone{max-width:210px}}
+.studio-door{display:grid;gap:.45rem;justify-items:start;text-decoration:none;color:#fff;border-radius:28px;padding:clamp(1.3rem,1rem + 2vw,2.2rem);background:radial-gradient(110% 90% at 90% 0%,rgba(122,53,230,.75) 0%,rgba(122,53,230,0) 55%),radial-gradient(90% 80% at 0% 100%,rgba(217,16,154,.6) 0%,rgba(217,16,154,0) 55%),#140a26;box-shadow:0 24px 60px rgba(40,10,80,.3);transition:transform .2s}
+.studio-door:hover{transform:translateY(-3px)}
+.sdr-k{letter-spacing:.3em;font-weight:800;font-size:.75rem;color:#ff8de0}
+.studio-door b{font-family:var(--display);font-size:clamp(2rem,1.5rem + 2vw,3.2rem);line-height:.95;color:#fff}
+.sdr-d{color:rgba(255,255,255,.8);max-width:52ch}
+.sdr-go{margin-top:.4rem;display:inline-flex;padding:.7rem 1.3rem;border-radius:999px;background:var(--grad);font-weight:800;box-shadow:0 12px 30px rgba(255,47,200,.4)}
+#studio-door{padding-block:0 clamp(1rem,.8rem + 1vw,2rem)}
+.pt-link{text-decoration:none;color:var(--fg)}
+.pt-link .pt-chev{font-weight:800;color:var(--pink)}
 </style>
 
 <div class="wrap">
   <header class="top">
     <nav class="nav" aria-label="ניווט">
-      <a href="#build">מה בונים</a>
+      <a href="#build">הפתרונות</a>
       <a href="#work">עבודות</a>
-      <a href="#studio">הסטודיו</a>
+      <a href="#process">איך עובדים</a>
       <a href="#prices">מחירים</a>
       <a href="#faq">שאלות</a>
-      <a href="#order">הזמנה</a>
-      <a class="priv" href="#trend">טרנד AI</a>
+      <a href="#order">צרו קשר</a>
+      <a class="priv" href="/studio/">Danielor Studio</a>
     </nav>
   </header>
     <button type="button" class="mnav-btn" aria-expanded="false" aria-controls="mnav" aria-label="תפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
@@ -980,13 +1011,12 @@ html.mnav-open{overflow:hidden}
       <div class="mnav-card" role="dialog" aria-label="תפריט">
         <div class="mnav-head"><b>Danielor</b><button type="button" class="mnav-x" aria-label="סגירת התפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
         <nav class="mnav-links" aria-label="ניווט בטלפון">
-          <a href="#build"><span>מה אנחנו בונים</span><small>סוכן, אפליקציה, אתר</small></a>
+          <a href="#build"><span>הפתרונות</span><small>סוכן, אפליקציה, אתר</small></a>
           <a href="#work"><span>עבודות שבנינו</span><small>ככה זה נראה באמת</small></a>
           <a href="#process"><span>איך עובדים איתנו</span><small>ארבעה צעדים</small></a>
-          <a href="#studio"><span>הסטודיו</span><small>סרטונים, פודקאסטים, מצגות</small></a>
-          <a href="#prices"><span>מחירים</span><small>לעסקים ולפרטיים</small></a>
+          <a href="#prices"><span>מחירים</span></a>
           <a href="#faq"><span>שאלות נפוצות</span></a>
-          <a href="#trend" class="priv"><span>טרנד AI</span><small>הטרנד הכי חם, עם הפנים שלכם</small></a>
+          <a href="/studio/" class="priv"><span>Danielor Studio</span><small>סרטונים, פודקאסטים, טרנדים</small></a>
         </nav>
         <a class="btn btn-pink js-wa mnav-wa" href="#order">דברו איתנו בוואטסאפ</a>
       </div>
@@ -996,13 +1026,13 @@ html.mnav-open{overflow:hidden}
   <section class="hero hero-solo" id="top">
     <div>
       <div class="sign" role="img" aria-label="Danielor"><img class="off" src="sign-off.webp" alt="" width="900" height="398"><img class="on" src="sign.webp" alt="" style="--l:0%;--r:82.15%;--d:0.15s"><img class="on" src="sign.webp" alt="" style="--l:17.85%;--r:69.44%;--d:0.32s"><img class="on" src="sign.webp" alt="" style="--l:30.56%;--r:56.95%;--d:0.24s"><img class="on" src="sign.webp" alt="" style="--l:43.05%;--r:51.37%;--d:0.48s"><img class="on" src="sign.webp" alt="" style="--l:48.63%;--r:40.17%;--d:0.78s"><img class="on" src="sign.webp" alt="" style="--l:59.83%;--r:30.09%;--d:0.95s"><img class="on" src="sign.webp" alt="" style="--l:69.91%;--r:17.64%;--d:0.86s"><img class="on" src="sign.webp" alt="" style="--l:82.36%;--r:0%;--d:1.08s"><span class="spark" aria-hidden="true"></span></div>
-      <a class="hero-badge" href="#trend"><span class="hb-vid" aria-hidden="true"><video src="trend-badge.mp4" poster="trend-badge.jpg" muted autoplay loop playsinline preload="metadata"></video></span><span class="hb-t"><b>חדש: טרנד AI</b> עם הפנים שלכם</span><span class="hb-arr" aria-hidden="true">←</span></a>
+      <a class="hero-badge" href="/studio/#trend"><span class="hb-vid" aria-hidden="true"><video src="trend-badge.mp4" poster="trend-badge.jpg" muted autoplay loop playsinline preload="metadata"></video></span><span class="hb-t"><b>חדש: טרנד AI</b> עם הפנים שלכם</span><span class="hb-arr" aria-hidden="true">←</span></a>
       <h1><span class="l1">פתרונות AI</span><span class="l2 neon-pink">לעסקים.</span></h1>
       <p class="rot"><span class="sr-only">בונים לכם סוכן וואטסאפ, אפליקציה לניהול העסק, אתר שמביא פניות, מערכת לניהול לידים וסרטוני פרסומת.</span><span aria-hidden="true">בונים לכם <span class="rot-w" id="rot-w">סוכן וואטסאפ</span></span></p>
       <p class="lead">סוכן שעונה ללקוחות בוואטסאפ, אפליקציה שמנהלת את התורים והלקוחות, ואתר שמביא פניות. אנחנו בונים, ואתם מאשרים לפני שזה יוצא לאוויר.</p>
       <div class="offers">
         <a class="btn btn-pink js-pick" href="#order" data-product="עוד לא יודע/ת">ספרו לנו מה העסק צריך<small>ונחזור עם פתרון מדויק</small></a>
-        <a class="btn btn-studio" href="#studio"><span class="bs-k">Danielor Studio</span><small>סרטונים, פודקאסטים וטרנדים</small></a>
+        <a class="btn btn-studio" href="/studio/"><span class="bs-k">Danielor Studio</span><small>סרטונים, פודקאסטים וטרנדים</small></a>
       </div>
       <ul class="trust"><li>מערכות שכבר עובדות אצל עסקים</li><li>שום דבר לא עולה בלי האישור שלכם</li><li>עונים בוואטסאפ 24/7</li></ul>
     </div>
@@ -1010,11 +1040,10 @@ html.mnav-open{overflow:hidden}
   </section>
 
   <section id="build">
-    <p class="kicker">מה אנחנו בונים לעסקים</p>
-    <h2 class="sec-h">שלושה דברים שעובדים בשבילכם, <span class="neon-pink">גם כשאתם לא</span></h2>
+    <h2 class="sec-h2">הפתרונות <span class="neon-pink">לעסק</span></h2>
+    <p class="lead sec-lead">סוכן וואטסאפ, אפליקציה לניהול ואתר. לחצו על פתרון כדי לפתוח אותו, ולחיצה נוספת סוגרת.</p>
     <div class="tabset" data-group="build" data-toggle>
     <div class="tabbar tabcards" role="tablist" aria-label="מה אנחנו בונים"><button type="button" role="tab" id="t-agent" aria-controls="agent" aria-selected="false" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.2A8 8 0 1 1 20 12z"/><path d="M9 10.5h6M9 13.5h4"/></svg></span><b>סוכן וואטסאפ</b><small>עונה ללקוחות 24/7</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-bizapp" aria-controls="bizapp" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9.5 7h5M9.5 10.5h5M9.5 14h3"/><path d="M11 18.5h2"/></svg></span><b>אפליקציה לניהול</b><small>תורים, לקוחות ולידים</small><em>מ־₪3,900</em></button><button type="button" role="tab" id="t-sites" aria-controls="sites" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 13h6M7 16h10"/></svg></span><b>אתר לעסק</b><small>מדף נחיתה ועד סרט גלילה</small><em>מ־₪1,490</em></button><button type="button" role="tab" id="t-bundle" aria-controls="bundle" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></span><b>הכל ביחד</b><small>סוכן, אפליקציה ואתר</small><em>מ־₪9,900</em></button></div>
-    <p class="cards-hint">לחצו על פתרון כדי לפתוח את הפרטים, ההדגמה והמחיר. לחיצה נוספת סוגרת.</p>
     <div class="tab-panel" role="tabpanel" id="agent" aria-labelledby="t-agent" hidden>
         <div class="agent">
       <div class="agent-text">
@@ -1143,38 +1172,41 @@ html.mnav-open{overflow:hidden}
   </section>
 
   <section id="work">
-    <p class="kicker">עבודות שבנינו</p>
-    <h2>לא רק מבטיחים. <span class="neon-pink">ככה זה עובד אצל עסקים אמיתיים</span></h2>
-    <p class="lead">אותם דברים שראיתם למעלה, כמו שהם עובדים היום בטלפון. באותו סדר: הסוכן, האפליקציה והאתרים.</p>
-    <div class="folio folio-sys">
-      <article class="folio-item">
-        <div class="site-phone folio-phone agent-phone"><video src="agent-whatsapp.mp4" poster="agent-whatsapp-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="סרטון: הסוכן של Danielor בפעולה"></video></div>
-        <div class="folio-txt"><span class="tier-k">סוכן וואטסאפ</span><b>הסוכן של Danielor</b><span>עונה ללקוח בשתיים בלילה, שולח מחיר, טופס וקישור לתשלום, ומעביר אלינו רק את מה שחשוב. זה אותו סוכן שיענה לכם אם תכתבו לנו.</span><a class="js-wa" href="#order" data-wa-text="היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק">לדבר איתו בעצמכם ←</a></div>
-      </article>
-      <article class="folio-item">
-        <div class="site-phone folio-phone app-phone"><img class="as-content" src="app-content.jpg" alt="אישור תוכן באפליקציה של Danielor" loading="lazy" width="600" height="2830"></div>
-        <div class="folio-txt"><span class="tier-k">אפליקציה לניהול</span><b>האפליקציה של Danielor</b><span>מסך "היום", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד. ככה אנחנו מנהלים את העסק שלנו כל יום.</span><a href="#bizapp">לפרטים על האפליקציה ←</a></div>
-      </article>
-    </div>
-    <div class="folio" data-work="story">
-      <article class="folio-item">
-        <div class="site-phone folio-phone"><video src="site-ac.mp4?v=3" poster="site-ac-poster.jpg?v=3" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של AC Holding"></video></div>
-        <div class="folio-txt"><span class="tier-k">אתר סיפור</span><b>AC Holding</b><span>סוכנות בוטיק להשקעות נדל״ן בדובאי. סיפור שנגלל כמו סרט, קטלוג פרויקטים, מדריך להורדה ווואטסאפ בכל מסך.</span><a href="https://ac-holding.co" target="_blank" rel="noopener">לאתר החי ←</a></div>
-      </article>
-      <article class="folio-item">
-        <div class="site-phone folio-phone"><video src="site-adele.mp4?v=3" poster="site-adele-poster.jpg?v=3" muted autoplay loop playsinline preload="metadata" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
-        <div class="folio-txt"><span class="tier-k">אתר סיפור</span><b>Adele Beauty Clinic</b><span>קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה, תפריט טיפולים וקביעת תור בלחיצה.</span><a href="https://adele-beauty.com" target="_blank" rel="noopener">לאתר החי ←</a></div>
-      </article>
-    </div>
-    <div class="sites minis" data-work="lp">
-      <div class="site-item"><div class="site-phone"><video src="site-clinic.mp4" poster="site-clinic-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה בדף נחיתה של קורס ריסים וגבות"></video></div><p class="site-name"><b>דף נחיתה</b><br>קורס הרמת ריסים וגבות</p></div>
-      <div class="site-item"><div class="site-phone"><video src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted autoplay loop playsinline preload="metadata" aria-label="גלילה בדף הנחיתה של מדיקר"></video></div><p class="site-name"><b>דף נחיתה</b><br>מדיקר, כתב שירות רפואי</p></div>
+    <h2 class="sec-h2">עבודות <span class="neon-pink">שבנינו</span></h2>
+    <p class="lead sec-lead">מערכות ואתרים שעובדים היום אצל עסקים, כמו שהם נראים בטלפון. מחליקים הצידה לעוד.</p>
+    <div class="wcar">
+      <div class="wcar-track" tabindex="0" aria-label="עבודות שבנינו">
+        <article class="wslide">
+          <div class="site-phone wphone agent-phone"><video data-src="agent-whatsapp.mp4" poster="agent-whatsapp-poster.jpg" muted loop playsinline preload="none" aria-label="סרטון: הסוכן של Danielor בפעולה"></video></div>
+          <div class="wtxt"><span class="tier-k">סוכן וואטסאפ</span><b>הסוכן של Danielor</b><span>עונה בשתיים בלילה, שולח מחיר וקישור לתשלום, ומעביר אלינו רק את מה שחשוב.</span><a class="js-wa" href="#order" data-wa-text="היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק">לדבר איתו בעצמכם ←</a></div>
+        </article>
+        <article class="wslide">
+          <div class="site-phone wphone app-phone"><img class="as-content" src="app-content.jpg" alt="אישור תוכן באפליקציה של Danielor" loading="lazy" width="600" height="2830"></div>
+          <div class="wtxt"><span class="tier-k">אפליקציה לניהול</span><b>האפליקציה של Danielor</b><span>מסך "היום", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד.</span><a href="#bizapp">לפרטים על האפליקציה ←</a></div>
+        </article>
+        <article class="wslide">
+          <div class="site-phone wphone "><video data-src="site-ac.mp4?v=3" poster="site-ac-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של AC Holding"></video></div>
+          <div class="wtxt"><span class="tier-k">אתר סיפור</span><b>AC Holding</b><span>סוכנות בוטיק להשקעות נדל״ן בדובאי. אתר שנגלל כמו סרט, עם קטלוג פרויקטים ומדריך להורדה.</span><a href="https://ac-holding.co" target="_blank" rel="noopener">לאתר החי ←</a></div>
+        </article>
+        <article class="wslide">
+          <div class="site-phone wphone pink"><video data-src="site-adele.mp4?v=3" poster="site-adele-poster.jpg?v=3" muted loop playsinline preload="none" aria-label="גלילה באתר של Adele Beauty Clinic"></video></div>
+          <div class="wtxt"><span class="tier-k">אתר סיפור</span><b>Adele Beauty Clinic</b><span>קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה וקביעת תור בלחיצה.</span><a href="https://adele-beauty.com" target="_blank" rel="noopener">לאתר החי ←</a></div>
+        </article>
+        <article class="wslide">
+          <div class="site-phone wphone "><video data-src="site-clinic.mp4" poster="site-clinic-poster.jpg" muted loop playsinline preload="none" aria-label="גלילה בדף נחיתה של קורס ריסים וגבות"></video></div>
+          <div class="wtxt"><span class="tier-k">דף נחיתה</span><b>קורס הרמת ריסים וגבות</b><span>דף אחד שמוכר קורס אחד, עם כפתור וואטסאפ.</span></div>
+        </article>
+        <article class="wslide">
+          <div class="site-phone wphone "><video data-src="site-medicar.mp4" poster="site-medicar-poster.jpg" muted loop playsinline preload="none" aria-label="גלילה בדף הנחיתה של מדיקר"></video></div>
+          <div class="wtxt"><span class="tier-k">דף נחיתה</span><b>מדיקר</b><span>דף נחיתה לכתב שירות רפואי, עם טופס לפניות.</span></div>
+        </article>
+      </div>
+      <div class="wcar-nav"><button type="button" class="wcar-btn" data-dir="1" aria-label="הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button><span class="wcar-dots" aria-hidden="true"></span><button type="button" class="wcar-btn" data-dir="-1" aria-label="הבא"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg></button></div>
     </div>
   </section>
 
   <section id="process">
-        <p class="kicker">איך עובדים איתנו</p>
-    <h2>מערכת לעסק, <span class="neon-pink">בארבעה צעדים</span></h2>
+    <h2 class="sec-h2">איך עובדים <span class="neon-pink">איתנו</span></h2>
     <ol class="steps">
       <li><h3>שיחת התאמה</h3><p>מספרים לנו איך העסק עובד היום ומה הכי מעיק: הודעות, תורים, לידים או תיאום.</p></li>
       <li><h3>הצעה מדויקת</h3><p>מה בונים, כמה זה עולה ומתי זה מוכן. בלי הפתעות.</p></li>
@@ -1184,362 +1216,24 @@ html.mnav-open{overflow:hidden}
   
   </section>
 
-  <section id="studio">
-    <div class="studio-hero">
-      <div class="st-text">
-        <p class="st-kicker">DANIELOR STUDIO</p>
-        <h2>הסטודיו: <span class="neon-pink">תוכן שעוצר את הגלילה</span></h2>
-        <p class="st-lead">חוץ מהמערכות, יש לנו סטודיו שמכין תוכן. לעסקים: סרטוני פרסומת, רילסים מפודקאסטים ומצגות. לפרטיים: טרנדים וקליפים שאתם הכוכבים שלהם.</p>
-        <div class="st-doors">
-          <a class="st-door" href="#more"><span class="sd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>לעסקים</b><span>סרטונים, פודקאסטים, מצגות</span></a>
-          <a class="st-door hot" href="#trend"><span class="sd-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg></span><b>טרנד AI</b><span>הטרנד הכי חם, עם הפנים שלכם</span></a>
-        </div>
-      </div>
-      <div class="st-reels" aria-hidden="true">
-        <div class="frame st-r1" data-video="food-after.mp4"></div>
-        <div class="frame st-r2" data-video="trend-after.mp4"></div>
-        <div class="frame st-r3" data-video="pod-reel.mp4"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="more">
-    <p class="kicker">הסטודיו לעסקים</p>
-    <h2 class="sec-h">סרטונים, פודקאסטים <span class="neon-pink">ומסמכים שמוכרים</span></h2>
-    <div class="tabset" data-group="more" data-toggle>
-    <div class="tabbar tabcards" role="tablist" aria-label="שירותי הסטודיו"><button type="button" role="tab" id="t-before-after" aria-controls="before-after" aria-selected="false" aria-expanded="false" tabindex="0"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 8l2.5-4h13L17 8"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><b>סרטוני פרסומת</b><small>מתמונה מהטלפון לפרסומת</small></button><button type="button" role="tab" id="t-podcast" aria-controls="podcast" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></span><b>עריכת פודקאסטים</b><small>פרק אחד, חמישה רילסים</small></button><button type="button" role="tab" id="t-decks" aria-controls="decks" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M7 12.5l3-3 2.5 2 4-4"/></svg></span><b>מצגות והצעות מחיר</b><small>מסמכים שמוכרים</small></button><button type="button" role="tab" id="t-maker" aria-controls="maker" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ti" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.6M20.5 19.5a5.5 5.5 0 0 0-3-4.9"/></svg></span><b>כפיל דיגיטלי</b><small>מי מאחורי הסטודיו</small></button></div>
-    <p class="cards-hint">לחצו על שירות כדי לפתוח דוגמאות ומחיר. לחיצה נוספת סוגרת.</p>
-    <div class="tab-panel" role="tabpanel" id="before-after" aria-labelledby="t-before-after" hidden>
-    
-    <h2>מה ששולחים, ומה שמקבלים</h2>
-    <p class="lead ba-lead">שולחים לנו רק תמונות מהטלפון, או סרטון רפרנס של סגנון שאהבתם. את כל השאר אנחנו עושים.</p>
-    <div class="ba-grid ba-one">
-      <article class="ba">
-        <div class="ba-pair">
-          <div class="frame dim" data-video="food-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונות מהטלפון</span></div>
-          <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="food-after.mp4" data-full="food-after-full.mp4" data-title="פרסומת לעראייס, מתמונה מהטלפון"><span class="tag after">מקבלים</span><span class="ph">פרסומת מוכנה</span></div>
-        </div>
-        <div class="ba-text">
-          <h3>תמונה של מנה על צלחת, פרסומת של 18 שניות</h3>
-          <p>תמונות רגילות מהטלפון, בלי תאורה ובלי סטודיו. יצאה פרסומת עם קריינות בעברית, אש וסאונד, כמו של רשת מזון. ככה זה עובד גם למנה, למוצר או לשירות שלכם.</p>
-        </div>
-      </article>
-    </div>
-  
-    <div class="vid-block"><div class="how-card">
-          <div class="frame" data-video="/lib/how-business-p.mp4" data-poster="/lib/how-business.jpg" data-full-sound="/how-business.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-          <div><h3>סרטון שמביא לקוחות, בכמה צעדים פשוטים</h3><p>כותבים לנו, בוחרים סגנון, מעלים מה שיש, ומקבלים סרטון מוכן.</p></div>
-        </div></div>
-    <div class="vid-block" id="launch">    <h2>חבילת השקה לעסקים: <span class="neon-pink">סרטון + דף נחיתה</span></h2>
-    <p class="lead">פותחים עסק, מוצר, שירות או מבצע חדש? מקבלים סרטון השקה ודף נחיתה שמביא פניות ישר לוואטסאפ.</p>
-    <div class="launch launch-solo">
-      <div>
-        <ul class="incl">
-          <li><b>סרטון השקה עד 30 שניות</b> בסגנון משולב, עם קריינות בעברית וכתוביות. גרסה לאורך לרילס ולסטורי, וגרסה לרוחב לאתר.</li>
-          <li><b>דף נחיתה בצבעים של המותג</b>, מותאם לנייד, עם כפתור וואטסאפ וטופס לפניות.</li>
-          <li><b>שני סבבי תיקונים</b> ומסירה תוך 5 ימי עבודה.</li>
-          <li><b>שנה ראשונה של אחסון ודומיין כלולה.</b> אחר כך ₪49 לחודש, כולל תיקונים קטנים. הדומיין רשום על שמכם.</li>
-        </ul>
-        <div class="deal">
-          <div class="deal-price"><b>₪2,490</b><span>כולל מע״מ</span></div>
-          <a class="btn btn-pink js-pick" href="#order" data-product="חבילת השקה · ₪2,490">להזמנת חבילת השקה</a>
-          <p>רוצים פתיח שעוצר את הגלילה? שדרוג לסרטון בסגנון מטורף: <bdi dir="ltr">+₪800</bdi>.</p>
-        </div>
-      </div>
-      
-    </div>
-    <div class="how-card">
-        <div class="frame" data-video="/lib/how-launch-p.mp4" data-poster="/lib/how-launch.jpg" data-full-sound="/how-launch.mp4" data-sound-label="▶ עם קול" data-ready data-sound></div>
-        <div><h3>ככה עובדת חבילת ההשקה</h3><p>ממלאים טופס אחד, מעלים לוגו ותמונות, ותוך 5 ימי עבודה סרטון ההשקה ודף הנחיתה באוויר.</p></div>
-      </div>
-  </div>
-    <div class="vid-block" id="reels">    <h3 class="sub-h">עוד דוגמאות</h3>
-    <div class="reels">
-      <article class="reel">
-        <div class="frame glow-c" data-video="recipe.mp4" data-full="recipe-full.mp4" data-title="סרטון מתכון: נאגטס ביתיים"><span class="tag">00:43</span><span class="ph">סרטון מתכון</span></div>
-        <h3>סרטון מתכון</h3><p>כל שלב במתכון על המסך, בקצב של רילס. למסעדות ולבלוגרים של אוכל.</p>
-      </article>
-      <article class="reel">
-        <div class="frame glow-c" data-video="showreel.mp4" data-full="showreel-full.mp4" data-title="השואוריל המלא"><span class="tag">01:07</span><span class="ph">השואוריל</span></div>
-        <h3>השואוריל</h3><p>כל מה שהצוות שלנו בונה, בדקה אחת: סוכנים, אתרים, סרטונים ואוטומציות.</p>
-      </article>
-      <article class="reel">
-        <div class="frame glow-b" data-video="pod-reel.mp4" data-full="pod10-combined.mp4" data-title="רילס מפרק פודקאסט"><span class="tag">00:54</span><span class="ph">רילס מפודקאסט</span></div>
-        <h3>רילס מפודקאסט</h3><p>הרגע הכי חזק מהפרק, עם כתוביות, גרפיקה וסאונד. מפרק אחד יוצאים חמישה כאלה.</p>
-      </article>
-      <article class="reel">
-        <div class="frame glow-a" data-video="fashion.mp4" data-full="fashion-full.mp4" data-title="פרסומת למותג אופנה"><span class="tag">00:18</span><span class="ph">פרסומת לאופנה</span></div>
-        <h3>פרסומת לאופנה</h3><p>קמפיין למותג בגדים אמיתי: הקולקציה שלכם על דוגמן, באווירה של הפקת אופנה.</p>
-      </article>
-      <article class="reel">
-        <div class="frame glow-b" data-video="dubai.mp4" data-full="dubai-full.mp4" data-title="פרסומת לפרויקט נדל״ן"><span class="tag">00:25</span><span class="ph">פרסומת לנדל״ן</span></div>
-        <h3>פרסומת לנדל״ן</h3><p>רילס לפרויקט מתוך ההדמיות. לסוכנויות, למשרדי תיווך וליזמים בישראל.</p>
-      </article>
-      <article class="reel">
-        <div class="frame glow-a" data-video="/lib/explainer-whatsapp-p.mp4" data-poster="/lib/explainer-whatsapp.jpg" data-gallery="explainers"><span class="tag">עוד דוגמאות</span><span class="ph">סרטון הסבר</span></div>
-        <h3>סרטון הסבר</h3><p>רעיון מסובך, מוסבר בקליפ אחד ברור.</p>
-      </article>
-    </div>
-    <a class="btn btn-pink lib-link" href="/videos">לעוד סרטונים שהכנו <span class="arr" aria-hidden="true">←</span></a>
-    <ul class="tape" aria-label="מה מקבלים בכל סרטון">
-      <li>כתוביות בעברית</li>
-      <li>גם בקול שלכם</li>
-      <li>אישור שלכם לפני כל מסירה</li>
-      <li>סבב תיקון כלול</li>
-    </ul>
-  </div>
-    <div class="vid-block" id="how-video">
-    <button type="button" class="fold-btn" aria-expanded="false" aria-controls="how-video-steps"><span>ככה מזמינים סרטון</span><small>4 צעדים, פחות מדקה</small><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6"/></svg></button>
-    <div class="fold" id="how-video-steps"><div class="fold-in">
-    <ol class="steps">
-      <li><h3>שולחים</h3><p>בוואטסאפ או בטופס: מה רוצים, ותמונות או סרטונים שיש לכם.</p></li>
-      <li><h3>משלמים</h3><p>לפי סרטון, לפני שמתחילים. בלי מנוי ובלי התחייבות.</p></li>
-      <li><h3>מאשרים טיוטה</h3><p>מקבלים טיוטה ב־<span class="res">480p</span> ואומרים מה לשנות.</p></li>
-      <li><h3>מקבלים סרטון</h3><p>גרסה סופית ב־<span class="res">1080p</span>. סבב תיקון אחד כלול במחיר.</p></li>
-    </ol>
-    </div></div>
-  </div>
-    </div>
-    <div class="tab-panel" role="tabpanel" id="podcast" aria-labelledby="t-podcast" hidden>
-        <div class="pod">
-      <div class="pod-head">
-        <p class="kicker">עריכת פודקאסטים</p>
-        <h2>פרק אחד. <span class="neon-pink">חמישה רילסים שעוצרים את הגלילה.</span></h2>
-        <p class="lead">שולחים את הפרק המלא. אנחנו בוחרים את הרגעים הכי חזקים, פותחים כל רילס במשפט שתופס, ומוסיפים כתוביות, גרפיקה וסאונד. תוך 48 שעות.</p>
-      </div>
-      <figure class="pod-demo">
-        <div class="pod-screen pod-real" id="pod-screen">
-          <video playsinline muted loop preload="none" poster="pod10-poster.jpg" data-src="pod10-combined.mp4" aria-label="רילס אמיתי מפרק פודקאסט שערכנו, ברמת עריכה משולבת"></video>
-          <button type="button" class="sound-btn">▶ עם קול</button>
-        </div>
-        <figcaption>רילס אמיתי מפרק שערכנו, ברמת עריכה משולבת.</figcaption>
-      </figure>
-      <div class="pod-body">
-        <div class="lv-tabs" role="tablist" aria-label="רמת העריכה">
-          <button type="button" role="tab" aria-selected="false" aria-controls="lv-card" data-lv="1" tabindex="-1">נקי <span class="m" aria-hidden="true"><i class="on"></i><i></i><i></i></span></button>
-          <button type="button" role="tab" aria-selected="true" aria-controls="lv-card" data-lv="2">משולב <span class="m" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></button>
-          <button type="button" role="tab" aria-selected="false" aria-controls="lv-card" data-lv="3" tabindex="-1">מטורף <span class="m" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span></button>
-        </div>
-        <div class="lv-card" id="lv-card" role="tabpanel" aria-live="polite">
-          <p id="lv-desc">כל מה שבנקי, ועוד תמונות אווירה עם תנועת עומק, גרפים מונפשים שמתחברים למה שנאמר, וסאונדים עדינים במעברים.</p>
-          <p class="lv-price"><b id="lv-p5">₪690</b><span>ל־5 רילסים מפרק אחד</span><span class="alt" id="lv-p10">10 רילסים: ₪1,290</span></p>
-        </div>
-        <ul class="incl">
-          <li><b>אנחנו בוחרים את הרגעים</b> ופותחים כל רילס במשפט הכי חזק.</li>
-          <li><b>חיתוך על סוף משפט,</b> בלי מילה קטועה באמצע.</li>
-          <li><b>מצלמה אחת או שתיים,</b> עם השם והתפקיד של כל דובר על המסך.</li>
-          <li><b>צוות אנושי עובר על כל רילס</b> לפני שהוא יוצא אליכם.</li>
-        </ul>
-        <div class="pod-cta">
-          <a class="btn btn-pink js-pick" href="#order" data-product="5 רילסים מפודקאסט · מ־₪490">להזמנת רילסים מהפרק שלכם</a>
-          <a class="btn btn-ghost js-pick" href="#order" data-product="רילס ניסיון מפודקאסט · מ־₪98">לנסות רילס אחד <small>· <span id="lv-p1">₪138</span></small></a>
-        </div>
-        <p class="small pod-try">רוצים לראות קודם שהסגנון מתאים לכם? מזמינים רילס אחד במחיר היחסי מהחבילה, פעם אחת לכל עסק. אהבתם? משלימים לחבילה, והסכום ששילמתם נכנס בה.</p>
-        <p class="small">המחירים כוללים מע״מ, לפרק של עד שעה וחצי. מסירה תוך 48 שעות (לא כולל שבת), או אקספרס תוך 24 שעות. פודקאסט שבועי? 4 פרקים בחודש ב־15% פחות.</p>
-      </div>
-    </div>
-  
-    </div>
-    <div class="tab-panel" role="tabpanel" id="decks" aria-labelledby="t-decks" hidden>
-        <div class="q2d">
-      <div class="q2d-vid frame glow-a has-video">
-        <video src="quote-to-deck.mp4" poster="quote-to-deck-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="סרטון: מהצעת מחיר יבשה למצגת ברמת ברושור"></video>
-        <button type="button" class="sound-btn" id="q2d-sound" aria-pressed="false" aria-label="הפעלת קול" title="הפעלת קול">🔊</button>
-      </div>
-      <div class="q2d-text">
-        <p class="kicker">הצעות מחיר ומצגות</p>
-        <h2>הצעות מחיר מעוצבות <span class="neon-pink">ומצגות מקצועיות לעסקים</span></h2>
-        <p class="q2d-sub">בסרטון: הצעת מחיר יבשה שהופכת למסמך שמרגיש כמו ברושור. באותה רמה בונים גם מצגת מכירה, מצגת שמציגה את העסק או קטלוג.</p>
-        <a class="btn btn-pink" id="q2d-wa" href="#order">רוצים כזה לעסק? כתבו לנו בוואטסאפ</a>
-      </div>
-    </div>
-  
-    </div>
-    <div class="tab-panel" role="tabpanel" id="maker" aria-labelledby="t-maker" hidden>
-        <div class="maker">
-      <div class="frame glow-c" data-video="daniel-double.mp4" data-ready data-sound>
-        <span class="tag">הכפיל הדיגיטלי שלי</span>
-        <span class="ph">כאן יופיע סרטון קצר של הכפיל הדיגיטלי</span>
-      </div>
-      <div>
-        <p class="kicker">מי מאחורי זה</p>
-        <h2>אני דניאל, ויש לי צוות</h2>
-        <p>מאחורי Danielor עומדת מערכת עבודה שבניתי: צוות של סוכני AI שמפיק את הסרטונים עם הכלים המובילים בעולם. <strong>הדמות שמופיעה בסרטונים היא הכפיל הדיגיטלי שלי</strong>, עם הקול שלי, וזה בדיוק מה שאפשר לבנות גם לכם.</p>
-        <p>אני הקו האחרון: עובר על כל סרטון, מתקן ומאשר לפני שהוא יוצא אליכם. אם משהו לא נראה כמוכם או לא נשמע כמוכם, הוא לא נשלח.</p>
-      </div>
-    </div>
-  
-    </div>
-    </div>
+  <section id="studio-door">
+    <a class="studio-door" href="/studio/">
+      <span class="sdr-k">DANIELOR STUDIO</span>
+      <b>צריכים גם תוכן? <span class="neon-pink">יש לנו סטודיו.</span></b>
+      <span class="sdr-d">סרטוני פרסומת, רילסים מפודקאסטים, מצגות, וטרנדים וקליפים לפרטיים.</span>
+      <span class="sdr-go">לסטודיו ←</span>
+    </a>
   </section>
 
 
-  <section id="private">
-    <div class="priv-strip" id="trend">
-      <div class="ps-media">
-          <div class="ba-pair">
-          <div class="frame dim" data-video="trend-before.mp4"><span class="tag before">שולחים</span><span class="ph">תמונה מהטלפון</span></div>
-          <span class="arrow" aria-hidden="true">←</span>
-          <div class="frame glow-b" data-video="trend-after.mp4" data-gallery="trends"><span class="tag after">מקבלים</span><span class="ph">הטרנד המוכן</span></div>
-        </div>
-      </div>
-      <div class="ps-text">
-        <p class="kicker">הסטודיו לפרטיים</p>
-        <h2>טרנד AI <span class="neon-pink">וקליפ אישי</span></h2>
-        <p>הטרנד הכי חם ברשת, עם הפנים שלכם. בוחרים טרנד מהרשימה החמה, שולחים 3 תמונות, ומקבלים אותו מוכן. רוצים משהו גדול יותר? קליפ מוזיקה שכולו עליכם, מתנה ליום הולדת או לזוגיות, ב־₪890.</p>
-        <div class="ps-price"><b>מ־₪99</b><span>טרנד לאדם אחד, תוך 24 שעות</span></div>
-        <div class="ps-cta"><a class="btn ps-hot" href="/trends"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 3 3.5 4.5 3.5 8a3.5 3.5 0 0 1-7 0c0-1.2.5-2.2 1.2-3 .2 1.3 1 2 1.8 2 0-2.5-.6-4.5.5-7z"/><path d="M6.5 13.5A5.5 5.5 0 0 0 12 21a5.5 5.5 0 0 0 5.5-7.5"/></svg>לרשימה החמה של הטרנדים <span class="arr" aria-hidden="true">←</span></a><a class="btn ps-ghost js-pick" href="#order" data-product="קליפ מוזיקה אישי · ₪890">להזמנת קליפ אישי</a></div>
-      </div>
-    </div>
-  </section>
 
-  <section id="proof">
-        <p class="kicker">תגובות אמיתיות</p>
-    <h2>ככה הגיבו כשקיבלו את העבודה</h2>
-    <p class="lead">מילה במילה מוואטסאפ, רק בלי שמות ובלי תמונות.</p>
-    <div class="chats">
-      <article class="chat" aria-label="תגובות על דוח קמפיין שהכנתי">
-        <div class="chat-h">על <b>דוח קמפיין שהכנתי</b></div>
-        <div class="msgs">
-          <div class="b sent doc">דוח קמפיין · דף אחד</div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>אהבתי את הפירוט, מי הכין את זה?<time>16:13</time></div>
-          <span class="rx">❤️</span>
-          <div class="b sent">אני אחי<time>16:16</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>פשששש<time>16:16</time></div>
-          <div class="b in">מקצוען<time>16:16</time></div>
-          <div class="b in">עברתי על זה תודה<time>16:17</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על פודקאסט שערכתי">
-        <div class="chat-h">על <b>פודקאסט שערכתי</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:35<time>11:56</time></div>
-          <div class="b sent">דוגמא<time>11:56</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇▇</span>אתה הכי מוכשר שפגשתי בחיי<time>11:57</time></div>
-          <div class="b in">אתה מטורף<time>11:57</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇</span>מהמם<time>11:58</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על סרטון שהכנתי">
-        <div class="chat-h">על <b>סרטון שהכנתי</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון<time>21:34</time></div>
-          <div class="b sent">הנה תראי<time>21:34</time></div>
-          <div class="b in">לא להאמין שזה לא הגיע ממשרד פרסום<time>21:36</time></div>
-          <div class="b in emo" aria-label="מחיאות כפיים">👏<time>21:36</time></div>
-          <div class="b in">מהמממם<time>21:36</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על רילסים מפודקאסט">
-        <div class="chat-h">על <b>רילסים מפודקאסט</b></div>
-        <div class="msgs">
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇▇</span>הרילסים מעלועם<time>16:15</time></div>
-          <div class="b in">מעלוים<time>16:15</time></div>
-          <div class="b in">מעולים<time>16:15</time></div>
-          <div class="b in">ואו<time>16:15</time></div>
-          <div class="b sent">תודה תודה 😎🙏🏻<time>16:16</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇▇</span>ואו כאילו<time>16:16</time></div>
-          <div class="b in">אמאלה<time>16:16</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על סרטון מתכון">
-        <div class="chat-h">על <b>סרטון מתכון</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:43<time>22:10</time></div>
-          <div class="b sent">תראי בזה איזה איכות<time>22:11</time></div>
-          <div class="b in">וואו הרבההה יותר מוצלח 👏👏👏<time>22:14</time></div>
-          <div class="b in">אלוף 👑<time>22:14</time></div>
-          <div class="b in stk" aria-label="סטיקר: אין כמוך!">🏆 אין כמוך!<time>22:14</time></div>
-          <div class="b in">עכשיו אשלח למשפחה 🤣🤣<time>22:15</time></div>
-          <div class="b in">טנקיוש ❤️❤️<time>22:15</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על קליפ אישי">
-        <div class="chat-h">על <b>קליפ אישי</b></div>
-        <div class="msgs">
-          <div class="b in vid">סרטון · 0:46<time>23:47</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇</span>אמאלה תראו מה דניאל עשה 🥹<time>23:47</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇ ▇▇▇▇</span>אמאלה איזה נסיך אהבתי ❤️<time>23:53</time></div>
-          <span class="rx">❤️😍 2</span>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇</span>מהממם 🥹<time>0:08</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇</span>נסיךךךך אין עליך ❤️<time>0:31</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇</span>מושלםםםםםםם<time>2:27</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על עריכת פודקאסט">
-        <div class="chat-h">על <b>עריכת פודקאסט</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:35<time>16:17</time></div>
-          <span class="rx">❤️</span>
-          <div class="b in">עריכה פצצה<time>16:18</time></div>
-          <div class="b sent emo" aria-label="לב ופרצוף מאוהב">❤️🥰<time>16:20</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על קליפ ראפרים מתמונה אחת">
-        <div class="chat-h">על <b>קליפ ראפרים מתמונה אחת</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:24<time>8:06</time></div>
-          <div class="b in">תשמע<time>8:22</time></div>
-          <div class="b in">זה נדיר<time>8:22</time></div>
-          <div class="b in">אנשים עפים על זה<time>8:22</time></div>
-          <div class="b in">הם לא מבינים איך את זה עושה את זה<time>8:29</time></div>
-          <span class="rx">😎</span>
-          <div class="b in">זאת יכולת<time>8:29</time></div>
-          <span class="rx">❤️</span>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על קליפ קצר לרשתות">
-        <div class="chat-h">על <b>קליפ קצר לרשתות</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:15<time>22:20</time></div>
-          <div class="b sent">תראי את זה<time>22:20</time></div>
-          <div class="b in">מושלם<time>22:21</time></div>
-          <div class="b in">יאללה שיר ומשפט באנגלית<time>22:21</time></div>
-          <div class="b in">מחר אעלה<time>22:21</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על סרטון שערכתי">
-        <div class="chat-h">על <b>סרטון שערכתי</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:30<time>8:06</time></div>
-          <div class="b in">אוקיי אוקיי<time>8:07</time></div>
-          <div class="b in">חחחחחח יאווווו<time>8:15</time></div>
-          <div class="b in">זה ענקקקקק<time>8:15</time></div>
-          <div class="b in">יא בן אלף<time>8:15</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על שני סרטונים אישיים">
-        <div class="chat-h">על <b>שני סרטונים אישיים</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:31<time>18:54</time></div>
-          <div class="b sent">תראי תראי<time>18:54</time></div>
-          <div class="b in">או מיי גאד סו ביוטיפול 👏👏😍<time>18:56</time></div>
-          <div class="b in">Loveeee it 😘😍<time>18:56</time></div>
-          <div class="b sent vid">סרטון · 1:07<time>19:11</time></div>
-          <div class="b sent">איך זה?<time>19:11</time></div>
-          <div class="b in">מושלםםםםםםםםםםםםם<time>19:15</time></div>
-        </div>
-      </article>
-      <article class="chat" aria-label="תגובות על סרטון לעסק">
-        <div class="chat-h">על <b>סרטון לעסק</b></div>
-        <div class="msgs">
-          <div class="b sent vid">סרטון · 0:40<time>18:06</time></div>
-          <div class="b sent">איך?<time>18:06</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇ ▇▇▇▇▇</span>מעולהההה<time>18:14</time></div>
-          <div class="b in"><span class="who" aria-hidden="true">▇▇▇▇▇ ▇▇▇▇</span>פצצה<time>19:38</time></div>
-        </div>
-      </article>
-    </div>
-    <p class="chats-hint">← החליקו לעוד תגובות</p>
-  
-  </section>
+
+
 
   <section id="prices">
-        <p class="kicker">תפריט</p>
-    <h2>מחירים</h2>
-    <p class="price-hint">בחרו מחירון. לחיצה פותחת, לחיצה נוספת סוגרת.</p>
-    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>מחירון לעסקים</b><small>מערכות, אתרים וסרטונים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="priv"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span><span class="pt-t"><b>מחירון לפרטיים</b><small>טרנדים וקליפים אישיים</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button></div>
+    <h2 class="sec-h2">מחירים</h2>
+    <p class="price-hint">לחיצה פותחת את המחירון, לחיצה נוספת סוגרת.</p>
+    <div class="price-toggles"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="prices-boards" data-show="biz"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg></span><span class="pt-t"><b>מחירון לעסקים</b><small>סוכן, אפליקציה ואתר</small></span><span class="pt-chev" aria-hidden="true"><svg class="chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></span></button><a class="pt-btn pt-link" href="/studio/#prices"><span class="pt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M10.2 11.4v5.2l4.3-2.6z"/></svg></span><span class="pt-t"><b>מחירון הסטודיו</b><small>סרטונים, פודקאסטים וטרנדים</small></span><span class="pt-chev" aria-hidden="true">←</span></a></div>
     <div class="boards" id="prices-boards" data-show="none">
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
@@ -1560,67 +1254,12 @@ html.mnav-open{overflow:hidden}
           <p class="desc">הקמה, ועוד ₪499 לחודש. חוסכים ₪2,800 לעומת קנייה בנפרד. <a href="#bundle">מה כלול</a></p>
         </div>
         <div class="row">
-          <span class="name">סרטון היכרות</span><span class="price">₪199</span>
-          <p class="desc">שולחים תמונות או סרטונים מהעסק, ומקבלים סרטון של עד 30 שניות לרילס ולסטורי, עם כתוביות ומוזיקה. פעם אחת לכל עסק.</p>
-        </div>
-        <div class="row">
-          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
-          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
-        </div>
-        <div class="row">
-          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
-          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
-        </div>
-        <div class="row">
-          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
-          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
-        </div>
-        <div class="row">
-          <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
-          <p class="desc">5 רילסים מפרק אחד, בסגנון נקי, משולב או מטורף. אפשר להתחיל מרילס ניסיון אחד, מ־₪98. <a href="#podcast">פרטים</a></p>
-        </div>
-        <div class="row">
-          <span class="name">חבילת השקה</span><span class="price">₪2,490</span>
-          <p class="desc">סרטון משולב ודף נחיתה עם וואטסאפ, כולל שנת אחסון וקול משובט. <a href="#launch">מה כלול</a></p>
-        </div>
-        <div class="row">
           <span class="name">סוכן קולי או כפיל דיגיטלי</span><span class="price quote">לפי הצעה</span>
-          <p class="desc">סוכן שעונה לטלפון, או כפיל שמדבר בקול שלכם, לפי מה שהעסק צריך. <a href="#maker">מה זה</a></p>
+          <p class="desc">סוכן שעונה לטלפון, או כפיל שמדבר בקול שלכם, לפי מה שהעסק צריך. <a href="/studio/#maker">מה זה</a></p>
         </div>
-        <div class="row">
-          <span class="name">מצגת או הצעת מחיר מעוצבת</span><span class="price quote">לפי הצעה</span>
-          <p class="desc">מסמך ברמת ברושור, בצבעי המותג. <a href="#decks">דוגמה</a></p>
-        </div>
-        <div class="row addon"><span class="name">קול משובט, חד־פעמי ונשמר לכל ההזמנות</span><span class="price">₪190</span></div>
-        <div class="row addon"><span class="name">אקספרס 24 שעות</span><span class="price">+₪150</span></div>
-      </div>
-      <div class="board b-priv">
-        <header><h3 class="neon-pink">לפרטיים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
-        <div class="row entry">
-          <span class="name">טרנד לאדם אחד</span><span class="price">₪99</span>
-          <p class="desc">שולחים 3 תמונות, בוחרים טרנד מהטבלה, ומקבלים תוך 24 שעות.</p>
-        </div>
-        <div class="row">
-          <span class="name">טרנד ל־2 עד 3 אנשים</span><span class="price">₪149</span>
-          <p class="desc">וגם טרנד שאהבתם ושלחתם לנו, אחרי שנבדוק שאפשר להכין אותו.</p>
-        </div>
-        <div class="row">
-          <span class="name">שלושה טרנדים</span><span class="price">מ־₪249</span>
-          <p class="desc">₪249 לאדם אחד, ₪349 ל־2 עד 3 אנשים. מאותה תמונה או משלוש תמונות שונות.</p>
-        </div>
-        <div class="row addon"><span class="name">סבב תיקון נוסף בטרנד</span><span class="price">₪49</span></div>
-        <div class="row">
-          <span class="name">קליפ מוזיקה אישי</span><span class="price">₪890</span>
-          <p class="desc">עד 2 דקות. אתם הגיבורים, על שיר מקורי בעברית או על שיר שבחרתם.</p>
-        </div>
-        <div class="row">
-          <span class="name">קליפ פרימיום</span><span class="price">₪1,690</span>
-          <p class="desc">עד 3 דקות, קולנועי, לחתונה או ליום הולדת עגול. גם בקול שלכם, בלי תוספת.</p>
-        </div>
-        <div class="row addon"><span class="name">הסרטון מדבר בקול שלכם</span><span class="price">+₪49</span></div>
       </div>
     </div>
-    <p class="note">בכל סרטון כלול סבב תיקון אחד. תיקונים נוספים בתשלום, לפי היקף.</p>
+    <p class="note">המחירים כוללים מע״מ. את ההקמה אפשר לפרוס לשלושה תשלומים.</p>
   
   </section>
 
@@ -1628,8 +1267,7 @@ html.mnav-open{overflow:hidden}
   <section id="order">
         <div class="order">
       <div>
-        <p class="kicker">הזמנה</p>
-        <h2>מה נכין לכם?</h2>
+        <h2 class="sec-h2">ספרו לנו <span class="neon-pink">מה העסק צריך</span></h2>
         <p class="lead">ממלאים כמה שורות, לוחצים על הכפתור, וההודעה נפתחת אצלכם בוואטסאפ מוכנה לשליחה. אנחנו חוזרים עם הצעה ומועד.</p>
         <p class="small" id="wa-status"></p>
       </div>
@@ -1673,8 +1311,7 @@ html.mnav-open{overflow:hidden}
   </section>
 
   <section id="faq">
-        <p class="kicker">שאלות</p>
-    <h2>לפני שמתחילים</h2>
+    <h2 class="sec-h2">שאלות <span class="neon-pink">נפוצות</span></h2>
     <div class="faq">
       <details><summary><span class="q-n" aria-hidden="true">01</span><span class="q-t">איך מתחילים?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כותבים לנו בוואטסאפ או בטופס מה הכי מעיק בעסק: הודעות, תורים, לידים או תיאום. בשיחת התאמה קצרה מבינים מה צריך, ומקבלים הצעה מסודרת: מה בונים, כמה זה עולה ומתי זה מוכן.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">02</span><span class="q-t">מה הסוכן עושה כשהוא לא יודע לענות?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>הסוכן בנוי לענות לפי המידע שהגדרנו איתכם: השירותים, המחירים והנהלים של העסק. כשמשהו לא ברור לו, הוא מעביר אליכם את השיחה עם סיכום קצר, ואתם ממשיכים מהטלפון. לפני שהוא עולה לאוויר אתם בודקים אותו בעצמכם.</p></div></details>
@@ -1682,8 +1319,6 @@ html.mnav-open{overflow:hidden}
       <details><summary><span class="q-n" aria-hidden="true">04</span><span class="q-t">אפשר לפרוס את התשלום?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן. את ההקמה של סוכן, אפליקציה או חבילה אפשר לפרוס לשלושה תשלומים.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">05</span><span class="q-t">מה קורה עם האתר אחרי השנה הראשונה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>ממשיכים ב־₪49 לחודש, כולל אחסון ותיקונים קטנים, או לוקחים את האתר לאחסון אחר. הדומיין רשום על שמכם, ומקבלים את כל הקבצים.</p></div></details>
       <details><summary><span class="q-n" aria-hidden="true">06</span><span class="q-t">המחירים כוללים מע״מ?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>כן, כל המחירים באתר כוללים מע״מ, גם לעסקים וגם לפרטיים. המחיר שרואים הוא המחיר שמשלמים, ועסקים מקבלים חשבונית מס.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">07</span><span class="q-t">איך שולחים חומרים לסרטון?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>לינק לדרייב, או ישירות בוואטסאפ. סרטונים עדיף לשלוח כקובץ, כי וואטסאפ דוחס ומוריד איכות. לטרנד הכי טוב 3 תמונות: פנים מקדימה, פרופיל וכל הגוף.</p></div></details>
-      <details><summary><span class="q-n" aria-hidden="true">08</span><span class="q-t">ואם הטיוטה לא מתאימה?</span><span class="q-i" aria-hidden="true"></span></summary><div class="ans"><p>אומרים מה לשנות, גם בהודעה קולית. סבב תיקון אחד כלול במחיר, וכל סבב נוסף מתומחר לפי היקף.</p></div></details>
     </div>
     <div class="faq-cta">
       <div><b>יש שאלה שלא מופיעה כאן?</b><span>כתבו לנו בוואטסאפ ונחזור אליכם.</span></div>
@@ -2555,6 +2190,25 @@ html.mnav-open{overflow:hidden}
   var last = scrollY, tick = false;
   window.addEventListener('scroll', function(){ if (tick) return; tick = true; requestAnimationFrame(function(){
     var y = scrollY; if (y > last + 6 && y > 240) btn.classList.add('hide'); else if (y < last - 6 || y < 240) btn.classList.remove('hide'); last = y; tick = false; }); }, {passive: true});
+})();
+</script>
+<script>
+/* work carousel: swipe or arrows; a video plays only while its slide is on screen */
+(function(){
+  var car = document.querySelector('.wcar'); if (!car) return;
+  var track = car.querySelector('.wcar-track'), slides = [].slice.call(track.querySelectorAll('.wslide')), dots = car.querySelector('.wcar-dots');
+  slides.forEach(function(sl, i){ var d = document.createElement('i'); dots.appendChild(d); });
+  var ds = [].slice.call(dots.children);
+  function step(){ return slides.length > 1 ? Math.abs(slides[1].offsetLeft - slides[0].offsetLeft) : track.clientWidth; }
+  car.querySelectorAll('.wcar-btn').forEach(function(b){ b.addEventListener('click', function(){ track.scrollBy({left: +b.getAttribute('data-dir') * step(), behavior: 'smooth'}); }); });
+  function mark(){ var i = Math.round(Math.abs(track.scrollLeft) / Math.max(1, step())); ds.forEach(function(d, k){ d.classList.toggle('on', k === Math.min(i, ds.length - 1)); }); }
+  track.addEventListener('scroll', function(){ requestAnimationFrame(mark); }, {passive: true}); mark();
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ var v = e.target;
+      if (e.isIntersecting && e.intersectionRatio > .55) { if (!v.src && v.dataset.src) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+      else if (!v.paused) v.pause(); }); }, {threshold: [0, .55, 1]});
+    track.querySelectorAll('video[data-src]').forEach(function(v){ io.observe(v); });
+  } else track.querySelectorAll('video[data-src]').forEach(function(v){ v.src = v.dataset.src; v.autoplay = true; });
 })();
 </script>
 </body>

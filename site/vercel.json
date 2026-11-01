@@ -45,6 +45,10 @@
       "dest": "/trends/index.html"
     },
     {
+      "src": "/studio/?",
+      "dest": "/studio/index.html"
+    },
+    {
       "src": "/videos/?",
       "dest": "/videos/index.html"
     },

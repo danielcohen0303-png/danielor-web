@@ -102,6 +102,7 @@ export const scenes: Scene[] = [
         from: 0.34,
         to: 0.78,
         neon: true,
+        top: true,
         script: "AI Agent",
         kicker: "סוכן וואטסאפ AI",
         title: "הלקוחות כותבים|הסוכן כבר עונה",
@@ -116,9 +117,10 @@ export const scenes: Scene[] = [
     pace: 100,
     captions: [
       {
-        from: 0.5,
-        to: 0.92,
+        from: 0.26,
+        to: 0.62,
         neon: true,
+        top: true,
         script: "Business App",
         kicker: "אפליקציית ניהול",
         title: "כל העסק|באפליקציה אחת",

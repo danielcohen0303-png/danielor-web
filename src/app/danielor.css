@@ -331,3 +331,22 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
 }
 
 .sg.sg-off { opacity: 0 !important; transition: opacity 0.4s ease; }
+
+/* a computer: the film fills the window, so the captions step aside into the
+   right-hand column (where Hebrew starts) and leave the middle, where the
+   story's object is, clean */
+@media (min-aspect-ratio: 4/3) {
+  main .kc, main .kc.kc-top {
+    inset: auto auto 13svh 0;
+    inset-inline-start: 5%;
+    width: min(42%, 640px);
+    justify-items: start;
+    text-align: start;
+  }
+  main .kc.kc-top { inset-block: calc(env(safe-area-inset-top, 0px) + 90px) auto; }
+  main .kc-row { justify-content: flex-start; }
+  main .kc-title { justify-items: start; }
+  main .kc-rule { transform-origin: 100% 50%; }
+  main .kc-neon { justify-self: start; width: min(100%, 560px); }
+  main .kc::before { margin: -14% -12%; }
+}

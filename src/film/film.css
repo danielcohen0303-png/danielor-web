@@ -1,0 +1,971 @@
+/* The scroll-film engine's styles: scenes (.hf), captions (.kc), the scroll
+   guide (.sg) and the .screen column. Pulled from adele-site's home.css
+   (01.11.2026); colours are still Adele's, re-tint them per site. */
+/* ---------- the film ---------- */
+
+.hf {
+  position: relative;
+}
+
+.hf-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--ivory);
+}
+
+.hf-pic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  transform-origin: 50% 70%;
+}
+
+/* captions later in the film, on a soft ivory floor */
+
+.hf-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(251, 247, 245, 0.85), rgba(251, 247, 245, 0));
+  pointer-events: none;
+}
+
+.hf-caps {
+  position: absolute;
+  inset: auto 20px 15svh 20px;
+  z-index: 1;
+  display: grid;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hf-cap {
+  grid-area: 1 / 1;
+  font: 600 clamp(28px, 7.6cqw, 48px) / 1.18 var(--font-head);
+  color: var(--plum);
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, transform;
+}
+
+.hf-cap-end {
+  display: grid;
+  gap: 6px;
+}
+
+.hf-cap-kicker {
+  font: 600 12px/1 var(--font-body);
+  letter-spacing: 0.3em;
+  color: var(--rose);
+}
+
+.hf-cap-title {
+  font-size: clamp(36px, 10cqw, 60px);
+}
+
+.hf-cap-line {
+  font: 400 clamp(18px, 4.8cqw, 24px) / 1.3 var(--font-body);
+}
+
+.hf-cue {
+  position: absolute;
+  inset: auto 0 calc(26px + env(safe-area-inset-bottom)) 0;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  font: 600 13px/1 var(--font-body);
+  color: var(--plum);
+  transition: opacity 0.5s;
+}
+
+/* the entrance runs on the children: an animation on .hf-cue itself would
+   override the inline opacity that hides it once she scrolls */
+
+.hf-cue span {
+  animation: hf-rise 1s 1.2s both;
+}
+
+.hf-cue i {
+  width: 1.5px;
+  height: 38px;
+  background: linear-gradient(var(--rose), transparent);
+  transform-origin: top;
+  animation: hf-cue 2.2s 1.6s ease-in-out infinite both;
+}
+
+@keyframes hf-cue {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hf-cue i {
+    animation: none;
+  }
+}
+
+.sx-head .kc {
+  position: relative;
+  inset: auto;
+}
+
+.sx-head .kc::before {
+  display: none;
+}
+
+.sx-head .kc-neon {
+  width: min(84cqw, 460px);
+}
+
+.sx-head .kc-kicker {
+  color: #a06a6c;
+  text-shadow: none;
+}
+
+.sx-head .kc-title {
+  font-size: clamp(36px, 10cqw, 60px);
+}
+
+.sx-head .kc-row {
+  filter: drop-shadow(0 1px 0 #e3b6a4) drop-shadow(0 1px 0 #cf9c88) drop-shadow(0 2px 0 #b98371) drop-shadow(0 12px 16px rgba(80, 44, 46, 0.2));
+}
+
+.sx-head .kc-word {
+  background: linear-gradient(180deg, #3a2622 0%, #1d1210 55%, #2c1c19 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@keyframes love-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- the gate: the signature over the film ---------- */
+
+.hf-gate {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: var(--ivory); /* until the gate's first frame */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hf-gate-text {
+  position: absolute;
+  inset: 56svh 20px auto 20px; /* replaced by the signature's real bottom once measured */
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hf-gate-text span {
+  opacity: 0;
+  animation: hf-rise 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.hf-gate-en {
+  font: 500 13px/1 var(--font-head);
+  letter-spacing: 0.5em;
+  margin-inline-end: -0.5em;
+  color: var(--plum);
+  animation-delay: 1.5s !important;
+}
+
+.hf-gate-he {
+  font: 600 14px/1 var(--font-body);
+  color: var(--rose);
+  animation-delay: 1.9s !important;
+}
+
+.hf-cue {
+  z-index: 5;
+}
+
+@keyframes hf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.hf-cap-top {
+  position: absolute;
+  inset: 19svh 20px auto 20px;
+  z-index: 1;
+  text-align: center;
+  font-size: clamp(34px, 9.5cqw, 60px);
+}
+
+/* ---------- the ribbon's rise ---------- */
+
+.hf-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hf-nos {
+  position: absolute;
+  inset: auto 20px 22svh 20px;
+  z-index: 2;
+  display: grid;
+  gap: 4px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hf-nos {
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+
+/* rose-gold letters with real depth: the face is a metal gradient with a
+   glint that crosses it once the word is whole; the stacked shadows below
+   are the letter's side, then a soft shadow on the "wall" */
+
+.hf-no {
+  font: 700 clamp(36px, 10.4cqw, 62px) / 1.12 var(--font-head);
+  text-align: center;
+  transform-style: preserve-3d;
+}
+
+.hf-no span {
+  --glint: -30%; /* without a value the whole background would be dropped */
+  display: inline-block;
+  opacity: 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  background: linear-gradient(
+      100deg,
+      transparent calc(var(--glint) - 12%),
+      rgba(255, 250, 252, 0.95) var(--glint),
+      transparent calc(var(--glint) + 12%)
+    ),
+    linear-gradient(160deg, #e9b8c7 0%, #c07d92 38%, #f4d3dc 55%, #a8627b 78%, #7d4258 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* the side of the letter: one-pixel shadows, each cast from the one before
+     (text-shadow would paint over a text-clipped background) */
+  filter: drop-shadow(1px 1px 0 #a8657d) drop-shadow(1px 1px 0 #96586f) drop-shadow(1px 1px 0 #864d62)
+    drop-shadow(1px 1px 0 #774357) drop-shadow(2px 5px 7px rgba(55, 38, 48, 0.3));
+}
+
+/* the three lines step across, like a breath: right, centre, left */
+
+.hf-no:nth-child(1) {
+  text-align: right;
+}
+
+.hf-no:nth-child(3) {
+  text-align: left;
+}
+
+.hf-cap-end .hf-cap-kicker {
+  letter-spacing: 0.18em;
+}
+
+/* ---------- the dawn opening: a dark room, light captions ---------- */
+
+.hf-dawn .hf-stage::after,
+.hf-enter .hf-stage::after {
+  background: linear-gradient(to top, rgba(40, 26, 34, 0.55), rgba(40, 26, 34, 0));
+}
+
+.hf-enter .hf-cap {
+  text-wrap: balance;
+}
+
+.hf-dawn .hf-cap,
+.hf-enter .hf-cap {
+  color: #fbf7f5;
+  text-shadow: 0 2px 22px rgba(40, 26, 34, 0.65);
+}
+
+.hf-dawn .hf-cap-kicker {
+  color: #f0c9d5;
+}
+
+/* ---------- the mirror: the gate is the steam itself, no ivory sheet ---------- */
+
+.hf-steam .hf-gate-en {
+  color: #fff;
+  text-shadow: 0 1px 10px rgba(55, 38, 48, 0.45);
+}
+
+.hf-steam .hf-gate-he {
+  color: #fff;
+  text-shadow: 0 1px 10px rgba(55, 38, 48, 0.45);
+}
+
+/* the gate can write its second line itself (the mirror): then this HTML line steps aside */
+
+.hf-gate-text[hidden] {
+  display: none;
+}
+
+.hf-mirror .hf-gate {
+  background: url(/film/morning-mirror-in/v1/sheet.webp) center / cover no-repeat;
+}
+
+.hf-fog .hf-gate {
+  background: url(/film/morning-fog/v1/fog.webp) center / cover no-repeat;
+}
+
+.hf-door .hf-gate {
+  background: url(/film/door-test/v1/door.webp) center / cover no-repeat;
+}
+
+/* ---------- the window's light: floods the screen white as the curtain opens ---------- */
+
+.hf-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 62% 38%, #fffdf8 0%, #fff6ea 45%, rgba(255, 238, 214, 0.96) 75%, rgba(255, 228, 200, 0.92) 100%);
+}
+
+/* the scene opens out of the white the opening ended on */
+
+.hf-flash-in {
+  opacity: 1;
+}
+
+/* a treatment scene starts under the last screen of the one before (both white there),
+   and shows its stage only once pinned: one white hands over to the other, no seam */
+
+.hf-scene {
+  margin-top: calc(var(--svh, 1svh) * -100);
+}
+
+/* hidden until its film has started and it is pinned (the film shows it) */
+
+.hf-scene .hf-stage {
+  visibility: hidden;
+}
+
+/* treatment scenes: light captions on a soft dark floor, like the opening's room */
+
+.hf-scene .hf-stage::after {
+  background: linear-gradient(to top, rgba(40, 26, 34, 0.55), rgba(40, 26, 34, 0));
+}
+
+.hf-scene .hf-cap {
+  color: #fbf7f5;
+  text-shadow: 0 2px 22px rgba(40, 26, 34, 0.65);
+  text-wrap: balance;
+}
+
+.hf-scene .hf-cap-kicker {
+  color: #f0c9d5;
+}
+
+/* ---------- kinetic captions ---------- */
+
+.kc {
+  position: absolute;
+  inset: auto 12px 16svh 12px;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* the English word in the signature hand, rose gold, behind the title */
+
+.kc-script {
+  grid-area: 1 / 1;
+  align-self: end;
+  margin-bottom: -0.22em;
+  font-family: var(--font-sig);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  direction: ltr;
+  --sheen: -40%;
+  background: linear-gradient(105deg, #9c5d55 0%, #d79c88 calc(var(--sheen) - 18%), #fff0e4 var(--sheen), #d0907c calc(var(--sheen) + 18%), #8f5049 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: clip-path, transform, filter;
+  /* a fine dark rim so the gold reads on a bright scene too */
+  -webkit-text-stroke: 1px rgba(92, 46, 42, 0.55);
+}
+
+/* a soft shade behind the whole caption, so gold and ivory read on a bright scene */
+
+.kc::before {
+  content: "";
+  grid-area: 1 / 1 / 6 / 2;
+  place-self: stretch;
+  margin: -10% -6%;
+  background: radial-gradient(closest-side, rgba(36, 22, 26, 0.42), rgba(36, 22, 26, 0));
+  filter: blur(18px);
+  z-index: -1;
+}
+
+.kc-kicker {
+  grid-area: 2 / 1;
+  margin-top: 6px;
+  font: 700 13px/1 var(--font-body);
+  letter-spacing: 0.3em;
+  color: #f3cfc2;
+  text-shadow: 0 1px 10px rgba(40, 26, 34, 0.6);
+}
+
+.kc-title {
+  grid-area: 3 / 1;
+  margin-top: 6px;
+  display: grid;
+  justify-items: center;
+  font: 800 clamp(44px, 13cqw, 88px) / 1.02 var(--font-head);
+}
+
+/* the 3D letters: an ivory face, a rose-gold edge stacked under it, and a deep soft shadow */
+
+.kc-row {
+  display: flex;
+  justify-content: center;
+  gap: 0 0.24em;
+  white-space: nowrap;
+  /* the perspective sits on the row: its filter flattens it, so the words get their depth from here */
+  perspective: 700px;
+  perspective-origin: 50% 130%;
+  filter: drop-shadow(0 1px 0 #f1cfc0) drop-shadow(0 1px 0 #dcae9c) drop-shadow(0 1px 0 #c79381) drop-shadow(0 1px 0 #b07a6a)
+    drop-shadow(0 2px 0 #956157) drop-shadow(0 14px 22px rgba(28, 14, 18, 0.55));
+}
+
+.kc-slot {
+  display: inline-block;
+  transform-style: preserve-3d;
+}
+
+.kc-word {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #fff6ef 45%, #f4dfd3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  will-change: transform, filter, opacity;
+}
+
+.kc-rule {
+  grid-area: 4 / 1;
+  margin-top: 14px;
+  width: min(220px, 52cqw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e7b8a6 20%, #fff1e8 50%, #e7b8a6 80%, transparent);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+}
+
+.kc-line {
+  grid-area: 5 / 1;
+  margin-top: 14px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font: 600 15px/1 var(--font-body);
+  letter-spacing: 0.04em;
+  color: #fffaf6;
+  background: rgba(255, 246, 240, 0.14);
+  border: 1px solid rgba(240, 205, 190, 0.45);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kc-script { clip-path: none; }
+}
+
+/* ---------- the title card: on the white between scenes, never over the picture ---------- */
+
+.kc-card-host {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.kc.kc-card {
+  inset: 0 14px;
+  align-content: center;
+  transform-origin: 50% 46%;
+  will-change: transform, filter, opacity;
+}
+
+.kc-card::before {
+  display: none;
+}
+
+/* onyx letters on a rose-gold edge, like the name at the top of the site */
+
+.kc-onyx .kc-row {
+  filter: drop-shadow(0 1px 0 #e3b6a4) drop-shadow(0 1px 0 #cf9c88) drop-shadow(0 1px 0 #b98371) drop-shadow(0 2px 0 #9d6a5c)
+    drop-shadow(0 16px 20px rgba(80, 44, 46, 0.28));
+}
+
+.kc-onyx .kc-word {
+  background: linear-gradient(180deg, #3a2622 0%, #1d1210 55%, #2c1c19 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.kc-onyx .kc-script {
+  -webkit-text-stroke: 0;
+}
+
+.kc-onyx .kc-kicker {
+  color: #a06a6c;
+  text-shadow: none;
+}
+
+.kc-onyx .kc-line {
+  color: #3a2622;
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(192, 125, 146, 0.45);
+}
+
+/* the opening's line: low, on a soft ivory panel, below her head and shoulders */
+
+.kc-panel {
+  inset: auto 14px 12svh 14px;
+  padding: 18px 10px 16px;
+}
+
+.kc-panel::before {
+  margin: 0;
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(251, 247, 245, 0.82), rgba(246, 230, 232, 0.78));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 18px 50px rgba(40, 20, 24, 0.22);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  filter: none;
+}
+
+.kc-panel .kc-title {
+  font-size: clamp(34px, 10cqw, 64px);
+}
+
+/* ---------- neon: the English word written in light ---------- */
+
+.kc-neon {
+  grid-area: 1 / 1;
+  align-self: end;
+  width: min(94cqw, 620px);
+  margin-bottom: -2%;
+  direction: ltr;
+  transform-origin: 50% 60%;
+  will-change: transform, opacity, filter;
+}
+
+.kc-neon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* the light the tube throws around it */
+  filter: drop-shadow(0 0 3px rgba(255, 196, 208, 0.95)) drop-shadow(0 0 12px rgba(236, 140, 162, 0.75)) drop-shadow(0 0 28px rgba(215, 165, 147, 0.55));
+}
+
+.kc-neon path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0 99999;
+}
+
+/* blush halo, rose tube (it reads on the white too), white-hot core */
+
+.kc-neon-glow { stroke: rgba(236, 140, 162, 0.3); stroke-width: 9; }
+
+.kc-neon-tube { stroke: #c97a87; stroke-width: 3.8; }
+
+.kc-neon-core { stroke: #fff4f6; stroke-width: 1.4; }
+
+.kc-neon-pen {
+  fill: #fffafb;
+  opacity: 0;
+  filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 16px #f6a9bd);
+}
+
+.kc-top .kc-neon { width: min(66cqw, 400px); }
+
+/* over the picture the tube burns brighter, like a real sign in the room */
+
+.kc-top .kc-neon-tube { stroke: #f2a5b6; stroke-width: 4.4; }
+
+.kc-top .kc-neon-core { stroke: #ffffff; stroke-width: 1.8; }
+
+.kc-top .kc-neon-glow { stroke: rgba(255, 170, 190, 0.5); stroke-width: 11; }
+
+/* over the picture, small, at the top: above the people's heads, under the header */
+
+.kc.kc-top {
+  inset: calc(env(safe-area-inset-top, 0px) + 58px) 12px auto 12px;
+}
+
+.kc-top::before {
+  margin: -30% -10%;
+  background: radial-gradient(closest-side, rgba(36, 22, 26, 0.32), rgba(36, 22, 26, 0));
+}
+
+.kc-top .kc-kicker {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+/* ---------- the scroll guide: a rose-gold line down the left edge, filling as she scrolls ---------- */
+
+.sg {
+  --f: 0;
+  position: fixed;
+  top: 22svh;
+  bottom: 24svh;
+  left: 10px;
+  z-index: 25;
+  width: 2px;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+.sg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: rgba(255, 246, 242, 0.35);
+  box-shadow: 0 0 0 0.5px rgba(80, 44, 46, 0.18);
+}
+
+.sg-line {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(#fff3ec, #e7b8a6 40%, #c07d92);
+  transform-origin: 50% 0;
+  transform: scaleY(var(--f));
+  box-shadow: 0 0 8px rgba(240, 170, 160, 0.7);
+}
+
+.sg-bead {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--f) * 100%);
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: #fff7f3;
+  box-shadow: 0 0 10px #ffd9cb, 0 0 20px rgba(240, 160, 140, 0.85);
+}
+
+/* how far along: a small pill beside the bead */
+
+.sg-pct {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font: 700 11px/1 var(--font-body);
+  color: var(--plum);
+  background: rgba(255, 250, 247, 0.82);
+  border: 1px solid rgba(215, 165, 147, 0.55);
+  box-shadow: 0 4px 12px rgba(80, 44, 46, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  direction: ltr;
+  white-space: nowrap;
+}
+
+/* when she pauses: "keep scrolling" under the bead, breathing downwards */
+
+.sg-hint {
+  position: absolute;
+  left: 14px;
+  top: calc(50% + 16px);
+  display: grid;
+  justify-items: start;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font: 700 12px/1.1 var(--font-body);
+  color: #fff;
+  background: linear-gradient(135deg, #d39aa9, var(--rose));
+  box-shadow: 0 6px 16px rgba(192, 125, 146, 0.45);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.sg-hint b {
+  justify-self: center;
+  font-size: 16px;
+  line-height: 0.8;
+  animation: sg-down 1.4s ease-in-out infinite;
+}
+
+.sg-idle .sg-hint {
+  opacity: 1;
+  transform: none;
+}
+
+.sg-end {
+  opacity: 0;
+}
+
+@keyframes sg-down {
+  0%,
+  100% {
+    transform: translateY(-2px);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sg-hint b {
+    animation: none;
+  }
+}
+
+.ng .kc {
+  position: relative;
+  inset: auto;
+}
+
+.ng .kc::before {
+  display: none;
+}
+
+.ng-name .kc-neon {
+  width: min(80cqw, 470px);
+  margin: 0;
+}
+
+.ng-sub .kc-neon {
+  width: min(88cqw, 520px);
+  margin: -4% 0 0;
+}
+
+/* the logo's strokes are traced on both edges; at these widths the two edges merge into one tube */
+
+.ng .kc-neon-tube {
+  stroke: #ffc2d1;
+  stroke-width: 7;
+}
+
+.ng .kc-neon-core {
+  stroke: #ffffff;
+  stroke-width: 3.2;
+}
+
+.ng .kc-neon-glow {
+  stroke: rgba(255, 120, 162, 0.5);
+  stroke-width: 22;
+}
+
+.ng .kc-neon svg {
+  filter: drop-shadow(0 0 4px rgba(255, 220, 230, 0.95)) drop-shadow(0 0 16px rgba(255, 110, 150, 0.75)) drop-shadow(0 0 40px rgba(255, 120, 160, 0.5));
+}
+
+/* while the sign is up, the side guide steps back: the sign has its own "scroll in" cue */
+
+.in-gate .sg {
+  opacity: 0;
+}
+
+.sx-dark .sx-head .kc-word {
+  background: linear-gradient(180deg, #ffffff 0%, #fff4ee 45%, #f1d9cd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.sx-dark .sx-head .kc-row {
+  filter: drop-shadow(0 1px 0 #f1cfc0) drop-shadow(0 1px 0 #d7a593) drop-shadow(0 2px 0 #a8705f) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55));
+}
+
+.sx-dark .sx-head .kc-kicker {
+  color: #f0b9c6;
+}
+
+/* on the dark the tubes burn like real neon */
+
+.sx-dark .kc-neon-tube {
+  stroke: #ffb3c6;
+  stroke-width: 4.6;
+}
+
+.sx-dark .kc-neon-core {
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.sx-dark .kc-neon-glow {
+  stroke: rgba(255, 90, 140, 0.55);
+  stroke-width: 14;
+}
+
+.sx-dark .kc-neon svg {
+  filter: drop-shadow(0 0 4px rgba(255, 210, 222, 0.95)) drop-shadow(0 0 18px rgba(255, 80, 135, 0.8)) drop-shadow(0 0 44px rgba(255, 90, 140, 0.5));
+}
+
+/* a quieter head where there is no neon: the kicker and the title alone */
+
+.sx-head-plain .kc-kicker {
+  font-size: 13px;
+  letter-spacing: 0.34em;
+}
+
+@keyframes book-sweep {
+  0%,
+  70% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+/* ---------- a real result on the white of a transition: a small before and after pair ---------- */
+
+.kc-photos {
+  grid-area: 6 / 1;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+  perspective: 700px;
+}
+
+.kc-photo {
+  position: relative;
+  width: min(30cqw, 140px);
+  aspect-ratio: 3 / 4;
+  padding: 5px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 34px rgba(80, 44, 46, 0.22), 0 0 0 1px rgba(215, 165, 147, 0.5);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.kc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.kc-photo i {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font: 700 11px/1 var(--font-body);
+  font-style: normal;
+  color: #fff;
+  background: rgba(55, 38, 48, 0.55);
+}
+
+.kc-photo-after i {
+  background: rgba(155, 61, 98, 0.85);
+}
+
+/* Adele on the welcome: an arched frame with a rose-gold edge */
+
+.kc-photo.kc-portrait {
+  width: min(42cqw, 190px);
+  padding: 5px;
+  border-radius: 999px 999px 18px 18px;
+  background: linear-gradient(160deg, #fff6f1, #e7b8a6);
+}
+
+.kc-portrait img {
+  border-radius: 999px 999px 14px 14px;
+}
+
+/* one real result on the white: a single tilted photo */
+
+.kc-photo.kc-result {
+  width: min(46cqw, 210px);
+  aspect-ratio: 1;
+}
+
+/* ---------- on a wide screen (computer, landscape tablet): the film plays in a portrait frame in
+   the middle, like a story, on the brand's blush; everything in it is sized to the frame (cqw:
+   container units, which fall back to the screen outside the film) ---------- */
+
+.hf-stage {
+  container-type: inline-size;
+}
+
+/* the scrolling column: a container, so sizes inside follow its width (the phone's, on a computer) */
+
+.screen {
+  container-type: inline-size;
+}
+
+@media (min-aspect-ratio: 3/4) {
+  .screen {
+    width: var(--pw);
+    margin-inline: auto;
+    background: var(--ivory);
+  }
+  .hf-stage {
+    top: 5svh;
+    height: var(--ph);
+  }
+}
+
+@media (min-aspect-ratio: 3/4) {
+  .sg {
+    display: none;
+  }
+}

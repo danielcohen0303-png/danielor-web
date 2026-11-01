@@ -1,0 +1,39 @@
+/* Tokens. The brand's colours come from src/site.config.ts (theme) as --c-*
+   on <html>; Danielor's own shades (from danielor.ai) are below. */
+:root {
+  --ivory: var(--c-bg, #f6f1fb);
+  --rose: var(--c-accent, #ff2fc8);
+  --plum: var(--c-ink, #1d1033);
+  --ink: var(--c-ink, #1d1033);
+  --night: #150a26;
+  --night-2: #241040;
+  --pink: #d9109a;
+  --pink-hot: #ff2fc8;
+  --violet: #7a35e6;
+  --lilac: #c9b3f2;
+  --grad: linear-gradient(90deg, #ff2fc8, #8b3dff);
+  --font-rubik: "Rubik Variable";
+  --font-display: "Karantina", "Rubik Variable", system-ui, sans-serif;
+  --font-sig: "Karantina";
+  --font-head: var(--font-display);
+  --font-body: var(--font-rubik), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* clip, not hidden: overflow hidden on an ancestor breaks position: sticky */
+html {
+  overflow-x: clip;
+  background: var(--night);
+}
+
+body {
+  color: var(--ink);
+  background: var(--night);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,333 @@
+/* Danielor's skin on the kit: the dark lilac hour the film lives in, neon in
+   hot pink and violet, and after the film the lilac glow of danielor.ai.
+   Transforms and opacity for motion; no backdrop-filter over the films
+   (iPhone recomputes it every frame the picture moves). */
+
+/* ---------- header ---------- */
+
+.dn-head { padding-inline: 14px; }
+.dn-brand {
+  font: 700 22px/1 var(--font-display);
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-decoration: none;
+  padding: 9px 16px 7px;
+  border-radius: 999px;
+  background: rgba(21, 10, 38, 0.62);
+  border: 1px solid rgba(255, 120, 225, 0.35);
+  box-shadow: 0 0 18px rgba(255, 47, 200, 0.22), inset 0 0 12px rgba(139, 61, 255, 0.18);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+}
+.dn-brand span { color: var(--pink-hot); text-shadow: 0 0 10px rgba(255, 47, 200, 0.75); }
+
+.dn-btn {
+  background: var(--grad);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 8px 26px rgba(255, 47, 200, 0.38), 0 0 40px rgba(139, 61, 255, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.dn-btn:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28) inset, 0 10px 34px rgba(255, 47, 200, 0.5), 0 0 60px rgba(139, 61, 255, 0.35); }
+
+/* ---------- the opening: the dark the film's spark is born in ---------- */
+
+.dn-open {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+  gap: 14px;
+  background:
+    radial-gradient(60% 46% at 50% 44%, rgba(255, 47, 200, 0.16), transparent 70%),
+    radial-gradient(90% 70% at 50% 50%, #2a1446 0%, #1a0c2e 55%, #120822 100%);
+  color: #fff;
+}
+.dn-open::after {
+  /* the bottom melts into the film's first frame */
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: linear-gradient(180deg, transparent, #160a29);
+  z-index: -1;
+}
+.dn-open-sign { width: min(88vw, 760px); margin-bottom: 4px; }
+.dn-open-title {
+  font: 700 clamp(54px, 15vw, 128px) / 0.86 var(--font-display);
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow: 0 0 28px rgba(201, 179, 242, 0.25);
+  animation: kit-rise 1.1s 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.dn-hot {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255, 47, 200, 0.55));
+  animation: dn-buzz 2.6s 2.2s ease-out 1 both;
+}
+.dn-open-sub {
+  max-width: 30ch;
+  font: 400 clamp(15px, 4vw, 18px) / 1.55 var(--font-body);
+  color: rgba(236, 224, 255, 0.82);
+  animation: kit-rise 1s 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.dn-open .kit-open-cue { animation-delay: 2.3s; }
+.dn-open .swipe-cue { color: #fff; }
+.dn-open .swipe-cue-label { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 140, 228, 0.5); box-shadow: 0 0 18px rgba(255, 47, 200, 0.25); }
+.dn-open .swipe-cue-touch { border-color: var(--pink-hot); }
+.dn-open .swipe-cue-wheel { fill: var(--pink-hot); }
+
+/* pink sparks drifting up through the dark */
+.dn-open-sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.dn-open-sky i {
+  position: absolute;
+  left: calc(mod(var(--i) * 37 + 7, 100) * 1%);
+  bottom: -10px;
+  width: calc(2px + mod(var(--i), 3) * 1.5px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ffd6f6;
+  box-shadow: 0 0 6px 2px rgba(255, 47, 200, 0.85), 0 0 18px 4px rgba(139, 61, 255, 0.45);
+  opacity: 0;
+  animation: dn-rise calc(7s + mod(var(--i) * 13, 7) * 1s) linear calc(var(--i) * -0.83s) infinite;
+}
+@keyframes dn-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: 0.95; }
+  70% { opacity: 0.6; }
+  100% { transform: translate3d(calc((mod(var(--i), 5) - 2) * 14px), -105svh, 0); opacity: 0; }
+}
+
+/* ---------- the sign ---------- */
+
+.dn-sign { position: relative; direction: ltr; isolation: isolate; aspect-ratio: 900 / 398; }
+.dn-sign img { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
+.dn-sign-off { opacity: 0.32; filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.25)); }
+.dn-sign-on { clip-path: inset(0 var(--r) 0 var(--l)); opacity: 0; will-change: opacity; }
+.dn-open-sign .dn-sign-on { animation: dn-ignite 0.9s linear var(--d) 1 forwards; }
+.dn-open-sign { animation: dn-breathe 4.8s 3s ease-in-out infinite; }
+@keyframes dn-ignite {
+  0% { opacity: 0; } 8% { opacity: 1; } 14% { opacity: 0.15; } 24% { opacity: 0.95; } 31% { opacity: 0.35; } 40%, 100% { opacity: 1; }
+}
+@keyframes dn-breathe { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.12) drop-shadow(0 0 22px rgba(255, 47, 200, 0.35)); } }
+@keyframes dn-buzz { 0% { opacity: 0.2; } 6% { opacity: 1; } 10% { opacity: 0.35; } 16%, 100% { opacity: 1; } }
+/* the four-point star over the I: a white-hot glint */
+.dn-sign-star {
+  position: absolute;
+  left: 45.2%;
+  top: 17.5%;
+  width: 9%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle, #fff 0 6%, rgba(255, 220, 248, 0.85) 9%, transparent 26%),
+    conic-gradient(from 45deg, transparent 0 22%, rgba(255, 255, 255, 0) 22%);
+  -webkit-mask: radial-gradient(circle, #000 0 18%, transparent 19%), linear-gradient(#000, #000) center / 6% 100% no-repeat, linear-gradient(#000, #000) center / 100% 6% no-repeat;
+  mask: radial-gradient(circle, #000 0 18%, transparent 19%), linear-gradient(#000, #000) center / 6% 100% no-repeat, linear-gradient(#000, #000) center / 100% 6% no-repeat;
+  filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #ff8ae4);
+  opacity: 0;
+}
+.dn-open-sign .dn-sign-star { animation: dn-glint 2.4s 1.7s ease-in-out infinite; }
+@keyframes dn-glint {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(0deg); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(1.15) rotate(45deg); }
+  60%, 100% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.9) rotate(90deg); }
+}
+
+/* ---------- the films: the dark between them, the captions in neon ---------- */
+
+main .screen, main .hf-scene, main .hf-stage { background: #160a29; }
+
+main .kc::before {
+  background: radial-gradient(closest-side, rgba(18, 7, 36, 0.55), rgba(18, 7, 36, 0));
+}
+main .kc-kicker {
+  font: 700 13px/1 var(--font-body);
+  letter-spacing: 0.32em;
+  color: #ffd2f3;
+  text-shadow: 0 0 12px rgba(255, 47, 200, 0.8), 0 1px 8px rgba(18, 7, 36, 0.8);
+}
+main .kc-title { font: 700 clamp(60px, 17cqw, 136px) / 0.88 var(--font-display); letter-spacing: 0.005em; }
+main .kc-row {
+  gap: 0 0.2em;
+  filter: drop-shadow(0 1px 0 #ffc2ef) drop-shadow(0 1px 0 #f78ad8) drop-shadow(0 1px 0 #e05cc6) drop-shadow(0 1px 0 #b543b3)
+    drop-shadow(0 2px 0 #7a2a8f) drop-shadow(0 0 22px rgba(255, 47, 200, 0.45)) drop-shadow(0 16px 24px rgba(14, 4, 30, 0.6));
+}
+main .kc-word { background: linear-gradient(180deg, #ffffff 0%, #fff4fd 45%, #f7d4f4 100%); -webkit-background-clip: text; background-clip: text; }
+main .kc-rule { height: 2px; background: linear-gradient(90deg, transparent, #ff2fc8 22%, #fff 50%, #8b3dff 78%, transparent); box-shadow: 0 0 12px rgba(255, 47, 200, 0.8); }
+main .kc-line {
+  font: 600 15px/1.2 var(--font-body);
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: rgba(30, 10, 54, 0.5);
+  border: 1px solid rgba(255, 120, 225, 0.55);
+  box-shadow: 0 0 18px rgba(255, 47, 200, 0.28), inset 0 0 14px rgba(139, 61, 255, 0.2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* neon: hot pink tube, white-hot core, violet halo */
+main .kc-neon svg { filter: drop-shadow(0 0 3px rgba(255, 190, 240, 0.95)) drop-shadow(0 0 12px rgba(255, 47, 200, 0.85)) drop-shadow(0 0 30px rgba(139, 61, 255, 0.6)); }
+main .kc-neon-glow { stroke: rgba(255, 47, 200, 0.32); stroke-width: 10; }
+main .kc-neon-tube { stroke: #ff5fd6; stroke-width: 4; }
+main .kc-neon-core { stroke: #fff; stroke-width: 1.5; }
+main .kc-neon-pen { fill: #fff; filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 18px #ff2fc8); }
+main .kc-top .kc-neon-tube { stroke: #ff7ade; stroke-width: 4.4; }
+main .kc-top .kc-neon-glow { stroke: rgba(255, 47, 200, 0.45); stroke-width: 12; }
+main .kc-top .kc-title { font-size: clamp(46px, 12cqw, 100px); }
+main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36, 0.45), rgba(18, 7, 36, 0)); }
+
+/* ---------- the finale over the clouds ---------- */
+
+.dn-fin-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.dn-fin {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 0 20px;
+  text-align: center;
+  visibility: hidden;
+}
+.dn-fin::before {
+  content: "";
+  position: absolute;
+  inset: 22% -10%;
+  background: radial-gradient(closest-side, rgba(28, 8, 52, 0.5), rgba(28, 8, 52, 0));
+  filter: blur(10px);
+  z-index: -1;
+}
+.dn-fin-sign { width: min(86cqw, 860px); }
+.dn-fin-sign .dn-sign-off { opacity: 0.38; }
+.dn-fin-line {
+  max-width: 34ch;
+  font: 500 clamp(16px, 4.2cqw, 22px) / 1.5 var(--font-body);
+  color: #fff;
+  text-shadow: 0 1px 14px rgba(28, 8, 52, 0.85);
+}
+.dn-fin-line b { display: block; font-weight: 700; color: #ffe0f7; }
+.dn-fin-cta { min-height: 56px; padding: 0 30px; font-size: 18px; }
+.dn-fin-sparks { position: absolute; inset: 0; pointer-events: none; }
+.dn-fin-sparks i {
+  position: absolute;
+  left: calc(mod(var(--i) * 41 + 11, 86) * 1% + 7%);
+  bottom: calc(mod(var(--i) * 17, 30) * 1%);
+  width: calc(3px + mod(var(--i), 3) * 2px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff0fb;
+  box-shadow: 0 0 8px 3px rgba(255, 47, 200, 0.9), 0 0 22px 6px rgba(139, 61, 255, 0.45);
+  opacity: 0;
+}
+
+/* ---------- the scroll guide in neon ---------- */
+
+main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8, #8b3dff) !important; }
+.sg-bead { box-shadow: 0 0 12px rgba(255, 47, 200, 0.9) !important; }
+
+/* ---------- after the film: danielor.ai's lilac glow ---------- */
+
+.dn-after {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 40% at 85% 6%, rgba(255, 47, 200, 0.16), transparent 70%),
+    radial-gradient(50% 36% at 10% 30%, rgba(139, 61, 255, 0.14), transparent 70%),
+    radial-gradient(60% 40% at 80% 70%, rgba(255, 47, 200, 0.1), transparent 70%),
+    linear-gradient(180deg, #e9ddfb 0%, #f6f1fb 14%, #f6f1fb 100%);
+  color: var(--ink);
+}
+.dn-after::before {
+  /* the clouds' last light dissolving into the page */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 22svh;
+  background: linear-gradient(180deg, #160a29, rgba(22, 10, 41, 0));
+  z-index: -1;
+}
+.dn-sec { max-width: 1080px; padding-top: calc(var(--svh, 1svh) * 12); }
+.dn-kicker { color: var(--pink); letter-spacing: 0.08em; }
+.dn-h2 { font: 700 clamp(46px, 11vw, 92px) / 0.92 var(--font-display); color: var(--ink); }
+.dn-grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 18px rgba(255, 47, 200, 0.3)); }
+.dn-p { max-width: 60ch; color: var(--c-soft); }
+
+.dn-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 18px; }
+.dn-card {
+  position: relative;
+  padding: 22px 20px 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid #e2d7f2;
+  box-shadow: 0 12px 34px rgba(70, 30, 120, 0.08);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
+}
+.dn-card::before {
+  /* a neon edge that runs around the card */
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from calc(var(--n) * 90deg), #ff2fc8, #8b3dff, #ff2fc8 35%, transparent 55%, #ff2fc8);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.85;
+  z-index: -1;
+}
+.dn-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(255, 47, 200, 0.18), 0 0 0 1px rgba(255, 47, 200, 0.25); }
+.dn-card-en {
+  display: block;
+  font: 700 15px/1 var(--font-body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pink-hot);
+  text-shadow: 0 0 12px rgba(255, 47, 200, 0.45);
+}
+.dn-card-title { margin-top: 12px; font: 700 clamp(34px, 8vw, 44px) / 0.95 var(--font-display); color: var(--ink); }
+.dn-card-body { margin-top: 10px; font-size: 16px; line-height: 1.6; color: var(--c-soft); }
+
+.dn-faq-item { background: rgba(255, 255, 255, 0.8); border: 1px solid #e2d7f2; }
+.dn-faq-item[open] { box-shadow: 0 0 0 1px rgba(255, 47, 200, 0.3), 0 10px 30px rgba(255, 47, 200, 0.1); }
+.dn-faq-item summary::marker { color: var(--pink-hot); }
+
+.dn-cta {
+  justify-items: center;
+  text-align: center;
+  margin-top: calc(var(--svh, 1svh) * 12);
+  padding: 56px 24px 60px;
+  border-radius: 28px;
+  background: radial-gradient(80% 90% at 50% 0%, rgba(255, 47, 200, 0.28), transparent 70%), linear-gradient(160deg, #241040, #150a26);
+  box-shadow: 0 30px 80px rgba(36, 16, 64, 0.35), 0 0 0 1px rgba(255, 120, 225, 0.25) inset;
+  max-width: 900px;
+  width: calc(100% - 32px);
+}
+.dn-cta-title { font: 700 clamp(48px, 12vw, 96px) / 0.9 var(--font-display); color: #fff; }
+.dn-cta .dn-p { color: rgba(236, 224, 255, 0.85); }
+.dn-btn-lg { min-height: 58px; padding: 0 34px; font-size: 18px; margin-top: 8px; }
+
+.dn-foot { gap: 12px; }
+.dn-foot-brand { font: 700 44px/1 var(--font-display); letter-spacing: 0.08em; color: var(--ink); }
+.dn-foot-brand span { color: var(--pink-hot); text-shadow: 0 0 14px rgba(255, 47, 200, 0.45); }
+.dn-foot-tag { color: var(--c-soft); font-size: 15px; }
+.dn-foot-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; }
+.dn-foot-links a { color: var(--ink); font-size: 14px; }
+
+@media (min-aspect-ratio: 3/4) {
+  html { background: var(--night); }
+  .dn-cards { grid-template-columns: repeat(4, 1fr); }
+  .kc { inset-inline: 10%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dn-open-sky i, .dn-open-sign, .dn-open-sign .dn-sign-star, .dn-hot { animation: none !important; }
+  .dn-open-sign .dn-sign-on { animation: none !important; opacity: 1; }
+}
+
+.sg.sg-off { opacity: 0 !important; transition: opacity 0.4s ease; }

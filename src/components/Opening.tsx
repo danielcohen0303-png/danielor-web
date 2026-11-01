@@ -5,8 +5,8 @@ import SwipeCue from "./SwipeCue";
 // The first screen, laid over the film's pinned stage (Daniel, 01.11: the
 // opening must flow into the film, not slide away from it). On load the
 // Danielor sign catches letter by letter and pink sparks drift up; with the
-// first scroll the letters fly into the middle and shrink into a point of
-// light, the dark opens, and that point is the spark the film starts from.
+// first scroll the sign implodes in the middle into a point of light, the
+// dark opens, and that point is the spark the film starts from.
 // The motion is in src/components/intro.ts, driven by OneFilm.
 const SPARKS = Array.from({ length: 18 }, (_, i) => i);
 
@@ -33,6 +33,7 @@ export default function Opening() {
           <SwipeCue label={site.voice.openingCue} />
         </div>
       </div>
+      <div className="dn-intro-streak" aria-hidden />
       <div className="dn-intro-bloom" aria-hidden />
     </div>
   );

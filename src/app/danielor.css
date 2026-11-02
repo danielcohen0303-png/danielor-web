@@ -172,14 +172,7 @@ main .kc-row {
   filter: drop-shadow(0 1px 0 #ffc2ef) drop-shadow(0 1px 0 #f78ad8) drop-shadow(0 1px 0 #e05cc6) drop-shadow(0 1px 0 #b543b3)
     drop-shadow(0 2px 0 #7a2a8f) drop-shadow(0 0 22px rgba(255, 47, 200, 0.45)) drop-shadow(0 16px 24px rgba(14, 4, 30, 0.6));
 }
-/* a phone: the same extruded neon look from three layers instead of seven (each
-   one is redrawn whenever the title moves, and an iPhone feels every one) */
-@media (pointer: coarse) {
-  main .kc-row { filter: drop-shadow(0 2px 0 #e05cc6) drop-shadow(0 3px 0 #7a2a8f) drop-shadow(0 0 16px rgba(255, 47, 200, 0.4)); }
-  main .kc-neon svg { filter: drop-shadow(0 0 3px rgba(255, 190, 240, 0.95)) drop-shadow(0 0 14px rgba(255, 47, 200, 0.75)); }
-}
-/* the settled caption stays one picture the compositor moves, not text redrawn */
-main .kc-title, main .kc-neon { will-change: transform; }
+
 main .kc-word { background: linear-gradient(180deg, #ffffff 0%, #fff4fd 45%, #f7d4f4 100%); -webkit-background-clip: text; background-clip: text; }
 main .kc-rule { height: 2px; background: linear-gradient(90deg, transparent, #ff2fc8 22%, #fff 50%, #8b3dff 78%, transparent); box-shadow: 0 0 12px rgba(255, 47, 200, 0.8); }
 main .kc-line {
@@ -203,6 +196,14 @@ main .kc-top .kc-neon-tube { stroke: #ff7ade; stroke-width: 4.4; }
 main .kc-top .kc-neon-glow { stroke: rgba(255, 47, 200, 0.45); stroke-width: 12; }
 main .kc-top .kc-title { font-size: clamp(46px, 12cqw, 100px); }
 main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36, 0.45), rgba(18, 7, 36, 0)); }
+/* a phone: the same extruded neon look from three layers instead of seven (each
+   one is redrawn whenever the title moves, and an iPhone feels every one) */
+@media (pointer: coarse) {
+  main .kc-row { filter: drop-shadow(0 2px 0 #e05cc6) drop-shadow(0 3px 0 #7a2a8f) drop-shadow(0 0 16px rgba(255, 47, 200, 0.4)); }
+  main .kc-neon svg { filter: drop-shadow(0 0 3px rgba(255, 190, 240, 0.95)) drop-shadow(0 0 14px rgba(255, 47, 200, 0.75)); }
+}
+/* the settled caption stays one picture the compositor moves, not text redrawn */
+main .kc-title, main .kc-neon { will-change: transform; }
 
 /* ---------- the finale over the clouds ---------- */
 

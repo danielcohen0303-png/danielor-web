@@ -109,6 +109,8 @@ export default function OneFilm({
     let endPx = 0;
     let outroPx = 0;
     let outroQ = -1;
+    let outroS = 0;
+    let outroAt = performance.now();
     const pick = () => {
       const y = window.scrollY - top;
       if (introBox.current) introAt(introBox.current, introPx > 0 ? Math.min(1, Math.max(0, y / introPx)) : 1, reduced);
@@ -117,20 +119,32 @@ export default function OneFilm({
       // starts in, so the film hands over without a seam or a line
       const ob = outroBox.current;
       if (ob && outroPx > 0) {
-        const q = Math.min(1, Math.max(0, (y - endPx) / outroPx));
+        const qT = Math.min(1, Math.max(0, (y - endPx) / outroPx));
+        // the burst takes its time even when the scroll does not (Daniel, 02.11:
+        // "slower, so you really see the flash happen"): it follows the scroll
+        // with an ease, but never falls so far behind that the lilac is not
+        // there yet when the stage scrolls away
+        const now = performance.now();
+        const dt = Math.min(0.1, (now - outroAt) / 1000);
+        outroAt = now;
+        outroS += (qT - outroS) * (1 - Math.exp(-dt / 0.4));
+        outroS = Math.min(qT + 0.28, Math.max(qT - 0.28, outroS));
+        if (qT === 0 && outroS < 0.002) outroS = 0;
+        const q = outroS;
         if (q !== outroQ) {
           if (outroQ <= 0 && q > 0) aimOutro(ob);
           outroQ = q;
+          document.documentElement.classList.toggle("hf-outro", q > 0);
           const sm = (x: number) => {
             const t = Math.min(1, Math.max(0, x));
             return t * t * (3 - 2 * t);
           };
           // the star gathers light, then gives it all to the burst
-          const flare = sm(q / 0.12) * (1 - sm((q - 0.14) / 0.14));
-          const b = Math.min(1, Math.max(0, (q - 0.1) / 0.42));
-          const burst = 1 - Math.pow(1 - b, 3);
-          const ring = Math.sin(Math.PI * Math.min(1, Math.max(0, (q - 0.1) / 0.46)));
-          const fill = sm((q - 0.42) / 0.24);
+          const flare = sm(q / 0.1) * (1 - sm((q - 0.12) / 0.14));
+          const b = Math.min(1, Math.max(0, (q - 0.06) / 0.44));
+          const burst = 1 - (1 - b) * (1 - b);
+          const ring = Math.sin(Math.PI * Math.min(1, Math.max(0, (q - 0.06) / 0.5)));
+          const fill = sm((q - 0.46) / 0.26);
           ob.style.visibility = q > 0 ? "visible" : "hidden";
           ob.style.setProperty("--fl", flare.toFixed(4));
           ob.style.setProperty("--b", burst.toFixed(4));

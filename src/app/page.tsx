@@ -34,7 +34,7 @@ export default function Home() {
       </header>
 
       <div className="screen">
-        <OneFilm scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} outroLen={70} />
+        <OneFilm scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} outroLen={150} />
       </div>
 
       <div id="content" className="dn-after">

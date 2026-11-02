@@ -463,6 +463,15 @@ function evenOut(v: number[], outward: 1 | -1) {
     if (Math.abs(v[i] - v[i - 1]) < 14) v[i] = v[i - 1] = outward > 0 ? Math.max(v[i], v[i - 1]) : Math.min(v[i], v[i - 1]);
 }
 
+/** a row pulled in between two that stand further out is a pocket, not a shape: fill it */
+function fillPockets(v: number[], outward: 1 | -1) {
+  for (let pass = 0; pass < 3; pass++)
+    for (let i = 1; i < v.length - 1; i++) {
+      const lim = outward > 0 ? Math.min(v[i - 1], v[i + 1]) : Math.max(v[i - 1], v[i + 1]);
+      if (outward > 0 ? v[i] < lim : v[i] > lim) v[i] = lim;
+    }
+}
+
 /** the outline that hugs the group, clockwise: along the tops, down the right, along the bottoms, up the left */
 function hull(boxes: Box[], P: number): Pt[] {
   const rows = rowsOf(boxes);
@@ -471,6 +480,8 @@ function hull(boxes: Box[], P: number): Pt[] {
   const bot = rows.map((r) => Math.max(...r.map((q) => q.b)));
   const R = rows.map((r) => Math.max(...r.map((q) => q.r)) + P);
   const L = rows.map((r) => Math.min(...r.map((q) => q.l)) - P);
+  fillPockets(R, 1);
+  fillPockets(L, -1);
   evenOut(R, 1);
   evenOut(L, -1);
   const mid = rows.slice(0, -1).map((_, i) => (bot[i] + top[i + 1]) / 2);
@@ -478,6 +489,7 @@ function hull(boxes: Box[], P: number): Pt[] {
   // the tops of the first row, left to right
   const f = rows[0];
   const ft = f.map((q) => q.t - P);
+  fillPockets(ft, -1);
   evenOut(ft, -1);
   f.forEach((q, j) => {
     const x0 = j === 0 ? L[0] : (f[j - 1].r + q.l) / 2;
@@ -492,6 +504,7 @@ function hull(boxes: Box[], P: number): Pt[] {
   // the bottoms of the last row, right to left
   const l = rows[n - 1];
   const lb = l.map((q) => q.b + P);
+  fillPockets(lb, 1);
   evenOut(lb, 1);
   for (let j = l.length - 1; j >= 0; j--) {
     const q = l[j];
@@ -568,115 +581,200 @@ function loopPath(poly: Pt[], i: number, S: Pt) {
   return d + ` L ${f1(S[0])} ${f1(S[1])}`;
 }
 
-type Rb = { boxes: Box[]; t: number };
+// Everything the ribbon keeps from frame to frame, so nothing in it ever jumps
+// (Daniel, 02.11: "the line flickers, it jumps"): the group's boxes, eased per
+// element; which way round it runs; where it meets the thread; and its pulses
+// of light, each a share of the way round that only ever moves forward.
+type Rb = { t: number; boxes: Map<Element, Box>; dir: 1 | -1 | 0; S: Pt | null; pulses: number[] };
 const rbState = new WeakMap<SVGSVGElement, Rb>();
 
-/** the group's boxes, eased towards where they are now so the ribbon morphs instead of jumping */
-function easeBoxes(svg: SVGSVGElement, now: Box[], t: number) {
-  const st = rbState.get(svg);
-  if (!st || st.boxes.length !== now.length || t - st.t > 0.5) {
-    rbState.set(svg, { boxes: now.map((b) => ({ ...b })), t });
-    return now;
-  }
-  const a = 1 - Math.exp(-(t - st.t) / 0.09);
-  st.boxes.forEach((b, i) => {
-    const q = now[i];
-    b.l += (q.l - b.l) * a;
-    b.t += (q.t - b.t) * a;
-    b.r += (q.r - b.r) * a;
-    b.b += (q.b - b.b) * a;
+/** the group's boxes, eased towards where they are now; one that leaves folds away instead of vanishing */
+function easeBoxes(st: Rb, now: Map<Element, Box>, dt: number) {
+  const a = 1 - Math.exp(-dt / 0.12);
+  now.forEach((q, el) => {
+    const b = st.boxes.get(el);
+    if (!b) st.boxes.set(el, { ...q });
+    else {
+      b.l += (q.l - b.l) * a;
+      b.t += (q.t - b.t) * a;
+      b.r += (q.r - b.r) * a;
+      b.b += (q.b - b.b) * a;
+    }
   });
-  st.t = t;
-  return st.boxes;
+  st.boxes.forEach((b, el) => {
+    if (now.has(el)) return;
+    b.b += (b.t - b.b) * a;
+    if (b.b - b.t < 2) st.boxes.delete(el);
+  });
+  return [...st.boxes.values()];
 }
 
 /** the ribbon at window share k: drawn out of the object, wrapped round the group, alive */
-function ribbonAt(svg: SVGSVGElement, boxes: Box[], anchor: Pt | null, W: number, H: number, k: number, op: number, reduced: boolean, pad: number) {
-  if (!boxes.length || op <= 0.001) {
+function ribbonAt(svg: SVGSVGElement, now: Map<Element, Box>, anchor: Pt | null, W: number, H: number, k: number, op: number, reduced: boolean, pad: number) {
+  if (!now.size || op <= 0.001) {
     set(svg, { visibility: "hidden" });
+    rbState.delete(svg);
     return;
   }
   const t = performance.now() / 1000;
-  const bx = reduced ? boxes : easeBoxes(svg, boxes, t);
-  let poly = hull(bx, pad + (reduced ? 0 : 1.6 * Math.sin(t * 1.3)));
-  // it breathes: every corner drifts a little, each on its own beat
-  if (!reduced) poly = poly.map(([x, y], i) => [x + AMP * Math.sin(t * 0.8 + i * 1.9), y + AMP * Math.cos(t * 0.65 + i * 2.6)] as Pt);
+  let st = rbState.get(svg);
+  if (!st) {
+    st = { t, boxes: new Map(), dir: 0, S: null, pulses: [] };
+    rbState.set(svg, st);
+  }
+  const dt = Math.min(0.1, Math.max(0, t - st.t));
+  st.t = t;
+  const bx = reduced ? [...now.values()] : easeBoxes(st, now, dt);
+  if (!bx.length) return;
+  let poly = hull(bx, pad + (reduced ? 0 : 1.5 * Math.sin(t * 1.3)));
+  // it breathes: every corner drifts a little, on a beat set by where it is (so a corner keeps its beat)
+  if (!reduced)
+    poly = poly.map(([x, y]) => [x + AMP * Math.sin(t * 0.8 + x * 0.013 + y * 0.007), y + AMP * Math.cos(t * 0.65 + x * 0.009 + y * 0.015)] as Pt);
   // and never leaves the screen
   poly = poly.map(([x, y]) => [Math.min(W - 5, Math.max(5, x)), Math.min(H - 5, Math.max(5, y))] as Pt);
-  // where it meets the group: the nearest point to the object, or the top right (where Hebrew starts)
-  const Rr = Math.max(...bx.map((b) => b.r));
-  const T = Math.min(...bx.map((b) => b.t));
-  const A: Pt = anchor ?? [Rr + 40, T - 40];
-  let { i, S } = nearestOn(poly, A);
-  let dir = unit(poly[(i + 1) % poly.length][0] - poly[i][0], poly[(i + 1) % poly.length][1] - poly[i][1]);
-  // it carries on the way it came in (from the object); with no object, it runs clockwise
-  if (anchor && dir[0] * (S[0] - A[0]) + dir[1] * (S[1] - A[1]) < 0) {
-    poly = poly.slice().reverse();
-    ({ i, S } = nearestOn(poly, A));
-    dir = unit(poly[(i + 1) % poly.length][0] - poly[i][0], poly[(i + 1) % poly.length][1] - poly[i][1]);
+
+  // which way round: decided once, the way the thread comes in (with no object, clockwise)
+  if (!st.dir) {
+    if (!anchor) st.dir = 1;
+    else {
+      const { i, S } = nearestOn(poly, anchor);
+      const dv = unit(poly[(i + 1) % poly.length][0] - poly[i][0], poly[(i + 1) % poly.length][1] - poly[i][1]);
+      st.dir = dv[0] * (S[0] - anchor[0]) + dv[1] * (S[1] - anchor[1]) < 0 ? -1 : 1;
+    }
   }
+  if (st.dir < 0) poly = poly.slice().reverse();
+  const n = poly.length;
+
+  // the main line: the thread from the object, then the loop from where they meet
+  let main = "";
   let thread = "";
+  let i = 0;
   if (anchor) {
-    const dist = Math.hypot(S[0] - A[0], S[1] - A[1]);
-    const c1: Pt = [A[0], A[1] - dist * 0.42];
+    // where they meet glides when the group grows, never jumps
+    const target = nearestOn(poly, anchor).S;
+    st.S = st.S ? [st.S[0] + (target[0] - st.S[0]) * (1 - Math.exp(-dt / 0.15)), st.S[1] + (target[1] - st.S[1]) * (1 - Math.exp(-dt / 0.15))] : target;
+    const m = nearestOn(poly, st.S);
+    i = m.i;
+    const S = m.S;
+    const dir = unit(poly[(i + 1) % n][0] - poly[i][0], poly[(i + 1) % n][1] - poly[i][1]);
+    const dist = Math.hypot(S[0] - anchor[0], S[1] - anchor[1]);
+    const c1: Pt = [anchor[0], anchor[1] - dist * 0.42];
     const c2: Pt = [S[0] - dir[0] * dist * 0.42, S[1] - dir[1] * dist * 0.42];
-    thread = `M ${f1(A[0])} ${f1(A[1])} C ${f1(c1[0])} ${f1(c1[1])}, ${f1(c2[0])} ${f1(c2[1])}, ${f1(S[0])} ${f1(S[1])}`;
+    thread = `M ${f1(anchor[0])} ${f1(anchor[1])} C ${f1(c1[0])} ${f1(c1[1])}, ${f1(c2[0])} ${f1(c2[1])}, ${f1(S[0])} ${f1(S[1])}`;
+    main = thread + loopPath(poly, i, S);
   }
-  const d = (thread || `M ${f1(S[0])} ${f1(S[1])}`) + loopPath(poly, i, S);
+  // the loop on its own, from a fixed point (the middle of the group's first edge), for the light to run on
+  const i0 = st.dir < 0 ? n - 1 : 0;
+  const a0 = poly[i0];
+  const b0 = poly[(i0 + 1) % n];
+  const S0: Pt = [(a0[0] + b0[0]) / 2, (a0[1] + b0[1]) / 2];
+  const loop = `M ${f1(S0[0])} ${f1(S0[1])}` + loopPath(poly, i0, S0);
+  if (!main) main = loop;
 
   if (svg.dataset.vb !== `${W}x${H}`) {
     svg.dataset.vb = `${W}x${H}`;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
   }
-  const paths = svg.querySelectorAll<SVGPathElement>("path");
+  const lines = svg.querySelectorAll<SVGPathElement>(".rb-glow, .rb-tube, .rb-core");
+  const flows = svg.querySelectorAll<SVGPathElement>(".rb-flow, .rb-flow-glow");
   const meas = svg.querySelector<SVGPathElement>(".rb-m")!;
-  paths.forEach((p) => p !== meas && p.setAttribute("d", d));
+  lines.forEach((p) => p.setAttribute("d", main));
+  flows.forEach((p) => p.setAttribute("d", loop));
   meas.setAttribute("d", thread || "M 0 0");
-  const total = paths[0].getTotalLength();
+  const total = lines[0].getTotalLength();
   const thLen = thread ? meas.getTotalLength() : 0;
-  const loopLen = Math.max(1, total - thLen);
+  const loopLen = Math.max(1, flows[0].getTotalLength());
 
   // drawn: the spark pulls it out of the object and round the group, then the
   // tail lets go of the object and the loop lives on its own around the group
   const head = reduced ? total : total * smooth(k / 0.2);
   const tail = reduced ? thLen : thLen * smooth((k - 0.22) / 0.16);
-  const BIG = total * 3 + 10;
-  const main = `0 ${f1(tail)} ${f1(Math.max(0, head - tail))} ${f1(BIG)}`;
-  svg.querySelectorAll<SVGPathElement>(".rb-glow, .rb-tube, .rb-core").forEach((p) => (p.style.strokeDasharray = main));
+  const BIG = total * 3 + loopLen * 3 + 10;
+  const dash = `0 ${f1(tail)} ${f1(Math.max(0, head - tail))} ${f1(BIG)}`;
+  lines.forEach((p) => (p.style.strokeDasharray = dash));
 
-  // light flows through it, round and round
-  const flow: number[] = [];
+  // light runs round the loop once it is drawn: each pulse a share of the way
+  // round, only ever moving forward, as many as the loop is long
+  let fa = `0 ${f1(BIG)}`;
+  const flowOn = reduced ? 0 : smooth((k - 0.16) / 0.08);
   if (!reduced) {
-    const n = Math.max(2, Math.round(loopLen / SPACING));
-    const gap = loopLen / n;
-    const ph = (t * SPEED) % loopLen;
-    for (let j = 0; j < n; j++) flow.push(thLen + ((ph + j * gap) % loopLen));
-    // and up the thread while it still holds the object
-    if (thLen > 0 && tail < thLen - 1) flow.push((t * SPEED * 1.7) % thLen);
+    const want = Math.min(8, Math.max(2, Math.round(loopLen / SPACING)));
+    if (!st.pulses.length) for (let j = 0; j < want; j++) st.pulses.push(j / want);
+    while (st.pulses.length < want) {
+      // a new pulse in the middle of the widest gap
+      const s = [...st.pulses].sort((x, y) => x - y);
+      let g = 0;
+      let at = 0;
+      s.forEach((u, j) => {
+        const nx = j + 1 < s.length ? s[j + 1] : s[0] + 1;
+        if (nx - u > g) (g = nx - u), (at = (u + (nx - u) / 2) % 1);
+      });
+      st.pulses.push(at);
+    }
+    while (st.pulses.length > want) st.pulses.pop();
+    const step = (dt * SPEED) / loopLen;
+    st.pulses = st.pulses.map((u) => (u + step) % 1);
+    const segs: [number, number][] = [];
+    for (const u of st.pulses) {
+      const s0 = u * loopLen;
+      const e = s0 + PULSE;
+      if (e <= loopLen) segs.push([s0, PULSE]);
+      else segs.push([s0, loopLen - s0], [0, e - loopLen]);
+    }
+    segs.sort((x, y) => x[0] - y[0]);
+    const arr = [0];
+    let cur = 0;
+    for (const [s0, len] of segs) {
+      if (s0 < cur) continue;
+      arr.push(s0 - cur, len);
+      cur = s0 + len;
+    }
+    arr.push(BIG);
+    fa = arr.map(f1).join(" ");
   }
-  const vis = flow.filter((s) => s >= tail && s < head - 2).sort((a, b) => a - b);
-  const arr = [0];
-  let cur = 0;
-  for (const s of vis) {
-    const len = Math.min(PULSE, head - s);
-    if (s < cur) continue;
-    arr.push(s - cur, len);
-    cur = s + len;
-  }
-  arr.push(BIG);
-  const fa = arr.map(f1).join(" ");
-  svg.querySelectorAll<SVGPathElement>(".rb-flow, .rb-flow-glow").forEach((p) => (p.style.strokeDasharray = fa));
+  flows.forEach((p) => {
+    p.style.strokeDasharray = fa;
+    p.style.opacity = flowOn.toFixed(3);
+  });
 
-  // the spark: at the drawing head, then riding the first pulse
+  // the spark: at the drawing head, then riding the first pulse round
   const dot = svg.querySelector<SVGCircleElement>(".rb-dot")!;
-  const at = head < total - 1 ? head : vis.length ? Math.min(total, vis[0] + PULSE) : -1;
-  if (at >= 0) {
-    const pt = paths[0].getPointAtLength(at);
+  let pt: DOMPoint | null = null;
+  if (head < total - 1) pt = lines[0].getPointAtLength(head);
+  else if (st.pulses.length && flowOn > 0) pt = flows[0].getPointAtLength(Math.min(loopLen, st.pulses[0] * loopLen + PULSE));
+  if (pt) {
     dot.setAttribute("cx", f1(pt.x));
     dot.setAttribute("cy", f1(pt.y));
   }
-  set(dot, { opacity: at >= 0 ? "1" : "0" });
+  set(dot, { opacity: pt ? "1" : "0" });
   set(svg, { visibility: "inherit", opacity: op.toFixed(3) });
+}
+
+// what an item's transforms add to its box (the arc of the clips, the tilt of
+// the phones), measured once it has arrived; the ribbon then works from layout,
+// which does not move with the floating, so it never shivers
+type Ext = { v: number; l: number; t: number; r: number; b: number };
+const exts = new WeakMap<HTMLElement, Ext>();
+function boxOf(c: HTMLElement, host: HTMLElement, a: number, lift: number): Box {
+  const b = posIn(c, host);
+  let e = exts.get(c);
+  if ((!e || e.v !== geo) && a >= 0.999 && lift === 0) {
+    const hr = host.getBoundingClientRect();
+    const r = (c.querySelector<HTMLElement>(":scope > .fl") ?? c).getBoundingClientRect();
+    if (r.width && r.height) {
+      e = {
+        v: geo,
+        l: Math.min(0, r.left - hr.left - b.x),
+        t: Math.min(0, r.top - hr.top - b.y + 7),
+        r: Math.max(0, r.right - hr.left - (b.x + b.w)),
+        b: Math.max(0, r.bottom - hr.top - (b.y + b.h) + 7),
+      };
+      exts.set(c, e);
+    }
+  }
+  const x = e && e.v === geo ? e : { l: 0, t: 0, r: 0, b: 0 };
+  const grown = a >= 0.999 ? b.h + x.b : Math.max(8, b.h * a);
+  return { l: b.x + x.l, t: b.y + x.t + lift, r: b.x + b.w + x.r, b: b.y + grown + lift };
 }
 
 type Fly = { v: number; dx: number; dy: number };
@@ -722,22 +820,14 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       return { c, at, a, gone };
     });
 
-    // read before writing: where the group is now, for the ribbon
-    const boxes: Box[] = [];
-    if (rb) {
-      const hr = host.getBoundingClientRect();
+    // where the group is, for the ribbon (from layout: steady while things float)
+    const boxes = new Map<Element, Box>();
+    if (rb)
       for (const { c, a, gone } of arr) {
         if (gone || a <= 0.001) continue;
-        if (a >= 0.999) {
-          const r = (c.querySelector<HTMLElement>(":scope > .fl") ?? c).getBoundingClientRect();
-          if (r.width && r.height) boxes.push({ l: r.left - hr.left, t: r.top - hr.top, r: r.right - hr.left, b: r.bottom - hr.top });
-        } else {
-          // still arriving: the ribbon grows towards where it will be
-          const b = posIn(c, host);
-          if (b.w && b.h) boxes.push({ l: b.x, t: b.y, r: b.x + b.w, b: b.y + Math.max(8, b.h * a) });
-        }
+        const bx = boxOf(c, host, a, -out * 28);
+        if (bx.r > bx.l && bx.b > bx.t) boxes.set(c, bx);
       }
-    }
 
     set(el, {
       visibility: "inherit",

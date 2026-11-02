@@ -248,11 +248,11 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
 /* ---------- after the film: danielor.ai's lilac glow ---------- */
 
 .dn-after {
-  /* the page rides up on the film's last light: it starts 60svh early, over the
+  /* the page rides up on the film's last light: it starts 90svh early, over the
      stage, with nothing painted in that stretch, so "הפתרונות לעסק" rises out of
      the light while the clouds are still going (no empty lilac screen between
      the film and the page) */
-  --ov: calc(var(--svh, 1svh) * 60);
+  --ov: calc(var(--svh, 1svh) * 90);
   position: relative;
   z-index: 6;
   isolation: isolate;

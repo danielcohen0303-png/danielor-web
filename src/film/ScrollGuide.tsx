@@ -22,9 +22,9 @@ export default function ScrollGuide({ hint = "גללו להמשך" }: { hint?: s
       el.classList.toggle("sg-end", f > 0.985);
       el.classList.toggle("sg-top", scrollY < innerHeight * 0.5);
       // over the text sections after the film it would sit on the cards: it bows out
-      // there, already as the star's light bursts (the page starts 60svh early, over it)
+      // there, already as the star's light bursts (src/film/OneFilm.tsx marks the page)
       const c = document.getElementById("content");
-      el.classList.toggle("sg-off", !!c && c.getBoundingClientRect().top < innerHeight * 1.08);
+      el.classList.toggle("sg-off", document.documentElement.classList.contains("hf-outro") || (!!c && c.getBoundingClientRect().top < innerHeight * 0.7));
     };
     const onScroll = () => {
       el.classList.remove("sg-idle");

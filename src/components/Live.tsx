@@ -75,31 +75,46 @@ function Price({ price, from, per }: { price: string; from?: boolean; per: strin
   );
 }
 
-/** videos play only while on screen (and load only then); their posters come
- * a little before, so nothing here competes with the film's own download */
+/** videos play only while on screen (and load only then). Each sits over its
+ * poster picture and stays see-through until it really shows frames: on an
+ * iPhone a video drops its poster the moment it starts loading and is black
+ * until the first frame (Daniel, 02.11: "a black screen before they play") */
 function useAutoplay(root: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
     const el = root.current;
     if (!el) return;
-    // all of the section's posters at once, as the section nears: a card further
-    // along a carousel is hidden by the carousel, so it never "nears" on its own,
-    // and it showed black when swiped to (Daniel, 02.11)
+    // the posters, all at once as the section nears: a card further along a
+    // carousel is hidden by it, so it never "nears" on its own
     const near = new IntersectionObserver(
       (es) => {
         if (!es.some((e) => e.isIntersecting)) return;
-        el.querySelectorAll<HTMLVideoElement>("video[data-poster]").forEach((v) => {
-          if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
+        el.querySelectorAll<HTMLImageElement>("img.lv-poster[data-src]").forEach((im) => {
+          if (!im.getAttribute("src") && im.dataset.src) im.src = im.dataset.src;
         });
         near.disconnect();
       },
       { rootMargin: "150% 0px" },
     );
+    // a video shows itself once a frame of it is really on screen
+    const shown = (v: HTMLVideoElement) => {
+      const on = () => v.classList.add("lv-on");
+      const t = () => {
+        if (v.currentTime <= 0) return;
+        on();
+        v.removeEventListener("timeupdate", t);
+      };
+      if (typeof v.requestVideoFrameCallback === "function") v.requestVideoFrameCallback(() => on());
+      else v.addEventListener("timeupdate", t);
+    };
     const io = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
           const v = e.target as HTMLVideoElement;
           if (e.isIntersecting) {
-            if (!v.src && v.dataset.src) v.src = v.dataset.src;
+            if (!v.src && v.dataset.src) {
+              shown(v);
+              v.src = v.dataset.src;
+            }
             v.play().catch(() => {});
           } else v.pause();
         }),
@@ -337,7 +352,10 @@ export function Work() {
                 {w.img ? (
                   <img src={w.poster} alt={w.name} loading="lazy" decoding="async" />
                 ) : (
-                  <video data-src={w.video} data-poster={w.poster} muted loop playsInline preload="none" aria-label={`${w.k}: ${w.name}`} />
+                  <>
+                    <img className="lv-poster" data-src={w.poster} alt="" decoding="async" aria-hidden />
+                    <video className="lv-vid" data-src={w.video} muted loop playsInline preload="none" aria-label={`${w.k}: ${w.name}`} />
+                  </>
                 )}
               </span>
               <div className="lv-slide-t">
@@ -410,7 +428,8 @@ export function StudioDoor() {
         <span className="lv-door-reel" aria-hidden>
           {studio.reel.map((r) => (
             <span key={r.label} className="lv-door-clip">
-              <video data-src={r.video} data-poster={r.poster} muted loop playsInline preload="none" />
+              <img className="lv-poster" data-src={r.poster} alt="" decoding="async" />
+              <video className="lv-vid" data-src={r.video} muted loop playsInline preload="none" />
               <i>{r.label}</i>
             </span>
           ))}

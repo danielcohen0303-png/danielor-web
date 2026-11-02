@@ -75,11 +75,20 @@ function Price({ price, from, per }: { price: string; from?: boolean; per: strin
   );
 }
 
-/** videos play only while on screen (and load only then) */
+/** videos play only while on screen (and load only then); their posters come
+ * a little before, so nothing here competes with the film's own download */
 function useAutoplay(root: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
     const el = root.current;
     if (!el) return;
+    const near = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting && !v.poster && v.dataset.poster) v.poster = v.dataset.poster;
+        }),
+      { rootMargin: "150% 0px" },
+    );
     const io = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
@@ -91,8 +100,8 @@ function useAutoplay(root: React.RefObject<HTMLElement | null>) {
         }),
       { threshold: 0.25 },
     );
-    el.querySelectorAll("video").forEach((v) => io.observe(v));
-    return () => io.disconnect();
+    el.querySelectorAll("video").forEach((v) => (io.observe(v), near.observe(v)));
+    return () => (io.disconnect(), near.disconnect());
   }, [root]);
 }
 
@@ -322,7 +331,7 @@ export function Work() {
                 {w.img ? (
                   <img src={w.poster} alt={w.name} loading="lazy" decoding="async" />
                 ) : (
-                  <video data-src={w.video} poster={w.poster} muted loop playsInline preload="none" aria-label={`${w.k}: ${w.name}`} />
+                  <video data-src={w.video} data-poster={w.poster} muted loop playsInline preload="none" aria-label={`${w.k}: ${w.name}`} />
                 )}
               </span>
               <div className="lv-slide-t">
@@ -395,7 +404,7 @@ export function StudioDoor() {
         <span className="lv-door-reel" aria-hidden>
           {studio.reel.map((r) => (
             <span key={r.label} className="lv-door-clip">
-              <video data-src={r.video} poster={r.poster} muted loop playsInline preload="none" />
+              <video data-src={r.video} data-poster={r.poster} muted loop playsInline preload="none" />
               <i>{r.label}</i>
             </span>
           ))}

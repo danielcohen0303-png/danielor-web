@@ -4,5 +4,6 @@
   { "name": "studio", "v": 5, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/47a9d1b8-d65c-4f51-9803-a9dab74f3b30.tar" },
   { "name": "city", "v": 5, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/01dd9680-21d3-4195-9d83-23252e4fcca1.tar" },
   { "name": "sky", "v": 5, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/c7dd6bab-639e-47a3-bdf6-7a746aec2805.tar" },
+  { "name": "selfsite", "v": 1, "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/981fc3a0-9be2-4ee3-9d28-c555fc7d01d5.tar" },
   { "name": "og", "url": "https://d2ol7oe51mr4n9.cloudfront.net/user_38oPI70wyHlefwaLBaJwcSurr9H/4863a9d7-c5e6-4941-8165-f1a29cdee20c.jpg", "file": "public/og.jpg" }
 ]

@@ -25,7 +25,7 @@
 //   data-one                  a phone shows one item at a time
 // Motion: chapterAt(host, p, reduced) every frame.
 import { Fragment } from "react";
-import { agent, behind, bizapp, built, chat, sites, studio, waLink, work } from "@/live";
+import { agent, behind, bizapp, built, chat, filmSites, sites, studio, waLink } from "@/live";
 import { scenes } from "@/site.config";
 
 type Pt = [number, number];
@@ -269,27 +269,28 @@ function Who() {
   );
 }
 
-// the three sites rise out of the clouds, each at its own depth
+// the three story sites rise out of the clouds, each at its own depth; each one opens its site
 function Sites() {
-  const list = work.filter((w) => w.k !== "סוכן וואטסאפ" && !w.img);
   return (
     <Ch scene="sky" place="top" kind="sites" anchor={[48, 96]} manchor={[50, 96]}>
       <span className="ch-k ch-keep" data-at="0">
         {sites.tiers[2].name}
       </span>
       <div className="ch-phones">
-        {list.map((w, i) => (
+        {filmSites.map((w, i) => (
           <It key={w.name} at={0.08 + i * 0.12} i={i} className={`ch-phone ch-depth-${i}`}>
-            <span className="ch-dev">
-              <span className="ch-screen">
-                <video muted loop playsInline preload="none" poster={w.poster} data-src={w.video} data-wide-only aria-label={`גלילה באתר של ${w.name}`} />
-                <i className="ch-sheen" aria-hidden />
+            <a className="ch-site" href={w.href} {...(w.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} aria-label={`${w.name}, ${w.go}`}>
+              <span className="ch-dev">
+                <span className="ch-screen">
+                  <video muted loop playsInline preload="none" poster={w.poster} data-src={w.video} data-wide-only aria-hidden />
+                  <i className="ch-sheen" aria-hidden />
+                </span>
               </span>
-            </span>
-            <span className="ch-cap">
-              <b>{w.name}</b>
-              <span>{w.k}</span>
-            </span>
+              <span className="ch-cap">
+                <b>{w.name}</b>
+                <span className="ch-site-go">{w.go}</span>
+              </span>
+            </a>
           </It>
         ))}
       </div>

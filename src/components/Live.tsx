@@ -81,12 +81,17 @@ function useAutoplay(root: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
     const el = root.current;
     if (!el) return;
+    // all of the section's posters at once, as the section nears: a card further
+    // along a carousel is hidden by the carousel, so it never "nears" on its own,
+    // and it showed black when swiped to (Daniel, 02.11)
     const near = new IntersectionObserver(
-      (es) =>
-        es.forEach((e) => {
-          const v = e.target as HTMLVideoElement;
-          if (e.isIntersecting && !v.poster && v.dataset.poster) v.poster = v.dataset.poster;
-        }),
+      (es) => {
+        if (!es.some((e) => e.isIntersecting)) return;
+        el.querySelectorAll<HTMLVideoElement>("video[data-poster]").forEach((v) => {
+          if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
+        });
+        near.disconnect();
+      },
       { rootMargin: "150% 0px" },
     );
     const io = new IntersectionObserver(
@@ -100,7 +105,8 @@ function useAutoplay(root: React.RefObject<HTMLElement | null>) {
         }),
       { threshold: 0.25 },
     );
-    el.querySelectorAll("video").forEach((v) => (io.observe(v), near.observe(v)));
+    near.observe(el);
+    el.querySelectorAll("video").forEach((v) => io.observe(v));
     return () => (io.disconnect(), near.disconnect());
   }, [root]);
 }

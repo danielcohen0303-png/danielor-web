@@ -601,6 +601,8 @@ function ribbonAt(svg: SVGSVGElement, boxes: Box[], anchor: Pt | null, W: number
   let poly = hull(bx, pad + (reduced ? 0 : 1.6 * Math.sin(t * 1.3)));
   // it breathes: every corner drifts a little, each on its own beat
   if (!reduced) poly = poly.map(([x, y], i) => [x + AMP * Math.sin(t * 0.8 + i * 1.9), y + AMP * Math.cos(t * 0.65 + i * 2.6)] as Pt);
+  // and never leaves the screen
+  poly = poly.map(([x, y]) => [Math.min(W - 5, Math.max(5, x)), Math.min(H - 5, Math.max(5, y))] as Pt);
   // where it meets the group: the nearest point to the object, or the top right (where Hebrew starts)
   const Rr = Math.max(...bx.map((b) => b.r));
   const T = Math.min(...bx.map((b) => b.t));
@@ -772,7 +774,7 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       c.querySelectorAll("video").forEach((v) => playIf(v, a > 0.05));
     });
 
-    if (rb) ribbonAt(rb, boxes, hasAnchor ? A : null, W, H, k, op, reduced, wide ? PAD : 10);
+    if (rb) ribbonAt(rb, boxes, hasAnchor ? A : null, W, H, k, inn * (1 - out) * (1 - out), reduced, wide ? PAD : 10);
     // a screen that scrolls with the film
     el.style.setProperty("--s", clamp01(k).toFixed(3));
   });

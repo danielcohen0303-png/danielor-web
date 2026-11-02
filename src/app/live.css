@@ -238,7 +238,7 @@
 }
 /* a phone: one message at a time, without the call to action */
 @media not all and (min-aspect-ratio: 4/3) {
-  .ch-chat { width: min(92vw, 380px); margin-inline: auto; }
+  .ch-chat { max-width: 380px; margin-inline: auto; }
   .ch-chat .ch-cta { display: none; }
   .ch-app .ch-phone { max-width: 104px; }
   .ch-cap span { display: none; }

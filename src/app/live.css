@@ -326,6 +326,18 @@
 .lv-tab em { margin-top: 6px; display: grid; font-style: normal; font: 700 28px/1 var(--font-display); color: var(--pink); }
 .lv-tab em i { font: 400 13px/1.4 var(--font-body); font-style: normal; color: var(--c-soft); }
 .lv-tab.lv-on { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(255, 47, 200, 0.22), 0 0 0 2px rgba(255, 47, 200, 0.55); }
+/* a phone: four compact tiles, two by two (Daniel, 02.11: "huge, clumsy") */
+@media (max-width: 699px) {
+  .lv-tabs { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .lv-tab { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 8px; row-gap: 2px; padding: 12px 12px 13px; border-radius: 16px; }
+  .lv-tab .lv-ic { grid-row: 1; width: 30px; height: 30px; margin: 0; border-radius: 9px; }
+  .lv-tab .lv-ic svg { width: 17px; height: 17px; }
+  .lv-tab b { grid-row: 1; font-size: 19px; line-height: 1.05; }
+  .lv-tab small { grid-column: 1 / -1; font-size: 12px; line-height: 1.35; }
+  .lv-tab em { grid-column: 1 / -1; margin-top: 4px; font-size: 18px; }
+  .lv-tab em i { font-size: 11px; }
+  .lv-tab.lv-on { transform: none; box-shadow: 0 10px 26px rgba(255, 47, 200, 0.2), 0 0 0 2px rgba(255, 47, 200, 0.6); }
+}
 .lv-panel {
   margin-top: 16px;
   padding: 26px 22px;

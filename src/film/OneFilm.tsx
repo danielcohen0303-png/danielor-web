@@ -19,6 +19,7 @@ import { Film } from "./Film";
 import { KineticCaption, kinetic, type KineticProps } from "./Kinetic";
 import { Finale, finaleAt } from "@/components/Finale";
 import { introAt } from "@/components/intro";
+import { chapterAt } from "@/components/Chapters";
 import type { FilmMedia } from "./types";
 import "./film.css";
 
@@ -39,11 +40,14 @@ export default function OneFilm({
   scenes,
   intro,
   introLen = 0,
+  extras,
 }: {
   scenes: OneScene[];
   /** the opening, laid over the stage; it plays across the first introLen svh of scroll */
   intro?: React.ReactNode;
   introLen?: number;
+  /** what each chapter shows besides its caption, by scene name (src/components/Chapters.tsx) */
+  extras?: Record<string, React.ReactNode>;
 }) {
   const section = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
@@ -52,6 +56,7 @@ export default function OneFilm({
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const caps = useRef<(HTMLDivElement | null)[]>([]);
   const fins = useRef<(HTMLDivElement | null)[]>([]);
+  const chs = useRef<(HTMLDivElement | null)[]>([]);
   const introBox = useRef<HTMLDivElement>(null);
 
   const starts: number[] = [];
@@ -134,6 +139,8 @@ export default function OneFilm({
         if (c) kinetic(c, p, reduced);
         const f = fins.current[i];
         if (f) finaleAt(f, p, reduced, 0.5);
+        const h = chs.current[i];
+        if (h) chapterAt(h, p, reduced);
       });
       films[i] = film;
     };
@@ -202,6 +209,16 @@ export default function OneFilm({
                 <KineticCaption key={c.from} {...c} />
               ))}
             </div>
+            {extras?.[s.name] && (
+              <div
+                ref={(el) => {
+                  chs.current[i] = el;
+                }}
+                className="ch-host"
+              >
+                {extras[s.name]}
+              </div>
+            )}
             {s.finale && (
               <div
                 ref={(el) => {

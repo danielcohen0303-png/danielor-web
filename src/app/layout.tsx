@@ -11,6 +11,7 @@ import "@fontsource/karantina/700.css";
 import "./globals.css";
 import "./kit.css";
 import "./danielor.css";
+import "./live.css";
 import FrozenSvh from "@/film/FrozenSvh";
 import { site } from "@/site.config";
 

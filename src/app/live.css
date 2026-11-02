@@ -32,6 +32,7 @@
 /* ---------- chapter elements over the film: drawn by the spark ---------- */
 
 .ch-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.no-ch .ch-host { display: none; }
 .ch {
   position: absolute;
   z-index: 1;

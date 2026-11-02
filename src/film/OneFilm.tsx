@@ -73,6 +73,9 @@ export default function OneFilm({
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const touch = window.matchMedia("(pointer: coarse)").matches;
     const debug = /[?&]debug=film\b/.test(location.search);
+    // ?ch=0: the film without the chapters' elements (to compare on a phone, Daniel 02.11)
+    const noCh = /[?&]ch=0\b/.test(location.search);
+    if (noCh) document.documentElement.classList.add("no-ch");
     const films: (Film | null)[] = scenes.map(() => null);
     // one download line for the whole film (Daniel, 02.11: on a computer the
     // picture stuck the first time through, while each scene fetched only a
@@ -204,7 +207,7 @@ export default function OneFilm({
         const f = fins.current[i];
         if (f) finaleAt(f, p, reduced, 0.5);
         const h = chs.current[i];
-        if (h) chapterAt(h, p, reduced);
+        if (h && !noCh) chapterAt(h, p, reduced);
       });
       films[i] = film;
     };

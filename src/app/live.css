@@ -32,17 +32,17 @@
 /* ---------- chapter elements over the film: drawn by the spark ---------- */
 
 .ch-host { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.ch-thread, .ch-const { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; visibility: hidden; pointer-events: none; }
-.ch-const { z-index: -1; }
 .ch {
   position: absolute;
+  z-index: 1;
   visibility: hidden;
   opacity: 0;
-  inset-inline: 12px;
+  inset-inline: 18px;
   color: #fff;
   will-change: transform, opacity;
 }
 .ch-m-top { top: calc(env(safe-area-inset-top, 0px) + 74px); }
+.ch-m-mid { top: 43svh; }
 .ch-m-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 9svh); }
 .ch a { pointer-events: auto; }
 .it { position: relative; will-change: transform, opacity; }
@@ -52,14 +52,27 @@
   50% { transform: translate3d(0, -7px, 0) rotate(0.35deg); }
 }
 
-/* the neon: a line the spark draws (thread, outline), its glow, and the spark itself */
-.th-glow, .th-line, .tr-glow, .tr-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.th-glow { stroke: rgba(255, 47, 200, 0.35); stroke-width: 8; }
-.th-line { stroke: #ffc4f1; stroke-width: 1.6; }
-.th-dot, .tr-dot { fill: #fff; opacity: 0; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #ff2fc8); }
+/* the ribbon: one neon tube the spark pulls out of the object and wraps round
+   the whole group; light runs through it while it is on screen */
+.ch-rb { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; overflow: visible; visibility: hidden; pointer-events: none; }
+.ch-rb path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 0 99999; }
+.rb-glow { stroke: rgba(255, 47, 200, 0.28); stroke-width: 11; }
+.rb-tube { stroke: #ff5fd6; stroke-width: 3; opacity: 0.85; }
+.rb-core { stroke: #ffe8fb; stroke-width: 1.2; }
+.rb-flow-glow { stroke: rgba(255, 214, 246, 0.55); stroke-width: 9; }
+.rb-flow { stroke: #fff; stroke-width: 2.6; }
+.ch-rb .rb-m { stroke: none; }
+.rb-dot { fill: #fff; opacity: 0; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px #ff2fc8); }
+
+/* the outline the spark draws round one item, and the spark itself */
+.tr-glow, .tr-line { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.tr-dot { fill: #fff; opacity: 0; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 10px #ff2fc8); }
 .tr { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .tr-glow { stroke: rgba(255, 47, 200, 0.4); stroke-width: 6; }
 .tr-line { stroke: url(#dn-neon); stroke-width: 1.6; }
+/* a device (a phone, a clip): the neon runs just outside its frame, never over the screen */
+.ch-dev { position: relative; display: block; width: 100%; }
+.ch-dev > .tr { inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); }
 
 /* text that floats over the picture keeps a soft shadow of the night behind it */
 .halo { position: relative; isolation: isolate; text-shadow: 0 1px 12px rgba(18, 7, 36, 0.75); }
@@ -73,7 +86,8 @@
 }
 
 .ch-k {
-  display: block;
+  display: table;
+  margin-inline: auto;
   font: 700 12px/1 var(--font-body);
   letter-spacing: 0.26em;
   color: #ff9fe5;
@@ -97,7 +111,7 @@
   text-decoration: none;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 8px 24px rgba(255, 47, 200, 0.5), 0 0 34px rgba(139, 61, 255, 0.35);
 }
-.ch-go { display: block; margin-top: 14px; text-align: center; color: #ffe0f7; font-weight: 700; font-size: 15px; text-decoration: none; text-shadow: 0 0 12px rgba(255, 47, 200, 0.8); }
+.ch-go { display: table; margin: 14px auto 0; text-align: center; color: #ffe0f7; font-weight: 700; font-size: 15px; text-decoration: none; text-shadow: 0 0 12px rgba(255, 47, 200, 0.8); }
 
 /* the conversation: bubbles in the air */
 .ch-tag { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; text-shadow: 0 1px 10px rgba(18, 7, 36, 0.8); }
@@ -148,7 +162,6 @@
 .ch-screen video { height: 100%; object-fit: cover; }
 .ch-app .ch-screen img { transform: translate3d(0, calc(var(--s, 0) * var(--travel, 0%)), 0); }
 .ch-sheen { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0) 70%, rgba(255, 190, 240, 0.12) 100%); pointer-events: none; }
-.ch-phone .tr { inset: 0 0 auto; height: auto; aspect-ratio: 9 / 19.5; }
 .ch-cap { display: grid; text-align: center; line-height: 1.25; text-shadow: 0 1px 10px rgba(18, 7, 36, 0.85); }
 .ch-cap b { font-size: 14px; }
 .ch-cap span { font-size: 12px; color: rgba(245, 234, 255, 0.85); }
@@ -164,14 +177,13 @@
   transform: translateY(calc(var(--n) * var(--n) * 6px)) rotate(calc(var(--n) * 5deg));
 }
 .ch-clip-v video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 14px; background: #0b0516; box-shadow: 0 16px 34px rgba(10, 4, 22, 0.5), 0 0 26px rgba(255, 47, 200, 0.2); }
-.ch-clip-v .tr { inset: 0 0 auto; height: auto; aspect-ratio: 9 / 16; }
 .ch-clip-v i { display: none; margin-top: 8px; font-style: normal; font-size: 12px; line-height: 1.2; text-align: center; text-shadow: 0 1px 10px rgba(18, 7, 36, 0.85); }
 
-/* the businesses: neon pins joined by a thread */
-.ch-h { font: 700 26px/1 var(--font-display); text-align: center; }
+/* the businesses: they open one by one, the ribbon flowing down round them */
+.ch-h { font: 700 26px/1.05 var(--font-display); text-align: start; width: fit-content; max-width: 100%; }
 .ch-h span { color: #ff9fe5; text-shadow: 0 0 14px rgba(255, 47, 200, 0.7); }
 .ch-pin { margin-top: 16px; }
-.ch-pin .fl { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; }
+.ch-pin .fl { display: grid; grid-template-columns: auto minmax(0, max-content); gap: 12px; align-items: center; width: fit-content; max-width: 100%; }
 .ch-pin-ic { position: relative; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 47, 200, 0.35), rgba(139, 61, 255, 0.12) 70%); box-shadow: 0 0 24px rgba(255, 47, 200, 0.45); }
 .ch-pin-ic > svg:first-child { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 6px #ff2fc8); }
 .ch-pin-t { display: grid; gap: 2px; }

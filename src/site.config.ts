@@ -101,8 +101,8 @@ export const scenes: Scene[] = [
     pace: 100,
     captions: [
       {
-        from: 0.34,
-        to: 0.78,
+        from: 0.36,
+        to: 0.97,
         neon: true,
         top: true,
         script: "AI Agent",
@@ -120,7 +120,7 @@ export const scenes: Scene[] = [
     captions: [
       {
         from: 0.26,
-        to: 0.62,
+        to: 0.9,
         neon: true,
         top: true,
         script: "Business App",
@@ -138,7 +138,7 @@ export const scenes: Scene[] = [
     captions: [
       {
         from: 0.3,
-        to: 0.78,
+        to: 0.94,
         neon: true,
         script: "Studio",
         kicker: "Danielor Studio",
@@ -155,7 +155,7 @@ export const scenes: Scene[] = [
     captions: [
       {
         from: 0.06,
-        to: 0.42,
+        to: 0.46,
         neon: true,
         script: "Every Business",
         kicker: "לכל עסק, בכל תחום",
@@ -182,7 +182,7 @@ export const scenes: Scene[] = [
     captions: [
       {
         from: 0.04,
-        to: 0.46,
+        to: 0.48,
         neon: true,
         script: "Websites",
         kicker: "אתרים",

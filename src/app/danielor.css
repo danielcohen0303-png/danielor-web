@@ -411,38 +411,60 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
 
 /* ---------- the outro: lilac light rises over the clouds into the page ---------- */
 
-.dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; visibility: hidden; overflow: hidden; --q: 0; }
-.dn-outro-light {
-  /* its front is an eased ramp a screen tall (no line where it turns solid) */
+.dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; visibility: hidden; overflow: hidden; --fl: 0; --b: 0; --rg: 0; --w: 0; --sx: 50%; --sy: 30%; }
+/* the light out of the star: white at its heart, lilac at its edge, soft all round */
+.dn-burst {
   position: absolute;
-  inset: 0 0 auto;
-  height: calc(var(--svh, 1svh) * 200);
-  background:
-    radial-gradient(60% 14% at 50% 26%, rgba(255, 47, 200, 0.2), rgba(255, 47, 200, 0) 70%),
-    linear-gradient(
-      180deg,
-      rgba(233, 221, 251, 0) 0%,
-      rgba(233, 221, 251, 0.05) 7%,
-      rgba(233, 221, 251, 0.17) 14%,
-      rgba(233, 221, 251, 0.36) 21%,
-      rgba(233, 221, 251, 0.58) 28%,
-      rgba(233, 221, 251, 0.78) 35%,
-      rgba(233, 221, 251, 0.92) 42%,
-      rgba(233, 221, 251, 0.985) 46%,
-      #e9ddfb 50%,
-      #e9ddfb 100%
-    );
-  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 200)), 0);
+  left: var(--sx);
+  top: var(--sy);
+  /* small and soft, scaled up: a phone keeps a light layer, not a huge one */
+  width: 80vmax;
+  height: 80vmax;
+  margin: -40vmax 0 0 -40vmax;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #ffffff 0%, #fff8fe 16%, #f8ecff 34%, #eee2fc 52%, #e9ddfb 66%, rgba(233, 221, 251, 0.6) 80%, rgba(233, 221, 251, 0) 100%);
+  transform: scale(calc(var(--b) * 4));
   will-change: transform;
 }
-.dn-outro-edge {
-  /* a horizon of neon riding the light's front, fading as it fills the screen */
+/* the shock of it: a bright ring running just ahead of the light */
+.dn-burst-ring {
   position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #ff2fc8 20%, #fff 50%, #8b3dff 80%, transparent);
-  box-shadow: 0 0 18px 4px rgba(255, 47, 200, 0.55), 0 0 50px 10px rgba(139, 61, 255, 0.3);
-  opacity: calc((1 - var(--q)) * 0.9);
-  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 200 + 44)), 0);
+  left: var(--sx);
+  top: var(--sy);
+  width: 80vmax;
+  height: 80vmax;
+  margin: -40vmax 0 0 -40vmax;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 86%, rgba(255, 210, 244, 0.55) 92%, rgba(255, 255, 255, 0.95) 95.5%, rgba(255, 95, 214, 0.45) 97.5%, rgba(255, 95, 214, 0) 100%);
+  opacity: var(--rg);
+  transform: scale(calc(var(--b) * 3.1));
   will-change: transform, opacity;
 }
+/* the star flaring before it bursts: a bloom and two streaks of light */
+.dn-flare {
+  position: absolute;
+  left: var(--sx);
+  top: var(--sy);
+  width: 70vmin;
+  height: 70vmin;
+  margin: -35vmin 0 0 -35vmin;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #fff 0%, rgba(255, 236, 251, 0.95) 12%, rgba(255, 95, 214, 0.5) 34%, rgba(139, 61, 255, 0.18) 60%, rgba(139, 61, 255, 0) 100%);
+  opacity: var(--fl);
+  transform: scale(calc(0.2 + var(--fl) * 0.8));
+  will-change: transform, opacity;
+}
+.dn-flare::before,
+.dn-flare::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0));
+  box-shadow: 0 0 18px 4px rgba(255, 47, 200, 0.6);
+}
+.dn-flare::before { width: 260vmax; height: 3px; margin: -1.5px 0 0 -130vmax; transform: scaleX(calc(var(--fl) * 0.5)); }
+.dn-flare::after { width: 3px; height: 120vmin; margin: -60vmin 0 0 -1.5px; transform: scaleY(calc(var(--fl) * 0.6)); background: linear-gradient(180deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0)); }
+/* and the light settles into the lilac the page starts in */
+.dn-outro-fill { position: absolute; inset: 0; background: #e9ddfb; opacity: var(--w); }

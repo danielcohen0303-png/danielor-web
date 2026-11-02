@@ -49,7 +49,7 @@ export default function OneFilm({
   introLen?: number;
   /** what each chapter shows besides its caption, by scene name (src/components/Chapters.tsx) */
   extras?: Record<string, React.ReactNode>;
-  /** after the last frame the stage stays this long (svh) while light rises over it into the page below */
+  /** after the last frame the stage stays this long (svh) while the star's light bursts over it into the page below */
   outroLen?: number;
 }) {
   const section = useRef<HTMLElement>(null);
@@ -94,6 +94,16 @@ export default function OneFilm({
       endPx = lastSp ? lastSp.offsetTop + lastSp.offsetHeight - window.innerHeight : 0;
       outroPx = (outroLen / 100) * window.innerHeight;
     };
+    // the burst comes out of the star over the sign (src/components/Finale.tsx)
+    const aimOutro = (ob: HTMLElement) => {
+      const star = sec.querySelector<HTMLElement>(".dn-fin .dn-sign-star");
+      const st = ob.getBoundingClientRect();
+      const r = star?.getBoundingClientRect();
+      const x = r && r.width ? r.left + r.width / 2 - st.left : st.width / 2;
+      const y = r && r.height ? r.top + r.height / 2 - st.top : st.height * 0.3;
+      ob.style.setProperty("--sx", `${x.toFixed(0)}px`);
+      ob.style.setProperty("--sy", `${y.toFixed(0)}px`);
+    };
     let on = -1;
     let introPx = 0;
     let endPx = 0;
@@ -102,15 +112,29 @@ export default function OneFilm({
     const pick = () => {
       const y = window.scrollY - top;
       if (introBox.current) introAt(introBox.current, introPx > 0 ? Math.min(1, Math.max(0, y / introPx)) : 1, reduced);
-      // the outro: lilac light rises from the bottom and covers the clouds, so the
-      // page below starts in exactly the colour the screen already is (no seam)
+      // the outro (Daniel, 02.11): the star over the sign flares, bursts, and its
+      // light fills the screen; the light turns into the lilac the page below
+      // starts in, so the film hands over without a seam or a line
       const ob = outroBox.current;
       if (ob && outroPx > 0) {
         const q = Math.min(1, Math.max(0, (y - endPx) / outroPx));
         if (q !== outroQ) {
+          if (outroQ <= 0 && q > 0) aimOutro(ob);
           outroQ = q;
+          const sm = (x: number) => {
+            const t = Math.min(1, Math.max(0, x));
+            return t * t * (3 - 2 * t);
+          };
+          const flare = sm(q / 0.16) * (1 - sm((q - 0.34) / 0.2));
+          const b = Math.min(1, Math.max(0, (q - 0.1) / 0.42));
+          const burst = 1 - Math.pow(1 - b, 3);
+          const ring = Math.sin(Math.PI * Math.min(1, Math.max(0, (q - 0.1) / 0.46)));
+          const fill = sm((q - 0.42) / 0.24);
           ob.style.visibility = q > 0 ? "visible" : "hidden";
-          ob.style.setProperty("--q", (q * q * (3 - 2 * q)).toFixed(4));
+          ob.style.setProperty("--fl", flare.toFixed(4));
+          ob.style.setProperty("--b", burst.toFixed(4));
+          ob.style.setProperty("--rg", ring.toFixed(4));
+          ob.style.setProperty("--w", fill.toFixed(4));
         }
       }
       let i = 0;
@@ -131,6 +155,7 @@ export default function OneFilm({
     raf = requestAnimationFrame(loop);
     const onResize = () => {
       measure();
+      if (outroBox.current && outroQ > 0) aimOutro(outroBox.current);
       pick();
     };
     window.addEventListener("resize", onResize);
@@ -260,8 +285,10 @@ export default function OneFilm({
         )}
         {outroLen > 0 && (
           <div ref={outroBox} className="dn-outro" aria-hidden>
-            <i className="dn-outro-light" />
-            <i className="dn-outro-edge" />
+            <i className="dn-burst" />
+            <i className="dn-burst-ring" />
+            <i className="dn-flare" />
+            <i className="dn-outro-fill" />
           </div>
         )}
       </div>

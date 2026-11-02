@@ -1085,50 +1085,99 @@
 .hf-reel:not([data-mode="play"]):not([data-mode="end"]) .rl-bars { opacity: 0; }
 .rl-bars { transition: opacity 0.4s ease; }
 
-/* how to move through the reel, shown once on the first scene: a tap on the
-   left goes on, on the right goes back (like stories, the Hebrew way) */
-.rl-hint {
+/* the reel is a surface to tap and hold, not a page to select from: no copy
+   menu, no loupe, no picture preview, no double-tap zoom on a long press */
+.hf-reel,
+.hf-reel * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hf-reel { touch-action: manipulation; }
+.hf-reel img,
+.hf-reel video { -webkit-user-drag: none; }
+
+/* the guide, the first time: it moves like stories. Left (65%) goes on, right goes back */
+.rl-guide {
   position: absolute;
   inset: 0;
-  z-index: 6;
-  pointer-events: none;
+  z-index: 7;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: calc(env(safe-area-inset-top, 0px) + 92px) 0 calc(env(safe-area-inset-bottom, 0px) + 34px);
+  background: var(--rl-dim, rgba(0, 0, 0, 0.5));
   opacity: 0;
-  transition: opacity 0.5s ease;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
 }
-.rl-hint.on { opacity: 1; }
-.rl-hint::before,
-.rl-hint::after {
+.rl-guide.on { opacity: 1; }
+.rl-guide-h { display: grid; justify-items: center; gap: 8px; padding-inline: 20px; text-align: center; }
+.rl-guide-bars { display: flex; gap: 4px; width: 74px; margin-bottom: 4px; }
+.rl-guide-bars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.35); }
+.rl-guide-bars i:last-child { background: var(--rl-fill, #fff); }
+.rl-guide-h b { font-size: 36px; line-height: 1; }
+.rl-guide-h span { font-size: 14px; }
+.rl-guide-zones {
+  position: relative;
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  align-items: center;
+  direction: ltr;
+}
+.rl-guide-zones::before {
+  /* where one side ends and the other begins */
   content: "";
   position: absolute;
-  inset-block: 0;
+  left: 65%;
+  top: 6%;
+  bottom: 6%;
+  width: 1px;
+  background: var(--rl-divide, rgba(255, 255, 255, 0.4));
 }
-.rl-hint::before { left: 0; width: 65%; background: var(--rl-zone-fwd, transparent); }
-.rl-hint::after { right: 0; width: 35%; background: var(--rl-zone-back, transparent); }
-.rl-hint-side {
+.rl-guide-zone { display: grid; justify-items: center; gap: 8px; padding-inline: 12px; text-align: center; direction: rtl; }
+.rl-guide-zone b { font-size: 15px; line-height: 1.3; }
+.rl-guide-zone small { font-size: 12.5px; line-height: 1.3; }
+.rl-hand { position: relative; width: 56px; height: 56px; color: #fff; }
+.rl-hand svg { width: 100%; height: 100%; overflow: visible; animation: rl-tap 1.7s ease-in-out infinite; }
+.rl-hand::after {
+  /* the ring a tap sends out from the fingertip */
+  content: "";
   position: absolute;
-  z-index: 1;
-  top: 50%;
-  display: grid;
-  justify-items: center;
-  gap: 5px;
-  max-width: 40vw;
-  padding: 12px 14px 13px;
-  border-radius: 18px;
-  text-align: center;
-  transform: translateY(-50%);
+  left: 33%;
+  top: 8%;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  border: 2px solid var(--rl-ring, #fff);
+  opacity: 0;
+  animation: rl-ring 1.7s ease-out infinite;
 }
-.rl-hint-fwd { left: 16px; }
-.rl-hint-back { right: 16px; }
-.rl-hint-side i {
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid currentColor;
-  border-left: 2px solid currentColor;
+.rl-guide-back .rl-hand svg,
+.rl-guide-back .rl-hand::after { animation-delay: 0.85s; }
+@keyframes rl-tap {
+  0%, 100% { transform: translate(0, 6px) scale(1); }
+  30% { transform: translate(0, 0) scale(0.92); }
+  45% { transform: translate(0, 2px) scale(1); }
 }
-.rl-hint-fwd i { transform: rotate(45deg); }
-.rl-hint-back i { transform: rotate(-135deg); }
-.rl-hint-side b { font-size: 13px; line-height: 1.25; }
-.rl-hint-side small { font-size: 11.5px; line-height: 1.25; }
+@keyframes rl-ring {
+  0%, 25% { transform: scale(0.3); opacity: 0; }
+  32% { opacity: 1; }
+  70%, 100% { transform: scale(1.6); opacity: 0; }
+}
+.rl-guide-go {
+  justify-self: center;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rl-hand svg,
+  .rl-hand::after { animation: none; }
+}
 
 /* running fast: a small badge under the bars while the finger is held */
 .rl-fast {

@@ -14,6 +14,11 @@
 // one continuous take. The captions, the chapters' elements and the finale run
 // on the video's own clock, through the same functions the scroll film uses.
 //
+// The first time, the film waits on a guide that shows it works like stories
+// (Daniel, 02.11: "people should get at once that it moves like Instagram");
+// a tap closes it and the film goes on. A scene that is not on screen waits
+// parked on its first frame, so a cut to it never flashes an old frame.
+//
 // The opening is the same: the sign lights as the first scene arrives, and a
 // swipe (or a tap) implodes it into the spark the film starts from. At the end
 // a swipe up bursts the star's light over the screen and sets the visitor on
@@ -37,7 +42,7 @@ const LIFT_MS = 750; // the light lifting off the section
 const FAST = 2.4; // the speed while a finger is held on the left side
 const BACK_ZONE = 0.35; // the right share of the screen that goes back (Hebrew goes on to the left)
 const HOLD_MS = 220; // longer than this, a touch is a hold, not a tap
-const HINT_MS = 3400; // how long the first scene shows how to move
+const GUIDE_MS = 6500; // the guide on the first scene closes by itself after this
 
 type Mode = "intro" | "start" | "play" | "end" | "leave";
 
@@ -46,6 +51,27 @@ const sm = (x: number) => {
   const t = clamp01(x);
   return t * t * (3 - 2 * t);
 };
+
+// lucide's "pointer": a hand, index finger up (its tip at 8, 2), drawn twice so it reads over any picture
+const HAND = [
+  "M22 14a8 8 0 0 1-8 8",
+  "M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2",
+  "M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1",
+  "M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10",
+  "M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15",
+];
+function Hand() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      {HAND.map((d) => (
+        <path key={`u${d}`} d={d} stroke="rgba(0,0,0,0.45)" strokeWidth="4" />
+      ))}
+      {HAND.map((d) => (
+        <path key={d} d={d} stroke="currentColor" strokeWidth="1.7" />
+      ))}
+    </svg>
+  );
+}
 
 export default function ReelFilm({
   scenes,
@@ -74,7 +100,7 @@ export default function ReelFilm({
   const outroBox = useRef<HTMLDivElement>(null);
   const cue = useRef<HTMLDivElement>(null);
   const skip = useRef<HTMLButtonElement>(null);
-  const hint = useRef<HTMLDivElement>(null);
+  const guide = useRef<HTMLDivElement>(null);
   const fastBadge = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -190,12 +216,36 @@ export default function ReelFilm({
     const showSkip = (on: boolean) => skip.current?.classList.toggle("on", on);
 
     // ---------- how to move, shown once; the badge while running fast ----------
-    let hinted = false;
-    let hintTimer = 0;
-    const hideHint = () => {
-      clearTimeout(hintTimer);
-      hint.current?.classList.remove("on");
+    // the guide: once per visitor (remembered in this browser), the film paused under it
+    let guided = false;
+    let guideOn = false;
+    let guideTimer = 0;
+    const seen = () => {
+      try {
+        return localStorage.getItem("dn-reel-guide") === "1";
+      } catch {
+        return false;
+      }
     };
+    const openGuide = () => {
+      guided = true;
+      if (seen()) return;
+      guideOn = true;
+      guide.current?.classList.add("on");
+      videos.current[cur]?.pause();
+      guideTimer = window.setTimeout(closeGuide, GUIDE_MS);
+    };
+    const closeGuide = () => {
+      clearTimeout(guideTimer);
+      if (!guideOn) return;
+      guideOn = false;
+      guide.current?.classList.remove("on");
+      if (mode === "play") videos.current[cur]?.play().catch(() => {});
+      try {
+        localStorage.setItem("dn-reel-guide", "1");
+      } catch {}
+    };
+    const hideHint = closeGuide;
     let fast = false;
     const setFast = (on: boolean) => {
       fast = on;
@@ -219,6 +269,13 @@ export default function ReelFilm({
         next.style.zIndex = "2";
       }
       lay.forEach((l, k) => l && k !== i && k !== prev && (l.classList.remove("rl-on"), (l.style.zIndex = "")));
+      // a scene that is left waits parked on its first frame (a cut to it later shows that frame)
+      const park = (pv2: HTMLVideoElement | null | undefined) => {
+        if (!pv2 || prev === cur) return;
+        pv2.pause();
+        if (pv2.currentTime > 0.05) pv2.currentTime = 0;
+      };
+      const nv = videos.current[i];
       if (how === "fade" && prev !== i && next) {
         void next.offsetWidth;
         next.style.transition = `opacity ${FADE_MS}ms ease`;
@@ -229,12 +286,23 @@ export default function ReelFilm({
             old.classList.remove("rl-on");
             old.style.zIndex = "";
           }
-          if (pv && prev !== cur) pv.pause();
+          park(pv);
         }, FADE_MS + 30);
       } else if (prev !== i) {
-        lay[prev]?.classList.remove("rl-on");
-        if (lay[prev]) lay[prev]!.style.zIndex = "";
-        pv?.pause();
+        const old = lay[prev];
+        const drop = () => {
+          if (old && cur === i) {
+            old.classList.remove("rl-on");
+            old.style.zIndex = "";
+          }
+          park(pv);
+        };
+        if (nv && nv.currentTime > 0.05) {
+          // not parked yet: the old scene's last frame stays over it until its first frame is back
+          if (old) old.style.zIndex = "3";
+          nv.addEventListener("seeked", drop, { once: true });
+          window.setTimeout(drop, 450);
+        } else drop();
       }
       near();
       const v = videos.current[i];
@@ -246,12 +314,8 @@ export default function ReelFilm({
       drive(i, 0);
       showCue(null);
       showSkip(true);
-      // the first time the film starts: how to move through it, on both sides
-      if (i === 0 && !swiped && !hinted) {
-        hinted = true;
-        hint.current?.classList.add("on");
-        hintTimer = window.setTimeout(hideHint, HINT_MS);
-      }
+      // the first time the film starts: how to move through it, like stories
+      if (i === 0 && !swiped && !guided) openGuide();
     };
 
     // ---------- the opening: the sign lights as the first scene arrives ----------
@@ -472,7 +536,7 @@ export default function ReelFilm({
       y0 = y;
       x0 = x;
       clearTimeout(holdTimer);
-      if (mode === "play" && inStage(target) && !onLink(target)) {
+      if (mode === "play" && !guideOn && inStage(target) && !onLink(target)) {
         holdTimer = window.setTimeout(() => {
           held = zone(x0);
           hideHint();
@@ -491,6 +555,8 @@ export default function ReelFilm({
     };
     const release = (x: number, y: number, target: EventTarget | null) => {
       if (unhold() || mode === "leave") return;
+      // the guide is up: this touch only closes it
+      if (guideOn) return closeGuide();
       const dy = y - y0;
       const dx = x - x0;
       if (Math.abs(dy) > 45 && Math.abs(dy) > Math.abs(dx)) {
@@ -565,6 +631,9 @@ export default function ReelFilm({
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
     sec.addEventListener("mousedown", onDown);
+    // a long press is ours (fast, pause): no copy menu, no picture preview
+    const noMenu = (e: Event) => e.preventDefault();
+    sec.addEventListener("contextmenu", noMenu);
     window.addEventListener("mouseup", onUp);
     const onSkip = () => leave();
     skipBtn?.addEventListener("click", onSkip);
@@ -602,8 +671,9 @@ export default function ReelFilm({
       window.removeEventListener("keydown", onKey);
       skipBtn?.removeEventListener("click", onSkip);
       sec.removeEventListener("mousedown", onDown);
+      sec.removeEventListener("contextmenu", noMenu);
       window.removeEventListener("mouseup", onUp);
-      clearTimeout(hintTimer);
+      clearTimeout(guideTimer);
       clearTimeout(holdTimer);
       for (let k = 0; k < n; k++) detach(k);
       blobs.forEach((u) => u && URL.revokeObjectURL(u));
@@ -692,17 +762,33 @@ export default function ReelFilm({
           <i />
           <span>{endLabel}</span>
         </div>
-        <div ref={hint} className="rl-hint" aria-hidden>
-          <span className="rl-hint-side rl-hint-fwd">
-            <i />
-            <b>לחיצה: הסצנה הבאה</b>
-            <small>החזקה: מהר יותר</small>
-          </span>
-          <span className="rl-hint-side rl-hint-back">
-            <i />
-            <b>לחיצה: אחורה</b>
-            <small>החזקה: עצירה</small>
-          </span>
+        <div ref={guide} className="rl-guide" aria-hidden>
+          <div className="rl-guide-h">
+            <span className="rl-guide-bars">
+              <i />
+              <i />
+              <i />
+            </span>
+            <b>צופים כמו בסטורי</b>
+            <span>הסרט עובר כמו סטורי באינסטגרם</span>
+          </div>
+          <div className="rl-guide-zones">
+            <div className="rl-guide-zone rl-guide-fwd">
+              <span className="rl-hand">
+                <Hand />
+              </span>
+              <b>לחיצה כאן: הסצנה הבאה</b>
+              <small>החזקה: מהר פי 2</small>
+            </div>
+            <div className="rl-guide-zone rl-guide-back">
+              <span className="rl-hand">
+                <Hand />
+              </span>
+              <b>כאן: אחורה</b>
+              <small>החזקה: עצירה</small>
+            </div>
+          </div>
+          <span className="rl-guide-go">לחיצה בכל מקום ומתחילים</span>
         </div>
         <div ref={fastBadge} className="rl-fast" aria-hidden>
           <i />

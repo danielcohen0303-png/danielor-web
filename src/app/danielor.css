@@ -490,14 +490,16 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   box-shadow: 0 0 18px rgba(255, 47, 200, 0.3);
 }
 .rl-skip { color: rgba(255, 236, 251, 0.92); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 140, 228, 0.6); }
-.rl-hint { --rl-zone-fwd: linear-gradient(90deg, rgba(255, 47, 200, 0.18), rgba(255, 47, 200, 0) 75%); --rl-zone-back: linear-gradient(270deg, rgba(139, 61, 255, 0.18), rgba(139, 61, 255, 0) 80%); }
-.rl-hint-side,
+.rl-guide { --rl-dim: radial-gradient(120% 80% at 50% 45%, rgba(26, 11, 46, 0.55), rgba(14, 5, 28, 0.78)); --rl-divide: linear-gradient(transparent, rgba(255, 95, 214, 0.75), transparent); --rl-ring: #ff8be3; color: #fff; }
+.rl-guide-h b { font-family: var(--font-display); text-shadow: 0 0 22px rgba(255, 47, 200, 0.55); }
+.rl-guide-h span, .rl-guide-zone small { color: #ffc4f1; }
+.rl-guide-bars i:last-child { box-shadow: 0 0 8px rgba(255, 47, 200, 0.9); }
+.rl-hand svg { filter: drop-shadow(0 0 10px rgba(255, 47, 200, 0.7)); }
+.rl-guide-go { color: #fff; background: linear-gradient(90deg, #ff2fc8, #8b3dff); box-shadow: 0 8px 24px rgba(255, 47, 200, 0.45); }
 .rl-fast {
   color: #fff;
   background: rgba(26, 11, 46, 0.66);
   border: 1px solid rgba(255, 140, 228, 0.55);
   box-shadow: 0 10px 28px rgba(10, 4, 22, 0.35), 0 0 18px rgba(255, 47, 200, 0.25);
 }
-.rl-hint-side small { color: #ffb8ec; }
-.rl-hint-side i,
 .rl-fast i { color: #ff8be3; filter: drop-shadow(0 0 5px rgba(255, 47, 200, 0.9)); }

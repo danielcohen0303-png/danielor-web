@@ -138,7 +138,7 @@
 
 /* the app's screens in phones, scrolling with the film */
 .ch-phones { display: flex; justify-content: center; gap: 12px; }
-.ch-phone { display: grid; justify-items: center; gap: 8px; flex: 1; max-width: 150px; }
+.ch-phone { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 8px; flex: 1; min-width: 0; max-width: 150px; }
 .ch-screen {
   position: relative;
   display: block;
@@ -150,7 +150,7 @@
   background: #0b0516;
   box-shadow: 0 0 0 1px rgba(255, 140, 228, 0.35), 0 14px 34px rgba(10, 4, 22, 0.5), 0 0 24px rgba(255, 47, 200, 0.16);
 }
-.ch-screen img, .ch-screen video { position: absolute; inset: 0 0 auto; width: 100%; height: auto; }
+.ch-screen img, .ch-screen video { position: absolute; inset: 0 0 auto; width: 100%; max-width: 100%; height: auto; }
 .ch-screen video { height: 100%; object-fit: cover; }
 .ch-app .ch-screen img { transform: translate3d(0, calc(var(--s, 0) * var(--travel, 0%)), 0); }
 .ch-phone figcaption { display: grid; text-align: center; line-height: 1.25; }
@@ -159,7 +159,7 @@
 
 /* the studio's reel */
 .ch-reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
-.ch-clip { display: grid; gap: 6px; justify-items: center; }
+.ch-clip { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; justify-items: center; min-width: 0; }
 .ch-clip video {
   width: 100%;
   aspect-ratio: 9 / 16;
@@ -308,7 +308,7 @@
 .lv-two { display: grid; gap: 22px; align-items: start; }
 .lv-screens { display: grid; gap: 10px; justify-items: center; }
 .lv-screens > div { display: flex; gap: 16px; justify-content: center; }
-.lv-screen-item { display: grid; gap: 8px; justify-items: center; text-align: center; font-size: 14px; color: var(--c-soft); }
+.lv-screen-item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; justify-items: center; text-align: center; font-size: 14px; color: var(--c-soft); }
 .lv-screen-item b { color: var(--ink); }
 .lv-screens figcaption { font-size: 13px; color: var(--c-soft); }
 .lv-phone {

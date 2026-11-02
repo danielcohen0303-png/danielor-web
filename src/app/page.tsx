@@ -1,4 +1,4 @@
-import OneFilm from "@/film/OneFilm";
+import FilmByDevice from "@/film/FilmByDevice";
 import ScrollGuide from "@/film/ScrollGuide";
 import Opening from "@/components/Opening";
 import { chapters } from "@/components/Chapters";
@@ -8,8 +8,9 @@ import { nav } from "@/live";
 import { scenes, site } from "@/site.config";
 
 // The page: the opening in the dark, the film (five scenes cut from one
-// continuous take, on one pinned stage, each chapter with one element from the
-// live site), then the live site's sections on Danielor's lilac glow.
+// continuous take, each chapter with one element from the live site; scrolled
+// on a computer, played as a reel on a phone), then the live site's sections
+// on Danielor's lilac glow.
 // Film settings in src/site.config.ts; the live site's content in src/live.ts.
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
       </header>
 
       <div className="screen">
-        <OneFilm scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} outroLen={150} landOn="#solutions" />
+        <FilmByDevice scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} outroLen={150} landOn="#solutions" />
       </div>
 
       <div id="content" className="dn-after">

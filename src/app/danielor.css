@@ -476,3 +476,17 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
 .dn-flare::after { width: 2px; height: 40vmin; margin: -20vmin 0 0 -1px; transform: scaleY(calc(0.3 + var(--fl) * 0.7)); background: linear-gradient(180deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0)); }
 /* and the light settles into the lilac the page starts in */
 .dn-outro-fill { position: absolute; inset: 0; background: #e9ddfb; opacity: var(--w); }
+
+/* ---------- the reel on a phone (src/film/ReelFilm.tsx), in Danielor's light ---------- */
+.reel-mode .dn-after { --ov: 0px; }
+.rl-bars { --rl-fill: linear-gradient(270deg, #ff5fd6, #fff 60%, #c9a6ff); }
+.rl-bars b { box-shadow: 0 0 8px rgba(255, 47, 200, 0.85); }
+.rl-cue { color: #fff; }
+.rl-cue i { filter: drop-shadow(0 0 6px rgba(255, 47, 200, 0.9)); }
+.rl-cue span {
+  color: #fff;
+  background: rgba(26, 11, 46, 0.55);
+  border: 1px solid rgba(255, 140, 228, 0.55);
+  box-shadow: 0 0 18px rgba(255, 47, 200, 0.3);
+}
+.rl-skip { color: rgba(255, 236, 251, 0.92); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 140, 228, 0.6); }

@@ -355,6 +355,13 @@ function posIn(el: HTMLElement, root: HTMLElement) {
   return { x, y, w: el.offsetWidth, h: el.offsetHeight };
 }
 
+// how many of a "one" list's items a phone keeps on screen: one in the scroll
+// film, a few in the reel, where they cannot be held back by the finger
+let stack = 1;
+export function setChapterStack(n: number) {
+  stack = Math.max(1, n);
+}
+
 let liteQ: MediaQueryList | null = null;
 /** a phone: no blur while things move (it is costly there) */
 const isLite = () => (liteQ ??= window.matchMedia("(pointer: coarse)")).matches;
@@ -398,11 +405,17 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     const A: Pt = [(ax / 100) * W, (ay / 100) * H];
 
     // items arrive at their turn; on a phone a "one" element shows only the newest
+    // (in the scroll film) or the newest few (in the reel, which plays at its own pace)
     let kids = kidsOf.get(el);
     if (!kids) kidsOf.set(el, (kids = Array.from(el.querySelectorAll<HTMLElement>("[data-at]"))));
     const one = !wide && "one" in d;
-    let newest = -1;
-    if (one) kids.forEach((c, i) => Number(c.dataset.at) <= k && !c.classList.contains("ch-keep") && (newest = i));
+    // the newest `stack` items that have arrived (a reel keeps a few, src/film/ReelFilm.tsx)
+    const live = new Set<number>();
+    if (one) {
+      const arrived: number[] = [];
+      kids.forEach((c, i) => Number(c.dataset.at) <= k && !c.classList.contains("ch-keep") && arrived.push(i));
+      arrived.slice(-stack).forEach((i) => live.add(i));
+    }
 
     set(el, {
       visibility: "inherit",
@@ -413,7 +426,7 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
 
     kids.forEach((c, i) => {
       const at = Number(c.dataset.at);
-      const gone = one && i !== newest && !c.classList.contains("ch-keep");
+      const gone = one && !live.has(i) && !c.classList.contains("ch-keep");
       const a = gone ? 0 : reduced ? (k >= at ? 1 : 0) : smooth((k - at) / 0.08);
       // where it flies in from: towards the object, a third of the way
       let f = flies.get(c);

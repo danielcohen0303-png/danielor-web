@@ -24,6 +24,9 @@ export type Scene = {
   steps?: { from: number; to: number; items: string[] };
   /** the brand sign lights up over the end of this scene, with the call to action */
   finale?: boolean;
+  /** on a phone the film plays as a reel (src/film/ReelFilm.tsx): this scene's speed there,
+   * slower where there is more to read (the chat, the businesses, who is behind it) */
+  reelRate?: number;
 };
 
 // media: one 16:9 master per scene, cut from the film so each scene ends on
@@ -99,6 +102,7 @@ export const scenes: Scene[] = [
     label: "ניצוץ ורוד בחושך, שהופך לטלפון במטבח של מסעדה עם שיחת וואטסאפ",
     media: film("spark", 386),
     pace: 100,
+    reelRate: 0.8,
     captions: [
       {
         from: 0.36,
@@ -117,6 +121,7 @@ export const scenes: Scene[] = [
     label: "מחלון המטבח אל קליניקה מעבר לרחוב, עם טאבלט ניהול בדלפק",
     media: film("clinic", 337),
     pace: 100,
+    reelRate: 0.9,
     captions: [
       {
         from: 0.26,
@@ -135,6 +140,7 @@ export const scenes: Scene[] = [
     label: "טבעת האור של הקליניקה הופכת לעדשה של מצלמת קולנוע",
     media: film("studio", 289),
     pace: 100,
+    reelRate: 0.9,
     captions: [
       {
         from: 0.3,
@@ -152,6 +158,7 @@ export const scenes: Scene[] = [
     label: "מתוך העדשה אל העיר, ורחפן שנכנס מבעד לזכוכית אל משרד שבו דניאל, בחליפה בהירה, עובד מול מסך",
     media: film("city", 486),
     pace: 100,
+    reelRate: 0.7,
     captions: [
       {
         from: 0.06,
@@ -178,6 +185,7 @@ export const scenes: Scene[] = [
     label: "נגיעה במסך, והמצלמה נכנסת לתוכו אל ים של עננים ורודים, והלוגו של Danielor נדלק",
     media: film("sky", 319),
     pace: 105,
+    reelRate: 0.85,
     finale: true,
     captions: [
       {

@@ -33,6 +33,8 @@ export type OneScene = {
   captions?: KineticProps[];
   /** the brand sign lights up over the end of this scene */
   finale?: boolean;
+  /** on a phone the film plays as a reel (src/film/ReelFilm.tsx): this scene's speed there */
+  reelRate?: number;
 };
 
 const len = (s: OneScene) => (s.media.frames / s.media.fps) * (s.pace ?? 100);

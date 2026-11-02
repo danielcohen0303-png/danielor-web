@@ -981,3 +981,103 @@
     display: none;
   }
 }
+
+/* ---------- the reel: the film on a phone (src/film/ReelFilm.tsx) ---------- */
+
+/* one screen: the stage does not pin, it is the screen (the swipes move the film, not the page) */
+.hf-reel,
+.hf-wait-stage {
+  height: calc(var(--svh, 1svh) * 100);
+}
+.hf-reel .hf-stage,
+.hf-wait-stage .hf-stage {
+  position: relative;
+  top: 0;
+  height: calc(var(--svh, 1svh) * 100);
+}
+.hf-reel .hf-pic { display: block; }
+.hf-reel .hf-layer { visibility: hidden; }
+.hf-reel .hf-layer.rl-on { visibility: visible; }
+/* the scroll guide counts the scroll: a reel has its own bars */
+.reel-mode .sg { display: none !important; }
+
+/* a bar per scene, under the header, filling as the scene plays (right to left, like the Hebrew) */
+.rl-bars {
+  position: absolute;
+  z-index: 6;
+  top: calc(env(safe-area-inset-top, 0px) + 66px);
+  inset-inline: 16px;
+  display: flex;
+  gap: 5px;
+  pointer-events: none;
+}
+.rl-bars i {
+  flex: 1;
+  height: 2.5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.26);
+  overflow: hidden;
+}
+.rl-bars b {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  background: var(--rl-fill, #fff);
+}
+
+/* what the next swipe does, low in the middle */
+.rl-cue {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+}
+.rl-cue.on { opacity: 1; transform: translate(-50%, 0); }
+.rl-cue i {
+  width: 11px;
+  height: 11px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+  animation: rl-up 1.4s ease-in-out infinite;
+}
+@keyframes rl-up {
+  0%, 100% { transform: translateY(4px) rotate(45deg); opacity: 0.5; }
+  50% { transform: translateY(-3px) rotate(45deg); opacity: 1; }
+}
+.rl-cue span {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* out of the film at once, at the bottom corner */
+.rl-skip {
+  position: absolute;
+  z-index: 6;
+  left: 14px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  padding: 8px 6px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.rl-skip.on { opacity: 0.8; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rl-cue i { animation: none; }
+}

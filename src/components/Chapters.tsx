@@ -640,7 +640,7 @@ function ribbonAt(svg: SVGSVGElement, boxes: Box[], anchor: Pt | null, W: number
   const tail = reduced ? thLen : thLen * smooth((k - 0.22) / 0.16);
   const BIG = total * 3 + 10;
   const main = `0 ${f1(tail)} ${f1(Math.max(0, head - tail))} ${f1(BIG)}`;
-  svg.querySelectorAll<SVGPathElement>(".rb-glow, .rb-tube, .rb-core").forEach((p) => p.setAttribute("stroke-dasharray", main));
+  svg.querySelectorAll<SVGPathElement>(".rb-glow, .rb-tube, .rb-core").forEach((p) => (p.style.strokeDasharray = main));
 
   // light flows through it, round and round
   const flow: number[] = [];
@@ -663,7 +663,7 @@ function ribbonAt(svg: SVGSVGElement, boxes: Box[], anchor: Pt | null, W: number
   }
   arr.push(BIG);
   const fa = arr.map(f1).join(" ");
-  svg.querySelectorAll<SVGPathElement>(".rb-flow, .rb-flow-glow").forEach((p) => p.setAttribute("stroke-dasharray", fa));
+  svg.querySelectorAll<SVGPathElement>(".rb-flow, .rb-flow-glow").forEach((p) => (p.style.strokeDasharray = fa));
 
   // the spark: at the drawing head, then riding the first pulse
   const dot = svg.querySelector<SVGCircleElement>(".rb-dot")!;

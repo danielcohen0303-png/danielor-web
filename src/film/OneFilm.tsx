@@ -19,6 +19,7 @@ import { Film } from "./Film";
 import { KineticCaption, kinetic, type KineticProps } from "./Kinetic";
 import { Finale, finaleAt } from "@/components/Finale";
 import { introAt } from "@/components/intro";
+import { LETTERS } from "@/components/Sign";
 import { chapterAt } from "@/components/Chapters";
 import type { FilmMedia } from "./types";
 import "./film.css";
@@ -143,6 +144,39 @@ export default function OneFilm({
         window.removeEventListener("keydown", blockKey);
       }
     };
+    // The entrance on a phone (Daniel, 02.11): the film there plays from whole
+    // video files, and a reader who swung down at once met a still picture. So
+    // the opening waits for the first scene: the Danielor sign lights letter by
+    // letter as its file arrives (the wait is the show), the cue to scroll comes
+    // when it is ready, and only then does the page scroll. Never longer than 6
+    // seconds; never shorter than about one, so the sign is seen lighting up.
+    const openGate = () => {
+      const root = document.documentElement;
+      const url = `${scenes[0].media.base}/${scenes[0].media.video}`;
+      const box = introBox.current;
+      const lit = box ? [...box.querySelectorAll<HTMLElement>(".dn-open-sign .dn-sign-on")] : [];
+      const order = [...LETTERS.keys()].sort((a, b) => LETTERS[a].d - LETTERS[b].d);
+      lit.forEach((el) => (el.style.animation = "none"));
+      root.classList.add("hf-wait");
+      lock(true);
+      let ready = false;
+      loader.keep(url).then(() => (ready = true), () => (ready = true));
+      const t0 = performance.now();
+      const step = () => {
+        if (destroyed) return;
+        const t = (performance.now() - t0) / 1000;
+        const shown = Math.min(ready ? 1 : loader.progress(url), t / 1.1);
+        order.forEach((idx, n) => lit[idx] && (lit[idx].style.opacity = shown >= (n + 1) / order.length - 0.001 ? "1" : "0"));
+        if ((ready && t >= 1.1) || t >= 6) {
+          lit.forEach((el) => (el.style.opacity = "1"));
+          root.classList.remove("hf-wait");
+          lock(false);
+          return;
+        }
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
     const pick = () => {
       let y = window.scrollY - top;
       if (!landing && !reduced && outroPx > 0 && lastY >= 0) {
@@ -216,6 +250,7 @@ export default function OneFilm({
       }
     };
     measure();
+    if (touch && !reduced && window.scrollY < 50 && introBox.current) openGate();
     pick();
     let raf = 0;
     const loop = () => {
@@ -289,7 +324,8 @@ export default function OneFilm({
 
     return () => {
       destroyed = true;
-      if (landing) lock(false);
+      if (landing || document.documentElement.classList.contains("hf-wait")) lock(false);
+      document.documentElement.classList.remove("hf-wait");
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", onResize);

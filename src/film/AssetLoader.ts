@@ -18,6 +18,12 @@ export class AssetLoader {
   private inflight = new Map<string, Promise<Blob>>();
   /** files fetched ahead and kept until a scene asks for them (the phone's videos) */
   private kept = new Map<string, Blob>();
+  /** how far each big file has come, 0..1 (the opening's sign lights with it) */
+  private prog = new Map<string, number>();
+
+  progress(url: string) {
+    return this.kept.has(url) ? 1 : (this.prog.get(url) ?? 0);
+  }
   private fails = new Map<string, number>();
   private owners = new Set<FetchOwner>();
   private ctl = new AbortController();
@@ -55,9 +61,22 @@ export class AssetLoader {
     const init: RequestInit & { priority?: "high" | "low" } = { signal: this.ctl.signal };
     if (priority) init.priority = priority;
     const job = fetch(url, init)
-      .then((r) => {
+      .then(async (r) => {
         if (!r.ok) throw new Error(`${r.status} ${url}`);
-        return r.blob();
+        // a big file is read as it comes, so its progress is known
+        const len = Number(r.headers.get("content-length")) || 0;
+        if (!r.body || len < 1_000_000) return r.blob();
+        const reader = r.body.getReader();
+        const parts: BlobPart[] = [];
+        let got = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          parts.push(value);
+          got += value.length;
+          this.prog.set(url, got / len);
+        }
+        return new Blob(parts, { type: r.headers.get("content-type") ?? "" });
       })
       .then((b) => {
         this.loaded += b.size;

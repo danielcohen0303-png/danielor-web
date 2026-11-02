@@ -290,10 +290,9 @@ function neonAt(neon: HTMLElement, k: number, out: number, reduced: boolean) {
     }
     dot.style.opacity = pen ? "1" : "0";
   }
-  // the tube catches when the word is done: a few quick flickers, then steady
-  const f = (k - 0.42) / 0.1;
-  const flick = f > 0 && f < 1 ? [1, 0.35, 1, 0.55, 0.9, 0.4, 1][Math.floor(f * 7)] : 1;
-  const lit = t >= 0.999 ? 1 : 0.8;
+  // the pen writes it already lit, and it stays lit: no flicker when it is done (Daniel, 02.11)
+  const flick = 1;
+  const lit = 1;
   const sway = lite() ? 0 : 3 * Math.sin(k * 3);
   set(neon, {
     opacity: String((1 - out) * flick),

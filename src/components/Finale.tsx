@@ -1,6 +1,7 @@
 // The end of the film: over the sea of pink clouds the Danielor sign catches
-// letter by letter with the scroll (each letter flickers, then holds), sparks
+// letter by letter with the scroll, sparks
 // rise from the clouds into it, then the line and the way to talk to us.
+// (Each letter lights smoothly and stays lit: no flicker on this site, Daniel 02.11.)
 // Driven by film progress, so it plays backwards too.
 import { site } from "@/site.config";
 import { LETTERS } from "./Sign";
@@ -29,7 +30,6 @@ export function Finale() {
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 const smooth = (x: number) => clamp01(x) * clamp01(x) * (3 - 2 * clamp01(x));
-const FLICK = [1, 0.25, 1, 0.5, 0.95, 0.35, 1];
 
 const last = new WeakMap<HTMLElement, string>();
 function set(el: HTMLElement, css: Record<string, string>) {
@@ -60,7 +60,8 @@ export function finaleAt(root: HTMLElement, p: number, reduced: boolean, from = 
     order.forEach((idx, n) => {
       const s = 0.12 + n * 0.045;
       const f = (k - s) / 0.06;
-      const o = f <= 0 ? 0 : f >= 1 ? 1 : FLICK[Math.floor(f * FLICK.length)];
+      // lights and stays lit, no flicker (Daniel, 02.11)
+      const o = smooth(f);
       set(lit[idx], { opacity: String(reduced ? (k > s ? 1 : 0) : o), animation: "none" });
     });
     const star = sign.querySelector<HTMLElement>(".dn-sign-star");

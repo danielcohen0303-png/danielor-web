@@ -83,6 +83,7 @@ export default function OneFilm({
     // fetch every frame of every scene, the one on screen first, then the next
     // ones in order, so by the time the visitor gets there it is already here.
     const loader = new AssetLoader(touch ? 6 : 12);
+    let destroyed = false;
     const rankOf = (k: number) => (k >= on ? k - on : 10 + (on - k));
 
     // which layer is on: the scene whose stretch of scroll we are in
@@ -222,10 +223,23 @@ export default function OneFilm({
     );
     // ?debug=film: the scenes' stats in the console, for checking the download line
     if (debug) (window as unknown as { __films: () => unknown }).__films = () => films.map((f) => f?.stats() ?? null);
-    if (touch) spacers.current.forEach((s) => s && io.observe(s));
-    else scenes.forEach((_, i) => start(i));
+    if (touch) {
+      spacers.current.forEach((s) => s && io.observe(s));
+      // A phone plays each scene from its whole video file, and showed only the
+      // still until the file had arrived. Each file used to start downloading a
+      // couple of screens before its scene, too late on the first time through
+      // (Daniel, 02.11: "it sticks when I scroll"). Now they all download from
+      // the start, one after another in the film's order, and wait ready.
+      (async () => {
+        for (const s of scenes) {
+          if (destroyed) return;
+          await loader.keep(`${s.media.base}/${s.media.video}`).catch(() => {});
+        }
+      })();
+    } else scenes.forEach((_, i) => start(i));
 
     return () => {
+      destroyed = true;
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", onResize);

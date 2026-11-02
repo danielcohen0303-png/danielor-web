@@ -147,14 +147,14 @@ export const work: Work[] = [
 ];
 
 /** the story sites in the film's websites chapter (Daniel, 02.11: AC and Adele,
- * and Danielor itself on the left; each one opens its site. Medicar stays in the
- * work below: it is a landing page, not a story site). Right to left. */
+ * and Danielor itself on the left. Medicar stays in the work below: it is a
+ * landing page, not a story site. The links to the sites are in the work, after
+ * the film). Right to left. */
 export const filmSites = [
-  { name: "AC Holding", go: "לאתר ←", href: "https://ac-holding.co", video: "/live/site-ac.mp4", poster: "/live/site-ac-poster.jpg" },
-  { name: "Adele Beauty Clinic", go: "לאתר ←", href: "https://adele-beauty.com", video: "/live/site-adele.mp4", poster: "/live/site-adele-poster.jpg" },
-  // the site you are in: back to the top, to watch it again
-  // (its preview, a phone scrolling through its own opening, comes with the film's media: scripts/media.json)
-  { name: "Danielor", go: "אתם כאן ↑", href: "#", video: "/film/selfsite/v1/site-danielor.mp4", poster: "/film/selfsite/v1/site-danielor-poster.jpg" },
+  { name: "AC Holding", video: "/live/site-ac.mp4", poster: "/live/site-ac-poster.jpg" },
+  { name: "Adele Beauty Clinic", video: "/live/site-adele.mp4", poster: "/live/site-adele-poster.jpg" },
+  // its preview, a phone scrolling through its own opening, comes with the film's media (scripts/media.json)
+  { name: "Danielor", video: "/film/selfsite/v1/site-danielor.mp4", poster: "/film/selfsite/v1/site-danielor-poster.jpg" },
 ];
 
 export const steps = [

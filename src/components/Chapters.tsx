@@ -269,7 +269,7 @@ function Who() {
   );
 }
 
-// the three story sites rise out of the clouds, each at its own depth; each one opens its site
+// the three story sites rise out of the clouds, each at its own depth (their links are in the work after the film)
 function Sites() {
   return (
     <Ch scene="sky" place="top" kind="sites" anchor={[48, 96]} manchor={[50, 96]}>
@@ -279,7 +279,7 @@ function Sites() {
       <div className="ch-phones">
         {filmSites.map((w, i) => (
           <It key={w.name} at={0.08 + i * 0.12} i={i} className={`ch-phone ch-depth-${i}`}>
-            <a className="ch-site" href={w.href} {...(w.href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} aria-label={`${w.name}, ${w.go}`}>
+            <span className="ch-site">
               <span className="ch-dev">
                 <span className="ch-screen">
                   <video muted loop playsInline preload="none" poster={w.poster} data-src={w.video} data-wide-only aria-hidden />
@@ -288,9 +288,9 @@ function Sites() {
               </span>
               <span className="ch-cap">
                 <b>{w.name}</b>
-                <span className="ch-site-go">{w.go}</span>
+                <span>אתר סיפור</span>
               </span>
-            </a>
+            </span>
           </It>
         ))}
       </div>

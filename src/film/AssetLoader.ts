@@ -16,6 +16,8 @@ export type FetchOwner = {
 
 export class AssetLoader {
   private inflight = new Map<string, Promise<Blob>>();
+  /** files fetched ahead and kept until a scene asks for them (the phone's videos) */
+  private kept = new Map<string, Blob>();
   private fails = new Map<string, number>();
   private owners = new Set<FetchOwner>();
   private ctl = new AbortController();
@@ -38,7 +40,15 @@ export class AssetLoader {
     return (this.fails.get(url) ?? 0) >= 2;
   }
 
+  /** fetch a file now and keep it, for a scene that will ask for it later */
+  keep(url: string) {
+    if (this.kept.has(url)) return Promise.resolve(this.kept.get(url)!);
+    return this.blob(url, "low").then((b) => (this.kept.set(url, b), b));
+  }
+
   blob(url: string, priority?: "high" | "low"): Promise<Blob> {
+    const ready = this.kept.get(url);
+    if (ready) return Promise.resolve(ready);
     const known = this.inflight.get(url);
     if (known) return known;
     const t0 = performance.now();

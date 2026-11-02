@@ -197,11 +197,7 @@
 
 /* the sites: three phones out of the clouds, each at its own depth */
 .ch-sites .ch-phones { margin-top: 14px; gap: 12px; align-items: flex-end; }
-/* each site phone is a link to the site */
-.ch-site { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-.ch-cap .ch-site-go { display: block; margin-top: 3px; font-size: 12px; font-weight: 700; color: #ff9fe5; text-shadow: 0 0 10px rgba(255, 47, 200, 0.7); }
-@media (hover: hover) { .ch-site:hover .ch-screen { box-shadow: 0 24px 50px rgba(10, 4, 22, 0.55), 0 0 46px rgba(255, 47, 200, 0.5); } }
-.ch-sites .ch-phone { max-width: 120px; }
+.ch-site { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; }
 .ch-depth-1 .fl { transform: translateZ(30px); }
 
 /* a computer: the left-hand column, centred on the height */
@@ -231,7 +227,14 @@
   .ch-chat .ch-cta { display: none; }
   .ch-app .ch-phone { max-width: 104px; }
   .ch-cap span { display: none; }
-  .ch-sites .ch-phone { max-width: 92px; }
+  /* the sites: small, in the top left corner, clear of his head (Daniel, 02.11) */
+  .ch-sites { inset-inline: auto 14px; width: min(56vw, 220px); }
+  .ch-sites .ch-k { margin-inline: auto 0; font-size: 10px; letter-spacing: 0.2em; }
+  .ch-sites .ch-phones { margin-top: 8px; gap: 8px; justify-content: flex-end; }
+  .ch-sites .ch-phone { max-width: 62px; }
+  .ch-sites .ch-screen { border-width: 3px; border-radius: 14px; }
+  .ch-sites .ch-site { gap: 6px; }
+  .ch-sites .ch-cap b { font-size: 10px; line-height: 1.2; }
   .ch-pin { margin-top: 10px; }
 }
 

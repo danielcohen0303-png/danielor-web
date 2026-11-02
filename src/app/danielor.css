@@ -413,23 +413,36 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
 
 .dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; visibility: hidden; overflow: hidden; --q: 0; }
 .dn-outro-light {
+  /* its front is an eased ramp a screen tall (no line where it turns solid) */
   position: absolute;
   inset: 0 0 auto;
-  height: calc(var(--svh, 1svh) * 170);
+  height: calc(var(--svh, 1svh) * 200);
   background:
-    radial-gradient(60% 18% at 50% 20%, rgba(255, 47, 200, 0.22), rgba(255, 47, 200, 0) 70%),
-    linear-gradient(180deg, rgba(233, 221, 251, 0) 0%, rgba(233, 221, 251, 0.5) 18%, #e9ddfb 36%, #e9ddfb 100%);
-  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 170)), 0);
+    radial-gradient(60% 14% at 50% 26%, rgba(255, 47, 200, 0.2), rgba(255, 47, 200, 0) 70%),
+    linear-gradient(
+      180deg,
+      rgba(233, 221, 251, 0) 0%,
+      rgba(233, 221, 251, 0.05) 7%,
+      rgba(233, 221, 251, 0.17) 14%,
+      rgba(233, 221, 251, 0.36) 21%,
+      rgba(233, 221, 251, 0.58) 28%,
+      rgba(233, 221, 251, 0.78) 35%,
+      rgba(233, 221, 251, 0.92) 42%,
+      rgba(233, 221, 251, 0.985) 46%,
+      #e9ddfb 50%,
+      #e9ddfb 100%
+    );
+  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 200)), 0);
   will-change: transform;
 }
 .dn-outro-edge {
-  /* a horizon of neon on the light's front, fading as it fills the screen */
+  /* a horizon of neon riding the light's front, fading as it fills the screen */
   position: absolute;
   inset: 0 0 auto;
   height: 2px;
   background: linear-gradient(90deg, transparent, #ff2fc8 20%, #fff 50%, #8b3dff 80%, transparent);
   box-shadow: 0 0 18px 4px rgba(255, 47, 200, 0.55), 0 0 50px 10px rgba(139, 61, 255, 0.3);
-  opacity: calc(1 - var(--q));
-  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 170 + 26)), 0);
+  opacity: calc((1 - var(--q)) * 0.9);
+  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 200 + 44)), 0);
   will-change: transform, opacity;
 }

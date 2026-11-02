@@ -204,7 +204,7 @@ export function kinetic(root: HTMLElement, p: number, reduced: boolean) {
         transform: reduced
           ? "none"
           : `translate3d(0, ${((1 - t) * 30).toFixed(1)}%, ${((1 - t) * -260).toFixed(0)}px) rotateX(${((1 - t) * -82).toFixed(1)}deg)`,
-        filter: `blur(${((1 - t) * 8 + out * 8).toFixed(2)}px)`,
+        filter: (1 - t) * 8 + out * 8 > 0.01 ? `blur(${((1 - t) * 8 + out * 8).toFixed(2)}px)` : "none",
         opacity: String(Math.min(1, t * 1.6) * fade),
       });
     });
@@ -263,6 +263,10 @@ function measure(neon: HTMLElement) {
   return m;
 }
 
+let liteQ: MediaQueryList | null = null;
+/** a phone (Daniel, 02.11: the scroll stuck on an iPhone): fewer moving filters */
+const lite = () => (liteQ ??= window.matchMedia("(pointer: coarse)")).matches;
+
 /** the neon word at caption progress k: written by a pen of light, turning towards us, then lit */
 function neonAt(neon: HTMLElement, k: number, out: number, reduced: boolean) {
   const t = reduced ? 1 : smooth((k - 0.02) / 0.4); // how much of the word is written
@@ -290,11 +294,12 @@ function neonAt(neon: HTMLElement, k: number, out: number, reduced: boolean) {
   const f = (k - 0.42) / 0.1;
   const flick = f > 0 && f < 1 ? [1, 0.35, 1, 0.55, 0.9, 0.4, 1][Math.floor(f * 7)] : 1;
   const lit = t >= 0.999 ? 1 : 0.8;
+  const sway = lite() ? 0 : 3 * Math.sin(k * 3);
   set(neon, {
     opacity: String((1 - out) * flick),
     transform: reduced
       ? ""
-      : `perspective(900px) translate3d(0, ${(-18 * out).toFixed(1)}px, ${((1 - t) * -120).toFixed(0)}px) rotateY(${((1 - t) * 26 - 3 * Math.sin(k * 3)).toFixed(2)}deg) rotateX(${((1 - t) * 14).toFixed(2)}deg)`,
-    filter: `brightness(${lit}) blur(${(out * 6).toFixed(2)}px)`,
+      : `perspective(900px) translate3d(0, ${(-18 * out).toFixed(1)}px, ${((1 - t) * -120).toFixed(0)}px) rotateY(${((1 - t) * 26 - sway).toFixed(2)}deg) rotateX(${((1 - t) * 14).toFixed(2)}deg)`,
+    filter: lit < 1 || out > 0 ? `brightness(${lit}) blur(${(out * 6).toFixed(2)}px)` : "none",
   });
 }

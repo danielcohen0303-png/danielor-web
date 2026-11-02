@@ -44,6 +44,7 @@ function Ch({
   kind,
   one,
   notes,
+  thread,
   stack,
   anchor,
   manchor,
@@ -58,6 +59,8 @@ function Ch({
   one?: boolean;
   /** its items are phone notifications that stack like iOS: the newest on top, the one before under it, the rest peeking behind */
   notes?: boolean;
+  /** on a phone its items are a chat thread: each new message comes in at the bottom and the thread glides up */
+  thread?: boolean;
   /** in the reel, how many of a "one" list's items stay on screen at once (fewer than its default) */
   stack?: number;
   /** the object in the picture the items fly out of, % of the frame (computer, phone) */
@@ -78,6 +81,7 @@ function Ch({
         data-may={manchor?.[1]}
         data-one={one ? "" : undefined}
         data-notes={notes ? "" : undefined}
+        data-thread={thread ? "" : undefined}
         data-stack={stack}
       >
         {children}
@@ -149,7 +153,7 @@ function Msg({ m }: { m: (typeof chat.msgs)[number] }) {
 // the messages float out of the phone on the table, one by one
 function Spark() {
   return (
-    <Ch scene="spark" place="mid" kind="chat" one anchor={[50, 72]} manchor={[50, 80]}>
+    <Ch scene="spark" place="mid" kind="chat" one thread anchor={[50, 72]} manchor={[50, 80]}>
       <It at={0} i={0} className="ch-tag" keep>
         <span className="ch-tag-av" aria-hidden>
           {chat.initial}
@@ -470,6 +474,10 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       notesAt(el, kids, k, reduced);
       return;
     }
+    if ("thread" in d && !wide) {
+      threadAt(el, kids, k, reduced);
+      return;
+    }
 
     kids.forEach((c, i) => {
       const at = Number(c.dataset.at);
@@ -547,5 +555,57 @@ function notesAt(el: HTMLElement, kids: HTMLElement[], k: number, reduced: boole
     // its words go as it tucks behind; the avatar glows as it lands
     const inner = c.firstElementChild as HTMLElement | null;
     if (inner) set(inner, { "--in": Math.max(0, 1 - Math.max(0, dd - 1) * 1.6).toFixed(3), "--ping": Math.sin(Math.PI * a).toFixed(3) } as Record<string, string>);
+  });
+}
+
+// ---------- a chat thread that glides (the conversation, on a phone) ----------
+const threadM = new WeakMap<HTMLElement, { v: number; hs: number[]; box: number }>();
+/** messages come in at the bottom, rising a little as they fade in, and the whole
+ * thread glides up by each one's height as it arrives; a message going over the top
+ * of the window fades out (Daniel, 02.11: "change nicely, like the notifications").
+ * Transforms and opacity only */
+function threadAt(el: HTMLElement, kids: HTMLElement[], k: number, reduced: boolean) {
+  const items: HTMLElement[] = [];
+  kids.forEach((c) => {
+    if (c.classList.contains("ch-keep")) set(c, { opacity: (reduced ? 1 : smooth(k / 0.06)).toFixed(3) });
+    else items.push(c);
+  });
+  if (!items.length) return;
+  // each message's height and the window's, once per layout (a hidden one is shown for the measure)
+  let m = threadM.get(el);
+  if (!m || m.v !== geo) {
+    const hs = items.map((c) => {
+      const was = c.style.display;
+      if (was === "none") c.style.display = "";
+      const h = c.offsetHeight;
+      if (was === "none") c.style.display = was;
+      return h;
+    });
+    const box = (items[0].parentElement as HTMLElement | null)?.offsetHeight ?? 0;
+    m = { v: geo, hs, box };
+    if (box && hs.every((h) => h > 0)) threadM.set(el, m);
+  }
+  const G = 10;
+  const B = m.box || 260;
+  const arr = items.map((c) => {
+    const at = Number(c.dataset.at);
+    return reduced ? (k >= at ? 1 : 0) : smooth((k - at) / 0.07);
+  });
+  // the thread's foot on the window's foot: it rises by every message that has come in
+  let shown = 0;
+  arr.forEach((a, i) => (shown += a * (m.hs[i] + G)));
+  let top = B - shown + G;
+  items.forEach((c, i) => {
+    const a = arr[i];
+    const h = m.hs[i];
+    const y = top + (1 - a) * 14;
+    top += h + G;
+    const o = a * smooth((y + h * 0.55) / (h * 0.75));
+    set(c, {
+      opacity: o.toFixed(3),
+      transform: `translate3d(0, ${y.toFixed(1)}px, 0) scale(${(0.96 + 0.04 * a).toFixed(4)})`,
+      filter: "none",
+      display: o < 0.004 ? "none" : "",
+    });
   });
 }

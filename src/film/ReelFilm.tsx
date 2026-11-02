@@ -120,6 +120,8 @@ export default function ReelFilm({
     const urls = scenes.map((s) => `${s.media.base}/${s.media.video}`);
     const blobs: (string | null)[] = scenes.map(() => null);
     const primed = scenes.map(() => false);
+    // a play() of a hidden scene's video, on its way to being stopped on its first frame
+    const priming = scenes.map(() => false);
     const rate = (i: number) => scenes[i].reelRate ?? 1;
     const dur = (i: number) => videos.current[i]?.duration || scenes[i].media.frames / scenes[i].media.fps;
     const loader = new AssetLoader(6);
@@ -166,6 +168,7 @@ export default function ReelFilm({
       attach(i);
       v.playbackRate = rate(i);
       if (primed[i] || (i === cur && mode === "play")) return;
+      priming[i] = true;
       v.play()
         .then(() => {
           if (!(i === cur && mode === "play")) {
@@ -174,7 +177,8 @@ export default function ReelFilm({
           }
           primed[i] = true;
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => (priming[i] = false));
     };
     const near = () => {
       for (let k = 0; k < n; k++) {
@@ -308,11 +312,19 @@ export default function ReelFilm({
         };
         if (vid && typeof vid.requestVideoFrameCallback === "function") {
           let tries = 0;
+          let good = 0;
+          // two frames from the start in a row: on an iPhone the first can still be painted
+          // over by the frame it last had (02.11: one frame of the lens flashed at the cut)
           const check = (_: number, m: VideoFrameCallbackMetadata) => {
             if (done || cur !== i) return finish();
             if (m.mediaTime > 0.3 && tries++ < 3) {
+              good = 0;
               vid.currentTime = 0;
               vid.play().catch(() => {});
+              vid.requestVideoFrameCallback(check);
+              return;
+            }
+            if (++good < 2) {
               vid.requestVideoFrameCallback(check);
               return;
             }
@@ -484,6 +496,15 @@ export default function ReelFilm({
         if (introBox.current) introAt(introBox.current, reduced ? q : sm(q), reduced);
         if (q >= 1) show(0, "cut");
       } else if (mode === "play" || mode === "end") {
+        // the scenes either side wait stopped on their first frame: a hidden one that runs
+        // on (an iPhone sometimes lets it) is stopped and sent back, unless it is on its way
+        // out on screen (the scene before, fading) or being primed
+        for (const k of [cur - 1, cur + 1]) {
+          const ov = videos.current[k];
+          if (!ov || ov.paused || priming[k] || layers.current[k]?.classList.contains("rl-on")) continue;
+          ov.pause();
+          if (ov.currentTime > 0.05) ov.currentTime = 0;
+        }
         const v = videos.current[cur];
         const d = dur(cur);
         const p = mode === "end" ? 1 : d && v ? v.currentTime / d : 0;

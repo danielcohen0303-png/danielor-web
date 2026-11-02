@@ -286,6 +286,14 @@
 @media not all and (min-aspect-ratio: 4/3) {
   .ch-chat { max-width: 380px; margin-inline: auto; }
   .ch-chat .ch-cta { display: none; }
+  /* the conversation as a thread that glides (Chapters.tsx threadAt): a window the
+     messages rise through, each on its own side, no drifting while the thread moves */
+  .ch-chat .ch-bubbles { position: relative; display: block; height: min(270px, 34svh); }
+  .ch-chat .bub { position: absolute; top: 0; }
+  .ch-chat .bub-in { inset-inline-end: 0; }
+  .ch-chat .bub-out { inset-inline-start: 0; }
+  .ch-chat .bub-note { inset-inline: 0; margin-inline: auto; width: fit-content; }
+  .ch-chat .bub .fl { animation: none; }
   .ch-app .ch-phone { max-width: 104px; }
   .ch-cap span { display: none; }
   /* the sites: small, in the top left corner, clear of his head (Daniel, 02.11) */

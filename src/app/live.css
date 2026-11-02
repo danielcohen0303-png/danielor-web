@@ -39,53 +39,20 @@
   opacity: 0;
   inset-inline: 18px;
   color: #fff;
-  will-change: transform, opacity;
 }
 .ch-m-top { top: calc(env(safe-area-inset-top, 0px) + 74px); }
 .ch-m-mid { top: 43svh; }
 .ch-m-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 9svh); }
 .ch a { pointer-events: auto; }
-.it { position: relative; will-change: transform, opacity; }
+.it { position: relative; }
 .fl { position: relative; animation: ch-float 6.5s ease-in-out calc(var(--d, 0) * -1.6s) infinite; }
 @keyframes ch-float {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   50% { transform: translate3d(0, -7px, 0) rotate(0.35deg); }
 }
 
-/* the wrap: one neon line round the whole group once it is complete. The
-   browser draws it (stroke-dashoffset, once) and then it only breathes, on
-   the compositor: nothing for the page to do while the film scrolls */
-.ch-rbw { position: absolute; inset: 0; z-index: 0; visibility: hidden; pointer-events: none; will-change: opacity, transform; }
-.ch-rb { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; animation: rb-breathe 3.4s ease-in-out infinite; will-change: opacity; }
-.ch-rb path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: var(--len, 0) var(--len, 0);
-  stroke-dashoffset: var(--len, 0);
-  transition: stroke-dashoffset 0.95s cubic-bezier(0.65, 0, 0.25, 1);
-}
-.ch-rbw.on .ch-rb path { stroke-dashoffset: 0; }
-.rb-glow { stroke: rgba(255, 47, 200, 0.3); stroke-width: 10; }
-.rb-line { stroke: url(#dn-neon); stroke-width: 2; }
-@keyframes rb-breathe { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
-
-/* the outline round one item, drawn as it lands */
-.tr { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: 0.75; }
-.tr path {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: var(--len, 0) var(--len, 0);
-  stroke-dashoffset: var(--len, 0);
-  transition: stroke-dashoffset 0.7s cubic-bezier(0.65, 0, 0.25, 1);
-}
-.tr.on path { stroke-dashoffset: 0; }
-.tr-glow { stroke: rgba(255, 47, 200, 0.4); stroke-width: 6; }
-.tr-line { stroke: url(#dn-neon); stroke-width: 1.6; }
-/* a device (a phone, a clip): the neon runs just outside its frame, never over the screen */
+/* a device (a phone, a clip) */
 .ch-dev { position: relative; display: block; width: 100%; }
-.ch-dev > .tr { inset: -4px; width: calc(100% + 8px); height: calc(100% + 8px); }
 
 /* text that floats over the picture keeps a soft shadow of the night behind it */
 .halo { position: relative; isolation: isolate; text-shadow: 0 1px 12px rgba(18, 7, 36, 0.75); }
@@ -207,7 +174,6 @@
 .ch-who { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
 .ch-who-ph .fl { width: 72px; height: 72px; }
 .ch-who-ph img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 30px rgba(255, 47, 200, 0.55); }
-.ch-who-ph .tr { inset: -6px; width: calc(100% + 12px); height: calc(100% + 12px); }
 .ch-twinkle {
   position: absolute;
   top: calc(50% + sin(var(--k) * 60deg) * 52px);

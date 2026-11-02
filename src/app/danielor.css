@@ -202,8 +202,7 @@ main .kc-top::before { background: radial-gradient(closest-side, rgba(18, 7, 36,
   main .kc-row { filter: drop-shadow(0 2px 0 #e05cc6) drop-shadow(0 3px 0 #7a2a8f) drop-shadow(0 0 16px rgba(255, 47, 200, 0.4)); }
   main .kc-neon svg { filter: drop-shadow(0 0 3px rgba(255, 190, 240, 0.95)) drop-shadow(0 0 14px rgba(255, 47, 200, 0.75)); }
 }
-/* the settled caption stays one picture the compositor moves, not text redrawn */
-main .kc-title, main .kc-neon { will-change: transform; }
+
 
 /* ---------- the finale over the clouds ---------- */
 
@@ -420,7 +419,7 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
 
 /* ---------- the outro: lilac light rises over the clouds into the page ---------- */
 
-.dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; visibility: hidden; overflow: hidden; --fl: 0; --b: 0; --rg: 0; --w: 0; --sx: 50%; --sy: 30%; }
+.dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; display: none; overflow: hidden; --fl: 0; --b: 0; --rg: 0; --w: 0; --sx: 50%; --sy: 30%; }
 /* the light out of the star: white at its heart, lilac at its edge, soft all round */
 .dn-burst {
   position: absolute;
@@ -433,7 +432,6 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   border-radius: 50%;
   background: radial-gradient(closest-side, #ffffff 0%, #fff8fe 18%, #f9eeff 36%, rgba(242, 230, 253, 0.96) 52%, rgba(236, 224, 252, 0.8) 66%, rgba(233, 221, 251, 0.45) 80%, rgba(233, 221, 251, 0.14) 92%, rgba(233, 221, 251, 0) 100%);
   transform: scale(calc(var(--b) * 4));
-  will-change: transform;
 }
 /* the shock of it: a bright ring running just ahead of the light */
 .dn-burst-ring {
@@ -447,7 +445,6 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 80%, rgba(255, 210, 244, 0.35) 90%, rgba(255, 255, 255, 0.7) 95%, rgba(255, 95, 214, 0.3) 98%, rgba(255, 95, 214, 0) 100%);
   opacity: calc(var(--rg) * 0.7);
   transform: scale(calc(var(--b) * 3.1));
-  will-change: transform, opacity;
 }
 /* the star flaring before it bursts: a bloom and two streaks of light */
 .dn-flare {
@@ -461,7 +458,6 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   background: radial-gradient(closest-side, #fff 0%, rgba(255, 236, 251, 0.95) 12%, rgba(255, 95, 214, 0.5) 34%, rgba(139, 61, 255, 0.18) 60%, rgba(139, 61, 255, 0) 100%);
   opacity: var(--fl);
   transform: scale(calc(0.2 + var(--fl) * 0.8));
-  will-change: transform, opacity;
 }
 .dn-flare::before,
 .dn-flare::after {

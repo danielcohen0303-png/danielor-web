@@ -146,7 +146,8 @@ export default function OneFilm({
           const burst = 1 - (1 - b) * (1 - b);
           const ring = Math.sin(Math.PI * Math.min(1, Math.max(0, (q - 0.06) / 0.5)));
           const fill = sm((q - 0.46) / 0.26);
-          ob.style.visibility = q > 0 ? "visible" : "hidden";
+          // not rendered at all until it plays: no layers held for it before
+          ob.style.display = q > 0 ? "block" : "none";
           ob.style.setProperty("--fl", flare.toFixed(4));
           ob.style.setProperty("--b", burst.toFixed(4));
           ob.style.setProperty("--rg", ring.toFixed(4));

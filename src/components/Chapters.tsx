@@ -4,12 +4,11 @@
 // who is behind Danielor, and the sites we made.
 //
 // Nothing sits on a card; everything floats, and comes out of the object in
-// the picture (the phone on the table, the tablet on the desk, the lens). When
-// a chapter's last item has arrived, one neon line wraps the whole group, fast,
-// once, and stays there breathing softly (Daniel, 02.11: "when something
-// ends, the line just goes round it, fast and beautiful. Simple"). It is drawn
-// once and then left to the browser: no work every frame, so the scroll stays
-// light on a phone.
+// the picture (the phone on the table, the tablet on the desk, the lens).
+// (The neon line round the groups is gone: on an iPhone it, and the layers it
+// kept alive, weighed down the scroll. Daniel, 02.11: "it is pretty enough
+// without it".) A chapter that is not on screen is not rendered at all, so
+// nothing of it costs the phone anything.
 //
 // One window per chapter, shared with its caption (src/site.config.ts): the
 // caption and the elements come in together and leave together, so the screen
@@ -63,12 +62,6 @@ function Ch({
   const w = win(scene, cap);
   return (
     <>
-      <div className="ch-rbw" aria-hidden>
-        <svg className="ch-rb">
-          <path className="rb-glow" />
-          <path className="rb-line" />
-        </svg>
-      </div>
       <div
         className={`ch ch-${kind} ch-m-${place}`}
         data-from={w.from}
@@ -85,15 +78,6 @@ function Ch({
   );
 }
 
-/** a neon outline drawn round one item as it arrives (a rounded rectangle, or a circle) */
-function Trace({ r = 16, circle }: { r?: number; circle?: boolean }) {
-  return (
-    <svg className="tr" aria-hidden data-r={r} data-circle={circle ? "" : undefined}>
-      <path className="tr-glow" />
-      <path className="tr-line" />
-    </svg>
-  );
-}
 
 /** one thing that arrives: flies out of the anchor, then floats */
 function It({ at, i, className = "", keep, children }: { at: number; i: number; className?: string; keep?: boolean; children: React.ReactNode }) {
@@ -168,7 +152,6 @@ function Spark() {
       <div className="ch-bubbles" aria-label="שיחה לדוגמה עם סוכן וואטסאפ של קליניקה">
         {chat.msgs.map((m, i) => (
           <It key={i} at={0.04 + i * 0.12} i={i + 1} className={`bub bub-${m.side}${m.voice ? " bub-voice" : ""}`}>
-            <Trace r={18} />
             <Msg m={m} />
           </It>
         ))}
@@ -201,7 +184,6 @@ function Clinic() {
                 />
                 <i className="ch-sheen" aria-hidden />
               </span>
-              <Trace r={28} />
             </span>
             <span className="ch-cap">
               <b>{s.name}</b>
@@ -230,7 +212,6 @@ function Studio() {
             <span className="ch-clip-v" style={{ "--n": i - 2 } as React.CSSProperties}>
               <span className="ch-dev">
                 <video muted loop playsInline preload="none" poster={r.poster} data-src={r.video} data-wide-only aria-hidden />
-                <Trace r={18} />
               </span>
               <i>{r.label}</i>
             </span>
@@ -268,13 +249,12 @@ function Built() {
   );
 }
 
-// a neon ring draws itself around the photo, and the ribbon wraps photo and words
+// the photo glows, with a few sparks twinkling round it
 function Who() {
   return (
     <Ch scene="city" cap={1} place="top" kind="who">
       <It at={0.02} i={0} className="ch-who-ph">
         <img src={behind.photo} alt="דניאל כהן" width={160} height={160} loading="lazy" decoding="async" />
-        <Trace circle />
         {Array.from({ length: 6 }, (_, k) => (
           <i key={k} className="ch-twinkle" style={{ "--k": k } as React.CSSProperties} aria-hidden />
         ))}
@@ -305,7 +285,6 @@ function Sites() {
                 <video muted loop playsInline preload="none" poster={w.poster} data-src={w.video} data-wide-only aria-label={`גלילה באתר של ${w.name}`} />
                 <i className="ch-sheen" aria-hidden />
               </span>
-              <Trace r={28} />
             </span>
             <span className="ch-cap">
               <b>{w.name}</b>
@@ -379,194 +358,8 @@ let liteQ: MediaQueryList | null = null;
 /** a phone: no blur while things move (it is costly there) */
 const isLite = () => (liteQ ??= window.matchMedia("(pointer: coarse)")).matches;
 
-/** build a trace's outline for its own box, once per layout; its length goes to --len for the CSS that draws it */
-const traced = new WeakMap<SVGSVGElement, number>();
-function buildTrace(svg: SVGSVGElement) {
-  if (traced.get(svg) === geo) return true;
-  // the svg's own box (it may stand off its parent), not the parent's
-  const host = svg.parentElement!;
-  const w = svg.clientWidth || host.offsetWidth;
-  const h = svg.clientHeight || host.offsetHeight;
-  if (!w || !h) return false;
-  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-  let d: string;
-  if ("circle" in svg.dataset) {
-    const r = Math.min(w, h) / 2 - 1;
-    const cx = w / 2;
-    const cy = h / 2;
-    d = `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
-  } else {
-    const r = Math.min(Number(svg.dataset.r ?? 16), w / 2, h / 2);
-    const a = 1;
-    const W = w - 1;
-    const H = h - 1;
-    d = `M ${w / 2} ${a} H ${W - r} A ${r} ${r} 0 0 1 ${W} ${a + r} V ${H - r} A ${r} ${r} 0 0 1 ${W - r} ${H} H ${a + r} A ${r} ${r} 0 0 1 ${a} ${H - r} V ${a + r} A ${r} ${r} 0 0 1 ${a + r} ${a} Z`;
-  }
-  const paths = svg.querySelectorAll("path");
-  paths.forEach((p) => p.setAttribute("d", d));
-  svg.style.setProperty("--len", (paths[0] as SVGPathElement).getTotalLength().toFixed(1));
-  traced.set(svg, geo);
-  return true;
-}
-
-/** a class on or off, touching the element only when it changes */
-function flag(el: Element, cls: string, on: boolean) {
-  if (el.classList.contains(cls) !== on) el.classList.toggle(cls, on);
-}
-
-// ---------- the wrap: one neon line round the whole group, once it is complete ----------
-
-type Box = { l: number; t: number; r: number; b: number };
-const PAD = 15; // how far the neon stands off the elements
-const ROUND = 26; // its corners
-
-/** boxes whose heights overlap sit side by side: one row; rows top to bottom */
-function rowsOf(boxes: Box[]) {
-  const s = [...boxes].sort((a, b) => a.t - b.t);
-  const rows: Box[][] = [];
-  for (const bx of s) {
-    const row = rows[rows.length - 1];
-    if (row && bx.t < Math.max(...row.map((q) => q.b)) - 6) row.push(bx);
-    else rows.push([bx]);
-  }
-  rows.forEach((r) => r.sort((a, b) => a.l - b.l));
-  return rows;
-}
-
-/** even out steps too small to read as a shape */
-function evenOut(v: number[], outward: 1 | -1) {
-  for (let i = 1; i < v.length; i++)
-    if (Math.abs(v[i] - v[i - 1]) < 18) v[i] = v[i - 1] = outward > 0 ? Math.max(v[i], v[i - 1]) : Math.min(v[i], v[i - 1]);
-}
-
-/** a row pulled in between two that stand further out is a pocket, not a shape: fill it */
-function fillPockets(v: number[], outward: 1 | -1) {
-  for (let pass = 0; pass < 3; pass++)
-    for (let i = 1; i < v.length - 1; i++) {
-      const lim = outward > 0 ? Math.min(v[i - 1], v[i + 1]) : Math.max(v[i - 1], v[i + 1]);
-      if (outward > 0 ? v[i] < lim : v[i] > lim) v[i] = lim;
-    }
-}
-
-/** the outline that hugs the group, clockwise: along the tops, down the right, along the bottoms, up the left */
-function hull(boxes: Box[], P: number): Pt[] {
-  const rows = rowsOf(boxes);
-  const n = rows.length;
-  const top = rows.map((r) => Math.min(...r.map((q) => q.t)));
-  const bot = rows.map((r) => Math.max(...r.map((q) => q.b)));
-  const R = rows.map((r) => Math.max(...r.map((q) => q.r)) + P);
-  const L = rows.map((r) => Math.min(...r.map((q) => q.l)) - P);
-  fillPockets(R, 1);
-  fillPockets(L, -1);
-  evenOut(R, 1);
-  evenOut(L, -1);
-  const mid = rows.slice(0, -1).map((_, i) => (bot[i] + top[i + 1]) / 2);
-  const pts: Pt[] = [];
-  const f = rows[0];
-  const ft = f.map((q) => q.t - P);
-  fillPockets(ft, -1);
-  evenOut(ft, -1);
-  f.forEach((q, j) => {
-    const x0 = j === 0 ? L[0] : (f[j - 1].r + q.l) / 2;
-    const x1 = j === f.length - 1 ? R[0] : (q.r + f[j + 1].l) / 2;
-    pts.push([x0, ft[j]], [x1, ft[j]]);
-  });
-  for (let i = 0; i < n; i++) {
-    if (i > 0) pts.push([R[i], mid[i - 1]]);
-    if (i < n - 1) pts.push([R[i], mid[i]]);
-  }
-  const l = rows[n - 1];
-  const lb = l.map((q) => q.b + P);
-  fillPockets(lb, 1);
-  evenOut(lb, 1);
-  for (let j = l.length - 1; j >= 0; j--) {
-    const q = l[j];
-    const x1 = j === l.length - 1 ? R[n - 1] : (q.r + l[j + 1].l) / 2;
-    const x0 = j === 0 ? L[n - 1] : (l[j - 1].r + q.l) / 2;
-    pts.push([x1, lb[j]], [x0, lb[j]]);
-  }
-  for (let i = n - 1; i >= 0; i--) {
-    if (i < n - 1) pts.push([L[i], mid[i]]);
-    if (i > 0) pts.push([L[i], mid[i - 1]]);
-  }
-  const out: Pt[] = [];
-  for (const p of pts) {
-    const q = out[out.length - 1];
-    if (!q || Math.hypot(p[0] - q[0], p[1] - q[1]) > 0.5) out.push(p);
-  }
-  if (out.length > 1 && Math.hypot(out[0][0] - out[out.length - 1][0], out[0][1] - out[out.length - 1][1]) < 0.5) out.pop();
-  const clean = out.filter((p, i) => {
-    const a = out[(i - 1 + out.length) % out.length];
-    const b = out[(i + 1) % out.length];
-    return !((Math.abs(a[0] - p[0]) < 0.5 && Math.abs(b[0] - p[0]) < 0.5) || (Math.abs(a[1] - p[1]) < 0.5 && Math.abs(b[1] - p[1]) < 0.5));
-  });
-  return clean.length >= 3 ? clean : out;
-}
-
-const f1 = (n: number) => n.toFixed(1);
-const unit = (x: number, y: number): Pt => {
-  const l = Math.hypot(x, y) || 1;
-  return [x / l, y / l];
-};
-
-/** the closed outline with rounded corners, starting from the middle of its top edge on the right (where Hebrew starts) */
-function outline(poly: Pt[]) {
-  const n = poly.length;
-  // the top edge is the first one (left to right); start three quarters along it
-  const a = poly[0];
-  const b = poly[1 % n];
-  const S: Pt = [a[0] + (b[0] - a[0]) * 0.75, a[1] + (b[1] - a[1]) * 0.75];
-  let d = `M ${f1(S[0])} ${f1(S[1])}`;
-  for (let c = 1; c <= n; c++) {
-    const cur = poly[c % n];
-    const prev = c === 1 ? S : poly[(c - 1) % n];
-    const next = c === n ? S : poly[(c + 1) % n];
-    const lp = Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
-    const ln = Math.hypot(next[0] - cur[0], next[1] - cur[1]);
-    const r = Math.min(ROUND, c === 1 ? lp : lp / 2, c === n ? ln : ln / 2);
-    const u1 = unit(prev[0] - cur[0], prev[1] - cur[1]);
-    const u2 = unit(next[0] - cur[0], next[1] - cur[1]);
-    d += ` L ${f1(cur[0] + u1[0] * r)} ${f1(cur[1] + u1[1] * r)} Q ${f1(cur[0])} ${f1(cur[1])} ${f1(cur[0] + u2[0] * r)} ${f1(cur[1] + u2[1] * r)}`;
-  }
-  return d + ` L ${f1(S[0])} ${f1(S[1])}`;
-}
-
-type Wrap = { v: number; built: boolean; armed: boolean; mv: number; wide: boolean; lastAt: number };
-const wraps = new WeakMap<HTMLElement, Wrap>();
-
-/** build the wrap round the group as it stands now (its last item has just arrived): read once, then left alone */
-function buildWrap(el: HTMLElement, rbw: HTMLElement, host: HTMLElement, items: HTMLElement[], pad: number) {
-  const hr = host.getBoundingClientRect();
-  const lift = el.getBoundingClientRect().top - (hr.top + posIn(el, host).y); // the group's own movement, if any
-  const boxes: Box[] = [];
-  for (const c of items) {
-    const b = posIn(c, host);
-    if (!b.w || !b.h) continue;
-    // its layout, and where it really is (the clips' arc, the phones' tilt, the float)
-    const r = (c.querySelector<HTMLElement>(":scope > .fl") ?? c).getBoundingClientRect();
-    boxes.push({
-      l: Math.min(b.x, r.left - hr.left),
-      t: Math.min(b.y, r.top - hr.top - lift) - 4,
-      r: Math.max(b.x + b.w, r.right - hr.left),
-      b: Math.max(b.y + b.h, r.bottom - hr.top - lift) + 4,
-    });
-  }
-  if (!boxes.length) return false;
-  const W = host.offsetWidth;
-  const H = host.offsetHeight;
-  const poly = hull(boxes, pad).map(([x, y]) => [Math.min(W - 5, Math.max(5, x)), Math.min(H - 5, Math.max(5, y))] as Pt);
-  const svg = rbw.querySelector<SVGSVGElement>("svg")!;
-  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  const d = outline(poly);
-  const paths = svg.querySelectorAll<SVGPathElement>("path");
-  paths.forEach((p) => p.setAttribute("d", d));
-  svg.style.setProperty("--len", paths[0].getTotalLength().toFixed(1));
-  return true;
-}
-
 type Fly = { v: number; dx: number; dy: number };
 const flies = new WeakMap<HTMLElement, Fly>();
-const drawnAt = new WeakMap<HTMLElement, number>();
 const kidsOf = new WeakMap<HTMLElement, HTMLElement[]>();
 
 export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
@@ -580,18 +373,16 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     const to = Number(d.to);
     const k = to > from ? (p - from) / (to - from) : -1;
     const on = k > 0 && k < 1;
-    const rbw = el.previousElementSibling instanceof HTMLElement && el.previousElementSibling.classList.contains("ch-rbw") ? el.previousElementSibling : null;
     if (!on) {
-      set(el, { visibility: "hidden", opacity: "0" });
-      if (rbw) {
-        set(rbw, { visibility: "hidden" });
-        flag(rbw, "on", false);
-        const w = wraps.get(el);
-        if (w) w.armed = false;
+      // not on screen: not rendered at all (no layers, no animations for the phone to keep)
+      if (el.style.display !== "none") {
+        el.style.display = "none";
+        last.delete(el);
+        el.querySelectorAll("video").forEach((v) => playIf(v, false));
       }
-      el.querySelectorAll("video").forEach((v) => playIf(v, false));
       return;
     }
+    if (el.style.display === "none") el.style.display = "";
     // in with the caption, out with the caption: the same curve (src/film/Kinetic.tsx)
     const inn = reduced ? 1 : smooth(k / 0.06);
     const out = reduced ? 0 : smooth((k - 0.82) / 0.18);
@@ -618,16 +409,6 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       filter: out > 0 && !lite ? `blur(${(out * 7).toFixed(2)}px)` : "none",
     });
 
-    // the last item to arrive (worked out once per layout: on a phone the call
-    // to action is hidden and does not count); once it is in, the wrap goes round them all
-    let w = wraps.get(el);
-    if (!w) wraps.set(el, (w = { v: -1, built: false, armed: false, mv: -1, wide, lastAt: 0 }));
-    if (w.mv !== geo || w.wide !== wide) {
-      w.mv = geo;
-      w.wide = wide;
-      w.lastAt = Math.max(0, ...kids.filter((c) => c.style.display === "none" || getComputedStyle(c).display !== "none").map((c) => Number(c.dataset.at)));
-    }
-    const lastAt = w.lastAt;
     kids.forEach((c, i) => {
       const at = Number(c.dataset.at);
       const gone = one && i !== newest && !c.classList.contains("ch-keep");
@@ -644,44 +425,15 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
         if (c.offsetWidth) flies.set(c, f);
       }
       const r = 1 - a;
-      drawnAt.set(c, a);
       set(c, {
         opacity: a.toFixed(3),
         transform: `translate3d(${(f.dx * r).toFixed(1)}px, ${(f.dy * r).toFixed(1)}px, 0) scale(${(0.78 + 0.22 * a).toFixed(3)})`,
         filter: a > 0 && a < 1 && !lite ? `blur(${(r * 9).toFixed(2)}px)` : "none",
         display: gone ? "none" : "",
       });
-      // its own outline: drawn by the browser as it lands (built a frame ahead, so it draws from nothing)
-      c.querySelectorAll<SVGSVGElement>("svg.tr").forEach((svg) => {
-        const want = a > 0.5;
-        if (want && traced.get(svg) !== geo) {
-          buildTrace(svg);
-          return;
-        }
-        flag(svg, "on", want);
-      });
       c.querySelectorAll("video").forEach((v) => playIf(v, a > 0.05));
     });
 
-    // the wrap: once the group is complete, fast, once; it leaves with the group
-    if (rbw) {
-      const done = reduced || k >= lastAt + 0.1;
-      set(rbw, { visibility: "inherit", opacity: op.toFixed(3), transform: `translate3d(0, ${lift.toFixed(1)}px, 0)` });
-      if (done) {
-        if (!w.built || w.v !== geo) {
-          w.built = buildWrap(el, rbw, host, kids.filter((c) => c.offsetWidth > 0), wide ? PAD : 10);
-          w.v = geo;
-          w.armed = false;
-        } else if (!w.armed) {
-          // a frame after it is built, so the browser draws it from nothing
-          w.armed = true;
-          flag(rbw, "on", true);
-        }
-      } else if (k < lastAt + 0.08) {
-        flag(rbw, "on", false);
-        w.armed = false;
-      }
-    }
     // a screen that scrolls with the film
     el.style.setProperty("--s", clamp01(k).toFixed(3));
   });

@@ -43,6 +43,7 @@ function Ch({
   place = "bottom",
   kind,
   one,
+  stack,
   anchor,
   manchor,
   children,
@@ -54,6 +55,8 @@ function Ch({
   place?: Place;
   kind: string;
   one?: boolean;
+  /** in the reel, how many of a "one" list's items stay on screen at once (fewer than its default) */
+  stack?: number;
   /** the object in the picture the items fly out of, % of the frame (computer, phone) */
   anchor?: Pt;
   manchor?: Pt;
@@ -71,6 +74,7 @@ function Ch({
         data-max={manchor?.[0]}
         data-may={manchor?.[1]}
         data-one={one ? "" : undefined}
+        data-stack={stack}
       >
         {children}
       </div>
@@ -228,7 +232,7 @@ function Studio() {
 // the businesses open one by one, and the ribbon flows down around each of them
 function Built() {
   return (
-    <Ch scene="city" place="top" kind="built" one>
+    <Ch scene="city" place="top" kind="built" one stack={2}>
       <p className="ch-h ch-keep halo" data-at="0">
         {built.title} <span>{built.hl}</span>
       </p>
@@ -414,7 +418,9 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     if (one) {
       const arrived: number[] = [];
       kids.forEach((c, i) => Number(c.dataset.at) <= k && !c.classList.contains("ch-keep") && arrived.push(i));
-      arrived.slice(-stack).forEach((i) => live.add(i));
+      // a list can keep fewer than the reel's default (data-stack), never more
+      const keep = stack > 1 ? Math.min(stack, Number(d.stack) || stack) : 1;
+      arrived.slice(-keep).forEach((i) => live.add(i));
     }
 
     set(el, {

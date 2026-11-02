@@ -1081,3 +1081,6 @@
 @media (prefers-reduced-motion: reduce) {
   .rl-cue i { animation: none; }
 }
+/* the bars and the corner link only while the film plays */
+.hf-reel:not([data-mode="play"]):not([data-mode="end"]) .rl-bars { opacity: 0; }
+.rl-bars { transition: opacity 0.4s ease; }

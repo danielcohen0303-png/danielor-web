@@ -87,6 +87,12 @@ export default function ReelFilm({
     const loader = new AssetLoader(6);
     let destroyed = false;
     let mode = "intro" as Mode;
+    // the mode on the stage too, for the CSS (the bars, the cue)
+    const setMode = (m: Mode) => {
+      mode = m;
+      sec.dataset.mode = m;
+    };
+    sec.dataset.mode = mode;
     let cur = 0;
     let t0 = 0;
     let swiped = false;
@@ -182,7 +188,7 @@ export default function ReelFilm({
       const prev = cur;
       const pv = videos.current[prev];
       cur = i;
-      mode = "play";
+      setMode("play");
       const lay = layers.current;
       const next = lay[i];
       if (next) {
@@ -258,7 +264,7 @@ export default function ReelFilm({
         pending = true;
         return;
       }
-      mode = "start";
+      setMode("start");
       t0 = performance.now();
       const l0 = layers.current[0];
       if (l0) {
@@ -293,7 +299,7 @@ export default function ReelFilm({
         near();
       }
       videos.current[cur]?.pause();
-      mode = "leave";
+      setMode("leave");
       t0 = performance.now();
       stepped = 0;
       showCue(null);
@@ -310,7 +316,7 @@ export default function ReelFilm({
       if (ob) ob.style.display = "none";
       cover.style.display = "none";
       root.classList.remove("hf-outro");
-      mode = "end";
+      setMode("end");
       // back at the top, the film waits on its last frame with the sign lit
       cur = n - 1;
       layers.current.forEach((l, k) => {
@@ -346,7 +352,7 @@ export default function ReelFilm({
         if (mode === "play" && v && d && (v.ended || v.currentTime >= d - 0.03)) {
           if (cur < n - 1) show(cur + 1, "cut");
           else {
-            mode = "end";
+            setMode("end");
             showCue(endLabel);
             showSkip(false);
           }
@@ -503,6 +509,11 @@ export default function ReelFilm({
       if (mode === "intro" && !(e.target as HTMLElement).closest("a, button")) begin();
     };
     introEl?.addEventListener("click", onIntroClick);
+
+    // the opening's words: here the film moves with a swipe, not a scroll
+    introEl?.querySelectorAll<HTMLElement>(".dn-open-sub, .swipe-cue-label").forEach((el) => {
+      if (el.textContent?.includes("גללו")) el.textContent = el.textContent.replace("גללו", "החליקו");
+    });
 
     // ---------- where to start ----------
     if (window.scrollY > 50) {

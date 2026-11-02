@@ -122,7 +122,7 @@ export default function OneFilm({
     // frame is reached going down, the page takes over for a moment: the swing
     // stops, the page glides itself through the burst, slowly, and lands on the
     // first section's title. Then the scroll is the reader's again.
-    const LANDING_MS = 2000;
+    const LANDING_MS = 2400;
     let lastY = -1;
     let landing: { t0: number; from: number; to: number } | null = null;
     const block = (e: Event) => e.preventDefault();

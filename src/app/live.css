@@ -105,7 +105,7 @@
 .ch-tag small { font-size: 12px; color: #ffb8ec; }
 .ch-bubbles { display: flex; flex-direction: column; gap: 10px; }
 .bub { max-width: 88%; }
-.bub .fl { padding: 9px 12px 19px; border-radius: 18px; font-size: 14px; line-height: 1.45; }
+.bub .fl { padding: 9px 12px 19px; border-radius: 18px; border: 1px solid rgba(255, 150, 232, 0.32); font-size: 14px; line-height: 1.45; }
 .bub time { position: absolute; inset-inline-start: 12px; bottom: 5px; font-size: 10px; opacity: 0.7; direction: ltr; }
 /* the customer (her phone: her messages on the left in Hebrew) */
 .bub-in { align-self: flex-end; }
@@ -113,9 +113,10 @@
 .bub-in time { inset-inline-start: auto; inset-inline-end: 12px; }
 /* the clinic's agent: smoked glass in the air */
 .bub-out { align-self: flex-start; }
-.bub-out .fl { background: rgba(26, 11, 46, 0.6); border-end-end-radius: 5px; box-shadow: 0 10px 30px rgba(10, 4, 22, 0.4); }
+.bub-out .fl { background: rgba(26, 11, 46, 0.68); border-end-end-radius: 5px; box-shadow: 0 10px 30px rgba(10, 4, 22, 0.4); }
 .bub-note { align-self: center; max-width: 96%; }
-.bub-note .fl { background: rgba(255, 255, 255, 0.07); color: #ffe7f9; font-size: 13px; }
+/* the note to the owner: smoked glass like the agent's, with a pink edge, readable over any picture */
+.bub-note .fl { background: rgba(26, 11, 46, 0.72); border-color: rgba(255, 140, 230, 0.5); color: #ffe7f9; font-size: 13px; }
 .bub-note b { color: #fff; }
 .bub .wa-link { display: inline-block; margin-top: 4px; color: #ff9fe5; font-weight: 700; }
 .bub-voice .fl { display: flex; align-items: center; gap: 8px; min-width: 170px; padding-bottom: 9px; }

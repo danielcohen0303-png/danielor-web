@@ -215,7 +215,8 @@
   }
   .ch-chat { width: min(27vw, 360px); }
   .ch-studio { width: min(28vw, 380px); }
-  .ch-reel { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .ch-reel { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .ch-reel .ch-clip { width: calc((100% - 24px) / 3); }
   .ch-clip figcaption { display: block; }
   .ch-phone { max-width: 170px; }
   .ch-sites .ch-phone { max-width: 132px; }
@@ -228,7 +229,8 @@
 /* a short window: the studio's reel in one row */
 @media (min-aspect-ratio: 4/3) and (max-height: 780px) {
   .ch-studio { width: min(36vw, 480px); }
-  .ch-reel { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .ch-reel { gap: 8px; }
+  .ch-reel .ch-clip { width: calc((100% - 32px) / 5); }
   .ch-clip figcaption { font-size: 11px; }
 }
 /* a phone: the chat shows one message at a time, without the call to action */

@@ -1115,7 +1115,7 @@
 .rl-guide-h { display: grid; justify-items: center; gap: 8px; padding-inline: 20px; text-align: center; }
 .rl-guide-bars { display: flex; gap: 4px; width: 74px; margin-bottom: 4px; }
 .rl-guide-bars i { flex: 1; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.35); }
-.rl-guide-bars i:last-child { background: var(--rl-fill, #fff); }
+.rl-guide-bars i:first-child { background: var(--rl-fill, #fff); }
 .rl-guide-h b { font-size: 36px; line-height: 1; }
 .rl-guide-h span { font-size: 14px; }
 .rl-guide-zones {

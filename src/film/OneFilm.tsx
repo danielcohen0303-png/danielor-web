@@ -125,7 +125,8 @@ export default function OneFilm({
             const t = Math.min(1, Math.max(0, x));
             return t * t * (3 - 2 * t);
           };
-          const flare = sm(q / 0.16) * (1 - sm((q - 0.34) / 0.2));
+          // the star gathers light, then gives it all to the burst
+          const flare = sm(q / 0.12) * (1 - sm((q - 0.14) / 0.14));
           const b = Math.min(1, Math.max(0, (q - 0.1) / 0.42));
           const burst = 1 - Math.pow(1 - b, 3);
           const ring = Math.sin(Math.PI * Math.min(1, Math.max(0, (q - 0.1) / 0.46)));

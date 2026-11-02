@@ -422,7 +422,7 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   height: 80vmax;
   margin: -40vmax 0 0 -40vmax;
   border-radius: 50%;
-  background: radial-gradient(closest-side, #ffffff 0%, #fff8fe 16%, #f8ecff 34%, #eee2fc 52%, #e9ddfb 66%, rgba(233, 221, 251, 0.6) 80%, rgba(233, 221, 251, 0) 100%);
+  background: radial-gradient(closest-side, #ffffff 0%, #fff8fe 18%, #f9eeff 36%, rgba(242, 230, 253, 0.96) 52%, rgba(236, 224, 252, 0.8) 66%, rgba(233, 221, 251, 0.45) 80%, rgba(233, 221, 251, 0.14) 92%, rgba(233, 221, 251, 0) 100%);
   transform: scale(calc(var(--b) * 4));
   will-change: transform;
 }
@@ -435,8 +435,8 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   height: 80vmax;
   margin: -40vmax 0 0 -40vmax;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 86%, rgba(255, 210, 244, 0.55) 92%, rgba(255, 255, 255, 0.95) 95.5%, rgba(255, 95, 214, 0.45) 97.5%, rgba(255, 95, 214, 0) 100%);
-  opacity: var(--rg);
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0) 80%, rgba(255, 210, 244, 0.35) 90%, rgba(255, 255, 255, 0.7) 95%, rgba(255, 95, 214, 0.3) 98%, rgba(255, 95, 214, 0) 100%);
+  opacity: calc(var(--rg) * 0.7);
   transform: scale(calc(var(--b) * 3.1));
   will-change: transform, opacity;
 }
@@ -464,7 +464,7 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   background: linear-gradient(90deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0));
   box-shadow: 0 0 18px 4px rgba(255, 47, 200, 0.6);
 }
-.dn-flare::before { width: 260vmax; height: 3px; margin: -1.5px 0 0 -130vmax; transform: scaleX(calc(var(--fl) * 0.5)); }
-.dn-flare::after { width: 3px; height: 120vmin; margin: -60vmin 0 0 -1.5px; transform: scaleY(calc(var(--fl) * 0.6)); background: linear-gradient(180deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0)); }
+.dn-flare::before { width: 64vmin; height: 2px; margin: -1px 0 0 -32vmin; transform: scaleX(calc(0.3 + var(--fl) * 0.7)); }
+.dn-flare::after { width: 2px; height: 40vmin; margin: -20vmin 0 0 -1px; transform: scaleY(calc(0.3 + var(--fl) * 0.7)); background: linear-gradient(180deg, rgba(255, 95, 214, 0), #fff 50%, rgba(255, 95, 214, 0)); }
 /* and the light settles into the lilac the page starts in */
 .dn-outro-fill { position: absolute; inset: 0; background: #e9ddfb; opacity: var(--w); }

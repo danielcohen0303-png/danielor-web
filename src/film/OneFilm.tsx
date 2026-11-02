@@ -130,10 +130,11 @@ export default function OneFilm({
     const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
     const blockKey = (e: KeyboardEvent) => KEYS.has(e.key) && e.preventDefault();
     const lock = (hold: boolean) => {
-      // a phone: overflow hidden is what stops a swing that is already running
-      const ov = hold && touch ? "hidden" : "";
-      document.documentElement.style.overflow = ov;
-      document.body.style.overflow = ov;
+      // a phone: overflow hidden is what stops a swing that is already running.
+      // On the root only: on the body it makes the body a scroll box, and the
+      // film's sticky stage then scrolls away with the page (Daniel, 02.11: the
+      // end went dark and the burst never showed)
+      document.documentElement.style.overflow = hold && touch ? "hidden" : "";
       if (hold) {
         window.addEventListener("wheel", block, { passive: false });
         window.addEventListener("touchmove", block, { passive: false });

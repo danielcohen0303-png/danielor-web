@@ -115,8 +115,55 @@ export default function OneFilm({
     let outroQ = -1;
     let outroS = 0;
     let outroAt = performance.now();
+    // The landing (Daniel, 02.11: "like stepping off an escalator: you are thrown
+    // forward"). In the film a screen of scroll moves the picture a little; after
+    // it the page moves one to one, so the same swing of the finger threw the
+    // reader down the page, and the burst flashed past. So when the film's last
+    // frame is reached going down, the page takes over for a moment: the swing
+    // stops, the page glides itself through the burst, slowly, and lands on the
+    // first section's title. Then the scroll is the reader's again.
+    const LANDING_MS = 2000;
+    let lastY = -1;
+    let landing: { t0: number; from: number; to: number } | null = null;
+    const block = (e: Event) => e.preventDefault();
+    const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
+    const blockKey = (e: KeyboardEvent) => KEYS.has(e.key) && e.preventDefault();
+    const lock = (hold: boolean) => {
+      // a phone: overflow hidden is what stops a swing that is already running
+      const ov = hold && touch ? "hidden" : "";
+      document.documentElement.style.overflow = ov;
+      document.body.style.overflow = ov;
+      if (hold) {
+        window.addEventListener("wheel", block, { passive: false });
+        window.addEventListener("touchmove", block, { passive: false });
+        window.addEventListener("keydown", blockKey);
+      } else {
+        window.removeEventListener("wheel", block);
+        window.removeEventListener("touchmove", block);
+        window.removeEventListener("keydown", blockKey);
+      }
+    };
     const pick = () => {
-      const y = window.scrollY - top;
+      let y = window.scrollY - top;
+      if (!landing && !reduced && outroPx > 0 && lastY >= 0) {
+        const jump = y - lastY;
+        // crossing the last frame going down, by scrolling (a jump from the menu is not a landing)
+        if (lastY < endPx && y >= endPx && jump > 0 && jump < window.innerHeight * 0.6) {
+          landing = { t0: performance.now(), from: endPx, to: endPx + outroPx };
+          lock(true);
+        }
+      }
+      if (landing) {
+        const u = Math.min(1, (performance.now() - landing.t0) / LANDING_MS);
+        const e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+        y = landing.from + (landing.to - landing.from) * e;
+        window.scrollTo(0, top + y);
+        if (u >= 1) {
+          landing = null;
+          lock(false);
+        }
+      }
+      lastY = y;
       if (introBox.current) introAt(introBox.current, introPx > 0 ? Math.min(1, Math.max(0, y / introPx)) : 1, reduced);
       // the outro (Daniel, 02.11): the star over the sign flares, bursts, and its
       // light fills the screen; the light turns into the lilac the page below
@@ -135,6 +182,8 @@ export default function OneFilm({
         const rate = 0.62 * dt;
         outroS += Math.max(-rate * 1.5, Math.min(rate, qT - outroS));
         outroS = Math.max(outroS, ((qT - 0.85) / 0.15) * 0.72);
+        // while landing the page itself sets the pace: the burst follows it exactly
+        if (landing) outroS = qT;
         const q = outroS;
         if (q !== outroQ) {
           if (outroQ <= 0 && q > 0) aimOutro(ob);
@@ -240,6 +289,7 @@ export default function OneFilm({
 
     return () => {
       destroyed = true;
+      if (landing) lock(false);
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", onResize);

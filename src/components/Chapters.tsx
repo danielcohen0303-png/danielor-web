@@ -43,6 +43,7 @@ function Ch({
   place = "bottom",
   kind,
   one,
+  notes,
   stack,
   anchor,
   manchor,
@@ -55,6 +56,8 @@ function Ch({
   place?: Place;
   kind: string;
   one?: boolean;
+  /** its items are phone notifications that stack like iOS: the newest on top, the one before under it, the rest peeking behind */
+  notes?: boolean;
   /** in the reel, how many of a "one" list's items stay on screen at once (fewer than its default) */
   stack?: number;
   /** the object in the picture the items fly out of, % of the frame (computer, phone) */
@@ -74,6 +77,7 @@ function Ch({
         data-max={manchor?.[0]}
         data-may={manchor?.[1]}
         data-one={one ? "" : undefined}
+        data-notes={notes ? "" : undefined}
         data-stack={stack}
       >
         {children}
@@ -229,26 +233,40 @@ function Studio() {
   );
 }
 
-// the businesses open one by one, and the ribbon flows down around each of them
+// the businesses (Daniel, 02.11: "the one thing that doesn't look a million dollars"):
+// each one's agent reports to its owner on WhatsApp, and the reports land as
+// iPhone notifications over the sunset, stacking as iOS does them
 function Built() {
   return (
-    <Ch scene="city" place="top" kind="built" one stack={2}>
-      <p className="ch-h ch-keep halo" data-at="0">
+    <Ch scene="city" place="top" kind="built" notes>
+      <p className="ch-h ch-keep" data-at="0">
         {built.title} <span>{built.hl}</span>
       </p>
-      {built.items.map((b, i) => (
-        <It key={b.name} at={0.1 + i * 0.14} i={i} className="ch-pin">
-          <span className="ch-pin-ic">
-            <svg viewBox="0 0 24 24" aria-hidden>
-              <path d={b.icon} />
-            </svg>
-          </span>
-          <span className="ch-pin-t halo">
-            <b>{b.name}</b>
-            <span>{b.text}</span>
-          </span>
-        </It>
-      ))}
+      <div className="nt-stack">
+        {built.items.map((b, i) => (
+          <div key={b.name} className="it nt-it" data-at={(0.1 + i * 0.14).toFixed(3)}>
+            <div className="nt">
+              <span className="nt-av" aria-hidden>
+                <svg viewBox="0 0 24 24">
+                  <path d={b.icon} />
+                </svg>
+                <i className="nt-badge">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M20 11.5c0 4.1-3.6 7.5-8 7.5-1.2 0-2.3-.2-3.3-.6L4 20l1.3-3.7A7.2 7.2 0 0 1 4 11.5C4 7.4 7.6 4 12 4s8 3.4 8 7.5z" />
+                  </svg>
+                </i>
+              </span>
+              <span className="nt-body">
+                <span className="nt-top">
+                  <b>{b.name}</b>
+                  <time>עכשיו</time>
+                </span>
+                <span className="nt-msg">{b.note}</span>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </Ch>
   );
 }
@@ -331,7 +349,10 @@ function set(el: HTMLElement | SVGElement, css: Record<string, string>) {
   const key = JSON.stringify(css);
   if (last.get(el) === key) return;
   last.set(el, key);
-  Object.assign(el.style, css);
+  for (const [k, v] of Object.entries(css)) {
+    if (k.startsWith("--")) el.style.setProperty(k, v);
+    else (el.style as unknown as Record<string, string>)[k] = v;
+  }
 }
 
 let wideQ: MediaQueryList | null = null;
@@ -445,6 +466,11 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       filter: out > 0 && !lite ? `blur(${(out * 7).toFixed(2)}px)` : "none",
     });
 
+    if ("notes" in d) {
+      notesAt(el, kids, k, reduced);
+      return;
+    }
+
     kids.forEach((c, i) => {
       const at = Number(c.dataset.at);
       const gone = one && !live.has(i) && !c.classList.contains("ch-keep");
@@ -472,5 +498,53 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
 
     // a screen that scrolls with the film
     el.style.setProperty("--s", clamp01(k).toFixed(3));
+  });
+}
+
+
+// ---------- notifications that stack like iOS (the businesses) ----------
+const noteH = new WeakMap<HTMLElement, { v: number; h: number }>();
+const GAP = 10;
+const PEEK = 13;
+/** each notification drops in on top; the one before slides down under it, and
+ * an older one tucks behind that, its edge peeking out, then goes. Transforms
+ * and opacity only; the avatar's glow on arrival is the one small repaint */
+function notesAt(el: HTMLElement, kids: HTMLElement[], k: number, reduced: boolean) {
+  const items: HTMLElement[] = [];
+  kids.forEach((c) => {
+    if (c.classList.contains("ch-keep")) set(c, { opacity: (reduced ? 1 : smooth(k / 0.06)).toFixed(3) });
+    else items.push(c);
+  });
+  // one notification's height (they all share it), measured once per layout
+  let m = noteH.get(el);
+  if (!m || m.v !== geo || !m.h) {
+    const h = Math.max(0, ...items.map((c) => (c.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0));
+    m = { v: geo, h };
+    if (h) noteH.set(el, m);
+  }
+  const H = m.h || 76;
+  const arr = items.map((c) => {
+    const at = Number(c.dataset.at);
+    return reduced ? (k >= at ? 1 : 0) : smooth((k - at) / 0.07);
+  });
+  items.forEach((c, i) => {
+    // how far down the stack it is: one step for every notification that came after it
+    let dd = 0;
+    for (let j = i + 1; j < items.length; j++) dd += arr[j];
+    const a = arr[i];
+    const back = Math.min(dd, 3) - 1;
+    const y = (dd <= 1 ? dd * (H + GAP) : H + GAP + back * PEEK) - (1 - a) * 30;
+    const sc = (dd <= 1 ? 1 : 1 - back * 0.06) * (0.95 + 0.05 * a);
+    const fade = dd <= 1 ? 1 : dd <= 2 ? 1 - (dd - 1) * 0.45 : Math.max(0, 0.55 - (dd - 2) * 0.55);
+    const o = a * fade;
+    set(c, {
+      opacity: o.toFixed(3),
+      transform: `translate3d(0, ${y.toFixed(1)}px, 0) scale(${sc.toFixed(4)})`,
+      zIndex: String(20 - Math.round(dd)),
+      display: o < 0.004 ? "none" : "",
+    });
+    // its words go as it tucks behind; the avatar glows as it lands
+    const inner = c.firstElementChild as HTMLElement | null;
+    if (inner) set(inner, { "--in": Math.max(0, 1 - Math.max(0, dd - 1) * 1.6).toFixed(3), "--ping": Math.sin(Math.PI * a).toFixed(3) } as Record<string, string>);
   });
 }

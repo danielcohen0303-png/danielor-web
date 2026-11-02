@@ -638,6 +638,10 @@ export default function ReelFilm({
     const onSkip = () => leave();
     skipBtn?.addEventListener("click", onSkip);
 
+    // the captions' words too: here the film is watched, not scrolled
+    sec.querySelectorAll<HTMLElement>(".kc-line").forEach((el) => {
+      if (el.textContent?.includes("גוללים")) el.textContent = el.textContent.replace("גוללים", "רואים");
+    });
     // the opening's words: here the film moves with a tap, not a scroll
     introEl?.querySelectorAll<HTMLElement>(".dn-open-sub, .swipe-cue-label").forEach((el) => {
       if (el.textContent?.includes("גללו")) el.textContent = el.textContent.replace("גללו", "לחצו");

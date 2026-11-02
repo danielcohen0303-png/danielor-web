@@ -1179,11 +1179,11 @@
   .rl-hand::after { animation: none; }
 }
 
-/* running fast: a small badge under the bars while the finger is held */
+/* running fast: a small badge low in the middle while the finger is held (clear of everything the scenes show) */
 .rl-fast {
   position: absolute;
   z-index: 6;
-  top: calc(env(safe-area-inset-top, 0px) + 82px);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 64px);
   left: 50%;
   display: flex;
   align-items: center;
@@ -1192,7 +1192,7 @@
   border-radius: 999px;
   direction: ltr;
   opacity: 0;
-  transform: translate(-50%, -4px);
+  transform: translate(-50%, 6px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   pointer-events: none;
 }

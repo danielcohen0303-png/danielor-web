@@ -258,12 +258,13 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
   color: var(--ink);
 }
 .dn-after::before {
-  /* the clouds' last light dissolving into the page */
+  /* the page starts in the very lilac the film's last light left on the screen
+     (.dn-outro), then its glows come in: no seam between the film and the page */
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: 22svh;
-  background: linear-gradient(180deg, #160a29, rgba(22, 10, 41, 0));
+  height: calc(var(--svh, 1svh) * 110);
+  background: linear-gradient(180deg, #e9ddfb 0%, #e9ddfb 50%, rgba(233, 221, 251, 0) 100%);
   z-index: -1;
 }
 .dn-sec { max-width: 1080px; padding-top: calc(var(--svh, 1svh) * 12); }
@@ -401,3 +402,28 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   pointer-events: none;
 }
 .dn-intro-sign { transform-origin: 50% 55%; }
+
+/* ---------- the outro: lilac light rises over the clouds into the page ---------- */
+
+.dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; visibility: hidden; overflow: hidden; --q: 0; }
+.dn-outro-light {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(var(--svh, 1svh) * 170);
+  background:
+    radial-gradient(60% 18% at 50% 20%, rgba(255, 47, 200, 0.22), rgba(255, 47, 200, 0) 70%),
+    linear-gradient(180deg, rgba(233, 221, 251, 0) 0%, rgba(233, 221, 251, 0.5) 18%, #e9ddfb 36%, #e9ddfb 100%);
+  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 170)), 0);
+  will-change: transform;
+}
+.dn-outro-edge {
+  /* a horizon of neon on the light's front, fading as it fills the screen */
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff2fc8 20%, #fff 50%, #8b3dff 80%, transparent);
+  box-shadow: 0 0 18px 4px rgba(255, 47, 200, 0.55), 0 0 50px 10px rgba(139, 61, 255, 0.3);
+  opacity: calc(1 - var(--q));
+  transform: translate3d(0, calc(var(--svh, 1svh) * (100 - var(--q) * 170 + 26)), 0);
+  will-change: transform, opacity;
+}

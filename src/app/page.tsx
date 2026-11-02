@@ -34,7 +34,7 @@ export default function Home() {
       </header>
 
       <div className="screen">
-        <OneFilm scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} />
+        <OneFilm scenes={scenes} intro={<Opening />} introLen={150} extras={chapters} outroLen={70} />
       </div>
 
       <div id="content" className="dn-after">
@@ -50,6 +50,17 @@ export default function Home() {
       </div>
 
       <ScrollGuide hint={site.voice.scrollHint} />
+
+      {/* the neon the spark draws with (src/components/Chapters.tsx) */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
+        <defs>
+          <linearGradient id="dn-neon" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#ff5fd6" />
+            <stop offset="0.5" stopColor="#ffffff" />
+            <stop offset="1" stopColor="#9b5cff" />
+          </linearGradient>
+        </defs>
+      </svg>
     </main>
   );
 }

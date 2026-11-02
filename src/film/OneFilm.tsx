@@ -41,6 +41,7 @@ export default function OneFilm({
   intro,
   introLen = 0,
   extras,
+  outroLen = 0,
 }: {
   scenes: OneScene[];
   /** the opening, laid over the stage; it plays across the first introLen svh of scroll */
@@ -48,6 +49,8 @@ export default function OneFilm({
   introLen?: number;
   /** what each chapter shows besides its caption, by scene name (src/components/Chapters.tsx) */
   extras?: Record<string, React.ReactNode>;
+  /** after the last frame the stage stays this long (svh) while light rises over it into the page below */
+  outroLen?: number;
 }) {
   const section = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
@@ -58,6 +61,7 @@ export default function OneFilm({
   const fins = useRef<(HTMLDivElement | null)[]>([]);
   const chs = useRef<(HTMLDivElement | null)[]>([]);
   const introBox = useRef<HTMLDivElement>(null);
+  const outroBox = useRef<HTMLDivElement>(null);
 
   const starts: number[] = [];
   scenes.reduce((a, s) => (starts.push(a), a + len(s)), introLen);
@@ -85,12 +89,30 @@ export default function OneFilm({
       top = sec.getBoundingClientRect().top + window.scrollY;
       at = spacers.current.map((s) => s?.offsetTop ?? 0);
       introPx = at[0] ?? 0;
+      // the film's last frame, and the light's stretch after it
+      const lastSp = spacers.current[spacers.current.length - 1];
+      endPx = lastSp ? lastSp.offsetTop + lastSp.offsetHeight - window.innerHeight : 0;
+      outroPx = (outroLen / 100) * window.innerHeight;
     };
     let on = -1;
     let introPx = 0;
+    let endPx = 0;
+    let outroPx = 0;
+    let outroQ = -1;
     const pick = () => {
       const y = window.scrollY - top;
       if (introBox.current) introAt(introBox.current, introPx > 0 ? Math.min(1, Math.max(0, y / introPx)) : 1, reduced);
+      // the outro: lilac light rises from the bottom and covers the clouds, so the
+      // page below starts in exactly the colour the screen already is (no seam)
+      const ob = outroBox.current;
+      if (ob && outroPx > 0) {
+        const q = Math.min(1, Math.max(0, (y - endPx) / outroPx));
+        if (q !== outroQ) {
+          outroQ = q;
+          ob.style.visibility = q > 0 ? "visible" : "hidden";
+          ob.style.setProperty("--q", (q * q * (3 - 2 * q)).toFixed(4));
+        }
+      }
       let i = 0;
       for (let k = 1; k < at.length; k++) if (y >= at[k]) i = k;
       if (i !== on) {
@@ -166,10 +188,10 @@ export default function OneFilm({
       films.forEach((f) => f?.destroy());
       loader.destroy();
     };
-  }, [scenes]);
+  }, [scenes, outroLen]);
 
   return (
-    <section ref={section} className="hf hf-one" style={{ height: `calc(var(--svh, 1svh) * ${total + 100})` }}>
+    <section ref={section} className="hf hf-one" style={{ height: `calc(var(--svh, 1svh) * ${total + outroLen + 100})` }}>
       <div className="hf-stage">
         {scenes.map((s, i) => (
           <div
@@ -234,6 +256,12 @@ export default function OneFilm({
         {intro && (
           <div ref={introBox} className="dn-intro-host">
             {intro}
+          </div>
+        )}
+        {outroLen > 0 && (
+          <div ref={outroBox} className="dn-outro" aria-hidden>
+            <i className="dn-outro-light" />
+            <i className="dn-outro-edge" />
           </div>
         )}
       </div>

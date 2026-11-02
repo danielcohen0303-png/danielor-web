@@ -117,7 +117,7 @@ function AgentPanel() {
           </div>
         </div>
         <figure className="lv-chat">
-          <ChatPhone stagger={false} />
+          <ChatPhone />
           <figcaption>{chat.caption}</figcaption>
         </figure>
       </div>

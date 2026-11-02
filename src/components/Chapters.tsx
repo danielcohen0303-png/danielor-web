@@ -374,15 +374,16 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     const k = to > from ? (p - from) / (to - from) : -1;
     const on = k > 0 && k < 1;
     if (!on) {
-      // not on screen: not rendered at all (no layers, no animations for the phone to keep)
-      if (el.style.display !== "none") {
-        el.style.display = "none";
+      // not on screen: not rendered at all (no layers, no animations for the phone
+      // to keep). A chapter is off until it is on, from the first paint (live.css)
+      if (el.classList.contains("ch-on")) {
+        el.classList.remove("ch-on");
         last.delete(el);
         el.querySelectorAll("video").forEach((v) => playIf(v, false));
       }
       return;
     }
-    if (el.style.display === "none") el.style.display = "";
+    if (!el.classList.contains("ch-on")) el.classList.add("ch-on");
     // in with the caption, out with the caption: the same curve (src/film/Kinetic.tsx)
     const inn = reduced ? 1 : smooth(k / 0.06);
     const out = reduced ? 0 : smooth((k - 0.82) / 0.18);

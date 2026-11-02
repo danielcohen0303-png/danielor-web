@@ -35,11 +35,14 @@
 .ch {
   position: absolute;
   z-index: 1;
+  /* off until its moment in the film (src/components/Chapters.tsx) */
+  display: none;
   visibility: hidden;
   opacity: 0;
   inset-inline: 18px;
   color: #fff;
 }
+.ch.ch-on { display: block; }
 .ch-m-top { top: calc(env(safe-area-inset-top, 0px) + 74px); }
 .ch-m-mid { top: 43svh; }
 .ch-m-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 9svh); }
@@ -171,7 +174,8 @@
 .ch-pin-t span { font-size: 13.5px; line-height: 1.5; color: rgba(245, 234, 255, 0.88); }
 
 /* who is behind Danielor: a ring of neon that draws itself */
-.ch-who { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+.ch-who.ch-on { display: grid; }
+.ch-who { grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
 .ch-who-ph .fl { width: 72px; height: 72px; }
 .ch-who-ph img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 30px rgba(255, 47, 200, 0.55); }
 .ch-twinkle {

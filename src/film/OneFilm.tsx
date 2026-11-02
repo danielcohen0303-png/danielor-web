@@ -122,13 +122,13 @@ export default function OneFilm({
         const qT = Math.min(1, Math.max(0, (y - endPx) / outroPx));
         // the burst takes its time even when the scroll does not (Daniel, 02.11:
         // "slower, so you really see the flash happen"): a slow scroll drives it
-        // directly, a fast one lets it play at its own pace, about a second from
+        // directly, a fast one lets it play at its own pace, a second and more from
         // the star to the lilac. Only in the last stretch before the stage lets
         // go does it catch up, so the lilac is always there when the page comes
         const now = performance.now();
         const dt = Math.min(0.1, (now - outroAt) / 1000);
         outroAt = now;
-        const rate = 0.8 * dt;
+        const rate = 0.62 * dt;
         outroS += Math.max(-rate * 1.5, Math.min(rate, qT - outroS));
         outroS = Math.max(outroS, ((qT - 0.85) / 0.15) * 0.72);
         const q = outroS;

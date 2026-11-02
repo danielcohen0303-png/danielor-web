@@ -533,10 +533,11 @@ function notesAt(el: HTMLElement, kids: HTMLElement[], k: number, reduced: boole
     for (let j = i + 1; j < items.length; j++) dd += arr[j];
     const a = arr[i];
     const back = Math.min(dd, 3) - 1;
-    const y = (dd <= 1 ? dd * (H + GAP) : H + GAP + back * PEEK) - (1 - a) * 30;
+    // it drops in from just above and is solid early, so it lands over the one it pushes down
+    const y = (dd <= 1 ? dd * (H + GAP) : H + GAP + back * PEEK) - (1 - a) * 20;
     const sc = (dd <= 1 ? 1 : 1 - back * 0.06) * (0.95 + 0.05 * a);
     const fade = dd <= 1 ? 1 : dd <= 2 ? 1 - (dd - 1) * 0.45 : Math.max(0, 0.55 - (dd - 2) * 0.55);
-    const o = a * fade;
+    const o = smooth(a * 1.8) * fade;
     set(c, {
       opacity: o.toFixed(3),
       transform: `translate3d(0, ${y.toFixed(1)}px, 0) scale(${sc.toFixed(4)})`,

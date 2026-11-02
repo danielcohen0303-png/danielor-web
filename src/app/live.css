@@ -236,6 +236,29 @@
   .ch-sites .ch-site { gap: 6px; }
   .ch-sites .ch-cap b { font-size: 10px; line-height: 1.2; }
   .ch-pin { margin-top: 10px; }
+  /* the businesses over the sunset (Daniel, 02.11: "the writing is not 100%
+     readable"): on smoked glass like the note to the owner, bigger, pure white.
+     The glass replaces the halo, and its blur goes with it */
+  .ch-built .halo::before { display: none; }
+  .ch-built .ch-h {
+    padding: 10px 14px 11px;
+    border-radius: 16px;
+    background: rgba(26, 11, 46, 0.8);
+    border: 1px solid rgba(255, 140, 230, 0.45);
+    box-shadow: 0 10px 28px rgba(10, 4, 22, 0.35);
+    font-size: 24px;
+    text-shadow: none;
+  }
+  .ch-built .ch-pin .fl {
+    padding: 11px 14px 12px 12px;
+    border-radius: 18px;
+    background: rgba(26, 11, 46, 0.82);
+    border: 1px solid rgba(255, 140, 230, 0.5);
+    box-shadow: 0 10px 28px rgba(10, 4, 22, 0.4);
+  }
+  .ch-built .ch-pin-t { text-shadow: none; }
+  .ch-built .ch-pin-t b { font-size: 18px; }
+  .ch-built .ch-pin-t span { font-size: 15px; line-height: 1.45; color: #fff; }
 }
 
 /* the WhatsApp screen in the solutions, after the film */

@@ -43,6 +43,7 @@ export default function OneFilm({
   introLen = 0,
   extras,
   outroLen = 0,
+  landOn,
 }: {
   scenes: OneScene[];
   /** the opening, laid over the stage; it plays across the first introLen svh of scroll */
@@ -52,6 +53,8 @@ export default function OneFilm({
   extras?: Record<string, React.ReactNode>;
   /** after the last frame the stage stays this long (svh) while the star's light bursts over it into the page below */
   outroLen?: number;
+  /** the section after the film the landing sets the reader on (a selector); without it, the end of the outro */
+  landOn?: string;
 }) {
   const section = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
@@ -119,13 +122,45 @@ export default function OneFilm({
     // The landing (Daniel, 02.11: "like stepping off an escalator: you are thrown
     // forward"). In the film a screen of scroll moves the picture a little; after
     // it the page moves one to one, so the same swing of the finger threw the
-    // reader down the page, and the burst flashed past. So when the film's last
-    // frame is reached going down, the page takes over for a moment: the swing
-    // stops, the page glides itself through the burst, slowly, and lands on the
-    // first section's title. Then the scroll is the reader's again.
-    const LANDING_MS = 2400;
+    // reader down the page. A first try glided the page down through the burst,
+    // and on the phone that still read as being thrown down ("the jump down when
+    // you reach the sites"). So now the page does not move under the reader at
+    // all: at the film's last frame the swing stops and the page holds still
+    // while the star bursts and its light fills the screen, at its own pace.
+    // Under that light the page steps to the first section in one go, the light
+    // lifts off it, and the reader is standing on its title. The scroll is
+    // theirs again only once the finger is off the glass, so a swing that was
+    // still going does not carry them past it.
+    const BURST_MS = 1800; // from the star to the full light
+    const STEP_AT = 0.8; // the step, under the full light (it is full from 0.72)
+    const LIFT_MS = 750; // the light lifting off the section
     let lastY = -1;
-    let landing: { t0: number; from: number; to: number } | null = null;
+    let landing: { t0: number; to: number; stepAt: number } | null = null;
+    // the light the page steps under: over the page below too, so it lives on <body>
+    const cover = document.createElement("div");
+    cover.className = "hf-cover";
+    cover.setAttribute("aria-hidden", "true");
+    document.body.appendChild(cover);
+    const landTo = () => {
+      const end = endPx + outroPx;
+      const el = landOn ? document.querySelector<HTMLElement>(landOn) : null;
+      if (!el) return end;
+      const t = el.getBoundingClientRect().top + window.scrollY - top;
+      return t > endPx && t < end + window.innerHeight ? Math.round(t) : end;
+    };
+    // fingers on the glass, and when the last one left
+    let fingers = 0;
+    let liftAt = 0;
+    const onTouch = (e: TouchEvent) => {
+      fingers = e.touches.length;
+      if (!fingers) liftAt = performance.now();
+    };
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    window.addEventListener("touchend", onTouch, { passive: true });
+    window.addEventListener("touchcancel", onTouch, { passive: true });
+    const hold = (y: number) => {
+      if (Math.abs(window.scrollY - (top + y)) > 0.5) window.scrollTo(0, top + y);
+    };
     const block = (e: Event) => e.preventDefault();
     const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
     const blockKey = (e: KeyboardEvent) => KEYS.has(e.key) && e.preventDefault();
@@ -184,18 +219,37 @@ export default function OneFilm({
         const jump = y - lastY;
         // crossing the last frame going down, by scrolling (a jump from the menu is not a landing)
         if (lastY < endPx && y >= endPx && jump > 0 && jump < window.innerHeight * 0.6) {
-          landing = { t0: performance.now(), from: endPx, to: endPx + outroPx };
+          landing = { t0: performance.now(), to: landTo(), stepAt: 0 };
           lock(true);
         }
       }
+      // the burst's progress while landing (time sets it, not the scroll)
+      let landQ = -1;
       if (landing) {
-        const u = Math.min(1, (performance.now() - landing.t0) / LANDING_MS);
-        const e = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
-        y = landing.from + (landing.to - landing.from) * e;
-        window.scrollTo(0, top + y);
-        if (u >= 1) {
-          landing = null;
-          lock(false);
+        const now = performance.now();
+        if (!landing.stepAt) {
+          landQ = Math.min(1, (now - landing.t0) / BURST_MS);
+          y = endPx;
+          hold(y);
+          if (landQ >= STEP_AT) {
+            // the screen is all light: the cover takes its place, unseen, and the page steps
+            cover.style.display = "block";
+            cover.style.opacity = "1";
+            landing.stepAt = now;
+            y = landing.to;
+            hold(y);
+          }
+        } else {
+          y = landing.to;
+          hold(y);
+          const u = Math.min(1, (now - landing.stepAt) / LIFT_MS);
+          cover.style.opacity = (1 - u * u * (3 - 2 * u)).toFixed(3);
+          const free = fingers === 0 && now - liftAt > 350;
+          if (u >= 1 && (free || now - landing.stepAt > LIFT_MS + 4000)) {
+            cover.style.display = "none";
+            landing = null;
+            lock(false);
+          }
         }
       }
       lastY = y;
@@ -217,8 +271,8 @@ export default function OneFilm({
         const rate = 0.62 * dt;
         outroS += Math.max(-rate * 1.5, Math.min(rate, qT - outroS));
         outroS = Math.max(outroS, ((qT - 0.85) / 0.15) * 0.72);
-        // while landing the page itself sets the pace: the burst follows it exactly
-        if (landing) outroS = qT;
+        // while landing the burst runs on its own clock, then stays full
+        if (landing) outroS = landQ >= 0 ? landQ : 1;
         const q = outroS;
         if (q !== outroQ) {
           if (outroQ <= 0 && q > 0) aimOutro(ob);
@@ -326,6 +380,10 @@ export default function OneFilm({
     return () => {
       destroyed = true;
       if (landing || document.documentElement.classList.contains("hf-wait")) lock(false);
+      cover.remove();
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchend", onTouch);
+      window.removeEventListener("touchcancel", onTouch);
       document.documentElement.classList.remove("hf-wait");
       cancelAnimationFrame(raf);
       io.disconnect();
@@ -334,7 +392,7 @@ export default function OneFilm({
       films.forEach((f) => f?.destroy());
       loader.destroy();
     };
-  }, [scenes, outroLen]);
+  }, [scenes, outroLen, landOn]);
 
   return (
     <section ref={section} className="hf hf-one" style={{ height: `calc(var(--svh, 1svh) * ${total + outroLen + 100})` }}>

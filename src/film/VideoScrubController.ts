@@ -34,7 +34,7 @@ export class VideoScrubController implements Renderer {
     el.setAttribute("playsinline", "");
     el.preload = "auto";
     el.addEventListener("seeked", this.onSeeked);
-    window.addEventListener("touchstart", this.prime, { passive: true });
+    window.addEventListener("touchstart", this.onTouch, { passive: true });
     loader
       .blob(src)
       .then((b) => {
@@ -66,6 +66,18 @@ export class VideoScrubController implements Renderer {
       })
       .catch(() => {});
 
+  // The first touch primes again (Low Power Mode refuses the play() at load),
+  // and then the touch is left alone. It used to prime on every touch: each
+  // swipe made every scene loaded so far play and pause, the one on screen
+  // jumped a few frames ahead and back, and the further down the film the more
+  // videos did it (Daniel, 02.11: it stuck from the camera scene on).
+  private onTouch = () => {
+    if (!this.url) return; // not here yet: the load primes it
+    this.prime().then(() => {
+      if (this.ready) window.removeEventListener("touchstart", this.onTouch);
+    });
+  };
+
   private onSeeked = () => {
     if (this.firstPaint === null) this.firstPaint = performance.now();
     this.seek(); // the newest target, if it moved while this seek ran
@@ -95,7 +107,7 @@ export class VideoScrubController implements Renderer {
   destroy() {
     this.dead = true;
     this.el.removeEventListener("seeked", this.onSeeked);
-    window.removeEventListener("touchstart", this.prime);
+    window.removeEventListener("touchstart", this.onTouch);
     this.el.removeAttribute("src");
     this.el.load();
     if (this.url) URL.revokeObjectURL(this.url);

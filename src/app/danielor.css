@@ -420,6 +420,8 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
 
 /* ---------- the outro: lilac light rises over the clouds into the page ---------- */
 
+/* the landing's light: the very lilac the outro ends in (src/film/OneFilm.tsx) */
+.hf-cover { --hf-land: #e9ddfb; }
 .dn-outro { position: absolute; inset: 0; z-index: 5; pointer-events: none; display: none; overflow: hidden; --fl: 0; --b: 0; --rg: 0; --w: 0; --sx: 50%; --sy: 30%; }
 /* the light out of the star: white at its heart, lilac at its edge, soft all round */
 .dn-burst {

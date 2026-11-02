@@ -39,7 +39,7 @@ const FADE_MS = 320; // a swipe to another scene
 const BURST_MS = 1700; // from the star to the full light, at the end
 const STEP_AT = 0.8; // the step to the first section, under the full light
 const LIFT_MS = 750; // the light lifting off the section
-const FAST = 2.4; // the speed while a finger is held on the left side
+const FAST = 2; // the speed while a finger is held on the left side: what the badge says, and no more frames for an iPhone to decode than that
 const BACK_ZONE = 0.35; // the right share of the screen that goes back (Hebrew goes on to the left)
 const HOLD_MS = 220; // longer than this, a touch is a hold, not a tap
 const GUIDE_MS = 6500; // the guide on the first scene closes by itself after this
@@ -138,6 +138,19 @@ export default function ReelFilm({
     let swiped = false;
     setChapterStack(3);
     root.classList.add("reel-mode");
+
+    // a scene's video rests: stopped now, sent back to its start a moment later, once its layer
+    // is surely off the screen (Daniel, 02.11: the sea flashed at the cut to the sky. On an
+    // iPhone the frame a seek brings can reach the screen before the layer's hiding does)
+    const rest = (k: number) => {
+      const v = videos.current[k];
+      if (!v) return;
+      v.pause();
+      window.setTimeout(() => {
+        if (k === cur || layers.current[k]?.classList.contains("rl-on")) return;
+        if (v.currentTime > 0.05) v.currentTime = 0;
+      }, 250);
+    };
 
     // ---------- the scenes' videos: only the one on screen and its neighbours hold one ----------
     const attach = (i: number) => {
@@ -294,8 +307,7 @@ export default function ReelFilm({
       // a scene that is left waits parked on its first frame (a cut to it later shows that frame)
       const park = (pv2: HTMLVideoElement | null | undefined) => {
         if (!pv2 || prev === cur) return;
-        pv2.pause();
-        if (pv2.currentTime > 0.05) pv2.currentTime = 0;
+        rest(prev);
       };
       const nv = videos.current[i];
       // the new scene shows only once its video really presents a frame from its start
@@ -502,8 +514,7 @@ export default function ReelFilm({
         for (const k of [cur - 1, cur + 1]) {
           const ov = videos.current[k];
           if (!ov || ov.paused || priming[k] || layers.current[k]?.classList.contains("rl-on")) continue;
-          ov.pause();
-          if (ov.currentTime > 0.05) ov.currentTime = 0;
+          rest(k);
         }
         const v = videos.current[cur];
         const d = dur(cur);

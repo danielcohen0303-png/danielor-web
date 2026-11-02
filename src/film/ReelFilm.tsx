@@ -294,33 +294,62 @@ export default function ReelFilm({
         if (pv2.currentTime > 0.05) pv2.currentTime = 0;
       };
       const nv = videos.current[i];
+      // the new scene shows only once its video really presents a frame from its start
+      // (Daniel, 02.11: a jump into the camera, and one in the office). An iPhone can show
+      // where a hidden video last got to, or skip a seek made while it was hidden: until a
+      // frame from the start is on screen the scene before stays over it (at a cut its last
+      // frame is that very picture), and a frame from later sends the video back to the start
+      const fromStart = (vid: HTMLVideoElement | null | undefined, ok: () => void) => {
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          ok();
+        };
+        if (vid && typeof vid.requestVideoFrameCallback === "function") {
+          let tries = 0;
+          const check = (_: number, m: VideoFrameCallbackMetadata) => {
+            if (done || cur !== i) return finish();
+            if (m.mediaTime > 0.3 && tries++ < 3) {
+              vid.currentTime = 0;
+              vid.play().catch(() => {});
+              vid.requestVideoFrameCallback(check);
+              return;
+            }
+            finish();
+          };
+          vid.requestVideoFrameCallback(check);
+        } else if (vid) vid.addEventListener("seeked", finish, { once: true });
+        // never longer than this (a video that cannot play still lets the scene through)
+        window.setTimeout(finish, 900);
+      };
       if (how === "fade" && prev !== i && next) {
-        void next.offsetWidth;
-        next.style.transition = `opacity ${FADE_MS}ms ease`;
-        next.style.opacity = "1";
+        // nearly invisible, not invisible: a layer at 0 may not present its video's frames
+        next.style.opacity = "0.01";
         const old = lay[prev];
-        window.setTimeout(() => {
-          if (cur === i && old && prev !== cur) {
-            old.classList.remove("rl-on");
-            old.style.zIndex = "";
-          }
-          park(pv);
-        }, FADE_MS + 30);
+        fromStart(nv, () => {
+          if (cur !== i) return park(pv);
+          void next.offsetWidth;
+          next.style.transition = `opacity ${FADE_MS}ms ease`;
+          next.style.opacity = "1";
+          window.setTimeout(() => {
+            if (cur === i && old && prev !== cur) {
+              old.classList.remove("rl-on");
+              old.style.zIndex = "";
+            }
+            park(pv);
+          }, FADE_MS + 30);
+        });
       } else if (prev !== i) {
         const old = lay[prev];
-        const drop = () => {
+        if (old) old.style.zIndex = "3";
+        fromStart(nv, () => {
           if (old && cur === i) {
             old.classList.remove("rl-on");
             old.style.zIndex = "";
           }
           park(pv);
-        };
-        if (nv && nv.currentTime > 0.05) {
-          // not parked yet: the old scene's last frame stays over it until its first frame is back
-          if (old) old.style.zIndex = "3";
-          nv.addEventListener("seeked", drop, { once: true });
-          window.setTimeout(drop, 450);
-        } else drop();
+        });
       }
       near();
       // the videos in the other scenes' elements (the sites' phones) rest while those scenes are away

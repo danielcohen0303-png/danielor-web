@@ -3,14 +3,13 @@
 // the app's screens, the studio's reel, the businesses we already built for,
 // who is behind Danielor, and the sites we made.
 //
-// The spark draws each of them in the air (Daniel, 02.11: "no banal
-// background, floating on the screen like magic"). A point of light leaves the
-// object in the picture (the phone on the table, the tablet on the desk, the
-// lens) and pulls a neon ribbon to the element; there the ribbon wraps itself
-// around the whole group and stays alive while it is on screen: light flows
-// through it, it breathes, and it grows around every new item as it arrives
-// (Daniel, 02.11: "the neon should be alive, wrap the things, flow with them,
-// not a line that shoots out"). Nothing sits on a card; everything floats.
+// Nothing sits on a card; everything floats, and comes out of the object in
+// the picture (the phone on the table, the tablet on the desk, the lens). When
+// a chapter's last item has arrived, one neon line wraps the whole group, fast,
+// once, and stays there breathing softly (Daniel, 02.11: "when something
+// ends, the line just goes round it, fast and beautiful. Simple"). It is drawn
+// once and then left to the browser: no work every frame, so the scroll stays
+// light on a phone.
 //
 // One window per chapter, shared with its caption (src/site.config.ts): the
 // caption and the elements come in together and leave together, so the screen
@@ -21,7 +20,7 @@
 // the caption leaves free, and lists come one at a time.
 // Attributes on .ch:
 //   data-from / data-to       the window, in film progress of the scene
-//   data-ax / data-ay         where the ribbon starts on a computer (% of the frame)
+//   data-ax / data-ay         the object the items fly out of, on a computer (% of the frame)
 //   data-max / data-may       the same on a phone
 //   data-at (on items)        when an item arrives, as a share of the window
 //   data-one                  a phone shows one item at a time
@@ -56,7 +55,7 @@ function Ch({
   place?: Place;
   kind: string;
   one?: boolean;
-  /** the object in the picture the ribbon starts from, % of the frame (computer, phone) */
+  /** the object in the picture the items fly out of, % of the frame (computer, phone) */
   anchor?: Pt;
   manchor?: Pt;
   children: React.ReactNode;
@@ -64,15 +63,12 @@ function Ch({
   const w = win(scene, cap);
   return (
     <>
-      <svg className="ch-rb" aria-hidden>
-        <path className="rb-glow" />
-        <path className="rb-tube" />
-        <path className="rb-core" />
-        <path className="rb-flow-glow" />
-        <path className="rb-flow" />
-        <path className="rb-m" />
-        <circle className="rb-dot" r="3.6" />
-      </svg>
+      <div className="ch-rbw" aria-hidden>
+        <svg className="ch-rb">
+          <path className="rb-glow" />
+          <path className="rb-line" />
+        </svg>
+      </div>
       <div
         className={`ch ch-${kind} ch-m-${place}`}
         data-from={w.from}
@@ -89,13 +85,12 @@ function Ch({
   );
 }
 
-/** a neon outline the spark draws around its box (a rounded rectangle, or a circle) */
+/** a neon outline drawn round one item as it arrives (a rounded rectangle, or a circle) */
 function Trace({ r = 16, circle }: { r?: number; circle?: boolean }) {
   return (
     <svg className="tr" aria-hidden data-r={r} data-circle={circle ? "" : undefined}>
       <path className="tr-glow" />
       <path className="tr-line" />
-      <circle className="tr-dot" r="3.5" />
     </svg>
   );
 }
@@ -234,7 +229,7 @@ function Studio() {
           <It key={r.label} at={0.06 + i * 0.07} i={i} className="ch-clip">
             <span className="ch-clip-v" style={{ "--n": i - 2 } as React.CSSProperties}>
               <span className="ch-dev">
-                <video muted loop playsInline preload="none" poster={r.poster} data-src={r.video} aria-hidden />
+                <video muted loop playsInline preload="none" poster={r.poster} data-src={r.video} data-wide-only aria-hidden />
                 <Trace r={18} />
               </span>
               <i>{r.label}</i>
@@ -380,69 +375,50 @@ function posIn(el: HTMLElement, root: HTMLElement) {
   return { x, y, w: el.offsetWidth, h: el.offsetHeight };
 }
 
-type Traced = { v: number; len: number };
-const traced = new WeakMap<SVGSVGElement, Traced>();
+let liteQ: MediaQueryList | null = null;
+/** a phone: no blur while things move (it is costly there) */
+const isLite = () => (liteQ ??= window.matchMedia("(pointer: coarse)")).matches;
 
-/** build a trace's outline for its own box; returns the outline's length */
-function traceLen(svg: SVGSVGElement): number {
-  const c = traced.get(svg);
-  if (c && c.v === geo && c.len > 0) return c.len;
-  // the svg's own box (it may stand off its parent), not the parent's: a
-  // parent that also holds a caption made the outline shrink into the screen
+/** build a trace's outline for its own box, once per layout; its length goes to --len for the CSS that draws it */
+const traced = new WeakMap<SVGSVGElement, number>();
+function buildTrace(svg: SVGSVGElement) {
+  if (traced.get(svg) === geo) return true;
+  // the svg's own box (it may stand off its parent), not the parent's
   const host = svg.parentElement!;
   const w = svg.clientWidth || host.offsetWidth;
   const h = svg.clientHeight || host.offsetHeight;
-  if (!w || !h) return 0;
+  if (!w || !h) return false;
   svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
   let d: string;
   if ("circle" in svg.dataset) {
     const r = Math.min(w, h) / 2 - 1;
     const cx = w / 2;
     const cy = h / 2;
-    // from the top, clockwise
     d = `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx - 0.01} ${cy - r}`;
   } else {
     const r = Math.min(Number(svg.dataset.r ?? 16), w / 2, h / 2);
     const a = 1;
     const W = w - 1;
     const H = h - 1;
-    // from the top middle, clockwise
     d = `M ${w / 2} ${a} H ${W - r} A ${r} ${r} 0 0 1 ${W} ${a + r} V ${H - r} A ${r} ${r} 0 0 1 ${W - r} ${H} H ${a + r} A ${r} ${r} 0 0 1 ${a} ${H - r} V ${a + r} A ${r} ${r} 0 0 1 ${a + r} ${a} Z`;
   }
   const paths = svg.querySelectorAll("path");
   paths.forEach((p) => p.setAttribute("d", d));
-  const len = (paths[0] as SVGPathElement).getTotalLength();
-  traced.set(svg, { v: geo, len });
-  return len;
+  svg.style.setProperty("--len", (paths[0] as SVGPathElement).getTotalLength().toFixed(1));
+  traced.set(svg, geo);
+  return true;
 }
 
-/** draw a path to share t of its length, with the spark at its head */
-function drawPath(paths: NodeListOf<SVGPathElement>, dot: SVGCircleElement | null, len: number, t: number, opacity = 1) {
-  paths.forEach((p) =>
-    set(p, {
-      strokeDasharray: `${len.toFixed(1)} ${(len + 2).toFixed(1)}`,
-      strokeDashoffset: (len * (1 - t)).toFixed(1),
-      opacity: t > 0 ? String(opacity) : "0",
-    }),
-  );
-  if (!dot) return;
-  if (t > 0.001 && t < 0.999) {
-    const pt = paths[0].getPointAtLength(len * t);
-    dot.setAttribute("cx", pt.x.toFixed(1));
-    dot.setAttribute("cy", pt.y.toFixed(1));
-    set(dot, { opacity: "1" });
-  } else set(dot, { opacity: "0" });
+/** a class on or off, touching the element only when it changes */
+function flag(el: Element, cls: string, on: boolean) {
+  if (el.classList.contains(cls) !== on) el.classList.toggle(cls, on);
 }
 
-// ---------- the ribbon: one neon line that wraps the whole group ----------
+// ---------- the wrap: one neon line round the whole group, once it is complete ----------
 
 type Box = { l: number; t: number; r: number; b: number };
 const PAD = 15; // how far the neon stands off the elements
-const ROUND = 24; // its corners
-const AMP = 2.4; // how much it breathes, px
-const SPEED = 70; // the light flowing through it, px a second
-const PULSE = 42; // length of one pulse of light
-const SPACING = 250; // pulses around the loop, about one per this many px
+const ROUND = 26; // its corners
 
 /** boxes whose heights overlap sit side by side: one row; rows top to bottom */
 function rowsOf(boxes: Box[]) {
@@ -460,7 +436,7 @@ function rowsOf(boxes: Box[]) {
 /** even out steps too small to read as a shape */
 function evenOut(v: number[], outward: 1 | -1) {
   for (let i = 1; i < v.length; i++)
-    if (Math.abs(v[i] - v[i - 1]) < 14) v[i] = v[i - 1] = outward > 0 ? Math.max(v[i], v[i - 1]) : Math.min(v[i], v[i - 1]);
+    if (Math.abs(v[i] - v[i - 1]) < 18) v[i] = v[i - 1] = outward > 0 ? Math.max(v[i], v[i - 1]) : Math.min(v[i], v[i - 1]);
 }
 
 /** a row pulled in between two that stand further out is a pocket, not a shape: fill it */
@@ -486,7 +462,6 @@ function hull(boxes: Box[], P: number): Pt[] {
   evenOut(L, -1);
   const mid = rows.slice(0, -1).map((_, i) => (bot[i] + top[i + 1]) / 2);
   const pts: Pt[] = [];
-  // the tops of the first row, left to right
   const f = rows[0];
   const ft = f.map((q) => q.t - P);
   fillPockets(ft, -1);
@@ -496,12 +471,10 @@ function hull(boxes: Box[], P: number): Pt[] {
     const x1 = j === f.length - 1 ? R[0] : (q.r + f[j + 1].l) / 2;
     pts.push([x0, ft[j]], [x1, ft[j]]);
   });
-  // down the right
   for (let i = 0; i < n; i++) {
     if (i > 0) pts.push([R[i], mid[i - 1]]);
     if (i < n - 1) pts.push([R[i], mid[i]]);
   }
-  // the bottoms of the last row, right to left
   const l = rows[n - 1];
   const lb = l.map((q) => q.b + P);
   fillPockets(lb, 1);
@@ -512,12 +485,10 @@ function hull(boxes: Box[], P: number): Pt[] {
     const x0 = j === 0 ? L[n - 1] : (l[j - 1].r + q.l) / 2;
     pts.push([x1, lb[j]], [x0, lb[j]]);
   }
-  // up the left
   for (let i = n - 1; i >= 0; i--) {
     if (i < n - 1) pts.push([L[i], mid[i]]);
     if (i > 0) pts.push([L[i], mid[i - 1]]);
   }
-  // drop repeats and points in the middle of a straight run
   const out: Pt[] = [];
   for (const p of pts) {
     const q = out[out.length - 1];
@@ -532,45 +503,24 @@ function hull(boxes: Box[], P: number): Pt[] {
   return clean.length >= 3 ? clean : out;
 }
 
-/** the point of the outline nearest to A: which edge, and where on it */
-function nearestOn(poly: Pt[], A: Pt) {
-  let best = { i: 0, S: poly[0] as Pt, d: Infinity };
-  for (let i = 0; i < poly.length; i++) {
-    const a = poly[i];
-    const b = poly[(i + 1) % poly.length];
-    const vx = b[0] - a[0];
-    const vy = b[1] - a[1];
-    const L2 = vx * vx + vy * vy || 1;
-    const t = clamp01(((A[0] - a[0]) * vx + (A[1] - a[1]) * vy) / L2);
-    const S: Pt = [a[0] + vx * t, a[1] + vy * t];
-    const d = Math.hypot(A[0] - S[0], A[1] - S[1]);
-    if (d < best.d) best = { i, S, d };
-  }
-  // never start on a corner: slide a little along the edge
-  const a = poly[best.i];
-  const b = poly[(best.i + 1) % poly.length];
-  const seg = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-  const from = Math.hypot(best.S[0] - a[0], best.S[1] - a[1]);
-  const keep = Math.min(seg / 2, ROUND + 6);
-  const at = Math.min(Math.max(from, keep), seg - keep);
-  best.S = [a[0] + ((b[0] - a[0]) * at) / seg, a[1] + ((b[1] - a[1]) * at) / seg];
-  return best;
-}
-
 const f1 = (n: number) => n.toFixed(1);
 const unit = (x: number, y: number): Pt => {
   const l = Math.hypot(x, y) || 1;
   return [x / l, y / l];
 };
 
-/** the closed loop from S (on edge i) all the way round, with rounded corners */
-function loopPath(poly: Pt[], i: number, S: Pt) {
+/** the closed outline with rounded corners, starting from the middle of its top edge on the right (where Hebrew starts) */
+function outline(poly: Pt[]) {
   const n = poly.length;
-  let d = "";
+  // the top edge is the first one (left to right); start three quarters along it
+  const a = poly[0];
+  const b = poly[1 % n];
+  const S: Pt = [a[0] + (b[0] - a[0]) * 0.75, a[1] + (b[1] - a[1]) * 0.75];
+  let d = `M ${f1(S[0])} ${f1(S[1])}`;
   for (let c = 1; c <= n; c++) {
-    const cur = poly[(i + c) % n];
-    const prev = c === 1 ? S : poly[(i + c - 1) % n];
-    const next = c === n ? S : poly[(i + c + 1) % n];
+    const cur = poly[c % n];
+    const prev = c === 1 ? S : poly[(c - 1) % n];
+    const next = c === n ? S : poly[(c + 1) % n];
     const lp = Math.hypot(cur[0] - prev[0], cur[1] - prev[1]);
     const ln = Math.hypot(next[0] - cur[0], next[1] - cur[1]);
     const r = Math.min(ROUND, c === 1 ? lp : lp / 2, c === n ? ln : ln / 2);
@@ -581,210 +531,47 @@ function loopPath(poly: Pt[], i: number, S: Pt) {
   return d + ` L ${f1(S[0])} ${f1(S[1])}`;
 }
 
-// Everything the ribbon keeps from frame to frame, so nothing in it ever jumps
-// (Daniel, 02.11: "the line flickers, it jumps"): the group's boxes, eased per
-// element; which way round it runs; where it meets the thread; and its pulses
-// of light, each a share of the way round that only ever moves forward.
-type Rb = { t: number; boxes: Map<Element, Box>; dir: 1 | -1 | 0; S: Pt | null; pulses: number[] };
-const rbState = new WeakMap<SVGSVGElement, Rb>();
+type Wrap = { v: number; built: boolean; armed: boolean; mv: number; wide: boolean; lastAt: number };
+const wraps = new WeakMap<HTMLElement, Wrap>();
 
-/** the group's boxes, eased towards where they are now; one that leaves folds away instead of vanishing */
-function easeBoxes(st: Rb, now: Map<Element, Box>, dt: number) {
-  const a = 1 - Math.exp(-dt / 0.12);
-  now.forEach((q, el) => {
-    const b = st.boxes.get(el);
-    if (!b) st.boxes.set(el, { ...q });
-    else {
-      b.l += (q.l - b.l) * a;
-      b.t += (q.t - b.t) * a;
-      b.r += (q.r - b.r) * a;
-      b.b += (q.b - b.b) * a;
-    }
-  });
-  st.boxes.forEach((b, el) => {
-    if (now.has(el)) return;
-    b.b += (b.t - b.b) * a;
-    if (b.b - b.t < 2) st.boxes.delete(el);
-  });
-  return [...st.boxes.values()];
-}
-
-/** the ribbon at window share k: drawn out of the object, wrapped round the group, alive */
-function ribbonAt(svg: SVGSVGElement, now: Map<Element, Box>, anchor: Pt | null, W: number, H: number, k: number, op: number, reduced: boolean, pad: number) {
-  if (!now.size || op <= 0.001) {
-    set(svg, { visibility: "hidden" });
-    rbState.delete(svg);
-    return;
-  }
-  const t = performance.now() / 1000;
-  let st = rbState.get(svg);
-  if (!st) {
-    st = { t, boxes: new Map(), dir: 0, S: null, pulses: [] };
-    rbState.set(svg, st);
-  }
-  const dt = Math.min(0.1, Math.max(0, t - st.t));
-  st.t = t;
-  const bx = reduced ? [...now.values()] : easeBoxes(st, now, dt);
-  if (!bx.length) return;
-  let poly = hull(bx, pad + (reduced ? 0 : 1.5 * Math.sin(t * 1.3)));
-  // it breathes: every corner drifts a little, on a beat set by where it is (so a corner keeps its beat)
-  if (!reduced)
-    poly = poly.map(([x, y]) => [x + AMP * Math.sin(t * 0.8 + x * 0.013 + y * 0.007), y + AMP * Math.cos(t * 0.65 + x * 0.009 + y * 0.015)] as Pt);
-  // and never leaves the screen
-  poly = poly.map(([x, y]) => [Math.min(W - 5, Math.max(5, x)), Math.min(H - 5, Math.max(5, y))] as Pt);
-
-  // which way round: decided once, the way the thread comes in (with no object, clockwise)
-  if (!st.dir) {
-    if (!anchor) st.dir = 1;
-    else {
-      const { i, S } = nearestOn(poly, anchor);
-      const dv = unit(poly[(i + 1) % poly.length][0] - poly[i][0], poly[(i + 1) % poly.length][1] - poly[i][1]);
-      st.dir = dv[0] * (S[0] - anchor[0]) + dv[1] * (S[1] - anchor[1]) < 0 ? -1 : 1;
-    }
-  }
-  if (st.dir < 0) poly = poly.slice().reverse();
-  const n = poly.length;
-
-  // the main line: the thread from the object, then the loop from where they meet
-  let main = "";
-  let thread = "";
-  let i = 0;
-  if (anchor) {
-    // where they meet glides when the group grows, never jumps
-    const target = nearestOn(poly, anchor).S;
-    st.S = st.S ? [st.S[0] + (target[0] - st.S[0]) * (1 - Math.exp(-dt / 0.15)), st.S[1] + (target[1] - st.S[1]) * (1 - Math.exp(-dt / 0.15))] : target;
-    const m = nearestOn(poly, st.S);
-    i = m.i;
-    const S = m.S;
-    const dir = unit(poly[(i + 1) % n][0] - poly[i][0], poly[(i + 1) % n][1] - poly[i][1]);
-    const dist = Math.hypot(S[0] - anchor[0], S[1] - anchor[1]);
-    const c1: Pt = [anchor[0], anchor[1] - dist * 0.42];
-    const c2: Pt = [S[0] - dir[0] * dist * 0.42, S[1] - dir[1] * dist * 0.42];
-    thread = `M ${f1(anchor[0])} ${f1(anchor[1])} C ${f1(c1[0])} ${f1(c1[1])}, ${f1(c2[0])} ${f1(c2[1])}, ${f1(S[0])} ${f1(S[1])}`;
-    main = thread + loopPath(poly, i, S);
-  }
-  // the loop on its own, from a fixed point (the middle of the group's first edge), for the light to run on
-  const i0 = st.dir < 0 ? n - 1 : 0;
-  const a0 = poly[i0];
-  const b0 = poly[(i0 + 1) % n];
-  const S0: Pt = [(a0[0] + b0[0]) / 2, (a0[1] + b0[1]) / 2];
-  const loop = `M ${f1(S0[0])} ${f1(S0[1])}` + loopPath(poly, i0, S0);
-  if (!main) main = loop;
-
-  if (svg.dataset.vb !== `${W}x${H}`) {
-    svg.dataset.vb = `${W}x${H}`;
-    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  }
-  const lines = svg.querySelectorAll<SVGPathElement>(".rb-glow, .rb-tube, .rb-core");
-  const flows = svg.querySelectorAll<SVGPathElement>(".rb-flow, .rb-flow-glow");
-  const meas = svg.querySelector<SVGPathElement>(".rb-m")!;
-  lines.forEach((p) => p.setAttribute("d", main));
-  flows.forEach((p) => p.setAttribute("d", loop));
-  meas.setAttribute("d", thread || "M 0 0");
-  const total = lines[0].getTotalLength();
-  const thLen = thread ? meas.getTotalLength() : 0;
-  const loopLen = Math.max(1, flows[0].getTotalLength());
-
-  // drawn: the spark pulls it out of the object and round the group, then the
-  // tail lets go of the object and the loop lives on its own around the group
-  const head = reduced ? total : total * smooth(k / 0.2);
-  const tail = reduced ? thLen : thLen * smooth((k - 0.22) / 0.16);
-  const BIG = total * 3 + loopLen * 3 + 10;
-  const dash = `0 ${f1(tail)} ${f1(Math.max(0, head - tail))} ${f1(BIG)}`;
-  lines.forEach((p) => (p.style.strokeDasharray = dash));
-
-  // light runs round the loop once it is drawn: each pulse a share of the way
-  // round, only ever moving forward, as many as the loop is long
-  let fa = `0 ${f1(BIG)}`;
-  const flowOn = reduced ? 0 : smooth((k - 0.16) / 0.08);
-  if (!reduced) {
-    const want = Math.min(8, Math.max(2, Math.round(loopLen / SPACING)));
-    if (!st.pulses.length) for (let j = 0; j < want; j++) st.pulses.push(j / want);
-    while (st.pulses.length < want) {
-      // a new pulse in the middle of the widest gap
-      const s = [...st.pulses].sort((x, y) => x - y);
-      let g = 0;
-      let at = 0;
-      s.forEach((u, j) => {
-        const nx = j + 1 < s.length ? s[j + 1] : s[0] + 1;
-        if (nx - u > g) (g = nx - u), (at = (u + (nx - u) / 2) % 1);
-      });
-      st.pulses.push(at);
-    }
-    while (st.pulses.length > want) st.pulses.pop();
-    const step = (dt * SPEED) / loopLen;
-    st.pulses = st.pulses.map((u) => (u + step) % 1);
-    const segs: [number, number][] = [];
-    for (const u of st.pulses) {
-      const s0 = u * loopLen;
-      const e = s0 + PULSE;
-      if (e <= loopLen) segs.push([s0, PULSE]);
-      else segs.push([s0, loopLen - s0], [0, e - loopLen]);
-    }
-    segs.sort((x, y) => x[0] - y[0]);
-    const arr = [0];
-    let cur = 0;
-    for (const [s0, len] of segs) {
-      if (s0 < cur) continue;
-      arr.push(s0 - cur, len);
-      cur = s0 + len;
-    }
-    arr.push(BIG);
-    fa = arr.map(f1).join(" ");
-  }
-  flows.forEach((p) => {
-    p.style.strokeDasharray = fa;
-    p.style.opacity = flowOn.toFixed(3);
-  });
-
-  // the spark: at the drawing head, then riding the first pulse round
-  const dot = svg.querySelector<SVGCircleElement>(".rb-dot")!;
-  let pt: DOMPoint | null = null;
-  if (head < total - 1) pt = lines[0].getPointAtLength(head);
-  else if (st.pulses.length && flowOn > 0) pt = flows[0].getPointAtLength(Math.min(loopLen, st.pulses[0] * loopLen + PULSE));
-  if (pt) {
-    dot.setAttribute("cx", f1(pt.x));
-    dot.setAttribute("cy", f1(pt.y));
-  }
-  set(dot, { opacity: pt ? "1" : "0" });
-  set(svg, { visibility: "inherit", opacity: op.toFixed(3) });
-}
-
-// what an item's transforms add to its box (the arc of the clips, the tilt of
-// the phones), measured once it has arrived; the ribbon then works from layout,
-// which does not move with the floating, so it never shivers
-type Ext = { v: number; l: number; t: number; r: number; b: number };
-const exts = new WeakMap<HTMLElement, Ext>();
-// the share of its arrival each item was last drawn at: measured only once it
-// already stands in place (a frame earlier it may still carry its flight)
-const drawnAt = new WeakMap<HTMLElement, number>();
-function boxOf(c: HTMLElement, host: HTMLElement, a: number, lift: number): Box {
-  const b = posIn(c, host);
-  let e = exts.get(c);
-  if ((!e || e.v !== geo) && a >= 0.999 && (drawnAt.get(c) ?? 0) >= 0.999 && lift === 0) {
-    const hr = host.getBoundingClientRect();
+/** build the wrap round the group as it stands now (its last item has just arrived): read once, then left alone */
+function buildWrap(el: HTMLElement, rbw: HTMLElement, host: HTMLElement, items: HTMLElement[], pad: number) {
+  const hr = host.getBoundingClientRect();
+  const lift = el.getBoundingClientRect().top - (hr.top + posIn(el, host).y); // the group's own movement, if any
+  const boxes: Box[] = [];
+  for (const c of items) {
+    const b = posIn(c, host);
+    if (!b.w || !b.h) continue;
+    // its layout, and where it really is (the clips' arc, the phones' tilt, the float)
     const r = (c.querySelector<HTMLElement>(":scope > .fl") ?? c).getBoundingClientRect();
-    if (r.width && r.height) {
-      e = {
-        v: geo,
-        l: Math.min(0, r.left - hr.left - b.x),
-        t: Math.min(0, r.top - hr.top - b.y + 7),
-        r: Math.max(0, r.right - hr.left - (b.x + b.w)),
-        b: Math.max(0, r.bottom - hr.top - (b.y + b.h) + 7),
-      };
-      exts.set(c, e);
-    }
+    boxes.push({
+      l: Math.min(b.x, r.left - hr.left),
+      t: Math.min(b.y, r.top - hr.top - lift) - 4,
+      r: Math.max(b.x + b.w, r.right - hr.left),
+      b: Math.max(b.y + b.h, r.bottom - hr.top - lift) + 4,
+    });
   }
-  const x = e && e.v === geo ? e : { l: 0, t: 0, r: 0, b: 0 };
-  const grown = a >= 0.999 ? b.h + x.b : Math.max(8, b.h * a);
-  return { l: b.x + x.l, t: b.y + x.t + lift, r: b.x + b.w + x.r, b: b.y + grown + lift };
+  if (!boxes.length) return false;
+  const W = host.offsetWidth;
+  const H = host.offsetHeight;
+  const poly = hull(boxes, pad).map(([x, y]) => [Math.min(W - 5, Math.max(5, x)), Math.min(H - 5, Math.max(5, y))] as Pt);
+  const svg = rbw.querySelector<SVGSVGElement>("svg")!;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const d = outline(poly);
+  const paths = svg.querySelectorAll<SVGPathElement>("path");
+  paths.forEach((p) => p.setAttribute("d", d));
+  svg.style.setProperty("--len", paths[0].getTotalLength().toFixed(1));
+  return true;
 }
 
 type Fly = { v: number; dx: number; dy: number };
 const flies = new WeakMap<HTMLElement, Fly>();
+const drawnAt = new WeakMap<HTMLElement, number>();
+const kidsOf = new WeakMap<HTMLElement, HTMLElement[]>();
 
 export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
   const wide = isWide();
+  const lite = isLite();
   const W = host.offsetWidth;
   const H = host.offsetHeight;
   host.querySelectorAll<HTMLElement>(".ch").forEach((el) => {
@@ -793,10 +580,15 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     const to = Number(d.to);
     const k = to > from ? (p - from) / (to - from) : -1;
     const on = k > 0 && k < 1;
-    const rb = el.previousElementSibling instanceof SVGSVGElement ? el.previousElementSibling : null;
+    const rbw = el.previousElementSibling instanceof HTMLElement && el.previousElementSibling.classList.contains("ch-rbw") ? el.previousElementSibling : null;
     if (!on) {
       set(el, { visibility: "hidden", opacity: "0" });
-      if (rb) set(rb, { visibility: "hidden" });
+      if (rbw) {
+        set(rbw, { visibility: "hidden" });
+        flag(rbw, "on", false);
+        const w = wraps.get(el);
+        if (w) w.armed = false;
+      }
       el.querySelectorAll("video").forEach((v) => playIf(v, false));
       return;
     }
@@ -804,43 +596,43 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
     const inn = reduced ? 1 : smooth(k / 0.06);
     const out = reduced ? 0 : smooth((k - 0.82) / 0.18);
     const op = inn * (1 - out);
+    const lift = -out * 28;
 
-    // the anchor: the object in the picture the spark leaves from
+    // the object in the picture the items fly out of
     const ax = Number(wide ? d.ax : d.max);
     const ay = Number(wide ? d.ay : d.may);
     const hasAnchor = (wide ? d.ax !== undefined : d.max !== undefined) && !Number.isNaN(ax);
     const A: Pt = [(ax / 100) * W, (ay / 100) * H];
 
     // items arrive at their turn; on a phone a "one" element shows only the newest
-    const kids = Array.from(el.querySelectorAll<HTMLElement>("[data-at]"));
+    let kids = kidsOf.get(el);
+    if (!kids) kidsOf.set(el, (kids = Array.from(el.querySelectorAll<HTMLElement>("[data-at]"))));
     const one = !wide && "one" in d;
     let newest = -1;
     if (one) kids.forEach((c, i) => Number(c.dataset.at) <= k && !c.classList.contains("ch-keep") && (newest = i));
-    const arr = kids.map((c, i) => {
-      const at = Number(c.dataset.at);
-      const gone = one && i !== newest && !c.classList.contains("ch-keep");
-      const a = gone ? 0 : reduced ? (k >= at ? 1 : 0) : smooth((k - at) / 0.08);
-      return { c, at, a, gone };
-    });
-
-    // where the group is, for the ribbon (from layout: steady while things float)
-    const boxes = new Map<Element, Box>();
-    if (rb)
-      for (const { c, a, gone } of arr) {
-        if (gone || a <= 0.001) continue;
-        const bx = boxOf(c, host, a, -out * 28);
-        if (bx.r > bx.l && bx.b > bx.t) boxes.set(c, bx);
-      }
 
     set(el, {
       visibility: "inherit",
       opacity: op.toFixed(3),
-      transform: `translate3d(0, ${(-out * 28).toFixed(1)}px, 0)`,
-      filter: out > 0 ? `blur(${(out * 7).toFixed(2)}px)` : "none",
+      transform: `translate3d(0, ${lift.toFixed(1)}px, 0)`,
+      filter: out > 0 && !lite ? `blur(${(out * 7).toFixed(2)}px)` : "none",
     });
 
-    arr.forEach(({ c, at, a, gone }) => {
-      // where it flies in from: towards the anchor, a third of the way
+    // the last item to arrive (worked out once per layout: on a phone the call
+    // to action is hidden and does not count); once it is in, the wrap goes round them all
+    let w = wraps.get(el);
+    if (!w) wraps.set(el, (w = { v: -1, built: false, armed: false, mv: -1, wide, lastAt: 0 }));
+    if (w.mv !== geo || w.wide !== wide) {
+      w.mv = geo;
+      w.wide = wide;
+      w.lastAt = Math.max(0, ...kids.filter((c) => c.style.display === "none" || getComputedStyle(c).display !== "none").map((c) => Number(c.dataset.at)));
+    }
+    const lastAt = w.lastAt;
+    kids.forEach((c, i) => {
+      const at = Number(c.dataset.at);
+      const gone = one && i !== newest && !c.classList.contains("ch-keep");
+      const a = gone ? 0 : reduced ? (k >= at ? 1 : 0) : smooth((k - at) / 0.08);
+      // where it flies in from: towards the object, a third of the way
       let f = flies.get(c);
       if (!f || f.v !== geo) {
         const b = posIn(c, host);
@@ -856,19 +648,40 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
       set(c, {
         opacity: a.toFixed(3),
         transform: `translate3d(${(f.dx * r).toFixed(1)}px, ${(f.dy * r).toFixed(1)}px, 0) scale(${(0.78 + 0.22 * a).toFixed(3)})`,
-        filter: a > 0 && a < 1 ? `blur(${(r * 9).toFixed(2)}px)` : "none",
+        filter: a > 0 && a < 1 && !lite ? `blur(${(r * 9).toFixed(2)}px)` : "none",
         display: gone ? "none" : "",
       });
-      // its own outline is drawn a moment ahead of it, then settles back so the ribbon leads
+      // its own outline: drawn by the browser as it lands (built a frame ahead, so it draws from nothing)
       c.querySelectorAll<SVGSVGElement>("svg.tr").forEach((svg) => {
-        const t = reduced ? (a > 0 ? 1 : 0) : smooth((k - at + 0.02) / 0.1);
-        const len = t > 0 ? traceLen(svg) : 0;
-        if (len) drawPath(svg.querySelectorAll("path"), svg.querySelector("circle"), len, t, 1 - 0.5 * smooth((k - at - 0.1) / 0.1));
+        const want = a > 0.5;
+        if (want && traced.get(svg) !== geo) {
+          buildTrace(svg);
+          return;
+        }
+        flag(svg, "on", want);
       });
       c.querySelectorAll("video").forEach((v) => playIf(v, a > 0.05));
     });
 
-    if (rb) ribbonAt(rb, boxes, hasAnchor ? A : null, W, H, k, inn * (1 - out) * (1 - out), reduced, wide ? PAD : 10);
+    // the wrap: once the group is complete, fast, once; it leaves with the group
+    if (rbw) {
+      const done = reduced || k >= lastAt + 0.1;
+      set(rbw, { visibility: "inherit", opacity: op.toFixed(3), transform: `translate3d(0, ${lift.toFixed(1)}px, 0)` });
+      if (done) {
+        if (!w.built || w.v !== geo) {
+          w.built = buildWrap(el, rbw, host, kids.filter((c) => c.offsetWidth > 0), wide ? PAD : 10);
+          w.v = geo;
+          w.armed = false;
+        } else if (!w.armed) {
+          // a frame after it is built, so the browser draws it from nothing
+          w.armed = true;
+          flag(rbw, "on", true);
+        }
+      } else if (k < lastAt + 0.08) {
+        flag(rbw, "on", false);
+        w.armed = false;
+      }
+    }
     // a screen that scrolls with the film
     el.style.setProperty("--s", clamp01(k).toFixed(3));
   });

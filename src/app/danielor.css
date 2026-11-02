@@ -248,24 +248,30 @@ main ~ .sg .sg-line, .sg .sg-line { background: linear-gradient(180deg, #ff2fc8,
 /* ---------- after the film: danielor.ai's lilac glow ---------- */
 
 .dn-after {
+  /* the page rides up on the film's last light: it starts 60svh early, over the
+     stage, with nothing painted in that stretch, so "הפתרונות לעסק" rises out of
+     the light while the clouds are still going (no empty lilac screen between
+     the film and the page) */
+  --ov: calc(var(--svh, 1svh) * 60);
   position: relative;
+  z-index: 6;
   isolation: isolate;
+  margin-top: calc(var(--ov) * -1);
+  color: var(--ink);
+}
+.dn-after::before {
+  /* from where the stage ends down, the page's own ground: first the very lilac
+     the light left on the screen (.dn-outro), then its glows come in */
+  content: "";
+  position: absolute;
+  inset: var(--ov) 0 0;
+  z-index: -1;
   background:
+    linear-gradient(180deg, #e9ddfb 0, #e9ddfb calc(var(--svh, 1svh) * 40), rgba(233, 221, 251, 0) calc(var(--svh, 1svh) * 95)),
     radial-gradient(60% 40% at 85% 6%, rgba(255, 47, 200, 0.16), transparent 70%),
     radial-gradient(50% 36% at 10% 30%, rgba(139, 61, 255, 0.14), transparent 70%),
     radial-gradient(60% 40% at 80% 70%, rgba(255, 47, 200, 0.1), transparent 70%),
     linear-gradient(180deg, #e9ddfb 0%, #f6f1fb 14%, #f6f1fb 100%);
-  color: var(--ink);
-}
-.dn-after::before {
-  /* the page starts in the very lilac the film's last light left on the screen
-     (.dn-outro), then its glows come in: no seam between the film and the page */
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: calc(var(--svh, 1svh) * 110);
-  background: linear-gradient(180deg, #e9ddfb 0%, #e9ddfb 50%, rgba(233, 221, 251, 0) 100%);
-  z-index: -1;
 }
 .dn-sec { max-width: 1080px; padding-top: calc(var(--svh, 1svh) * 12); }
 .dn-kicker { color: var(--pink); letter-spacing: 0.08em; }

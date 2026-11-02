@@ -1152,7 +1152,8 @@
   z-index: 7;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  padding: calc(env(safe-area-inset-top, 0px) + 92px) 0 calc(env(safe-area-inset-bottom, 0px) + 34px);
+  /* the go button above the bar under the film, which shows through as the guide's legend */
+  padding: calc(env(safe-area-inset-top, 0px) + 92px) 0 calc(env(safe-area-inset-bottom, 0px) + 80px);
   background: var(--rl-dim, rgba(0, 0, 0, 0.5));
   opacity: 0;
   pointer-events: none;

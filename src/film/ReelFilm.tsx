@@ -6,8 +6,10 @@
 // that moves, the hardest thing a phone's decoder does; this film is twice as
 // long as Adele's, so on an iPhone it stuck. Here every scene simply plays, the
 // way a phone plays any video (smooth, like Instagram), and the visitor moves
-// through the film like through reels: a swipe up is the next scene, a swipe
-// down the one before, a finger held on the glass pauses. A scene ends on the
+// through the film like through Instagram stories (Daniel, 02.11): a tap on
+// the left side is the next scene, on the right side the one before; a finger
+// held on the left runs the scene fast, held on the right pauses it; a swipe up
+// or down does the same as a tap. A scene ends on the
 // very frame the next one starts with, so left alone the five scenes play as
 // one continuous take. The captions, the chapters' elements and the finale run
 // on the video's own clock, through the same functions the scroll film uses.
@@ -32,6 +34,10 @@ const FADE_MS = 320; // a swipe to another scene
 const BURST_MS = 1700; // from the star to the full light, at the end
 const STEP_AT = 0.8; // the step to the first section, under the full light
 const LIFT_MS = 750; // the light lifting off the section
+const FAST = 2.4; // the speed while a finger is held on the left side
+const BACK_ZONE = 0.35; // the right share of the screen that goes back (Hebrew goes on to the left)
+const HOLD_MS = 220; // longer than this, a touch is a hold, not a tap
+const HINT_MS = 3400; // how long the first scene shows how to move
 
 type Mode = "intro" | "start" | "play" | "end" | "leave";
 
@@ -47,8 +53,7 @@ export default function ReelFilm({
   extras,
   landOn,
   skipLabel = "לדלג לאתר",
-  nextLabel = "החליקו לסצנה הבאה",
-  endLabel = "החליקו לאתר",
+  endLabel = "לחצו או החליקו לאתר",
 }: {
   scenes: OneScene[];
   intro?: React.ReactNode;
@@ -56,7 +61,6 @@ export default function ReelFilm({
   /** the section the visitor is set on after the film (a selector) */
   landOn?: string;
   skipLabel?: string;
-  nextLabel?: string;
   endLabel?: string;
 }) {
   const section = useRef<HTMLElement>(null);
@@ -70,6 +74,8 @@ export default function ReelFilm({
   const outroBox = useRef<HTMLDivElement>(null);
   const cue = useRef<HTMLDivElement>(null);
   const skip = useRef<HTMLButtonElement>(null);
+  const hint = useRef<HTMLDivElement>(null);
+  const fastBadge = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sec = section.current;
@@ -183,6 +189,21 @@ export default function ReelFilm({
     };
     const showSkip = (on: boolean) => skip.current?.classList.toggle("on", on);
 
+    // ---------- how to move, shown once; the badge while running fast ----------
+    let hinted = false;
+    let hintTimer = 0;
+    const hideHint = () => {
+      clearTimeout(hintTimer);
+      hint.current?.classList.remove("on");
+    };
+    let fast = false;
+    const setFast = (on: boolean) => {
+      fast = on;
+      const v = videos.current[cur];
+      if (v) v.playbackRate = on ? FAST : rate(cur);
+      fastBadge.current?.classList.toggle("on", on);
+    };
+
     // ---------- moving between scenes ----------
     const show = (i: number, how: "cut" | "fade") => {
       const prev = cur;
@@ -218,13 +239,19 @@ export default function ReelFilm({
       near();
       const v = videos.current[i];
       if (v) {
-        v.playbackRate = rate(i);
+        v.playbackRate = fast ? FAST : rate(i);
         if (how === "fade" || v.ended || v.currentTime > 0.05) v.currentTime = 0;
         v.play().catch(() => {});
       }
       drive(i, 0);
-      showCue(i === 0 && !swiped ? nextLabel : null);
+      showCue(null);
       showSkip(true);
+      // the first time the film starts: how to move through it, on both sides
+      if (i === 0 && !swiped && !hinted) {
+        hinted = true;
+        hint.current?.classList.add("on");
+        hintTimer = window.setTimeout(hideHint, HINT_MS);
+      }
     };
 
     // ---------- the opening: the sign lights as the first scene arrives ----------
@@ -402,15 +429,16 @@ export default function ReelFilm({
     );
     io.observe(sec);
 
-    // ---------- the gestures: swipe up and down, hold to pause, tap the opening ----------
+    // ---------- the gestures, like Instagram stories ----------
     const atTop = () => window.scrollY <= 2;
     const next = () => {
       if (mode === "intro") return begin();
       if (mode === "start" || mode === "leave") return;
       swiped = true;
+      hideHint();
       if (mode === "play" && cur < n - 1) return show(cur + 1, "fade");
       if (mode === "play" && cur === n - 1) {
-        // the last scene: to its end, where the sign is lit; the next swipe leaves
+        // the last scene: to its end, where the sign is lit; the next tap leaves
         const v = videos.current[cur];
         if (v && v.duration && v.currentTime < v.duration - 1.2) {
           v.currentTime = Math.max(0, v.duration - 0.05);
@@ -422,58 +450,92 @@ export default function ReelFilm({
     const back = () => {
       if (mode !== "play" && mode !== "end") return;
       swiped = true;
+      hideHint();
+      // the scene before; on the first scene, and at the end, the same scene again
       show(Math.max(0, cur - (mode === "end" ? 0 : 1)), "fade");
     };
     // a first touch lets every attached video play on an iPhone in Low Power Mode
     const unlock = () => {
       for (let k = 0; k < n; k++) if (videos.current[k]?.dataset.src && !primed[k]) prime(k);
     };
+    const zone = (x: number) => (x > window.innerWidth * (1 - BACK_ZONE) ? "back" : "fwd");
+    const onLink = (t: EventTarget | null) => t instanceof Element && !!t.closest("a, button");
+    const inStage = (t: EventTarget | null) => t instanceof Node && sec.contains(t);
 
+    // a press: a tap goes on or back, a hold runs fast or pauses, a slide is a swipe
     let y0 = 0;
     let x0 = 0;
-    let active = false;
-    let held = false;
+    let pressing = false;
+    let held: "fwd" | "back" | null = null;
     let holdTimer = 0;
-    const inStage = (t: EventTarget | null) => t instanceof Node && sec.contains(t);
-    const onStart = (e: TouchEvent) => {
-      active = (atTop() && mode !== "start") || mode === "leave";
-      if (!active || e.touches.length > 1) return;
-      y0 = e.touches[0].clientY;
-      x0 = e.touches[0].clientX;
+    const press = (x: number, y: number, target: EventTarget | null) => {
+      y0 = y;
+      x0 = x;
       clearTimeout(holdTimer);
-      if (mode === "play" && inStage(e.target)) {
+      if (mode === "play" && inStage(target) && !onLink(target)) {
         holdTimer = window.setTimeout(() => {
-          videos.current[cur]?.pause();
-          held = true;
-        }, 300);
+          held = zone(x0);
+          hideHint();
+          if (held === "fwd") setFast(true);
+          else videos.current[cur]?.pause();
+        }, HOLD_MS);
       }
     };
-    const onMove = (e: TouchEvent) => {
-      if (!active) return;
-      e.preventDefault();
-      if (Math.abs(e.touches[0].clientY - y0) > 12) clearTimeout(holdTimer);
-    };
-    const onEnd = (e: TouchEvent) => {
-      if (!active) return;
-      active = false;
+    const unhold = () => {
       clearTimeout(holdTimer);
-      unlock();
-      if (held) {
-        held = false;
-        if (mode === "play") videos.current[cur]?.play().catch(() => {});
-        return;
-      }
-      if (mode === "leave") return;
-      const t = e.changedTouches[0];
-      const dy = t.clientY - y0;
-      const dx = t.clientX - x0;
+      if (!held) return false;
+      if (held === "fwd") setFast(false);
+      else if (mode === "play") videos.current[cur]?.play().catch(() => {});
+      held = null;
+      return true;
+    };
+    const release = (x: number, y: number, target: EventTarget | null) => {
+      if (unhold() || mode === "leave") return;
+      const dy = y - y0;
+      const dx = x - x0;
       if (Math.abs(dy) > 45 && Math.abs(dy) > Math.abs(dx)) {
         if (dy < 0) next();
         else back();
-      } else if (Math.abs(dy) < 10 && Math.abs(dx) < 10 && mode === "intro" && inStage(e.target)) {
-        const el = e.target as HTMLElement;
-        if (!el.closest("a, button")) begin();
+        return;
       }
+      if (Math.abs(dy) > 12 || Math.abs(dx) > 12 || !inStage(target) || onLink(target)) return;
+      if (mode === "intro") return begin();
+      if (zone(x) === "fwd") next();
+      else back();
+    };
+
+    let lastTouch = 0;
+    const onStart = (e: TouchEvent) => {
+      lastTouch = performance.now();
+      pressing = (atTop() && mode !== "start") || mode === "leave";
+      if (!pressing || e.touches.length > 1) return;
+      press(e.touches[0].clientX, e.touches[0].clientY, e.target);
+    };
+    const onMove = (e: TouchEvent) => {
+      if (!pressing) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      if (Math.abs(t.clientY - y0) > 12 || Math.abs(t.clientX - x0) > 12) unhold();
+    };
+    const onEnd = (e: TouchEvent) => {
+      lastTouch = performance.now();
+      if (!pressing) return;
+      pressing = false;
+      unlock();
+      const t = e.changedTouches[0];
+      release(t.clientX, t.clientY, e.target);
+    };
+    // a computer with ?mode=reel: the mouse does the same (not the clicks a touch also sends)
+    const mouseOk = () => performance.now() - lastTouch > 900;
+    const onDown = (e: MouseEvent) => {
+      if (!mouseOk() || e.button !== 0 || !atTop() || mode === "start") return;
+      pressing = true;
+      press(e.clientX, e.clientY, e.target);
+    };
+    const onUp = (e: MouseEvent) => {
+      if (!mouseOk() || !pressing) return;
+      pressing = false;
+      release(e.clientX, e.clientY, e.target);
     };
     // a computer with ?mode=reel: the wheel and the keys, one step per gesture
     let wheelAt = 0;
@@ -502,17 +564,14 @@ export default function ReelFilm({
     window.addEventListener("touchend", onEnd, { passive: true });
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
+    sec.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
     const onSkip = () => leave();
     skipBtn?.addEventListener("click", onSkip);
-    const onIntroClick = (e: MouseEvent) => {
-      // a click on the opening (a computer with ?mode=reel) starts the film too
-      if (mode === "intro" && !(e.target as HTMLElement).closest("a, button")) begin();
-    };
-    introEl?.addEventListener("click", onIntroClick);
 
-    // the opening's words: here the film moves with a swipe, not a scroll
+    // the opening's words: here the film moves with a tap, not a scroll
     introEl?.querySelectorAll<HTMLElement>(".dn-open-sub, .swipe-cue-label").forEach((el) => {
-      if (el.textContent?.includes("גללו")) el.textContent = el.textContent.replace("גללו", "החליקו");
+      if (el.textContent?.includes("גללו")) el.textContent = el.textContent.replace("גללו", "לחצו");
     });
 
     // ---------- where to start ----------
@@ -542,12 +601,15 @@ export default function ReelFilm({
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       skipBtn?.removeEventListener("click", onSkip);
-      introEl?.removeEventListener("click", onIntroClick);
+      sec.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
+      clearTimeout(hintTimer);
+      clearTimeout(holdTimer);
       for (let k = 0; k < n; k++) detach(k);
       blobs.forEach((u) => u && URL.revokeObjectURL(u));
       loader.destroy();
     };
-  }, [scenes, landOn, nextLabel, endLabel]);
+  }, [scenes, landOn, endLabel]);
 
   return (
     <section ref={section} className="hf hf-one hf-reel" aria-label="הסרט">
@@ -628,7 +690,24 @@ export default function ReelFilm({
         </div>
         <div ref={cue} className="rl-cue" aria-hidden>
           <i />
-          <span>{nextLabel}</span>
+          <span>{endLabel}</span>
+        </div>
+        <div ref={hint} className="rl-hint" aria-hidden>
+          <span className="rl-hint-side rl-hint-fwd">
+            <i />
+            <b>לחיצה: הסצנה הבאה</b>
+            <small>החזקה: מהר יותר</small>
+          </span>
+          <span className="rl-hint-side rl-hint-back">
+            <i />
+            <b>לחיצה: אחורה</b>
+            <small>החזקה: עצירה</small>
+          </span>
+        </div>
+        <div ref={fastBadge} className="rl-fast" aria-hidden>
+          <i />
+          <i />
+          <span>2x</span>
         </div>
         <button ref={skip} type="button" className="rl-skip">
           {skipLabel}

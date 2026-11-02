@@ -1084,3 +1084,75 @@
 /* the bars and the corner link only while the film plays */
 .hf-reel:not([data-mode="play"]):not([data-mode="end"]) .rl-bars { opacity: 0; }
 .rl-bars { transition: opacity 0.4s ease; }
+
+/* how to move through the reel, shown once on the first scene: a tap on the
+   left goes on, on the right goes back (like stories, the Hebrew way) */
+.rl-hint {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.rl-hint.on { opacity: 1; }
+.rl-hint::before,
+.rl-hint::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+}
+.rl-hint::before { left: 0; width: 65%; background: var(--rl-zone-fwd, transparent); }
+.rl-hint::after { right: 0; width: 35%; background: var(--rl-zone-back, transparent); }
+.rl-hint-side {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  max-width: 40vw;
+  padding: 12px 14px 13px;
+  border-radius: 18px;
+  text-align: center;
+  transform: translateY(-50%);
+}
+.rl-hint-fwd { left: 16px; }
+.rl-hint-back { right: 16px; }
+.rl-hint-side i {
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+.rl-hint-fwd i { transform: rotate(45deg); }
+.rl-hint-back i { transform: rotate(-135deg); }
+.rl-hint-side b { font-size: 13px; line-height: 1.25; }
+.rl-hint-side small { font-size: 11.5px; line-height: 1.25; }
+
+/* running fast: a small badge under the bars while the finger is held */
+.rl-fast {
+  position: absolute;
+  z-index: 6;
+  top: calc(env(safe-area-inset-top, 0px) + 82px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  direction: ltr;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.rl-fast.on { opacity: 1; transform: translate(-50%, 0); }
+.rl-fast i {
+  width: 7px;
+  height: 7px;
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+.rl-fast span { margin-left: 5px; font-size: 13px; font-weight: 700; line-height: 1; }

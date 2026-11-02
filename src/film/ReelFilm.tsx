@@ -80,6 +80,7 @@ export default function ReelFilm({
   landOn,
   skipLabel = "לדלג לאתר",
   endLabel = "לחצו או החליקו לאתר",
+  ctrlLabel = "כמו סטורי באינסטגרם",
 }: {
   scenes: OneScene[];
   intro?: React.ReactNode;
@@ -88,6 +89,8 @@ export default function ReelFilm({
   landOn?: string;
   skipLabel?: string;
   endLabel?: string;
+  /** the words in the middle of the bar under the film */
+  ctrlLabel?: string;
 }) {
   const section = useRef<HTMLElement>(null);
   const layers = useRef<(HTMLDivElement | null)[]>([]);
@@ -100,6 +103,9 @@ export default function ReelFilm({
   const outroBox = useRef<HTMLDivElement>(null);
   const cue = useRef<HTMLDivElement>(null);
   const skip = useRef<HTMLButtonElement>(null);
+  const ctrl = useRef<HTMLDivElement>(null);
+  const btnFwd = useRef<HTMLSpanElement>(null);
+  const btnBack = useRef<HTMLSpanElement>(null);
   const guide = useRef<HTMLDivElement>(null);
   const fastBadge = useRef<HTMLDivElement>(null);
 
@@ -213,7 +219,19 @@ export default function ReelFilm({
       }
       c.classList.toggle("on", !!text);
     };
-    const showSkip = (on: boolean) => skip.current?.classList.toggle("on", on);
+    // the bar under the film while it plays: the two sides, named, and the way out
+    const showSkip = (on: boolean) => ctrl.current?.classList.toggle("on", on);
+    const side = (s: "fwd" | "back") => (s === "fwd" ? btnFwd.current : btnBack.current);
+    // the side that was tapped answers, like a button pressed
+    const flash = (s: "fwd" | "back") => {
+      const el = side(s);
+      if (!el) return;
+      el.classList.remove("hit");
+      void el.offsetWidth;
+      el.classList.add("hit");
+      clearTimeout(Number(el.dataset.hit));
+      el.dataset.hit = String(window.setTimeout(() => el.classList.remove("hit"), 450));
+    };
 
     // ---------- how to move, shown once; the badge while running fast ----------
     // the guide: once per visitor (remembered in this browser), the film paused under it
@@ -500,6 +518,7 @@ export default function ReelFilm({
       if (mode === "start" || mode === "leave") return;
       swiped = true;
       hideHint();
+      if (mode === "play") flash("fwd");
       if (mode === "play" && cur < n - 1) return show(cur + 1, "fade");
       if (mode === "play" && cur === n - 1) {
         // the last scene: to its end, where the sign is lit; the next tap leaves
@@ -515,6 +534,7 @@ export default function ReelFilm({
       if (mode !== "play" && mode !== "end") return;
       swiped = true;
       hideHint();
+      if (mode === "play") flash("back");
       // the scene before; on the first scene, and at the end, the same scene again
       show(Math.max(0, cur - (mode === "end" ? 0 : 1)), "fade");
     };
@@ -540,6 +560,7 @@ export default function ReelFilm({
         holdTimer = window.setTimeout(() => {
           held = zone(x0);
           hideHint();
+          side(held)?.classList.add("held");
           if (held === "fwd") setFast(true);
           else videos.current[cur]?.pause();
         }, HOLD_MS);
@@ -548,6 +569,7 @@ export default function ReelFilm({
     const unhold = () => {
       clearTimeout(holdTimer);
       if (!held) return false;
+      side(held)?.classList.remove("held");
       if (held === "fwd") setFast(false);
       else if (mode === "play") videos.current[cur]?.play().catch(() => {});
       held = null;
@@ -799,9 +821,29 @@ export default function ReelFilm({
           <i />
           <span>2x</span>
         </div>
-        <button ref={skip} type="button" className="rl-skip">
-          {skipLabel}
-        </button>
+        {/* the bar under the film: which side does what, in words, like stories (RTL: back on the right) */}
+        <div ref={ctrl} className="rl-ctrl">
+          <span ref={btnBack} className="rl-btn rl-btn-back" aria-hidden>
+            <i />
+            <span>
+              <b>אחורה</b>
+              <small>החזקה: עצירה</small>
+            </span>
+          </span>
+          <span className="rl-ctrl-mid">
+            <b aria-hidden>{ctrlLabel}</b>
+            <button ref={skip} type="button" className="rl-skip">
+              {skipLabel}
+            </button>
+          </span>
+          <span ref={btnFwd} className="rl-btn rl-btn-fwd" aria-hidden>
+            <span>
+              <b>הבא</b>
+              <small>החזקה: מהר</small>
+            </span>
+            <i />
+          </span>
+        </div>
       </div>
     </section>
   );

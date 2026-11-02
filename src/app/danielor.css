@@ -489,7 +489,20 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
   border: 1px solid rgba(255, 140, 228, 0.55);
   box-shadow: 0 0 18px rgba(255, 47, 200, 0.3);
 }
-.rl-skip { color: rgba(255, 236, 251, 0.92); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 140, 228, 0.6); }
+.rl-skip { color: rgba(255, 236, 251, 0.92); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 140, 228, 0.6); text-shadow: 0 1px 8px rgba(14, 5, 28, 0.8); }
+.rl-btn {
+  color: #fff;
+  background: rgba(26, 11, 46, 0.6);
+  border: 1px solid rgba(255, 140, 228, 0.5);
+  box-shadow: 0 8px 22px rgba(10, 4, 22, 0.3);
+}
+.rl-btn small { color: #ffc4f1; }
+.rl-btn i { color: #ff8be3; filter: drop-shadow(0 0 4px rgba(255, 47, 200, 0.9)); }
+.rl-btn.hit,
+.rl-btn.held { background-color: rgba(84, 22, 92, 0.72); box-shadow: 0 8px 22px rgba(10, 4, 22, 0.3), 0 0 20px rgba(255, 47, 200, 0.55); }
+.rl-ctrl-mid b { color: #fff; text-shadow: 0 1px 10px rgba(14, 5, 28, 0.85), 0 0 14px rgba(255, 47, 200, 0.45); }
+/* the chapter low in a scene sits over the bar under the film */
+.reel-mode .ch-m-bottom { bottom: calc(env(safe-area-inset-bottom, 0px) + 9svh + 22px); }
 .rl-guide { --rl-dim: radial-gradient(120% 80% at 50% 45%, rgba(26, 11, 46, 0.55), rgba(14, 5, 28, 0.78)); --rl-divide: linear-gradient(transparent, rgba(255, 95, 214, 0.75), transparent); --rl-ring: #ff8be3; color: #fff; }
 .rl-guide-h b { font-family: var(--font-display); text-shadow: 0 0 22px rgba(255, 47, 200, 0.55); }
 .rl-guide-h span, .rl-guide-zone small { color: #ffc4f1; }

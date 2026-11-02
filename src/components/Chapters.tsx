@@ -755,10 +755,13 @@ function ribbonAt(svg: SVGSVGElement, now: Map<Element, Box>, anchor: Pt | null,
 // which does not move with the floating, so it never shivers
 type Ext = { v: number; l: number; t: number; r: number; b: number };
 const exts = new WeakMap<HTMLElement, Ext>();
+// the share of its arrival each item was last drawn at: measured only once it
+// already stands in place (a frame earlier it may still carry its flight)
+const drawnAt = new WeakMap<HTMLElement, number>();
 function boxOf(c: HTMLElement, host: HTMLElement, a: number, lift: number): Box {
   const b = posIn(c, host);
   let e = exts.get(c);
-  if ((!e || e.v !== geo) && a >= 0.999 && lift === 0) {
+  if ((!e || e.v !== geo) && a >= 0.999 && (drawnAt.get(c) ?? 0) >= 0.999 && lift === 0) {
     const hr = host.getBoundingClientRect();
     const r = (c.querySelector<HTMLElement>(":scope > .fl") ?? c).getBoundingClientRect();
     if (r.width && r.height) {
@@ -849,6 +852,7 @@ export function chapterAt(host: HTMLElement, p: number, reduced: boolean) {
         if (c.offsetWidth) flies.set(c, f);
       }
       const r = 1 - a;
+      drawnAt.set(c, a);
       set(c, {
         opacity: a.toFixed(3),
         transform: `translate3d(${(f.dx * r).toFixed(1)}px, ${(f.dy * r).toFixed(1)}px, 0) scale(${(0.78 + 0.22 * a).toFixed(3)})`,

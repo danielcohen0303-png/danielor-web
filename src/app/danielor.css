@@ -484,6 +484,9 @@ main .hf-one .hf-stage::after { background: linear-gradient(to top, rgba(22, 10,
    solutions flashed over the opening as the site loaded on a phone) */
 main:has(.hf-wait-stage) .dn-after,
 main:has(.hf-reel) .dn-after { --ov: 0px; }
+/* and the scroll guide waits too: a phone may get the reel, which has bars instead */
+main:has(.hf-wait-stage) .sg,
+main:has(.hf-reel) .sg { display: none !important; }
 .rl-bars { --rl-fill: linear-gradient(270deg, #ff5fd6, #fff 60%, #c9a6ff); }
 .rl-bars b { box-shadow: 0 0 8px rgba(255, 47, 200, 0.85); }
 .rl-cue { color: #fff; }

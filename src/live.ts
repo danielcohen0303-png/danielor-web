@@ -136,13 +136,14 @@ export const bundle = {
   pick: "הכול ביחד: סוכן + אפליקציה + אתר תדמית, מ־₪9,900",
 };
 
-export type Work = { k: string; name: string; text: string; video?: string; poster: string; img?: boolean; link?: { href: string; label: string; wa?: string } };
+/** phone: the frame's colour on the live site (agent violet, app pink, Adele hot pink; the rest cyan) */
+export type Work = { k: string; name: string; text: string; video?: string; poster: string; img?: boolean; phone?: "agent-phone" | "app-phone" | "pink"; link?: { href: string; label: string; wa?: string } };
 
 export const work: Work[] = [
-  { k: "סוכן וואטסאפ", name: "הסוכן של Danielor", text: "עונה בשתיים בלילה, שולח מחיר וקישור לתשלום, ומעביר אלינו רק את מה שחשוב.", video: "/live/agent-screen.mp4", poster: "/live/agent-screen-poster.jpg", link: { href: "#order", label: "לדבר איתו בעצמכם ←", wa: "היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק" } },
-  { k: "אפליקציה לניהול", name: "האפליקציה של Danielor", text: "מסך \"היום\", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד.", poster: "/live/app-content.jpg", img: true, link: { href: "#solutions", label: "לפרטים על האפליקציה ←" } },
+  { k: "סוכן וואטסאפ", name: "הסוכן של Danielor", text: "עונה בשתיים בלילה, שולח מחיר וקישור לתשלום, ומעביר אלינו רק את מה שחשוב.", video: "/live/agent-screen.mp4", poster: "/live/agent-screen-poster.jpg", phone: "agent-phone", link: { href: "#order", label: "לדבר איתו בעצמכם ←", wa: "היי, אשמח לראות איך סוכן וואטסאפ יעבוד אצלי בעסק" } },
+  { k: "אפליקציה לניהול", name: "האפליקציה של Danielor", text: "מסך \"היום\", אישור תוכן בלחיצה והשיחות של הסוכן במקום אחד.", poster: "/live/app-content.jpg", img: true, phone: "app-phone", link: { href: "#solutions", label: "לפרטים על האפליקציה ←" } },
   { k: "אתר סיפור", name: "AC Holding", text: "סוכנות בוטיק להשקעות נדל״ן בדובאי. אתר שנגלל כמו סרט, עם קטלוג פרויקטים ומדריך להורדה.", video: "/live/site-ac.mp4", poster: "/live/site-ac-poster.jpg", link: { href: "https://ac-holding.co", label: "לאתר החי ←" } },
-  { k: "אתר סיפור", name: "Adele Beauty Clinic", text: "קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה וקביעת תור בלחיצה.", video: "/live/site-adele.mp4", poster: "/live/site-adele-poster.jpg", link: { href: "https://adele-beauty.com", label: "לאתר החי ←" } },
+  { k: "אתר סיפור", name: "Adele Beauty Clinic", text: "קליניקה להרמת ריסים וגבות. שלט ניאון, סרט שנגלל בתוך הקליניקה וקביעת תור בלחיצה.", video: "/live/site-adele.mp4", poster: "/live/site-adele-poster.jpg", phone: "pink", link: { href: "https://adele-beauty.com", label: "לאתר החי ←" } },
   { k: "דף נחיתה", name: "מדיקר", text: "דף נחיתה לכתב שירות רפואי, עם טופס לפניות.", video: "/live/site-medicar.mp4", poster: "/live/site-medicar-poster.jpg" },
 ];
 

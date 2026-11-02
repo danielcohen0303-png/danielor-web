@@ -1,5 +1,6 @@
 import FilmByDevice from "@/film/FilmByDevice";
 import ScrollGuide from "@/film/ScrollGuide";
+import PhoneNav from "@/components/PhoneNav";
 import Opening from "@/components/Opening";
 import { chapters } from "@/components/Chapters";
 import { Cta } from "@/components/Sections";
@@ -51,6 +52,7 @@ export default function Home() {
       </div>
 
       <ScrollGuide hint={site.voice.scrollHint} />
+      <PhoneNav />
 
       {/* the neon the spark draws with (src/components/Chapters.tsx) */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>

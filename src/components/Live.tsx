@@ -331,35 +331,48 @@ export function Solutions() {
 export function Work() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const [at, setAt] = useState(0);
   useAutoplay(root);
-  const go = (dir: number) => {
+  // one slide's step (the gap included), as the live site measures it
+  const step = () => {
+    const sl = track.current?.querySelectorAll<HTMLElement>(".wslide");
+    return sl && sl.length > 1 ? Math.abs(sl[1].offsetLeft - sl[0].offsetLeft) : (track.current?.clientWidth ?? 300);
+  };
+  const go = (dir: number) => track.current?.scrollBy({ left: dir * step(), behavior: "smooth" });
+  useEffect(() => {
     const t = track.current;
     if (!t) return;
-    const card = t.querySelector<HTMLElement>(".lv-slide");
-    t.scrollBy({ left: dir * ((card?.offsetWidth ?? 280) + 16), behavior: "smooth" });
-  };
+    let raf = 0;
+    const mark = () => {
+      raf = 0;
+      setAt(Math.min(work.length - 1, Math.round(Math.abs(t.scrollLeft) / Math.max(1, step()))));
+    };
+    const on = () => (raf ||= requestAnimationFrame(mark));
+    t.addEventListener("scroll", on, { passive: true });
+    return () => (t.removeEventListener("scroll", on), cancelAnimationFrame(raf));
+  }, []);
   return (
-    <section ref={root} className="kit-sec dn-sec lv-sec" id="work" aria-labelledby="lv-work-h">
+    <section ref={root} className="kit-sec dn-sec lv-sec og" id="work" aria-labelledby="lv-work-h">
       <h2 className="dn-h2" id="lv-work-h">
         עבודות <span className="dn-grad">שבנינו</span>
       </h2>
-      <p className="dn-p lv-sec-lead">מערכות ואתרים שעובדים היום אצל עסקים, כמו שהם נראים בטלפון. מחליקים הצידה לעוד.</p>
-      <div className="lv-car">
-        <div ref={track} className="lv-track" tabIndex={0} aria-label="עבודות שבנינו">
+      <p className="lead sec-lead">מערכות ואתרים שעובדים היום אצל עסקים, כמו שהם נראים בטלפון. מחליקים הצידה לעוד.</p>
+      <div className="wcar">
+        <div ref={track} className="wcar-track" tabIndex={0} aria-label="עבודות שבנינו">
           {work.map((w) => (
-            <article key={w.name} className="lv-slide">
-              <span className="lv-phone">
+            <article key={w.name} className="wslide">
+              <div className={`site-phone wphone${w.phone ? " " + w.phone : ""}`}>
                 {w.img ? (
-                  <img src={w.poster} alt={w.name} loading="lazy" decoding="async" />
+                  <img className="as-content" src={w.poster} alt={w.name} loading="lazy" decoding="async" />
                 ) : (
                   <>
                     <img className="lv-poster" data-src={w.poster} alt="" decoding="async" aria-hidden />
                     <video className="lv-vid" data-src={w.video} muted loop playsInline preload="none" aria-label={`${w.k}: ${w.name}`} />
                   </>
                 )}
-              </span>
-              <div className="lv-slide-t">
-                <span className="lv-tier-k">{w.k}</span>
+              </div>
+              <div className="wtxt">
+                <span className="tier-k">{w.k}</span>
                 <b>{w.name}</b>
                 <span>{w.text}</span>
                 {w.link &&
@@ -378,11 +391,16 @@ export function Work() {
             </article>
           ))}
         </div>
-        <div className="lv-car-nav">
-          <button type="button" aria-label="הקודם" onClick={() => go(1)}>
+        <div className="wcar-nav">
+          <button type="button" className="wcar-btn" aria-label="הקודם" onClick={() => go(1)}>
             <Ic d="M9.5 6l6 6-6 6" />
           </button>
-          <button type="button" aria-label="הבא" onClick={() => go(-1)}>
+          <span className="wcar-dots" aria-hidden>
+            {work.map((w, k) => (
+              <i key={w.name} className={k === at ? "on" : undefined} />
+            ))}
+          </span>
+          <button type="button" className="wcar-btn" aria-label="הבא" onClick={() => go(-1)}>
             <Ic d="M14.5 6l-6 6 6 6" />
           </button>
         </div>
@@ -392,24 +410,62 @@ export function Work() {
 }
 
 export function Process() {
+  const list = useRef<HTMLOListElement>(null);
+  // the steps come in one by one; on a phone the step in the middle of the screen lights up
+  useEffect(() => {
+    const ol = list.current;
+    if (!ol || !("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const items = [...ol.children] as HTMLElement[];
+    ol.classList.add("reveal");
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const i = items.indexOf(e.target as HTMLElement);
+          window.setTimeout(() => e.target.classList.add("in"), innerWidth > 760 ? i * 160 : 60);
+          io.unobserve(e.target);
+        }),
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.3 },
+    );
+    items.forEach((li) => io.observe(li));
+    let tick = 0;
+    const act = () => {
+      tick = 0;
+      if (innerWidth > 760) return;
+      const mid = innerHeight * 0.5;
+      let best: HTMLElement | null = null;
+      let bd = 1e9;
+      items.forEach((li) => {
+        const r = li.getBoundingClientRect();
+        const d = Math.abs((r.top + r.bottom) / 2 - mid);
+        if (d < bd) {
+          bd = d;
+          best = li;
+        }
+      });
+      items.forEach((li) => li.classList.toggle("on", li === best && bd < innerHeight * 0.35));
+    };
+    const on = () => (tick ||= requestAnimationFrame(act));
+    window.addEventListener("scroll", on, { passive: true });
+    act();
+    return () => (io.disconnect(), window.removeEventListener("scroll", on), cancelAnimationFrame(tick));
+  }, []);
   return (
-    <section className="kit-sec dn-sec lv-sec" id="process" aria-labelledby="lv-proc-h">
+    <section className="kit-sec dn-sec lv-sec og" id="process" aria-labelledby="lv-proc-h">
       <h2 className="dn-h2" id="lv-proc-h">
         איך עובדים <span className="dn-grad">איתנו</span>
       </h2>
-      <ol className="lv-steps">
-        {steps.map((s, i) => (
-          <li key={s.name} style={{ "--n": i } as React.CSSProperties}>
-            <span className="lv-step-n" aria-hidden>
-              {String(i + 1).padStart(2, "0")}
-            </span>
+      <ol ref={list} className="steps">
+        {steps.map((s) => (
+          <li key={s.name}>
             <h3>{s.name}</h3>
             <p>{s.text}</p>
+            <span className="bar" aria-hidden />
           </li>
         ))}
       </ol>
-      <div className="lv-behind">
-        <img src={behind.photo} alt="דניאל כהן" width={160} height={160} loading="lazy" decoding="async" />
+      <div className="behind">
+        <img className="bh-ph" src={behind.photo} alt="דניאל כהן" width={64} height={64} loading="lazy" decoding="async" />
         <p>
           <b>{behind.title}</b>
           {behind.text}
@@ -421,32 +477,67 @@ export function Process() {
 
 export function StudioDoor() {
   const root = useRef<HTMLElement>(null);
+  const [c, setC] = useState(0);
+  const [shown, setShown] = useState(0);
+  const [out, setOut] = useState(false);
   useAutoplay(root);
+  const n = studio.reel.length;
+  // the phones turn like a carousel while the card is on screen (and stop under the mouse)
+  useEffect(() => {
+    const el = root.current;
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let timer = 0;
+    const spin = (on: boolean) => {
+      clearInterval(timer);
+      // the label under the front phone fades out, takes the new name and comes back
+      if (on)
+        timer = window.setInterval(() => {
+          setC((k) => (k + 1) % n);
+          setOut(true);
+          window.setTimeout(() => (setShown((k) => (k + 1) % n), setOut(false)), 300);
+        }, 2800);
+    };
+    const io = new IntersectionObserver((es) => spin(es[0].isIntersecting), { rootMargin: "200px 0px" });
+    io.observe(el);
+    const door = el.querySelector(".studio-door");
+    const stop = () => spin(false);
+    const go = () => spin(true);
+    door?.addEventListener("mouseenter", stop);
+    door?.addEventListener("mouseleave", go);
+    return () => (clearInterval(timer), io.disconnect(), door?.removeEventListener("mouseenter", stop), door?.removeEventListener("mouseleave", go));
+  }, [n]);
   return (
-    <section ref={root} className="kit-sec dn-sec lv-sec" id="studio-door" aria-label="Danielor Studio">
-      <a className="lv-door" href={studio.href} target="_blank" rel="noopener">
-        <span className="lv-door-reel" aria-hidden>
-          {studio.reel.map((r) => (
-            <span key={r.label} className="lv-door-clip">
+    <section ref={root} className="kit-sec dn-sec lv-sec og" id="studio-door" aria-label="Danielor Studio">
+      <a className="studio-door" href={studio.href} target="_blank" rel="noopener">
+        <span className="sdr-stage" aria-hidden>
+          <span className="sdr-spot" />
+          {studio.reel.map((r, i) => (
+            <span key={r.label} className="sdr-ph" data-pos={(i - c + n) % n}>
               <img className="lv-poster" data-src={r.poster} alt="" decoding="async" />
               <video className="lv-vid" data-src={r.video} muted loop playsInline preload="none" />
-              <i>{r.label}</i>
             </span>
           ))}
+          <span className={`sdr-label${out ? " out" : ""}`}>{studio.reel[shown].label}</span>
+          <i className="bs-sp q1" />
+          <i className="bs-sp q2" />
+          <i className="bs-sp q3" />
+          <i className="bs-sp q4" />
         </span>
-        <span className="lv-door-t">
-          <span className="lv-door-k" dir="ltr">
+        <span className="sdr-text">
+          <span className="sdr-k" dir="ltr">
             {studio.k}
           </span>
           <b>
-            {studio.title} <span className="dn-grad">{studio.hl}</span>
+            {studio.title} <span className="sdr-hl">{studio.hl}</span>
           </b>
-          <span className="lv-door-d">{studio.text}</span>
-          <span className="lv-door-go">{studio.go} ←</span>
+          <span className="sdr-d">{studio.text}</span>
+          <span className="sdr-go">
+            {studio.go} <span className="sdr-arr">←</span>
+          </span>
         </span>
-        <span className="lv-tape" aria-hidden>
-          <span>
-            {[...studio.tape, ...studio.tape, ...studio.tape].map((t, i) => (
+        <span className="sdr-tape" aria-hidden>
+          <span className="sdr-track">
+            {[...studio.tape, ...studio.tape].map((t, i) => (
               <span key={i}>{t}</span>
             ))}
           </span>
@@ -459,51 +550,60 @@ export function StudioDoor() {
 export function Prices() {
   const [open, setOpen] = useState(false);
   return (
-    <section className="kit-sec dn-sec lv-sec" id="prices" aria-labelledby="lv-price-h">
+    <section className="kit-sec dn-sec lv-sec og" id="prices" aria-labelledby="lv-price-h">
       <h2 className="dn-h2" id="lv-price-h">
         מחירים
       </h2>
-      <p className="lv-hint">לחיצה פותחת את המחירון, לחיצה נוספת סוגרת.</p>
-      <div className="lv-acc">
-        <button type="button" className="lv-acc-btn" aria-expanded={open} aria-controls="lv-board" onClick={() => setOpen((o) => !o)}>
-          <span className="lv-ic">
-            <Ic d="M5 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18" />
+      <p className="price-hint">לחיצה פותחת את המחירון, לחיצה נוספת סוגרת.</p>
+      <div className="price-acc">
+        <button type="button" className="pt-btn" aria-expanded={open} aria-controls="pb-biz" onClick={() => setOpen((o) => !o)}>
+          <span className="pt-ic" aria-hidden>
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="7" width="18" height="13" rx="2" />
+              <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18" />
+            </svg>
           </span>
-          <span className="lv-acc-t">
+          <span className="pt-t">
             <b>מחירון לעסקים</b>
             <small>סוכן, אפליקציה ואתר</small>
           </span>
-          <span className={`lv-chev${open ? " lv-chev-open" : ""}`} aria-hidden>
-            <Ic d="M6 9.5l6 6 6-6" />
+          <span className="pt-chev" aria-hidden>
+            <svg viewBox="0 0 24 24">
+              <path d="M6 9.5l6 6 6-6" />
+            </svg>
           </span>
         </button>
-        <div className="lv-board" id="lv-board" hidden={!open}>
-          <header>
-            <h3>לעסקים</h3>
-            <span>המחירים כוללים מע״מ</span>
-          </header>
-          {priceRows.map((r) => (
-            <div key={r.name} className="lv-row">
-              <span className="lv-row-n">{r.name}</span>
-              <span className="lv-row-p">{r.price}</span>
-              <p>{r.desc}</p>
-            </div>
-          ))}
+        <div className="pt-panel" id="pb-biz" hidden={!open}>
+          <div className="board">
+            <header>
+              <span className="vat">המחירים כוללים מע״מ</span>
+            </header>
+            {priceRows.map((r, i) => (
+              <div key={r.name} className={`row${i === 0 ? " entry" : ""}`}>
+                <span className="name">{r.name}</span>
+                <span className={`price${/הצעה/.test(r.price) ? " quote" : ""}`}>{r.price}</span>
+                <p className="desc">{r.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <a className="lv-acc-btn" href={`${studio.href}#prices`} target="_blank" rel="noopener">
-          <span className="lv-ic">
-            <Ic d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z M10.2 11.4v5.2l4.3-2.6z" />
+        <a className="pt-btn pt-link" href={`${studio.href}#prices`} target="_blank" rel="noopener">
+          <span className="pt-ic" aria-hidden>
+            <svg viewBox="0 0 24 24">
+              <path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z" />
+              <path d="M10.2 11.4v5.2l4.3-2.6z" />
+            </svg>
           </span>
-          <span className="lv-acc-t">
+          <span className="pt-t">
             <b>מחירון הסטודיו</b>
             <small>סרטונים, פודקאסטים וטרנדים</small>
           </span>
-          <span className="lv-chev" aria-hidden>
+          <span className="pt-chev" aria-hidden>
             ←
           </span>
         </a>
       </div>
-      <p className="lv-small">המחירים כוללים מע״מ. את ההקמה אפשר לפרוס לשלושה תשלומים.</p>
+      <p className="note">המחירים כוללים מע״מ. את ההקמה אפשר לפרוס לשלושה תשלומים.</p>
     </section>
   );
 }
@@ -543,22 +643,22 @@ export function Order() {
     [name, product, idea, link],
   );
   return (
-    <section className="kit-sec dn-sec lv-sec" id="order" aria-labelledby="lv-order-h">
-      <div className="lv-order">
+    <section className="kit-sec dn-sec lv-sec og" id="order" aria-labelledby="lv-order-h">
+      <div className="order">
         <div>
           <h2 className="dn-h2" id="lv-order-h">
             ספרו לנו <span className="dn-grad">מה העסק צריך</span>
           </h2>
-          <p className="dn-p">ממלאים כמה שורות, לוחצים על הכפתור, וההודעה נפתחת אצלכם בוואטסאפ מוכנה לשליחה. אנחנו חוזרים עם הצעה ומועד.</p>
+          <p className="lead">ממלאים כמה שורות, לוחצים על הכפתור, וההודעה נפתחת אצלכם בוואטסאפ מוכנה לשליחה. אנחנו חוזרים עם הצעה ומועד.</p>
         </div>
-        <form className="lv-slip" noValidate onSubmit={(e) => e.preventDefault()}>
-          <label>
-            <span>שם</span>
-            <input value={name} onChange={(e) => (setName(e.target.value), setErr(false))} autoComplete="name" enterKeyHint="next" required />
-          </label>
-          <label>
-            <span>מה מעניין אתכם</span>
-            <select value={product} onChange={(e) => setProduct(e.target.value)}>
+        <form className="slip" noValidate onSubmit={(e) => e.preventDefault()}>
+          <div className="field">
+            <label htmlFor="f-name">שם</label>
+            <input id="f-name" value={name} onChange={(e) => (setName(e.target.value), setErr(false))} autoComplete="name" enterKeyHint="next" required />
+          </div>
+          <div className="field">
+            <label htmlFor="f-product">מה מעניין אתכם</label>
+            <select id="f-product" value={product} onChange={(e) => setProduct(e.target.value)}>
               {orderOptions.map((g) => (
                 <optgroup key={g.group} label={g.group}>
                   {g.items.map((o) => (
@@ -568,18 +668,18 @@ export function Order() {
               ))}
               <option>{orderUnsure}</option>
             </select>
-          </label>
-          <label>
-            <span>ספרו בקצרה מה הרעיון</span>
-            <textarea value={idea} onChange={(e) => setIdea(e.target.value)} placeholder={hint(product)} />
-          </label>
-          <label>
-            <span>לינק לחומרים (דרייב, לא חובה)</span>
-            <input value={link} onChange={(e) => setLink(e.target.value)} type="url" dir="ltr" placeholder="https://drive.google.com/..." />
-          </label>
-          {err && <p className="lv-err">חסר שם, כדי שנדע איך לפנות אליכם.</p>}
+          </div>
+          <div className="field">
+            <label htmlFor="f-idea">ספרו בקצרה מה הרעיון</label>
+            <textarea id="f-idea" value={idea} onChange={(e) => setIdea(e.target.value)} placeholder={hint(product)} />
+          </div>
+          <div className="field">
+            <label htmlFor="f-link">לינק לחומרים (דרייב, לא חובה)</label>
+            <input id="f-link" value={link} onChange={(e) => setLink(e.target.value)} type="url" dir="ltr" placeholder="https://drive.google.com/..." />
+          </div>
+          {err && <p className="err">חסר שם, כדי שנדע איך לפנות אליכם.</p>}
           <a
-            className="kit-btn dn-btn dn-btn-lg lv-send"
+            className="btn btn-pink send"
             href={waLink(message)}
             target="_blank"
             rel="noopener"
@@ -592,11 +692,11 @@ export function Order() {
           >
             שליחה בוואטסאפ
           </a>
-          <p className="lv-small">
+          <p className="small send-note">
             ההודעה נפתחת בוואטסאפ, ואתם רק לוחצים שליחה.{" "}
             <button
               type="button"
-              className="lv-linkish"
+              className="linkish"
               onClick={() =>
                 navigator.clipboard
                   ?.writeText(message)
@@ -607,7 +707,7 @@ export function Order() {
               או העתיקו את ההודעה
             </button>
           </p>
-          <p className="lv-small" aria-live="polite">
+          <p className="small" aria-live="polite">
             {copied}
           </p>
         </form>
@@ -617,22 +717,83 @@ export function Order() {
 }
 
 export function Faq() {
+  const box = useRef<HTMLDivElement>(null);
+  // open and close with a smooth height and fade; opening one closes the others (as on the live site)
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const items = [...el.querySelectorAll<HTMLDetailsElement>("details")];
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const EASE = "cubic-bezier(.3,.9,.3,1)";
+    const anims = new Map<HTMLDetailsElement, Animation>();
+    const run = (d: HTMLDetailsElement, opening: boolean) => {
+      const ans = d.querySelector<HTMLElement>(".ans");
+      const p = ans?.firstElementChild as HTMLElement | null;
+      anims.get(d)?.cancel();
+      anims.delete(d);
+      if (opening) {
+        d.open = true;
+        d.classList.add("is-open");
+      } else d.classList.remove("is-open");
+      if (reduce || !ans || !p || !ans.animate) {
+        if (!opening) d.open = false;
+        return;
+      }
+      const from = opening ? 0 : ans.offsetHeight;
+      const to = opening ? ans.scrollHeight : 0;
+      const a = ans.animate([{ height: from + "px" }, { height: to + "px" }], { duration: opening ? 480 : 380, easing: EASE });
+      p.animate(opening ? [{ opacity: 0, transform: "translateY(-8px)" }, { opacity: 1, transform: "none" }] : [{ opacity: 1 }, { opacity: 0 }], {
+        duration: opening ? 420 : 220,
+        delay: opening ? 90 : 0,
+        easing: EASE,
+        fill: "backwards",
+      });
+      anims.set(d, a);
+      a.onfinish = () => {
+        anims.delete(d);
+        if (!opening) d.open = false;
+      };
+    };
+    const offs = items.map((d) => {
+      const s = d.querySelector("summary");
+      const on = (e: Event) => {
+        e.preventDefault();
+        const opening = !d.classList.contains("is-open");
+        if (opening) items.forEach((o) => o !== d && o.classList.contains("is-open") && run(o, false));
+        run(d, opening);
+      };
+      s?.addEventListener("click", on);
+      return () => s?.removeEventListener("click", on);
+    });
+    return () => offs.forEach((f) => f());
+  }, []);
   return (
-    <section className="kit-sec dn-sec kit-faq lv-sec" id="faq" aria-labelledby="lv-faq-h">
+    <section className="kit-sec dn-sec lv-sec og" id="faq" aria-labelledby="lv-faq-h">
       <h2 className="dn-h2" id="lv-faq-h">
         שאלות <span className="dn-grad">נפוצות</span>
       </h2>
-      {faq.map((f, i) => (
-        <details key={f.q} className="kit-faq-item dn-faq-item">
-          <summary>
-            <span className="lv-faq-n">{String(i + 1).padStart(2, "0")}</span> {f.q}
-          </summary>
-          <p className="kit-p">{f.a}</p>
-        </details>
-      ))}
-      <div className="lv-faq-more">
-        <span>יש שאלה שלא מופיעה כאן? כתבו לנו בוואטסאפ ונחזור אליכם.</span>
-        <a className="kit-btn dn-btn" href={waLink("היי, יש לי שאלה")} target="_blank" rel="noopener">
+      <div ref={box} className="faq">
+        {faq.map((f, i) => (
+          <details key={f.q}>
+            <summary>
+              <span className="q-n" aria-hidden>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="q-t">{f.q}</span>
+              <span className="q-i" aria-hidden />
+            </summary>
+            <div className="ans">
+              <p>{f.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+      <div className="faq-cta">
+        <div>
+          <b>יש שאלה שלא מופיעה כאן?</b>
+          <span>כתבו לנו בוואטסאפ ונחזור אליכם.</span>
+        </div>
+        <a className="btn btn-pink" href={waLink("היי, יש לי שאלה")} target="_blank" rel="noopener">
           לשאול בוואטסאפ
         </a>
       </div>

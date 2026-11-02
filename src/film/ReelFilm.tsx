@@ -323,6 +323,8 @@ export default function ReelFilm({
         } else drop();
       }
       near();
+      // the videos in the other scenes' elements (the sites' phones) rest while those scenes are away
+      chs.current.forEach((h, k) => k !== i && h?.querySelectorAll("video").forEach((cv) => cv.pause()));
       const v = videos.current[i];
       if (v) {
         v.playbackRate = fast ? FAST : rate(i);
@@ -501,7 +503,8 @@ export default function ReelFilm({
       ([e]) => {
         onScreen = e.isIntersecting || mode === "leave";
         const v = videos.current[cur];
-        if (!onScreen) v?.pause();
+        // off screen every video in the film rests, the sites' phones too (they start again with the film)
+        if (!onScreen) sec.querySelectorAll("video").forEach((sv) => sv.pause());
         else {
           if (mode === "play") v?.play().catch(() => {});
           run();

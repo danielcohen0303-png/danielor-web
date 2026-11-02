@@ -286,7 +286,9 @@ function Sites() {
             <span className="ch-site">
               <span className="ch-dev">
                 <span className="ch-screen">
-                  <video muted loop playsInline preload="none" poster={w.poster} data-src={w.video} data-wide-only aria-hidden />
+                  {/* the poster under the video until a frame of it is on screen: an iPhone shows black while a video loads */}
+                  <img className="ch-poster" src={w.poster} alt="" decoding="async" aria-hidden />
+                  <video className="ch-vid" muted loop playsInline preload="none" data-src={w.video} data-wide-only data-reel aria-hidden />
                   <i className="ch-sheen" aria-hidden />
                 </span>
               </span>
@@ -339,9 +341,22 @@ const isWide = () => (wideQ ??= window.matchMedia("(min-aspect-ratio: 4/3)")).ma
 let geo = 0;
 if (typeof window !== "undefined") window.addEventListener("resize", () => geo++);
 
+// on a phone the videos over the film stay pictures (data-wide-only): a scrubbed
+// film is all the decoder can do. The reel just plays the film, so there the
+// sites' phones play too (data-reel; Daniel, 02.11: "the sites moving")
+const reelMode = () => document.documentElement.classList.contains("reel-mode");
+// a video shows itself (.on) once a frame of it is really on screen
+function firstFrame(v: HTMLVideoElement) {
+  const on = () => v.classList.add("on");
+  if (typeof v.requestVideoFrameCallback === "function") v.requestVideoFrameCallback(on);
+  else v.addEventListener("timeupdate", on, { once: true });
+}
 function playIf(v: HTMLVideoElement, on: boolean) {
   if (on) {
-    if (!v.src && v.dataset.src && (isWide() || !("wideOnly" in v.dataset))) v.src = v.dataset.src;
+    if (!v.src && v.dataset.src && (isWide() || !("wideOnly" in v.dataset) || ("reel" in v.dataset && reelMode()))) {
+      firstFrame(v);
+      v.src = v.dataset.src;
+    }
     if (v.src && v.paused) v.play().catch(() => {});
   } else if (!v.paused) v.pause();
 }

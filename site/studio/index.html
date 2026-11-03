@@ -403,6 +403,14 @@ h2{font-family:var(--display);font-weight:700;font-size:var(--step-3);line-heigh
 .meter i.on{background:var(--pink-hot);box-shadow:0 0 8px var(--pink-glow)}
 .row.addon .name{font-weight:500;color:var(--muted)}
 .row.addon .price{font-size:var(--step-0);color:var(--muted)}
+.row .price.len2{display:grid;gap:.2rem;justify-items:end;align-self:start}
+.row .price.len2>span{display:flex;align-items:baseline;gap:.5rem}
+.row .price.len2 small{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.01em}
+.bizinc{margin:.9rem 0 .2rem;padding:1rem 1.1rem;border-radius:16px;background:linear-gradient(135deg,rgba(255,47,200,.07),rgba(122,53,230,.10));border:1px solid var(--line)}
+.bizinc-h{margin:0 0 .65rem;font-weight:700;color:var(--fg)}
+.bizinc ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem}
+.bizinc li{display:inline-flex;align-items:center;gap:.5rem;padding:.36rem .8rem;border-radius:999px;background:var(--panel-2,#fff);border:1px solid var(--line-2,var(--line));font-size:var(--step--1);color:var(--fg);line-height:1.35}
+.bizinc li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink-hot);box-shadow:0 0 8px rgba(255,47,200,.6);flex:none}
 .note{margin:1rem 0 0;color:var(--muted);font-size:var(--step--1)}
 
 /* maker */
@@ -1419,21 +1427,37 @@ html.studio .ring-dot[aria-current="true"]::before{background:var(--grad)}
       <div class="pt-panel pt-panel-biz" id="pb-biz" hidden>
       <div class="board b-biz">
         <header><h3 class="neon-cyan">לעסקים</h3><span class="vat">המחירים כוללים מע״מ</span></header>
-        <div class="row">
+        <div class="row entry">
           <span class="name">סרטון היכרות</span><span class="price">₪199</span>
-          <p class="desc">שולחים תמונות או סרטונים מהעסק, ומקבלים סרטון של עד 30 שניות לרילס ולסטורי, עם כתוביות ומוזיקה. פעם אחת לכל עסק.</p>
+          <p class="desc">סרטון של עד 30 שניות בסגנון נקי, מהתמונות או הסרטונים של העסק, עם כתוביות ומוזיקה. פעם אחת לכל עסק, כדי להכיר.</p>
         </div>
-        <div class="row">
-          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span><span class="price">₪390</span>
-          <p class="desc">עריכה של החומר שלכם, כתוביות בעברית ומוזיקה.</p>
+        <div class="bizinc">
+          <p class="bizinc-h">סרטון לעסק: המחיר לפי רמה ואורך</p>
+          <ul>
+            <li>רעיון ותסריט קצר, שאתם מאשרים לפני שמתחילים</li>
+            <li>כתוביות בעברית ומוזיקה</li>
+            <li>גרסה לרילס ולסטורי</li>
+            <li>טיוטה לאישור וסבב תיקון אחד</li>
+          </ul>
         </div>
-        <div class="row">
-          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span><span class="price">₪890</span>
-          <p class="desc">עריכה, מושן גרפיקס וקריינות, גם בקול שלכם.</p>
+        <div class="row lv">
+          <span class="name">נקי <span class="meter" role="img" aria-label="עוצמה 1 מתוך 3"><i class="on"></i><i></i><i></i></span></span>
+          <span class="price len2"><span><small>עד 30 שניות</small>₪390</span><span><small>עד דקה</small>₪590</span></span>
+          <p class="desc">עריכה רגועה ומקצועית מהתמונות והסרטונים שלכם: תנועת מצלמה עדינה, כתוביות על מילות המפתח ומוזיקה, בלי קריינות. לעסק שרוצה להיראות אמין ויוקרתי.</p>
         </div>
-        <div class="row">
-          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span><span class="price">₪1,690</span>
-          <p class="desc">קליפים קולנועיים ב־AI, אפקטים ופתיח שעוצר את הגלילה.</p>
+        <div class="row lv">
+          <span class="name">משולב <span class="meter" role="img" aria-label="עוצמה 2 מתוך 3"><i class="on"></i><i class="on"></i><i></i></span></span>
+          <span class="price len2"><span><small>עד 30 שניות</small>₪890</span><span><small>עד דקה</small>₪1,390</span></span>
+          <p class="desc">כל מה שבנקי, ועוד קריינות בעברית (אפשר בקול שלכם), מושן גרפיקס וטקסטים בתנועה, תמונות אווירה ב־AI עם תנועת עומק, ורגע וואו בכל חלק. להשקה, למבצע ולמודעה.</p>
+        </div>
+        <div class="row lv">
+          <span class="name">מטורף <span class="meter" role="img" aria-label="עוצמה 3 מתוך 3"><i class="on"></i><i class="on"></i><i class="on"></i></span></span>
+          <span class="price len2"><span><small>עד 30 שניות</small>₪1,690</span><span><small>עד דקה</small>₪2,690</span></span>
+          <p class="desc">כל מה שבמשולב, ועוד סצנות וידאו קולנועיות ב־AI שנבנות מהתמונות שלכם, טקסט ענק בתלת־ממד, חיתוך חד בכל מעבר, אפקטים וסאונד עשיר, ופתיח שעוצר את הגלילה. לרילס ויראלי ולטיקטוק.</p>
+        </div>
+        <div class="row addon">
+          <span class="name">סרטון ארוך מדקה</span><span class="price">מ־₪200</span>
+          <p class="desc">על כל 30 שניות נוספות: נקי ₪200, משולב ₪500, מטורף ₪1,000.</p>
         </div>
         <div class="row">
           <span class="name">רילסים מפודקאסט</span><span class="price">מ־₪490</span>
@@ -1500,9 +1524,12 @@ html.studio .ring-dot[aria-current="true"]::before{background:var(--grad)}
             <option selected>עוד לא יודע/ת</option>
             <optgroup label="סרטונים לעסקים">
               <option>סרטון היכרות לעסק, ₪199</option>
-              <option>סרטון נקי לעסק, ₪390</option>
-              <option>סרטון משולב לעסק, ₪890</option>
-              <option>סרטון מטורף לעסק, ₪1,690</option>
+              <option>סרטון נקי לעסק, עד 30 שניות, ₪390</option>
+              <option>סרטון נקי לעסק, עד דקה, ₪590</option>
+              <option>סרטון משולב לעסק, עד 30 שניות, ₪890</option>
+              <option>סרטון משולב לעסק, עד דקה, ₪1,390</option>
+              <option>סרטון מטורף לעסק, עד 30 שניות, ₪1,690</option>
+              <option>סרטון מטורף לעסק, עד דקה, ₪2,690</option>
               <option>חבילת השקה, ₪2,490</option>
             </optgroup>
             <optgroup label="רילסים מפודקאסט">

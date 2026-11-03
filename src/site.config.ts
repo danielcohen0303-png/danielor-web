@@ -51,9 +51,9 @@ export const site = {
   latinSub: "AI",
   tagline: "פתרונות AI לעסקים",
   description: "סוכני וואטסאפ, אפליקציות ניהול, אתרים ותוכן AI. צוות סוכני AI עושה את העבודה, ובן אדם מאשר כל דבר.",
-  url: "https://danielor-film.vercel.app",
-  /** a sample site for now: not indexed until Daniel says it's live */
-  index: false,
+  url: "https://danielor.ai",
+  /** live on danielor.ai from 03.11 (Daniel) */
+  index: true,
   desktop: "wide" as "wide" | "phone",
 
   voice: {

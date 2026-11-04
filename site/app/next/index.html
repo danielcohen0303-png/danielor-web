@@ -828,6 +828,18 @@ function renderBiz(){
 
 // one tap: what needs fixing goes on the board for this business, and the right chat opens with the text copied
 var ASK_PRESETS = { shkedya: [['סרטון עד 15 שניות', 'סרטון חדש לשקדיה, עד 15 שניות. הרעיון: '], ['סרטון עד 30 שניות', 'סרטון חדש לשקדיה, עד 30 שניות. הרעיון: '], ['סרטון עד דקה', 'סרטון חדש לשקדיה, עד דקה. הרעיון: ']] };
+function claudeApp(url){
+  var m = String(url || '').match(/^https:\/\/claude\.ai\/(chat\/[\w-]+|code\/session_[\w-]+)/);
+  return m ? 'claude://' + m[1] : null;
+}
+function openClaude(url){
+  var app = claudeApp(url);
+  if (!app){ window.open(url, '_blank', 'noopener'); return; }
+  var gone = false, mark = function(){ if (document.hidden) gone = true; };
+  document.addEventListener('visibilitychange', mark);
+  location.href = app;
+  setTimeout(function(){ document.removeEventListener('visibilitychange', mark); if (!gone && !document.hidden) window.open(url, '_blank', 'noopener'); }, 1500);
+}
 function copyText(t){
   var fallback = function(){ try { var x = el('textarea', { style: 'position:fixed;top:-200px;opacity:0' }); x.value = t; document.body.appendChild(x); x.select(); document.execCommand('copy'); document.body.removeChild(x); } catch (e) {} };
   try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).catch(fallback); else fallback(); } catch (e) { fallback(); }
@@ -850,7 +862,7 @@ function openAsk(b){
     var full = b.name + (sel ? ', ' + sel.name : '') + ':\n' + text;
     copyText(full);
     // open the chat inside the tap itself, so the phone does not block it
-    if (sel && sel.url) window.open(sel.url, '_blank', 'noopener');
+    if (sel && sel.url) openClaude(sel.url);
     sendBtn.disabled = true; sendBtn.textContent = 'שומר...';
     call(HQ, '/request', { method: 'POST', body: { client: b.key, text: text, topic: sel ? sel.name : null } }).then(function(j){
       if (j.ok){ toast(sel ? (sel.url ? 'נרשם בלוח, והטקסט הועתק. תדביק בשיחה' : 'נרשם בלוח, והטקסט הועתק. תדביק בשיחה במחשב') : 'נרשם בלוח'); close(); loadHome(); loadBiz(); }
@@ -964,7 +976,7 @@ function renderBizPage(b){
         el('span', { class: 'ti cl' }, [el('img', { src: '/app/logo-claude.svg', alt: '' })]),
         el('span', { class: 'n' }, [el('b', { text: c.name }), el('small', { text: c.url ? (c.notes || 'נפתח באפליקציה של Claude') : (c.notes || 'שיחת קוד במחשב') })])
       ];
-      if (c.url){ kids.push(el('span', { class: 'ext', html: svg(IC.ext) })); v.appendChild(el('a', { class: 'tool', href: c.url, target: '_blank', rel: 'noopener' }, kids)); }
+      if (c.url){ kids.push(el('span', { class: 'ext', html: svg(IC.ext) })); v.appendChild(el('a', { class: 'tool', href: c.url, onclick: function(e){ e.preventDefault(); openClaude(c.url); } }, kids)); }
       else { kids.push(el('span', { class: 's s-dim', text: 'במחשב' })); v.appendChild(el('div', { class: 'tool' }, kids)); }
     });
   }

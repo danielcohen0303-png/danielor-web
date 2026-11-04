@@ -811,7 +811,7 @@ function drawWeb(box, b){
   ]));
   var sent = Number(P.wa_from_site) || 0, people = Number(P.wa_people) || 0;
   var tiles = [
-    el('div', { class: 'wtile main' }, [el('b', { text: nf(P.visits) }), el('span', { text: 'כניסות' }), el('small', { text: nf(P.views) + ' צפיות בעמודים' })]),
+    el('div', { class: 'wtile main' }, [el('b', { text: nf(P.visits) }), el('span', { text: 'כניסות לאתר' }), el('small', { text: nf(P.views) + ' עמודים נפתחו באתר' })]),
     el('div', { class: 'wtile' }, [el('b', { text: nf(people) }), el('span', { text: 'לחצו על וואטסאפ' }), el('small', { text: (P.visits ? pct(people, P.visits) + ' מהגולשים, ' : '') + nf(P.wa) + ' לחיצות' })])
   ];
   if (s.wa_source){
@@ -848,7 +848,7 @@ function drawWeb(box, b){
   } else box.appendChild(el('p', { class: 'wempty', style: 'font-size:13px', text: 'הגרף היומי יופיע אחרי כמה ימים של ספירה.' }));
 
   // where they came from, which pages, which buttons (30 days)
-  var lists = [['מאיפה הגיעו', s.sources, function(x){ return x.name; }], ['העמודים הכי נצפים', s.pages, function(x){ return pageName(x.path); }], ['על איזה כפתור וואטסאפ לוחצים', s.wa_buttons, function(x){ return WA_BTN[x.label] || x.label; }]];
+  var lists = [['מאיפה הגיעו לאתר', s.sources, function(x){ return x.name; }], ['העמודים הכי נצפים', s.pages, function(x){ return pageName(x.path); }], ['על איזה כפתור וואטסאפ לוחצים', s.wa_buttons, function(x){ return WA_BTN[x.label] || x.label; }]];
   lists.forEach(function(L){
     var rows = L[1] || []; if (!rows.length) return;
     var m = rows.reduce(function(a, x){ return Math.max(a, x.n); }, 0);

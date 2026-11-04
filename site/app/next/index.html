@@ -962,7 +962,7 @@ function renderBizPage(b){
     chats.forEach(function(c){
       var kids = [
         el('span', { class: 'ti cl' }, [el('img', { src: '/app/logo-claude.svg', alt: '' })]),
-        el('span', { class: 'n' }, [el('b', { text: c.name }), el('small', { text: c.url ? (c.notes || 'נפתח באפליקציה של Claude') : 'שיחת קוד במחשב' + (c.notes ? ' · ' + c.notes : '') })])
+        el('span', { class: 'n' }, [el('b', { text: c.name }), el('small', { text: c.url ? (c.notes || 'נפתח באפליקציה של Claude') : (c.notes || 'שיחת קוד במחשב') })])
       ];
       if (c.url){ kids.push(el('span', { class: 'ext', html: svg(IC.ext) })); v.appendChild(el('a', { class: 'tool', href: c.url, target: '_blank', rel: 'noopener' }, kids)); }
       else { kids.push(el('span', { class: 's s-dim', text: 'במחשב' })); v.appendChild(el('div', { class: 'tool' }, kids)); }

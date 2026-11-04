@@ -811,8 +811,11 @@ function renderBizPage(b){
   if (b.key === 'danielor'){
     acts.appendChild(el('button', { class: 'btn primary', onclick: function(){ go('home'); } }, ['מרכז הבקרה של דניאלור']));
   } else {
-    var app = firstUrl('app');
-    if (app) acts.appendChild(el('a', { class: 'btn primary', href: app.url, target: '_blank', rel: 'noopener' }, [app.name, el('span', { html: svg(IC.ext) })]));
+    // every app of the business gets its own button (AC: Daniel's management app and the team's leads app)
+    tools.filter(function(t){ return t.kind === 'app'; }).forEach(function(app, i){
+      if (app.url) acts.appendChild(el('a', { class: 'btn' + (i === 0 ? ' primary' : ''), href: app.url, target: '_blank', rel: 'noopener' }, [app.name, el('span', { html: svg(IC.ext) })]));
+      else acts.appendChild(el('button', { class: 'btn', disabled: true, title: 'עוד אין קישור' }, [app.name]));
+    });
   }
   var site = firstUrl('site');
   if (site) acts.appendChild(el('a', { class: 'btn', href: site.url, target: '_blank', rel: 'noopener' }, ['לאתר', el('span', { html: svg(IC.ext) })]));

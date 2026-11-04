@@ -466,6 +466,48 @@ body.chat-open .tabs{display:none}
 .tool .s{font-size:11.5px;font-weight:500;padding:2px 9px;border-radius:999px;flex:none;white-space:nowrap}
 .tool .ext{width:16px;height:16px;color:var(--dim);flex:none}
 .bempty{padding:16px;border-radius:18px;background:var(--card);border:1px dashed var(--line-2);color:var(--muted);font-size:14px}
+/* the sites in numbers */
+.bweb{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);min-width:0}
+.bweb[hidden]{display:none}
+.bweb i{width:8px;height:8px;border-radius:50%;flex:none;background:#c3bad3}
+.bweb i.on{background:#1fbf6a;animation:livepulse 1.8s infinite}
+.bweb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bweb b{color:var(--ink);font-weight:500}
+.web{padding:16px;--accs:rgba(139,61,255,.12)}
+.webtop{display:flex;flex-direction:column;align-items:stretch;gap:10px;margin-bottom:14px}
+.webtop .live{align-self:flex-start}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink);padding:6px 12px 6px 14px;border-radius:999px;background:var(--soft)}
+.live i{width:9px;height:9px;border-radius:50%;background:#1fbf6a;animation:livepulse 1.8s infinite}
+.live.off{color:var(--muted)}
+.live.off i{background:#c3bad3;animation:none}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(31,191,106,.55)}70%{box-shadow:0 0 0 8px rgba(31,191,106,0)}100%{box-shadow:0 0 0 0 rgba(31,191,106,0)}}
+.seg{display:flex;padding:3px;border-radius:999px;background:var(--soft);gap:2px}
+.seg button{flex:1;border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 2px 10px -4px rgba(30,20,50,.35)}
+.wtiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wtile{padding:12px 14px;border-radius:16px;background:var(--soft);min-width:0}
+.wtile.main{background:linear-gradient(150deg,var(--accs),var(--soft))}
+.wtile b{display:block;font-size:28px;font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums;color:var(--ink)}
+.wtile.na b{color:#c3bad3}
+.wtile span{display:block;font-size:13.5px;font-weight:500;color:var(--ink);margin-top:5px}
+.wtile small{display:block;font-size:12px;color:var(--dim);margin-top:2px;line-height:1.35}
+.wchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.wchips span{font-size:12.5px;padding:4px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.wchips b{color:var(--ink);font-weight:600}
+.wsub{display:flex;align-items:baseline;gap:8px;margin:18px 0 6px;font-size:14px;font-weight:700;color:var(--ink)}
+.wsub small{font-weight:400;font-size:12px;color:var(--dim)}
+.wfr{display:grid;grid-template-columns:minmax(92px,38%) 1fr 40px;align-items:center;gap:10px;margin:7px 0}
+.wfr .l{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wfr .t{height:10px;border-radius:6px;background:var(--soft);overflow:hidden}
+.wfr .t i{display:block;height:100%;min-width:3px;border-radius:6px;background:var(--acc,var(--violet))}
+.wfr b{font-size:14px;font-weight:700;text-align:end;font-variant-numeric:tabular-nums;color:var(--ink)}
+.wfr.z b{color:#c3bad3}
+.wdays{display:flex;align-items:flex-end;gap:3px;height:70px;direction:ltr;margin:8px 0 4px}
+.wdays i{flex:1;border-radius:4px 4px 2px 2px;background:var(--acc,var(--violet));opacity:.32;min-height:2px}
+.wdays i.t{opacity:1}
+.wdl{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);direction:ltr}
+.wnote{margin:14px 2px 0;font-size:12px;line-height:1.5;color:var(--dim)}
+.wempty{padding:4px 2px;color:var(--muted);font-size:14px;line-height:1.5}
 .bmore{display:inline-flex;align-items:center;gap:6px;margin-top:4px;font-size:14px;font-weight:500;color:var(--violet-ink)}
 .bmore svg{width:14px;height:14px;transform:scaleX(-1)}
 .witem .bdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px;vertical-align:middle}
@@ -696,6 +738,7 @@ var TOOLK = { site: ['אתר', 'site'], app: ['אפליקציה', 'appk'], agent
 var TOOL_ST = { live: ['פעיל', 's-ok'], building: ['בבנייה', 's-work'], delivered: ['נמסר', 's-ok'], paused: ['מושהה', 's-dim'], planned: ['מתוכנן', 's-dim'] };
 var MONTHS = ['ינו׳', 'פבר׳', 'מרץ', 'אפר׳', 'מאי', 'יוני', 'יולי', 'אוג׳', 'ספט׳', 'אוק׳', 'נוב׳', 'דצמ׳'];
 function loadBiz(){
+  loadSites();
   if (S.bizLoading) return Promise.resolve();
   S.bizLoading = true;
   return call(HQ, '/biz').then(function(j){
@@ -703,6 +746,116 @@ function loadBiz(){
     if (j.error){ S.bizErr = j.error; renderBiz(); return; }
     S.biz = j; S.bizErr = null; renderBiz(); setBadges();
   }).catch(function(e){ S.bizLoading = false; if (String(e && e.message) === 'unauthorized') return; S.bizErr = 'אין חיבור'; renderBiz(); });
+}
+// ---------- the sites in numbers (GET /sites, public.hq_sites) ----------
+var SITE_OF = { danielor: 'danielor', ac: 'ac', adele_clinic: 'adele' };
+var WEB_PER = [['today', 'היום'], ['d7', '7 ימים'], ['d30', '30 יום']];
+var WA_BTN = { 'float': 'כפתור צף', header: 'תפריט עליון', nav: 'תפריט', footer: 'תחתית העמוד', hero: 'פתיח', guide: 'מדריך', contact: 'צור קשר', thanks: 'אחרי טופס' };
+var PAGE_NAME = { '/': 'דף הבית', '/he': 'דף הבית', '/en': 'דף הבית באנגלית', '/studio': 'הסטודיו', '/trends': 'הטרנדים', '/videos': 'סרטונים', '/privacy': 'פרטיות', '/accessibility': 'נגישות',
+  '/he/guide': 'המדריך', '/en/guide': 'המדריך באנגלית', '/he/contact': 'צור קשר', '/he/projects': 'הפרויקטים', '/he/about': 'עלינו' };
+function loadSites(){
+  if (S.sitesLoading) return;
+  S.sitesLoading = true;
+  call(HQ, '/sites').then(function(j){
+    S.sitesLoading = false;
+    if (j.error){ S.sitesErr = j.error; } else { S.sites = j; S.sitesErr = null; }
+    refreshWeb();
+  }).catch(function(e){ S.sitesLoading = false; if (String(e && e.message) === 'unauthorized') return; S.sitesErr = 'אין חיבור'; refreshWeb(); });
+}
+function siteFor(key){
+  var k = SITE_OF[key]; if (!k || !S.sites) return null;
+  var l = S.sites.sites || [];
+  for (var i = 0; i < l.length; i++) if (l[i].site === k) return l[i];
+  return null;
+}
+function nf(n){ return (Number(n) || 0).toLocaleString('en-US'); }
+function pct(a, b){ return b ? Math.round(100 * a / b) + '%' : '0%'; }
+function dmy(iso){ var d = new Date(iso); return d.getDate() + '.' + (d.getMonth() + 1); }
+function pageName(p){
+  var x = String(p || '/'); try { x = decodeURIComponent(x); } catch (e) {}
+  return PAGE_NAME[x] || x.replace(/^\/(he|en)(?=\/)/, '') || 'דף הבית';
+}
+// in place, so the minute's refresh never jumps the page
+function refreshWeb(){
+  if (S.webBox && document.body.contains(S.webBox) && S.bizOpen) drawWeb(S.webBox, bizByKey(S.bizOpen));
+  document.querySelectorAll('[data-web]').forEach(function(n){ var w = webLine(bizByKey(n.getAttribute('data-web'))); if (w) n.parentNode.replaceChild(w, n); });
+}
+// the one line on each business card
+function webLine(b){
+  var holder = el('div', { class: 'bweb', 'data-web': b ? b.key : '', hidden: true });
+  var s = b && siteFor(b.key);
+  if (!s || !s.since) return holder;
+  var T = s.today || {};
+  holder.hidden = false;
+  holder.appendChild(el('i', { class: s.live ? 'on' : '' }));
+  holder.appendChild(el('span', {}, ['האתר היום: ', el('b', { text: nf(T.visits) + ' כניסות' }), ' · ' + nf(T.wa_people) + ' לוואטסאפ' + (s.live ? ' · ' + s.live + ' עכשיו' : '')]));
+  return holder;
+}
+function wrow(label, n, max, zero){
+  return el('div', { class: 'wfr' + (n ? '' : ' z') }, [el('span', { class: 'l', text: label }), el('span', { class: 't' }, [el('i', { style: 'width:' + (max ? Math.max(2, 100 * n / max) : 0).toFixed(1) + '%' + (n ? '' : ';opacity:0') })]), el('b', { text: nf(n) })]);
+}
+function drawWeb(box, b){
+  box.innerHTML = '';
+  if (!S.sites){ box.appendChild(el('p', { class: 'wempty', text: S.sitesErr ? 'לא הצלחתי לטעון את המספרים. לחץ על רענון.' : 'טוען את המספרים...' })); return; }
+  var s = siteFor(b.key);
+  if (!s || !s.since){
+    box.appendChild(el('p', { class: 'wempty', text: 'עוד אין מונה באתר הזה. כשנוסיף אותו, המספרים יופיעו כאן, כולל לחיצות על וואטסאפ.' }));
+    return;
+  }
+  var per = S.webPer || 'today', P = s[per] || {};
+  var seg = el('div', { class: 'seg', role: 'group', 'aria-label': 'תקופה' });
+  WEB_PER.forEach(function(x){ seg.appendChild(el('button', { type: 'button', 'aria-pressed': String(per === x[0]), onclick: function(){ S.webPer = x[0]; drawWeb(box, b); } }, [x[1]])); });
+  box.appendChild(el('div', { class: 'webtop' }, [
+    el('span', { class: 'live' + (s.live ? '' : ' off') }, [el('i'), s.live ? (s.live === 1 ? 'גולש אחד באתר עכשיו' : s.live + ' גולשים באתר עכשיו') : 'אין כרגע גולשים באתר']),
+    seg
+  ]));
+  var sent = Number(P.wa_from_site) || 0, people = Number(P.wa_people) || 0;
+  var tiles = [
+    el('div', { class: 'wtile main' }, [el('b', { text: nf(P.visits) }), el('span', { text: 'כניסות לאתר' }), el('small', { text: nf(P.views) + ' עמודים נפתחו באתר' })]),
+    el('div', { class: 'wtile' }, [el('b', { text: nf(people) }), el('span', { text: 'לחצו על וואטסאפ' }), el('small', { text: (P.visits ? pct(people, P.visits) + ' מהגולשים, ' : '') + nf(P.wa) + ' לחיצות' })])
+  ];
+  if (s.wa_source){
+    tiles.push(el('div', { class: 'wtile' }, [el('b', { text: nf(sent) }), el('span', { text: 'שלחו הודעה' }), el('small', { text: 'שיחה חדשה נפתחה אחרי הלחיצה' })]));
+    tiles.push(el('div', { class: 'wtile' + (people - sent > 0 ? '' : ' na') }, [el('b', { text: nf(Math.max(0, people - sent)) }), el('span', { text: 'פתחו ולא שלחו' }), el('small', { text: 'לחצו, ולא הגיעה הודעה' })]));
+  } else {
+    tiles.push(el('div', { class: 'wtile na' }, [el('b', { text: '?' }), el('span', { text: 'שלחו הודעה' }), el('small', { text: 'יופיע כשהקו של ' + bizShort(b) + ' יחובר' })]));
+    tiles.push(el('div', { class: 'wtile na' }, [el('b', { text: '?' }), el('span', { text: 'פתחו ולא שלחו' }), el('small', { text: 'יופיע כשהקו של ' + bizShort(b) + ' יחובר' })]));
+  }
+  box.appendChild(el('div', { class: 'wtiles' }, tiles));
+  var chips = [el('span', {}, [el('b', { text: pct(P.read_end, P.visits) }), ' גללו עד הסוף'])];
+  if (P.forms) chips.push(el('span', {}, [el('b', { text: nf(P.forms) }), ' טפסים נשלחו']));
+  if (P.videos) chips.push(el('span', {}, [el('b', { text: nf(P.videos) }), ' סרטונים נפתחו']));
+  box.appendChild(el('div', { class: 'wchips' }, chips));
+
+  // the AC guide, step by step
+  if (s.site === 'ac'){
+    var g = [['לחצו על המדריך', P.guide_teaser], ['נכנסו למדריך', P.guide_people], ['השאירו פרטים', P.guide_unlock], ['עברו לוואטסאפ', P.guide_wa]];
+    var gm = g.reduce(function(a, x){ return Math.max(a, Number(x[1]) || 0); }, 0);
+    box.appendChild(el('div', { class: 'wsub' }, ['המדריך', el('small', { text: WEB_PER.filter(function(x){ return x[0] === per; })[0][1] })]));
+    g.forEach(function(x){ box.appendChild(wrow(x[0], Number(x[1]) || 0, gm)); });
+  }
+
+  // 30 days
+  var first = String(s.since).slice(0, 10);
+  var days = (s.daily || []).filter(function(d){ return d.d >= first; }), dmax = days.reduce(function(a, d){ return Math.max(a, d.visits); }, 0);
+  var tot = days.reduce(function(a, d){ return a + d.visits; }, 0);
+  box.appendChild(el('div', { class: 'wsub' }, [days.length >= 30 ? '30 הימים האחרונים' : 'כל יום מאז שהתחלנו לספור', el('small', { text: nf(tot) + ' כניסות' + (days.length >= 4 ? ', הכי הרבה ביום ' + nf(dmax) : '') })]));
+  if (days.length >= 4){
+    var bars = el('div', { class: 'wdays', role: 'img', 'aria-label': 'כניסות ביום' });
+    days.forEach(function(d, i){ bars.appendChild(el('i', { class: i === days.length - 1 ? 't' : '', title: dmy(d.d) + ': ' + d.visits, style: 'height:' + (dmax ? Math.max(3, 100 * d.visits / dmax) : 3).toFixed(1) + '%' })); });
+    box.appendChild(bars);
+    box.appendChild(el('div', { class: 'wdl' }, [el('span', { text: dmy(days[0].d) }), el('span', { text: 'היום' })]));
+  } else box.appendChild(el('p', { class: 'wempty', style: 'font-size:13px', text: 'הגרף היומי יופיע אחרי כמה ימים של ספירה.' }));
+
+  // where they came from, which pages, which buttons (30 days)
+  var lists = [['מאיפה הגיעו לאתר', s.sources, function(x){ return x.name; }], ['העמודים הכי נצפים', s.pages, function(x){ return pageName(x.path); }], ['על איזה כפתור וואטסאפ לוחצים', s.wa_buttons, function(x){ return WA_BTN[x.label] || x.label; }]];
+  lists.forEach(function(L){
+    var rows = L[1] || []; if (!rows.length) return;
+    var m = rows.reduce(function(a, x){ return Math.max(a, x.n); }, 0);
+    box.appendChild(el('div', { class: 'wsub' }, [L[0], el('small', { text: '30 יום' })]));
+    rows.forEach(function(x){ box.appendChild(wrow(L[2](x), x.n, m)); });
+  });
+  box.appendChild(el('p', { class: 'wnote', text: 'נספר מ־' + dmy(s.since) + ', בלי עוגיות ובלי פרטים אישיים. מתעדכן כל דקה.' + (s.wa_source ? ' "שלחו הודעה": שיחת וואטסאפ חדשה שנפתחה עד 3 שעות אחרי לחיצה באתר.' : '') }));
 }
 function niceTitle(t){ var ty = TYPE[t.task_type] || 'משימה', ti = String(t.title || ''); return ti.indexOf(ty + ':') === 0 || ti.indexOf(ty + ' ') === 0 ? ti : ty + ': ' + ti; }
 function bizList(){ return ((S.biz && S.biz.businesses) || []).filter(function(b){ return b.kind !== 'personal'; }); }
@@ -828,6 +981,7 @@ function renderBiz(){
         el('div', { class: N.cur ? '' : 'z' }, [el('b', { text: N.cur ? usd(N.cur.usd) : '$0' }), el('small', { text: 'קרדיטים החודש' })])
       ]),
       nextLine,
+      SITE_OF[b.key] ? webLine(b) : null,
       tools.length ? el('div', { class: 'btools' }, tools) : null
     ]));
   });
@@ -933,6 +1087,15 @@ function renderBizPage(b){
       ]));
     });
     v.appendChild(wl);
+  }
+
+  // the site in numbers
+  S.webBox = null;
+  if (SITE_OF[b.key]){
+    v.appendChild(el('h2', { class: 'sec' }, ['האתר במספרים', el('small', { text: 'בזמן אמת' })]));
+    S.webBox = el('section', { class: 'card web', style: '--acc:' + acc + ';--accs:' + acc + '24' });
+    v.appendChild(S.webBox);
+    drawWeb(S.webBox, b);
   }
 
   // content

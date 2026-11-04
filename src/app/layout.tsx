@@ -14,6 +14,7 @@ import "./danielor.css";
 import "./live.css";
 import "./og.css";
 import FrozenSvh from "@/film/FrozenSvh";
+import SiteCounter from "@/components/SiteCounter";
 import { site } from "@/site.config";
 
 export const metadata: Metadata = {
@@ -51,6 +52,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         {/* visits, counted without cookies or personal details (see /privacy) */}
         <Analytics />
+        {/* the counter the control app reads (site_events), like the other danielor.ai pages */}
+        <SiteCounter />
       </body>
     </html>
   );

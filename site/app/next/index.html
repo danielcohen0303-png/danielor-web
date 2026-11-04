@@ -409,7 +409,8 @@ body.chat-open .tabs{display:none}
 .bcard::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--acc,var(--grad))}
 .bcard .bh{display:flex;align-items:center;gap:12px}
 .bav{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:none;color:#fff;font-weight:700;font-size:18px;letter-spacing:.02em;background:var(--acc,var(--violet));box-shadow:0 10px 20px -12px var(--acc,var(--violet));overflow:hidden}
-.bav img{width:100%;height:100%;display:block}
+.bav img{width:100%;height:100%;display:block;object-fit:cover}
+.bav.hasimg{background:#fff;box-shadow:0 10px 22px -14px var(--acc,var(--violet)),0 0 0 1px rgba(30,20,50,.06)}
 .bav.lg{width:60px;height:60px;border-radius:19px;font-size:22px}
 .bcard .bn{flex:1;min-width:0}
 .bcard .bn b{display:block;font-size:18px;font-weight:700;line-height:1.2}
@@ -441,6 +442,7 @@ body.chat-open .tabs{display:none}
 .bacts{position:relative;display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .bacts .btn{flex:1 1 auto;min-height:46px;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
 .bacts .btn svg{width:16px;height:16px}
+.bacts .btn img.ic{width:26px;height:26px;border-radius:8px;display:block;flex:none;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
 .costs{padding:14px 16px}
 .cmonths{display:flex;align-items:flex-end;gap:10px;height:86px;margin:4px 0 10px;direction:ltr}
 .cmonths div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
@@ -456,6 +458,8 @@ body.chat-open .tabs{display:none}
 .tool{display:flex;align-items:center;gap:12px;width:100%;text-align:start;padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line);margin-bottom:8px;text-decoration:none;color:var(--ink)}
 .tool .ti{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex:none;background:var(--violet-soft);color:var(--violet-ink)}
 .tool .ti svg{width:20px;height:20px}
+.tool .ti.im{background:#fff;overflow:hidden;box-shadow:0 0 0 1px rgba(30,20,50,.07),0 6px 14px -10px rgba(30,20,50,.45)}
+.tool .ti.im img{width:100%;height:100%;display:block;object-fit:cover}
 .tool .n{flex:1;min-width:0}
 .tool .n b{display:block;font-weight:500;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tool .n small{display:block;color:var(--dim);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -721,7 +725,14 @@ function bizShort(b){ return b ? (b.key === 'ac' ? 'AC' : b.name) : 'כללי'; 
 function inBiz(b){ var n = bizShort(b); return /^[A-Za-z]/.test(n) ? 'ב־' + n : (n.charAt(0) === 'ה' ? 'ב' + n.slice(1) : 'ב' + n); }
 function bizAvatar(b, big){
   var a = el('span', { class: 'bav' + (big ? ' lg' : ''), style: '--acc:' + (b.accent || 'var(--violet)') });
-  if (b.key === 'danielor') a.appendChild(el('img', { src: '/app/icon-192.png', alt: '' }));
+  var src = b.logo || (b.key === 'danielor' ? '/app/icon-192.png' : '');
+  if (src){
+    a.classList.add('hasimg');
+    var im = el('img', { src: src, alt: '' });
+    // a logo that fails to load falls back to the letters
+    im.onerror = function(){ a.classList.remove('hasimg'); a.innerHTML = ''; a.textContent = BIZ_INIT[b.key] || String(b.name || '?').charAt(0); };
+    a.appendChild(im);
+  }
   else a.textContent = BIZ_INIT[b.key] || String(b.name || '?').charAt(0);
   return a;
 }
@@ -893,8 +904,9 @@ function renderBizPage(b){
   } else {
     // every app of the business gets its own button (AC: Daniel's management app and the team's leads app)
     tools.filter(function(t){ return t.kind === 'app'; }).forEach(function(app, i){
-      if (app.url) acts.appendChild(el('a', { class: 'btn' + (i === 0 ? ' primary' : ''), href: app.url, target: '_blank', rel: 'noopener' }, [app.name, el('span', { html: svg(IC.ext) })]));
-      else acts.appendChild(el('button', { class: 'btn', disabled: true, title: 'עוד אין קישור' }, [app.name]));
+      var lead = app.icon ? [el('img', { class: 'ic', src: app.icon, alt: '' })] : [];
+      if (app.url) acts.appendChild(el('a', { class: 'btn' + (i === 0 ? ' primary' : ''), href: app.url, target: '_blank', rel: 'noopener' }, lead.concat([app.name, el('span', { html: svg(IC.ext) })])));
+      else acts.appendChild(el('button', { class: 'btn', disabled: true, title: 'עוד אין קישור' }, lead.concat([app.name])));
     });
   }
   var site = firstUrl('site');
@@ -987,7 +999,7 @@ function renderBizPage(b){
   tools.forEach(function(t){
     var k = TOOLK[t.kind] || TOOLK.other, s = TOOL_ST[t.status] || [t.status, 's-dim'];
     var kids = [
-      el('span', { class: 'ti', html: svg(IC[k[1]] || IC.brief) }),
+      t.icon ? el('span', { class: 'ti im' }, [el('img', { src: t.icon, alt: '' })]) : el('span', { class: 'ti', html: svg(IC[k[1]] || IC.brief) }),
       el('span', { class: 'n' }, [el('b', { text: t.name }), el('small', { text: k[0] + (t.notes ? ' · ' + t.notes : '') })]),
       el('span', { class: 's ' + s[1], text: s[0] })
     ];

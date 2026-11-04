@@ -41,6 +41,14 @@
       }
     },
     {
+      "src": "/app/old/?",
+      "dest": "/app/old/index.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "no-cache"
+      }
+    },
+    {
       "src": "/app/c/(.*)",
       "headers": {
         "X-Robots-Tag": "noindex, nofollow",

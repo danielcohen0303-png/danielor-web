@@ -375,6 +375,18 @@ body.chat-open .tabs{display:none}
 .askbtn .go svg{width:15px;height:15px}
 .tool .ti.cl{background:linear-gradient(150deg,#fff6f1,#f6e7de);box-shadow:inset 0 0 0 1px rgba(217,119,87,.18)}
 .tool .ti.cl img{width:22px;height:22px;display:block}
+.witem .wthumb.cl{display:grid;place-items:center;background:linear-gradient(150deg,#fff6f1,#f6e7de);box-shadow:inset 0 0 0 1px rgba(217,119,87,.2)}
+.witem .wthumb.cl img{width:26px;height:26px;display:block}
+.witem.chatw b{white-space:normal;line-height:1.4;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.witem.chatw small{margin-top:3px}
+.tool.chatrow{align-items:flex-start;padding:13px 14px}
+.tool.chatrow .ti{margin-top:1px}
+.tool.chatrow .ext{margin-top:10px}
+.tool.chatrow.hot{border-color:#f6b8e2;box-shadow:0 10px 26px -20px rgba(217,16,154,.55)}
+.tool.chatrow .n small.sum{white-space:normal;color:var(--muted);font-size:13px;line-height:1.5;margin-top:3px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.tool.chatrow .cw{display:flex;gap:8px;align-items:flex-start;margin-top:8px;padding:8px 11px;border-radius:13px;background:var(--pink-soft);color:var(--pink);font-size:13px;font-weight:500;line-height:1.45}
+.tool.chatrow .cw i{flex:none;width:7px;height:7px;border-radius:50%;background:var(--pink);margin-top:6px;box-shadow:0 0 0 4px rgba(217,16,154,.12)}
+.tool.chatrow .cmeta{display:block;margin-top:6px;font-size:11.5px;color:var(--dim)}
 .askov{position:fixed;inset:0;z-index:70;background:rgba(29,16,51,.38);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center}
 .asksh{width:100%;max-width:620px;max-height:92vh;overflow-y:auto;background:#fff;border-radius:28px 28px 0 0;padding:18px 16px calc(16px + var(--bot));box-shadow:0 -24px 60px -24px rgba(61,20,110,.55)}
 .askh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -698,7 +710,7 @@ function setBadges(){
   var w = S.inbox.loaded ? S.inbox.convs.filter(function(x){ return x.state === 'waiting' && x.channel === 'whatsapp'; }).length : ((S.home && S.home.wa && S.home.wa.waiting_you) || 0);
   var set = function(k, n){ var b = V.tabBtns[k]._badge; b.hidden = !n; b.textContent = n > 9 ? '9+' : String(n); V.tabBtns[k].setAttribute('aria-label', V.tabBtns[k].textContent.replace(/\d+\+?/, '').trim() + (n ? ', ' + n + ' מחכים' : '')); };
   set('content', c); set('inbox', w);
-  if (V.tabBtns.biz) set('biz', bizWaiting().length + (w ? 1 : 0));
+  if (V.tabBtns.biz) set('biz', bizWaiting().length + chatWaiting().length + (w ? 1 : 0));
 }
 function setFresh(){
   if (!V.fresh) return;
@@ -869,6 +881,27 @@ function bizByKey(k){ var l = (S.biz && S.biz.businesses) || []; for (var i = 0;
 function bizWaiting(key){
   return tasks().filter(function(t){ return (needsYou(t) || t.share_due) && (!key || bizOfTask(t) === key); });
 }
+// the master: twice a day Claude reads the chats and writes what happened and what waits for Daniel (ops.chat_status)
+function chatWaiting(key){
+  var out = [];
+  ((S.biz && S.biz.businesses) || []).forEach(function(b){
+    if (b.kind === 'personal' || (key && b.key !== key)) return;
+    (b.tools || []).forEach(function(t){ if (t.kind === 'chat' && t.url && t.state && t.state.waiting) out.push({ biz: b, chat: t }); });
+  });
+  return out.sort(function(a, c){ return String(c.chat.state.since || '').localeCompare(String(a.chat.state.since || '')); });
+}
+function chatWaitItem(w, showBiz){
+  var b = w.biz, c = w.chat, st = c.state;
+  return el('button', { class: 'witem chatw', onclick: function(){ openClaude(c.url); } }, [
+    el('span', { class: 'wthumb cl' }, [el('img', { src: '/app/logo-claude.svg', alt: '' })]),
+    el('span', { class: 'wb' }, [
+      el('b', { text: st.waiting }),
+      el('small', {}, showBiz ? [el('span', { class: 'bdot', style: 'background:' + (b.accent || 'var(--b-g)') }), b.name + ' · ' + c.name] : [c.name]),
+      el('small', { class: 'why', text: 'מהשיחה עם Claude' + (st.since ? ', ' + ago(st.since) : '') })
+    ]),
+    el('span', { class: 'go', html: svg(IC.ext) })
+  ]);
+}
 function usd(n){ n = Number(n) || 0; return '$' + (n >= 100 ? Math.round(n).toLocaleString('en-US') : n.toFixed(n >= 10 ? 0 : 1)); }
 function credits(n){ n = Number(n) || 0; return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K' : String(Math.round(n)); }
 function monthName(ym){ var m = +String(ym).split('-')[1]; return MONTHS[m - 1] || ym; }
@@ -897,7 +930,8 @@ function bizNumbers(b){
   var next = items.filter(function(t){ return t.publish_at && new Date(t.publish_at).getTime() >= now && t.status !== 'done'; })
                   .sort(function(a, c){ return String(a.publish_at).localeCompare(String(c.publish_at)); })[0] || null;
   var cur = (b.costs || []).filter(function(c){ return c.month === (S.biz && S.biz.month); })[0] || null;
-  return { sched: sched, work: work, next: next, cur: cur, waiting: bizWaiting(b.key) };
+  var waiting = bizWaiting(b.key), chatsW = chatWaiting(b.key);
+  return { sched: sched, work: work, next: next, cur: cur, waiting: waiting, chatsW: chatsW, waitN: waiting.length + chatsW.length };
 }
 function renderBiz(){
   var v = V.biz; if (!v) return;
@@ -910,14 +944,15 @@ function renderBiz(){
   var y = window.scrollY;
   v.innerHTML = '';
   var list = bizList(), now = il(new Date().toISOString());
-  var waiting = bizWaiting();
+  var waiting = bizWaiting(), chatsW = chatWaiting();
   var waWait = (S.home && S.home.wa && S.home.wa.waiting_you) || 0;
   // where it waits
   var where = {};
   waiting.forEach(function(t){ var k = bizOfTask(t) || 'general'; where[k] = (where[k] || 0) + 1; });
+  chatsW.forEach(function(w){ where[w.biz.key] = (where[w.biz.key] || 0) + 1; });
   if (waWait) where.danielor = (where.danielor || 0) + waWait;
   var parts = Object.keys(where).map(function(k){ return where[k] + ' ' + inBiz(bizByKey(k)); });
-  var total = waiting.length + waWait;
+  var total = waiting.length + waWait + chatsW.length;
   v.appendChild(el('section', { class: 'bhero', 'aria-label': 'סיכום' }, [
     el('h1', { text: greet() + ', דניאל' }),
     el('p', {}, total ? [el('b', { text: (total === 1 ? 'דבר אחד מחכה לך' : total + ' דברים מחכים לך') + (Object.keys(where).length === 1 ? ' ' + inBiz(bizByKey(Object.keys(where)[0])) : ': ' + parts.join(', ')) + '.' }), ' הכל למטה.']
@@ -944,8 +979,8 @@ function renderBiz(){
   v.appendChild(budget);
 
   // waiting for you, across all businesses
-  if (waiting.length){
-    v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', el('span', { class: 'pill', text: String(waiting.length) })]));
+  if (waiting.length || chatsW.length){
+    v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', el('span', { class: 'pill', text: String(waiting.length + chatsW.length) })]));
     var wl = el('div', { class: 'wait' });
     waiting.forEach(function(t){
       var b = bizByKey(bizOfTask(t));
@@ -960,6 +995,7 @@ function renderBiz(){
         el('span', { class: 'go', html: svg(IC.chev) })
       ]));
     });
+    chatsW.forEach(function(w){ wl.appendChild(chatWaitItem(w, true)); });
     v.appendChild(wl);
   }
 
@@ -976,7 +1012,7 @@ function renderBiz(){
     grid.appendChild(el('button', { class: 'bcard', style: '--acc:' + (b.accent || 'var(--violet)'), onclick: function(){ S.bizOpen = b.key; renderBiz(); window.scrollTo(0, 0); } }, [
       el('div', { class: 'bh' }, [bizAvatar(b), el('span', { class: 'bn' }, [el('b', { text: b.name }), el('small', { text: b.tagline || '' })]), el('span', { class: 'go', html: svg(IC.chev) })]),
       el('div', { class: 'bnums' }, [
-        el('div', { class: N.waiting.length ? 'hot' : 'z' }, [el('b', { text: String(N.waiting.length) }), el('small', { text: 'מחכה לך' })]),
+        el('div', { class: N.waitN ? 'hot' : 'z' }, [el('b', { text: String(N.waitN) }), el('small', { text: 'מחכה לך' })]),
         el('div', { class: N.sched.length ? '' : 'z' }, [el('b', { text: String(N.sched.length) }), el('small', { text: 'מתוזמן לשבועיים' })]),
         el('div', { class: N.cur ? '' : 'z' }, [el('b', { text: N.cur ? usd(N.cur.usd) : '$0' }), el('small', { text: 'קרדיטים החודש' })])
       ]),
@@ -1076,8 +1112,8 @@ function renderBizPage(b){
   ]));
 
   // waiting
-  if (N.waiting.length){
-    v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', el('span', { class: 'pill', text: String(N.waiting.length) })]));
+  if (N.waitN){
+    v.appendChild(el('h2', { class: 'sec' }, ['מחכה לך', el('span', { class: 'pill', text: String(N.waitN) })]));
     var wl = el('div', { class: 'wait' });
     N.waiting.forEach(function(t){
       var thumb = t.media && t.media.length ? el('span', { class: 'wthumb', style: 'background-image:url("' + encodeURI(t.media[0].poster || t.media[0].src) + '")' }) : el('span', { class: 'wthumb ph', html: svg(IC.spark) });
@@ -1086,6 +1122,7 @@ function renderBizPage(b){
         el('span', { class: 'go', html: svg(IC.chev) })
       ]));
     });
+    N.chatsW.forEach(function(w){ wl.appendChild(chatWaitItem(w, false)); });
     v.appendChild(wl);
   }
 
@@ -1145,13 +1182,25 @@ function renderBizPage(b){
 
   // the Claude chats that handle this business
   if (chats.length){
-    v.appendChild(el('h2', { class: 'sec' }, ['שיחות עם Claude', el('small', { text: chats.length + ' נושאים' })]));
+    var checked = S.biz && S.biz.master_at;
+    v.appendChild(el('h2', { class: 'sec' }, ['שיחות עם Claude', el('small', { text: chats.length + ' נושאים' + (checked ? ' · נבדק ' + ago(checked) : '') })]));
+    // what waits for Daniel first, then the chats with the latest activity
+    var rank = function(c){ return c.state ? (c.state.waiting ? 2 : 1) : 0; };
+    chats = chats.map(function(c, i){ return [c, i]; }).sort(function(a, c){
+      return (rank(c[0]) - rank(a[0])) || String((c[0].state && c[0].state.updated) || '').localeCompare(String((a[0].state && a[0].state.updated) || '')) || (a[1] - c[1]);
+    }).map(function(x){ return x[0]; });
     chats.forEach(function(c){
+      var st = c.state;
       var kids = [
         el('span', { class: 'ti cl' }, [el('img', { src: '/app/logo-claude.svg', alt: '' })]),
-        el('span', { class: 'n' }, [el('b', { text: c.name }), el('small', { text: c.url ? (c.notes || 'נפתח באפליקציה של Claude') : (c.notes || 'שיחת קוד במחשב') })])
+        el('span', { class: 'n' }, st ? [
+          el('b', { text: c.name }),
+          el('small', { class: 'sum', text: st.summary || '' }),
+          st.waiting ? el('span', { class: 'cw' }, [el('i'), el('span', { text: 'מחכה לך: ' + st.waiting })]) : null,
+          st.updated ? el('small', { class: 'cmeta', text: 'פעילות אחרונה ' + ago(st.updated) }) : null
+        ] : [el('b', { text: c.name }), el('small', { text: c.url ? (c.notes || 'נפתח באפליקציה של Claude') : (c.notes || 'שיחת קוד במחשב') })])
       ];
-      if (c.url){ kids.push(el('span', { class: 'ext', html: svg(IC.ext) })); v.appendChild(el('a', { class: 'tool', href: c.url, onclick: function(e){ e.preventDefault(); openClaude(c.url); } }, kids)); }
+      if (c.url){ kids.push(el('span', { class: 'ext', html: svg(IC.ext) })); v.appendChild(el('a', { class: 'tool' + (st ? ' chatrow' : '') + (st && st.waiting ? ' hot' : ''), href: c.url, onclick: function(e){ e.preventDefault(); openClaude(c.url); } }, kids)); }
       else { kids.push(el('span', { class: 's s-dim', text: 'במחשב' })); v.appendChild(el('div', { class: 'tool' }, kids)); }
     });
   }

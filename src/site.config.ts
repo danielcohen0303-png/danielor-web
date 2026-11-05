@@ -46,7 +46,10 @@ const film = (name: string, frames: number): FilmMedia => ({
 });
 
 export const site = {
-  name: "Danielor · שעת הלילך",
+  /** the brand, as it appears in the legal pages and lead emails ("שעת הלילך" is only the film's working name) */
+  name: "Danielor",
+  /** the browser tab and the share card (og:title), same as the earlier danielor.ai */
+  title: "Danielor: פתרונות AI לעסקים",
   latin: "DANIELOR",
   latinSub: "AI",
   tagline: "פתרונות AI לעסקים",

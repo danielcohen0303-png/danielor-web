@@ -19,15 +19,16 @@ import { site } from "@/site.config";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: site.name,
+  title: site.title,
   description: site.description,
   robots: site.index ? undefined : { index: false, follow: false },
   openGraph: {
-    title: site.name,
+    title: site.title,
+    siteName: site.name,
     description: site.description,
     locale: "he_IL",
     type: "website",
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: site.name }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: site.title }],
   },
   twitter: { card: "summary_large_image", images: ["/og.jpg"] },
 };
